@@ -1,7 +1,4 @@
-package frc.robot.subsystems;
-
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
+package frc.robot.subsystems.launcher;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -26,17 +23,8 @@ public class Launcher extends SubsystemBase {
         return flywheels.off().alongWith(indexer.off()).alongWith(hood.off());
     }
 
-    public Command launch() {
-        return flywheels.launch(LauncherConstants.FLYWHEEL_LAUNCHING_SPEED)
-                .alongWith(hood.runToPosition(LauncherConstants.HOOD_MEDIUM_POSITION)).andThen(indexer.index());
-    }
-
-    public static final class LauncherConstants {
-        private static final AngularVelocity FLYWHEEL_LAUNCHING_SPEED = RadiansPerSecond.of(Math.PI * 200.0);
-
-        private static final Angle HOOD_MEDIUM_POSITION = Radians.of(Math.PI / 6.0);
-
-        private LauncherConstants() {
-        }
+    public Command launch(AngularVelocity flywheelVelocity, Angle hoodAngle) {
+        return flywheels.launch(flywheelVelocity)
+                .alongWith(hood.runToPosition(hoodAngle)).andThen(indexer.index());
     }
 }

@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.launcher;
 
 import static edu.wpi.first.units.Units.Volts;
 
@@ -8,21 +8,21 @@ import frc.lib.cancoder.CanCoderIO;
 import frc.lib.module.CanCoderAngularPositionModule;
 import frc.lib.motor.MotorIO;
 
-public class Hood extends CanCoderAngularPositionModule {
-    public Hood(MotorIO motor, CanCoderIO canCoder) {
+class Hood extends CanCoderAngularPositionModule {
+    Hood(MotorIO motor, CanCoderIO canCoder) {
         super("Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
-    public Command off() {
+    Command off() {
         return super.setVoltage(Volts.of(0.0));
     }
 
     @Override
-    public Command runToPosition(Angle position) {
+    protected Command runToPosition(Angle position) {
         return super.runToPosition(position);
     }
 
-    public static final class HoodConstants {
+    private static final class HoodConstants {
         private static final double ROTOR_TO_MECHANISM_RATIO = 30.0;
 
         private HoodConstants() {
