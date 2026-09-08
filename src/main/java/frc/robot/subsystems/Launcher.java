@@ -7,21 +7,21 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.cancoder.CanCoderIO;
+import frc.lib.module.AngularVelocityModule;
 import frc.lib.module.CanCoderAngularPositionModule;
-import frc.lib.module.MultiVelocityModule;
-import frc.lib.module.VelocityModule;
+import frc.lib.module.MultiAngularVelocityModule;
 import frc.lib.motor.MotorIO;
 
 public class Launcher {
-    private final MultiVelocityModule flywheels;
-    private final VelocityModule indexer;
+    private final MultiAngularVelocityModule flywheels;
+    private final AngularVelocityModule indexer;
     private final CanCoderAngularPositionModule hood;
 
     public Launcher(MotorIO leftFlywheelMotor, MotorIO rightFlywheelMotor, MotorIO indexMotor, MotorIO hoodMotor,
             CanCoderIO hoodCanCoder) {
-        flywheels = new MultiVelocityModule("Launcher/Flywheels", leftFlywheelMotor,
+        flywheels = new MultiAngularVelocityModule("Launcher/Flywheels", leftFlywheelMotor,
                 new MotorIO[] { rightFlywheelMotor }, 0.8);
-        indexer = new VelocityModule("Launcher/Indexer", indexMotor, 1.0);
+        indexer = new AngularVelocityModule("Launcher/Indexer", indexMotor, 1.0);
         hood = new CanCoderAngularPositionModule("Launcher/Hood", hoodMotor, hoodCanCoder, 30.0);
     }
 

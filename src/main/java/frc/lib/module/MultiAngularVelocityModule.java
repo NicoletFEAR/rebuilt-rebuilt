@@ -4,12 +4,12 @@ import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
-public class MultiVelocityModule extends VelocityModule {
+public class MultiAngularVelocityModule extends AngularVelocityModule {
     private final int numberOfFollowers;
     private final MotorIO[] followerIOs;
     private final MotorIOInputsAutoLogged[] followerInputs;
 
-    public MultiVelocityModule(String name, MotorIO leader, MotorIO[] followers, double rotorToMechanismRatio) {
+    public MultiAngularVelocityModule(String name, MotorIO leader, MotorIO[] followers, double rotorToMechanismRatio) {
         super(name, leader, rotorToMechanismRatio);
         numberOfFollowers = followers.length;
         followerIOs = followers;
