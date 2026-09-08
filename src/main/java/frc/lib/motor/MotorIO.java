@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -15,7 +16,6 @@ import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.CanId;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -28,7 +28,6 @@ public abstract class MotorIO {
     }
 
     @AutoLog
-    @EqualsAndHashCode
     public static class MotorIOInputs {
         public boolean connected = false;
         public Angle position = Radians.of(0.0);

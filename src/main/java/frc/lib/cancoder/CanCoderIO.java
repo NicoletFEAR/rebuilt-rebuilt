@@ -6,13 +6,11 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import lombok.EqualsAndHashCode;
 
 import org.littletonrobotics.junction.AutoLog;
 
 public interface CanCoderIO {
     @AutoLog
-    @EqualsAndHashCode
     public static class CanCoderIOInputs {
         public boolean connected = false;
         public Angle position = Radians.of(0.0);
