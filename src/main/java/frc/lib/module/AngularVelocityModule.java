@@ -14,11 +14,11 @@ public class AngularVelocityModule extends VelocityModule {
         super(name, motor, rotorToMechanismRatio);
     }
 
-    public Command setVelocitySetpoint(AngularVelocity velocity) {
+    protected Command setVelocitySetpoint(AngularVelocity velocity) {
         return io.setVelocitySetpoint(velocity);
     }
 
-    public Command runToVelocity(AngularVelocity velocity) {
+    protected Command runToVelocity(AngularVelocity velocity) {
         double velocityRadiansPerSecond = velocity.in(RadiansPerSecond);
         return setVelocitySetpoint(velocity)
                 .andThen(Commands.waitUntil(() -> MathUtil.isNear(velocityRadiansPerSecond,

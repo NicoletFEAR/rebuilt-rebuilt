@@ -6,65 +6,34 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
-import frc.lib.module.AngularVelocityModule;
-import frc.lib.module.CanCoderAngularPositionModule;
-import frc.lib.module.MultiAngularVelocityModule;
 import frc.lib.motor.MotorIO;
 
-public class Launcher {
-    private final MultiAngularVelocityModule flywheels;
-    private final AngularVelocityModule indexer;
-    private final CanCoderAngularPositionModule hood;
+public class Launcher extends SubsystemBase {
+    private final Flywheels flywheels;
+    private final Indexer indexer;
+    private final Hood hood;
 
     public Launcher(MotorIO leftFlywheelMotor, MotorIO rightFlywheelMotor, MotorIO indexMotor, MotorIO hoodMotor,
             CanCoderIO hoodCanCoder) {
-        flywheels = new MultiAngularVelocityModule("Launcher/Flywheels", leftFlywheelMotor,
-                new MotorIO[] { rightFlywheelMotor }, 0.8);
-        indexer = new AngularVelocityModule("Launcher/Indexer", indexMotor, 1.0);
-        hood = new CanCoderAngularPositionModule("Launcher/Hood", hoodMotor, hoodCanCoder, 30.0);
+        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] { rightFlywheelMotor });
+        indexer = new Indexer(indexMotor);
+        hood = new Hood(hoodMotor, hoodCanCoder);
     }
 
     public Command off() {
-        return flywheelsOff().alongWith(indexerOff()).alongWith(lowerHood());
+        return flywheels.off().alongWith(indexer.off()).alongWith(hood.off());
     }
 
     public Command launch() {
-        return flywheelsLaunch().alongWith(raiseHoodToMediumPosition()).andThen(index());
-    }
-
-    private Command flywheelsOff() {
-        return flywheels.setVelocitySetpoint(LauncherConstants.FLYWHEEL_OFF_SPEED);
-    }
-
-    private Command flywheelsLaunch() {
-        return flywheels.runToVelocity(LauncherConstants.FLYWHEEL_LAUNCHING_SPEED);
-    }
-
-    private Command indexerOff() {
-        return indexer.setVelocitySetpoint(LauncherConstants.INDEXER_OFF_SPEED);
-    }
-
-    private Command index() {
-        return indexer.setVelocitySetpoint(LauncherConstants.INDEXER_INDEXING_SPEED);
-    }
-
-    private Command lowerHood() {
-        return hood.setPositionSetpoint(LauncherConstants.HOOD_HOME_POSITION);
-    }
-
-    private Command raiseHoodToMediumPosition() {
-        return hood.runToPosition(LauncherConstants.HOOD_MEDIUM_POSITION);
+        return flywheels.launch(LauncherConstants.FLYWHEEL_LAUNCHING_SPEED)
+                .alongWith(hood.runToPosition(LauncherConstants.HOOD_MEDIUM_POSITION)).andThen(indexer.index());
     }
 
     public static final class LauncherConstants {
-        private static final AngularVelocity FLYWHEEL_OFF_SPEED = RadiansPerSecond.of(0.0);
         private static final AngularVelocity FLYWHEEL_LAUNCHING_SPEED = RadiansPerSecond.of(Math.PI * 200.0);
 
-        private static final AngularVelocity INDEXER_OFF_SPEED = RadiansPerSecond.of(0.0);
-        private static final AngularVelocity INDEXER_INDEXING_SPEED = RadiansPerSecond.of(Math.PI * 100.0);
-
-        private static final Angle HOOD_HOME_POSITION = Radians.of(0.0);
         private static final Angle HOOD_MEDIUM_POSITION = Radians.of(Math.PI / 6.0);
 
         private LauncherConstants() {

@@ -59,4 +59,6 @@ public abstract class MotorIO {
     public abstract Command setPositionSetpoint(Angle position);
 
     public abstract Command setVelocitySetpoint(AngularVelocity velocity);
+
+    public abstract Command setVoltage(Voltage voltage);
 }

@@ -2,6 +2,7 @@ package frc.lib.module;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
@@ -29,7 +30,11 @@ public abstract class VelocityModule extends SubsystemBase {
         Logger.processInputs(name, inputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
     }
 
-    public Command setNeutralMode(NeutralModeValue mode) {
+    protected Command setNeutralMode(NeutralModeValue mode) {
         return io.setNeutralMode(mode);
+    }
+
+    protected Command setVoltage(Voltage voltage) {
+        return io.setVoltage(voltage);
     }
 }

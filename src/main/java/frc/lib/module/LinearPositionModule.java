@@ -15,11 +15,11 @@ public class LinearPositionModule extends PositionModule {
         super(name, io, rotorToMechanismRatio);
     }
 
-    public Command setPositionSetpoint(Distance position) {
+    protected Command setPositionSetpoint(Distance position) {
         return io.setPositionSetpoint(Radians.of(position.in(Meters) * rotorToMechanismRatio));
     }
 
-    public Command runToPosition(Distance position) {
+    protected Command runToPosition(Distance position) {
         return setPositionSetpoint(position)
                 .andThen(Commands.waitUntil(() -> MathUtil.isNear(position.in(Meters),
                         getPosition().in(Meters),

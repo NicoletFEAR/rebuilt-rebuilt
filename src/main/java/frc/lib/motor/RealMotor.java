@@ -3,12 +3,14 @@ package frc.lib.motor;
 import static edu.wpi.first.units.Units.Hertz;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -37,6 +39,7 @@ public class RealMotor extends MotorIO {
     private final MotionMagicVoltage positionControl = new MotionMagicVoltage(Radians.of(0.0)).withSlot(0);
     private final MotionMagicVelocityVoltage velocityControl = new MotionMagicVelocityVoltage(RadiansPerSecond.of(0.0))
             .withSlot(0);
+    private final VoltageOut voltageControl = new VoltageOut(Volts.of(0.0));
 
     public RealMotor(MotorConfig config) {
         super(config);
@@ -95,5 +98,10 @@ public class RealMotor extends MotorIO {
     @Override
     public Command setVelocitySetpoint(AngularVelocity velocity) {
         return Commands.run(() -> motor.setControl(velocityControl.withVelocity(velocity)));
+    }
+
+    @Override
+    public Command setVoltage(Voltage voltage) {
+        return Commands.run(() -> motor.setControl(voltageControl.withOutput(voltage)));
     }
 }

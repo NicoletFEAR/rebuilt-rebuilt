@@ -15,11 +15,11 @@ public class LinearVelocityModule extends VelocityModule {
         super(name, io, rotorToMechanismRatio);
     }
 
-    public Command setVelocitySetpoint(LinearVelocity velocity) {
+    protected Command setVelocitySetpoint(LinearVelocity velocity) {
         return io.setVelocitySetpoint(RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
     }
 
-    public Command runToVelocity(LinearVelocity velocity) {
+    protected Command runToVelocity(LinearVelocity velocity) {
         double velocityMetersPerSecond = velocity.in(MetersPerSecond);
         return setVelocitySetpoint(velocity)
                 .andThen(Commands.waitUntil(() -> MathUtil.isNear(velocityMetersPerSecond,

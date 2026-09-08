@@ -14,11 +14,11 @@ public class AngularPositionModule extends PositionModule {
         super(name, io, rotorToMechanismRatio);
     }
 
-    public Command setPositionSetpoint(Angle position) {
+    protected Command setPositionSetpoint(Angle position) {
         return io.setPositionSetpoint(position.times(rotorToMechanismRatio));
     }
 
-    public Command runToPosition(Angle position) {
+    protected Command runToPosition(Angle position) {
         return setPositionSetpoint(position)
                 .andThen(Commands.waitUntil(() -> MathUtil.isNear(position.in(Radians),
                         getPosition().in(Radians),
