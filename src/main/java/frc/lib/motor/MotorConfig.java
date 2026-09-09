@@ -8,9 +8,7 @@ import edu.wpi.first.units.measure.MomentOfInertia;
 import frc.lib.CanId;
 import java.util.Objects;
 import java.util.Optional;
-import lombok.Builder;
 
-@Builder
 public record MotorConfig(
         CanId id,
         NeutralModeValue neutralMode,

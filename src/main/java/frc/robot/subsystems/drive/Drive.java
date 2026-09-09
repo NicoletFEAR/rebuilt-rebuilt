@@ -4,7 +4,7 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Seconds;
 
-import java.util.function.Supplier;
+import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -12,17 +12,15 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.commands.ComputeCommand;
-import frc.lib.commands.ComputedResult;
 import frc.lib.constants.Constants;
 
 public class Drive extends SubsystemBase {
     private final SwerveModule[] modules;
 
     private final SwerveDriveKinematics kinematics;
+
+    private final DriveState state;
 
     public Drive(SwerveModule frontLeft, SwerveModule frontRight, SwerveModule backLeft, SwerveModule backRight) {
         modules = new SwerveModule[4];
@@ -39,27 +37,46 @@ public class Drive extends SubsystemBase {
                 new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY),
                 new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY.unaryMinus()),
         });
+
+        state = DriveState.OFF;
     }
 
-    private Command applySpeeds(Supplier<ChassisSpeeds> speeds) {
-        ComputedResult<SwerveModuleState[]> result = new ComputedResult<>();
-        return new ComputeCommand<SwerveModuleState[]>(() -> {
-            ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds.get(),
-                    Constants.LOOP_PERIOD.asPeriod().in(Seconds));
-            SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
-            SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_VELOCITY);
-            return setpointStates;
-        }, result).andThen(applyStates(result.get()));
+    private enum DriveState {
+        OFF,
+        DRIVING,
     }
 
-    private SequentialCommandGroup applyStates(SwerveModuleState[] states) {
-        SequentialCommandGroup result = new SequentialCommandGroup();
+    @Override
+    public void periodic() {
+        Logger.recordOutput("Drive/State", state);
 
-        for (int i = 0; i <= 4; i++) {
-            result.addCommands(modules[i].applyState(states[i]));
+        switch (state) {
+            case OFF -> {
+                for (int i = 0; i <= 4; i++) {
+                    modules[i].off();
+                }
+            }
+
+            case DRIVING -> {
+                for (int i = 0; i <= 4; i++) {
+                    modules[i].drive();
+                }
+            }
         }
+    }
 
-        return result;
+    private void applySpeeds(ChassisSpeeds speeds) {
+        ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds,
+                Constants.LOOP_PERIOD.asPeriod().in(Seconds));
+        SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_VELOCITY);
+        applyStates(setpointStates);
+    }
+
+    private void applyStates(SwerveModuleState[] states) {
+        for (int i = 0; i <= 4; i++) {
+            modules[i].applyState(states[i]);
+        }
     }
 
     private static final class DriveConstants {

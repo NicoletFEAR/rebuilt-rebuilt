@@ -5,8 +5,6 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import java.util.function.Supplier;
-
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.controls.Follower;
@@ -21,8 +19,6 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.lib.CanId;
 
 public class RealMotor extends MotorIO {
@@ -85,25 +81,25 @@ public class RealMotor extends MotorIO {
     }
 
     @Override
-    public Command setNeutralMode(Supplier<NeutralModeValue> mode) {
-        return Commands.either(Commands.run(() -> {
-            neutralMode = mode.get();
+    public void setNeutralMode(NeutralModeValue mode) {
+        if (mode != neutralMode) {
+            neutralMode = mode;
             motor.setNeutralMode(neutralMode);
-        }), Commands.none(), () -> mode.get() != neutralMode);
+        }
     }
 
     @Override
-    public Command setPositionSetpoint(Supplier<Angle> position) {
-        return Commands.run(() -> motor.setControl(positionControl.withPosition(position.get())));
+    public void setPositionSetpoint(Angle position) {
+        motor.setControl(positionControl.withPosition(position));
     }
 
     @Override
-    public Command setVelocitySetpoint(Supplier<AngularVelocity> velocity) {
-        return Commands.run(() -> motor.setControl(velocityControl.withVelocity(velocity.get())));
+    public void setVelocitySetpoint(AngularVelocity velocity) {
+        motor.setControl(velocityControl.withVelocity(velocity));
     }
 
     @Override
-    public Command setVoltage(Supplier<Voltage> voltage) {
-        return Commands.run(() -> motor.setControl(voltageControl.withOutput(voltage.get())));
+    public void setVoltage(Voltage voltage) {
+        motor.setControl(voltageControl.withOutput(voltage));
     }
 }

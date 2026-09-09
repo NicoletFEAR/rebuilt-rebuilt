@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.wpilibj2.command.Command;
 
 import org.littletonrobotics.junction.AutoLog;
 
@@ -27,5 +26,5 @@ public interface CanCoderIO {
 
     void updateInputs(CanCoderIOInputs inputs);
 
-    Command setZeroPoint();
+    void setZeroPoint();
 }

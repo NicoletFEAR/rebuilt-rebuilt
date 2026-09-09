@@ -3,26 +3,48 @@ package frc.robot.subsystems.intake;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.module.AngularVelocityModule;
 import frc.lib.motor.MotorIO;
 
 class Flywheels extends AngularVelocityModule {
+    private FlywheelState state;
+
     Flywheels(MotorIO motor) {
         super("Intake/Flywheels", motor, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
+        state = FlywheelState.OFF;
     }
 
-    Command off() {
-        return super.setVoltage(Volts.of(0.0));
+    private enum FlywheelState {
+        OFF,
+        JOSTLING,
+        INTAKING,
     }
 
-    Command jostle() {
-        return super.setVelocitySetpoint(FlywheelConstants.JOSTLE_VELOCITY);
+    @Override
+    public void periodic() {
+        super.periodic();
+        Logger.recordOutput(name + "/State", state);
+
+        switch (state) {
+            case OFF -> super.setVoltage(Volts.of(0.0));
+            case JOSTLING -> super.setVelocitySetpoint(FlywheelConstants.JOSTLE_VELOCITY);
+            case INTAKING -> super.setVelocitySetpoint(FlywheelConstants.INTAKE_VELOCITY);
+        }
     }
 
-    Command intake() {
-        return super.setVelocitySetpoint(FlywheelConstants.INTAKE_VELOCITY);
+    void off() {
+        state = FlywheelState.OFF;
+    }
+
+    void jostle() {
+        state = FlywheelState.JOSTLING;
+    }
+
+    void intake() {
+        state = FlywheelState.INTAKING;
     }
 
     private static final class FlywheelConstants {

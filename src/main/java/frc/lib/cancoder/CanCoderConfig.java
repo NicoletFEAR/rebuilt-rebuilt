@@ -8,9 +8,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.units.measure.Angle;
 import frc.lib.CanId;
-import lombok.Builder;
 
-@Builder
 public record CanCoderConfig(String name, CanId id, Angle offset) {
     public CANcoderConfiguration getCanCoderConfiguration() {
         return new CANcoderConfiguration()
