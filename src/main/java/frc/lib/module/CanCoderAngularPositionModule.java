@@ -1,4 +1,4 @@
-package frc.lib.module.position;
+package frc.lib.module;
 
 import org.littletonrobotics.junction.Logger;
 

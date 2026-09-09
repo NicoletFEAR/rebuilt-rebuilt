@@ -1,4 +1,4 @@
-package frc.lib.module.position;
+package frc.lib.module;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;

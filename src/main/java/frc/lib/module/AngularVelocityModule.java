@@ -1,4 +1,4 @@
-package frc.lib.module.velocity;
+package frc.lib.module;
 
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 

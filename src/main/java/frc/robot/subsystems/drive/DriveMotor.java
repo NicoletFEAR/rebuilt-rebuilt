@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.module.velocity.LinearVelocityModule;
+import frc.lib.module.LinearVelocityModule;
 import frc.lib.motor.MotorIO;
 
 class DriveMotor extends LinearVelocityModule {
