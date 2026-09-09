@@ -4,7 +4,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.LinearVelocity;
-import frc.lib.module.LinearVelocityModule;
+import frc.lib.module.velocity.LinearVelocityModule;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
 

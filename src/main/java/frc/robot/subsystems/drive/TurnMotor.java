@@ -5,7 +5,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.Angle;
 import frc.lib.cancoder.CanCoderIO;
-import frc.lib.module.CanCoderAngularPositionModule;
+import frc.lib.module.position.CanCoderAngularPositionModule;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
 

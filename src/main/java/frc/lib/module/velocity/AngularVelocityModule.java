@@ -1,6 +1,7 @@
-package frc.lib.module;
+package frc.lib.module.velocity;
 
 import edu.wpi.first.units.measure.AngularVelocity;
+import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
 
 public class AngularVelocityModule extends Module {

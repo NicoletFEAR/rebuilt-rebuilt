@@ -7,7 +7,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.constants.Constants;
-import frc.lib.module.CanCoderAngularPositionModule;
+import frc.lib.module.position.CanCoderAngularPositionModule;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
 
@@ -60,6 +60,7 @@ class Hood extends CanCoderAngularPositionModule {
     private static final class HoodConstants {
         private static final double ROTOR_TO_MECHANISM_RATIO = 30.0;
 
-        private HoodConstants() {}
+        private HoodConstants() {
+        }
     }
 }

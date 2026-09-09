@@ -1,9 +1,10 @@
-package frc.lib.module;
+package frc.lib.module.position;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;
 
 import edu.wpi.first.units.measure.Distance;
+import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
 
 public class LinearPositionModule extends Module {

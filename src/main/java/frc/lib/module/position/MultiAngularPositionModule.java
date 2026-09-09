@@ -1,4 +1,4 @@
-package frc.lib.module;
+package frc.lib.module.position;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
@@ -23,9 +23,8 @@ public class MultiAngularPositionModule extends AngularPositionModule {
                             .getConfig()
                             .alignment()
                             .orElseThrow(
-                                    () ->
-                                            new IllegalArgumentException(
-                                                    "Every follower config must have the `alignment` field set")));
+                                    () -> new IllegalArgumentException(
+                                            "Every follower config must have the `alignment` field set")));
             followerInputs[i] = new MotorIOInputsAutoLogged();
         }
     }

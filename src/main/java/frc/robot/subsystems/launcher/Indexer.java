@@ -4,7 +4,7 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.AngularVelocity;
-import frc.lib.module.AngularVelocityModule;
+import frc.lib.module.velocity.AngularVelocityModule;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
 
@@ -45,6 +45,7 @@ class Indexer extends AngularVelocityModule {
 
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private IndexerConstants() {}
+        private IndexerConstants() {
+        }
     }
 }
