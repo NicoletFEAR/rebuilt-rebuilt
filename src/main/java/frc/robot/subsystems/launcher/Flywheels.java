@@ -2,6 +2,8 @@ package frc.robot.subsystems.launcher;
 
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.module.MultiAngularVelocityModule;
@@ -16,8 +18,8 @@ class Flywheels extends MultiAngularVelocityModule {
         return super.setVoltage(Volts.of(0.0));
     }
 
-    Command launch(AngularVelocity velocity) {
-        return super.runToVelocity(velocity);
+    Command launch(Supplier<AngularVelocity> velocity) {
+        return super.runToVelocity(velocity.get());
     }
 
     private static final class FlywheelConstants {

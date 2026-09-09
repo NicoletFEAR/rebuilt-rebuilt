@@ -5,6 +5,8 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.controls.Follower;
@@ -83,25 +85,25 @@ public class RealMotor extends MotorIO {
     }
 
     @Override
-    public Command setNeutralMode(NeutralModeValue mode) {
+    public Command setNeutralMode(Supplier<NeutralModeValue> mode) {
         return Commands.either(Commands.run(() -> {
-            neutralMode = mode;
+            neutralMode = mode.get();
             motor.setNeutralMode(neutralMode);
-        }), Commands.none(), () -> mode != neutralMode);
+        }), Commands.none(), () -> mode.get() != neutralMode);
     }
 
     @Override
-    public Command setPositionSetpoint(Angle position) {
-        return Commands.run(() -> motor.setControl(positionControl.withPosition(position)));
+    public Command setPositionSetpoint(Supplier<Angle> position) {
+        return Commands.run(() -> motor.setControl(positionControl.withPosition(position.get())));
     }
 
     @Override
-    public Command setVelocitySetpoint(AngularVelocity velocity) {
-        return Commands.run(() -> motor.setControl(velocityControl.withVelocity(velocity)));
+    public Command setVelocitySetpoint(Supplier<AngularVelocity> velocity) {
+        return Commands.run(() -> motor.setControl(velocityControl.withVelocity(velocity.get())));
     }
 
     @Override
-    public Command setVoltage(Voltage voltage) {
-        return Commands.run(() -> motor.setControl(voltageControl.withOutput(voltage)));
+    public Command setVoltage(Supplier<Voltage> voltage) {
+        return Commands.run(() -> motor.setControl(voltageControl.withOutput(voltage.get())));
     }
 }

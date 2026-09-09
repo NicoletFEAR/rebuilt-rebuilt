@@ -1,5 +1,7 @@
 package frc.robot.subsystems.launcher;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,7 +25,7 @@ public class Launcher extends SubsystemBase {
         return flywheels.off().alongWith(indexer.off()).alongWith(hood.off());
     }
 
-    public Command launch(AngularVelocity flywheelVelocity, Angle hoodAngle) {
+    public Command launch(Supplier<AngularVelocity> flywheelVelocity, Supplier<Angle> hoodAngle) {
         return flywheels.launch(flywheelVelocity)
                 .alongWith(hood.runToPosition(hoodAngle)).andThen(indexer.index());
     }

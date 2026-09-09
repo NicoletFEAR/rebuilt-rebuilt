@@ -13,6 +13,10 @@ public class Intake extends SubsystemBase {
         flywheels = new Flywheels(flywheelMotor);
     }
 
+    public Command deploy() {
+        return arm.deploy().alongWith(flywheels.off());
+    }
+
     public Command intake() {
         return arm.deploy().alongWith(flywheels.intake());
     }

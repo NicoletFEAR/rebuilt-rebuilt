@@ -3,6 +3,8 @@ package frc.lib.module;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,16 +17,16 @@ public class LinearVelocityModule extends VelocityModule {
         super(name, io, rotorToMechanismRatio);
     }
 
-    protected Command setVelocitySetpoint(LinearVelocity velocity) {
-        return io.setVelocitySetpoint(RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
+    protected Command setVelocitySetpoint(Supplier<LinearVelocity> velocity) {
+        return io.setVelocitySetpoint(
+                () -> RadiansPerSecond.of(velocity.get().in(MetersPerSecond) * rotorToMechanismRatio));
     }
 
-    protected Command runToVelocity(LinearVelocity velocity) {
-        double velocityMetersPerSecond = velocity.in(MetersPerSecond);
+    protected Command runToVelocity(Supplier<LinearVelocity> velocity) {
         return setVelocitySetpoint(velocity)
-                .andThen(Commands.waitUntil(() -> MathUtil.isNear(velocityMetersPerSecond,
+                .alongWith(Commands.waitUntil(() -> MathUtil.isNear(velocity.get().in(MetersPerSecond),
                         getVelocity().in(MetersPerSecond),
-                        Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER * velocityMetersPerSecond)));
+                        Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER * velocity.get().in(MetersPerSecond))));
     }
 
     public LinearVelocity getVelocity() {

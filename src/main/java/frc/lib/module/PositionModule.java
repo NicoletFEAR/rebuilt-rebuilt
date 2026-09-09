@@ -1,5 +1,7 @@
 package frc.lib.module;
 
+import java.util.function.Supplier;
+
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -30,11 +32,11 @@ public abstract class PositionModule extends SubsystemBase {
         Logger.processInputs(name, inputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
     }
 
-    protected Command setNeutralMode(NeutralModeValue mode) {
+    protected Command setNeutralMode(Supplier<NeutralModeValue> mode) {
         return io.setNeutralMode(mode);
     }
 
-    protected Command setVoltage(Voltage voltage) {
+    protected Command setVoltage(Supplier<Voltage> voltage) {
         return io.setVoltage(voltage);
     }
 }

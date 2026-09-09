@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
 
+import java.util.function.Supplier;
+
 import org.littletonrobotics.junction.Logger;
 
 public abstract class VelocityModule extends SubsystemBase {
@@ -30,11 +32,11 @@ public abstract class VelocityModule extends SubsystemBase {
         Logger.processInputs(name, inputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
     }
 
-    protected Command setNeutralMode(NeutralModeValue mode) {
+    protected Command setNeutralMode(Supplier<NeutralModeValue> mode) {
         return io.setNeutralMode(mode);
     }
 
-    protected Command setVoltage(Voltage voltage) {
+    protected Command setVoltage(Supplier<Voltage> voltage) {
         return io.setVoltage(voltage);
     }
 }

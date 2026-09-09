@@ -2,6 +2,8 @@ package frc.robot.subsystems.launcher;
 
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.cancoder.CanCoderIO;
@@ -17,9 +19,8 @@ class Hood extends CanCoderAngularPositionModule {
         return super.setVoltage(Volts.of(0.0));
     }
 
-    @Override
-    protected Command runToPosition(Angle position) {
-        return super.runToPosition(position);
+    Command runToPosition(Supplier<Angle> position) {
+        return super.runToPosition(position.get());
     }
 
     private static final class HoodConstants {
