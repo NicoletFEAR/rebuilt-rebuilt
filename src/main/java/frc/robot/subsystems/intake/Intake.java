@@ -7,13 +7,13 @@ import frc.lib.motor.MotorIO;
 
 public class Intake extends SubsystemBase {
     private final Arm arm;
-    private final Wheels flywheels;
+    private final IntakeFlywheels intakeFlywheels;
 
     private IntakeState state;
 
     public Intake(MotorIO armMotor, MotorIO flywheelMotor) {
         arm = new Arm(armMotor);
-        flywheels = new Wheels(flywheelMotor);
+        intakeFlywheels = new IntakeFlywheels(flywheelMotor);
 
         state = IntakeState.START;
     }
