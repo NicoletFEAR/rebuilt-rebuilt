@@ -9,10 +9,10 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.module.AngularVelocityModule;
 import frc.lib.motor.MotorIO;
 
-class Flywheels extends AngularVelocityModule {
+class IntakeFlywheels extends AngularVelocityModule {
     private FlywheelState state;
 
-    Flywheels(MotorIO motor) {
+    IntakeFlywheels(MotorIO motor) {
         super("Intake/Flywheels", motor, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
         state = FlywheelState.OFF;
     }

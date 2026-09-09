@@ -21,6 +21,7 @@ public class Superstructure extends SubsystemBase {
 
     private enum SuperstructureState {
         START,
+        IDLE,
         STOPPED,
     }
 
@@ -32,6 +33,10 @@ public class Superstructure extends SubsystemBase {
             case START -> {
                 launcher.off();
                 intake.start();
+            }
+
+            case IDLE -> {
+                launcher.flywheelIdle();
             }
 
             case STOPPED -> {

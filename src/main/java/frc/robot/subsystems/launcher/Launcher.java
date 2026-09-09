@@ -26,6 +26,7 @@ public class Launcher extends SubsystemBase {
 
     private enum LauncherState {
         OFF,
+        FLYWHEEL_IDLE,
         SPINNING_UP,
         LAUNCHING,
     }
@@ -39,6 +40,10 @@ public class Launcher extends SubsystemBase {
                 flywheels.off();
                 indexer.off();
                 hood.off();
+            }
+
+            case FLYWHEEL_IDLE -> {
+                flywheels.idle();
             }
 
             case SPINNING_UP -> {
@@ -57,6 +62,10 @@ public class Launcher extends SubsystemBase {
 
     public void off() {
         state = LauncherState.OFF;
+    }
+
+    public void flywheelIdle() {
+        state = LauncherState.FLYWHEEL_IDLE;
     }
 
     public void spinUp() {

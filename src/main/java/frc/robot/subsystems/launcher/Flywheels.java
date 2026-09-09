@@ -23,6 +23,7 @@ class Flywheels extends MultiAngularVelocityModule {
 
     private enum FlywheelState {
         OFF,
+        FLYWHEEL_IDLE,
         LAUNCHING,
     }
 
@@ -34,6 +35,7 @@ class Flywheels extends MultiAngularVelocityModule {
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));
+            case FLYWHEEL_IDLE -> super.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
             case LAUNCHING -> super.setVelocitySetpoint(desiredVelocity);
         }
     }
@@ -44,6 +46,10 @@ class Flywheels extends MultiAngularVelocityModule {
 
     void launch() {
         state = FlywheelState.LAUNCHING;
+    }
+
+    void flywheelIdle() {
+        state = FlywheelState.FLYWHEEL_IDLE;
     }
 
     void setDesiredVelocity(AngularVelocity velocity) {
@@ -58,6 +64,7 @@ class Flywheels extends MultiAngularVelocityModule {
 
     private static final class FlywheelConstants {
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
+        private static final AngularVelocity FLYWHEEL_IDLE = RadiansPerSecond.of(84);
 
         private FlywheelConstants() {
         }
