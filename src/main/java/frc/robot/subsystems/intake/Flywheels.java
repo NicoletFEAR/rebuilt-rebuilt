@@ -5,7 +5,7 @@ import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.module.AngularVelocityModule;
+import frc.lib.module.velocity.AngularVelocityModule;
 import frc.lib.motor.MotorIO;
 
 class Flywheels extends AngularVelocityModule {

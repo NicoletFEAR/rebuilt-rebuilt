@@ -4,7 +4,7 @@ import static edu.wpi.first.units.Units.Meters;
 
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.module.LinearPositionModule;
+import frc.lib.module.position.LinearPositionModule;
 import frc.lib.motor.MotorIO;
 
 class Arm extends LinearPositionModule {

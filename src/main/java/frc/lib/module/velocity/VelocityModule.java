@@ -1,8 +1,4 @@
-package frc.lib.module;
-
-import java.util.function.Supplier;
-
-import org.littletonrobotics.junction.Logger;
+package frc.lib.module.velocity;
 
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -12,13 +8,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
 
-public abstract class PositionModule extends SubsystemBase {
+import java.util.function.Supplier;
+
+import org.littletonrobotics.junction.Logger;
+
+public abstract class VelocityModule extends SubsystemBase {
     protected final MotorIO io;
     protected final MotorIOInputsAutoLogged inputs;
     protected final String name;
     protected final double rotorToMechanismRatio;
 
-    public PositionModule(String name, MotorIO io, double rotorToMechanismRatio) {
+    public VelocityModule(String name, MotorIO io, double rotorToMechanismRatio) {
         super(name);
         this.name = getName();
         this.io = io;

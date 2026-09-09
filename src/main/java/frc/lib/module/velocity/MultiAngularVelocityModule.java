@@ -1,4 +1,4 @@
-package frc.lib.module;
+package frc.lib.module.velocity;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;

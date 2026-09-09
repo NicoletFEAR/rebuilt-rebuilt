@@ -1,4 +1,4 @@
-package frc.lib.module;
+package frc.lib.module.position;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;

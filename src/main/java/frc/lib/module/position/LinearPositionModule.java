@@ -1,4 +1,4 @@
-package frc.lib.module;
+package frc.lib.module.position;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Radians;

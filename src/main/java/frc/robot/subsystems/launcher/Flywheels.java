@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.module.MultiAngularVelocityModule;
+import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.MotorIO;
 
 class Flywheels extends MultiAngularVelocityModule {
