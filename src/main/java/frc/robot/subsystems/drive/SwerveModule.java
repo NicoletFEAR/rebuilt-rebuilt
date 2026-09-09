@@ -1,22 +1,71 @@
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.Command;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 class SwerveModule extends SubsystemBase {
+    private final String name;
+
     private final DriveMotor drive;
     private final TurnMotor turn;
 
-    SwerveModule(MotorIO driveMotor, DriveMotorConfig driveConfig, MotorIO turnMotor, CanCoderIO turnCanCoder,
-            TurnMotorConfig turnConfig) {
-        drive = new DriveMotor(driveMotor, driveConfig);
-        turn = new TurnMotor(turnMotor, turnCanCoder, turnConfig);
+    private SwerveModuleState state;
+
+    SwerveModule(
+            MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
+        name = config.name();
+        drive = new DriveMotor(driveMotor, config.getDriveMotorConfig());
+        turn = new TurnMotor(turnMotor, turnCanCoder, config.getTurnMotorConfig());
+
+        state = SwerveModuleState.OFF;
     }
 
-    public Command applyState(SwerveModuleState state) {
-        return new ComputeCommand()
+    private enum SwerveModuleState {
+        OFF,
+        DRIVING,
+    }
+
+    @Override
+    public void periodic() {
+        Logger.recordOutput(name + "/State", state);
+
+        switch (state) {
+            case OFF -> {
+                drive.off();
+                turn.off();
+            }
+
+            case DRIVING -> {
+                drive.drive();
+                turn.turn();
+            }
+        }
+    }
+
+    void off() {
+        state = SwerveModuleState.OFF;
+    }
+
+    void drive() {
+        state = SwerveModuleState.DRIVING;
+    }
+
+    void setDesiredSetpoints(LinearVelocity velocity, Angle position) {
+        drive.setDesiredVelocity(velocity);
+        turn.setDesiredPosition(position);
+    }
+
+    void applyState(edu.wpi.first.math.kinematics.SwerveModuleState state) {
+        Rotation2d currentRotation = turn.getRotation();
+        state.optimize(currentRotation);
+        state.cosineScale(currentRotation);
+        setDesiredSetpoints(MetersPerSecond.of(state.speedMetersPerSecond), state.angle.getMeasure());
     }
 }

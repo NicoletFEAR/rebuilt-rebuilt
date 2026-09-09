@@ -4,21 +4,40 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.module.AngularVelocityModule;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 class Indexer extends AngularVelocityModule {
+    private IndexerState state;
+
     Indexer(MotorIO motor) {
         super("Launcher/Indexer", motor, IndexerConstants.ROTOR_TO_MECHANISM_RATIO);
+        state = IndexerState.OFF;
     }
 
-    Command off() {
-        return super.setVoltage(Volts.of(0.0));
+    private enum IndexerState {
+        OFF,
+        INDEXING,
     }
 
-    Command index() {
-        return super.setVelocitySetpoint(IndexerConstants.INDEX_VELOCITY);
+    @Override
+    public void periodic() {
+        super.periodic();
+        Logger.recordOutput(name + "/State", state);
+
+        switch (state) {
+            case OFF -> super.setVoltage(Volts.of(0.0));
+            case INDEXING -> super.setVelocitySetpoint(IndexerConstants.INDEX_VELOCITY);
+        }
+    }
+
+    void off() {
+        state = IndexerState.OFF;
+    }
+
+    void index() {
+        state = IndexerState.INDEXING;
     }
 
     private static final class IndexerConstants {
@@ -26,7 +45,6 @@ class Indexer extends AngularVelocityModule {
 
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private IndexerConstants() {
-        }
+        private IndexerConstants() {}
     }
 }

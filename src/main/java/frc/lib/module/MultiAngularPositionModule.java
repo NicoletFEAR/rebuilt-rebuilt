@@ -9,7 +9,8 @@ public class MultiAngularPositionModule extends AngularPositionModule {
     private final MotorIO[] followerIOs;
     private final MotorIOInputsAutoLogged[] followerInputs;
 
-    public MultiAngularPositionModule(String name, MotorIO leader, MotorIO[] followers, double rotorToMechanismRatio) {
+    public MultiAngularPositionModule(
+            String name, MotorIO leader, MotorIO[] followers, double rotorToMechanismRatio) {
         super(name, leader, rotorToMechanismRatio);
         numberOfFollowers = followers.length;
         followerIOs = followers;
@@ -22,8 +23,9 @@ public class MultiAngularPositionModule extends AngularPositionModule {
                             .getConfig()
                             .alignment()
                             .orElseThrow(
-                                    () -> new IllegalArgumentException(
-                                            "Every follower config must have the `alignment` field set")));
+                                    () ->
+                                            new IllegalArgumentException(
+                                                    "Every follower config must have the `alignment` field set")));
             followerInputs[i] = new MotorIOInputsAutoLogged();
         }
     }
