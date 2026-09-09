@@ -6,24 +6,19 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import java.util.function.Supplier;
-
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.CanId;
 import lombok.Getter;
 import org.littletonrobotics.junction.AutoLog;
 
 public abstract class MotorIO {
-    @Getter
-    private final MotorConfig config;
+    @Getter private final MotorConfig config;
 
     public MotorIO(MotorConfig config) {
         this.config = config;
@@ -56,11 +51,11 @@ public abstract class MotorIO {
 
     public abstract void follow(CanId leader, MotorAlignmentValue alignment);
 
-    public abstract Command setNeutralMode(Supplier<NeutralModeValue> mode);
+    public abstract void setNeutralMode(NeutralModeValue mode);
 
-    public abstract Command setPositionSetpoint(Supplier<Angle> position);
+    public abstract void setPositionSetpoint(Angle position);
 
-    public abstract Command setVelocitySetpoint(Supplier<AngularVelocity> velocity);
+    public abstract void setVelocitySetpoint(AngularVelocity velocity);
 
-    public abstract Command setVoltage(Supplier<Voltage> voltage);
+    public abstract void setVoltage(Voltage voltage);
 }

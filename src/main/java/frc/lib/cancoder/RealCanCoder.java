@@ -8,8 +8,6 @@ import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 
 public class RealCanCoder implements CanCoderIO {
     private final CANcoder canCoder;
@@ -39,7 +37,7 @@ public class RealCanCoder implements CanCoderIO {
     }
 
     @Override
-    public Command setZeroPoint() {
-        return Commands.run(() -> canCoder.setPosition(Radians.of(0.0)));
+    public void setZeroPoint() {
+        canCoder.setPosition(Radians.of(0.0));
     }
 }
