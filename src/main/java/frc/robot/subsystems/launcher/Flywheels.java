@@ -3,13 +3,12 @@ package frc.robot.subsystems.launcher;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.constants.Constants;
 import frc.lib.module.MultiAngularVelocityModule;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 class Flywheels extends MultiAngularVelocityModule {
     private FlywheelState state;
@@ -58,7 +57,9 @@ class Flywheels extends MultiAngularVelocityModule {
 
     boolean isAtDesiredVelocity() {
         double desiredVelocityRadiansPerSecond = desiredVelocity.in(RadiansPerSecond);
-        return MathUtil.isNear(getVelocity().in(RadiansPerSecond), desiredVelocityRadiansPerSecond,
+        return MathUtil.isNear(
+                getVelocity().in(RadiansPerSecond),
+                desiredVelocityRadiansPerSecond,
                 Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER * desiredVelocityRadiansPerSecond);
     }
 
@@ -66,7 +67,6 @@ class Flywheels extends MultiAngularVelocityModule {
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
         private static final AngularVelocity FLYWHEEL_IDLE = RadiansPerSecond.of(84);
 
-        private FlywheelConstants() {
-        }
+        private FlywheelConstants() {}
     }
 }

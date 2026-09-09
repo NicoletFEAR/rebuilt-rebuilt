@@ -8,7 +8,6 @@ import static edu.wpi.first.units.Units.Volts;
 
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
@@ -19,8 +18,7 @@ import lombok.Getter;
 import org.littletonrobotics.junction.AutoLog;
 
 public abstract class MotorIO {
-    @Getter
-    private final MotorConfig config;
+    @Getter private final MotorConfig config;
 
     public MotorIO(MotorConfig config) {
         this.config = config;

@@ -3,11 +3,10 @@ package frc.robot.subsystems.launcher;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.module.AngularVelocityModule;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 class Indexer extends AngularVelocityModule {
     private IndexerState state;
@@ -46,7 +45,6 @@ class Indexer extends AngularVelocityModule {
 
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private IndexerConstants() {
-        }
+        private IndexerConstants() {}
     }
 }

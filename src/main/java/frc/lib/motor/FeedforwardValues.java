@@ -1,13 +1,12 @@
 package frc.lib.motor;
 
-import java.util.Objects;
-
 import com.ctre.phoenix6.configs.Slot0Configs;
-
+import java.util.Objects;
 import lombok.Builder;
 
 @Builder
-public record FeedforwardValues(double p, double i, double d, double s, double v, double a, double g) {
+public record FeedforwardValues(
+        double p, double i, double d, double s, double v, double a, double g) {
     public FeedforwardValues {
         g = Objects.requireNonNullElse(g, 0.0);
     }

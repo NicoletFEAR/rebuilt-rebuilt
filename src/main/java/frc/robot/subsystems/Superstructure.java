@@ -1,10 +1,9 @@
 package frc.robot.subsystems;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.launcher.Launcher;
+import org.littletonrobotics.junction.Logger;
 
 public class Superstructure extends SubsystemBase {
     private final Launcher launcher;

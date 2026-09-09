@@ -2,14 +2,13 @@ package frc.robot.subsystems.drive;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 class SwerveModule extends SubsystemBase {
     private final String name;
@@ -19,7 +18,8 @@ class SwerveModule extends SubsystemBase {
 
     private SwerveModuleState state;
 
-    SwerveModule(MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
+    SwerveModule(
+            MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
         name = config.name();
         drive = new DriveMotor(driveMotor, config.getDriveMotorConfig());
         turn = new TurnMotor(turnMotor, turnCanCoder, config.getTurnMotorConfig());

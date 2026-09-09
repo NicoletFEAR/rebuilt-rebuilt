@@ -1,12 +1,11 @@
 package frc.robot.subsystems.launcher;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 public class Launcher extends SubsystemBase {
     private final Flywheels flywheels;
@@ -15,9 +14,13 @@ public class Launcher extends SubsystemBase {
 
     private LauncherState state;
 
-    public Launcher(MotorIO leftFlywheelMotor, MotorIO rightFlywheelMotor, MotorIO indexMotor, MotorIO hoodMotor,
+    public Launcher(
+            MotorIO leftFlywheelMotor,
+            MotorIO rightFlywheelMotor,
+            MotorIO indexMotor,
+            MotorIO hoodMotor,
             CanCoderIO hoodCanCoder) {
-        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] { rightFlywheelMotor });
+        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
         indexer = new Indexer(indexMotor);
         hood = new Hood(hoodMotor, hoodCanCoder);
 

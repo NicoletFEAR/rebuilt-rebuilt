@@ -15,6 +15,5 @@ public final class Constants {
     public static final Angle ANGULAR_POSITION_SETPOINT_TOLERANCE = Radians.of(0.05);
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
-    private Constants() {
-    }
+    private Constants() {}
 }

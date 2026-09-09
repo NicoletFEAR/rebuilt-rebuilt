@@ -2,11 +2,10 @@ package frc.robot.subsystems.intake;
 
 import static edu.wpi.first.units.Units.Meters;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.units.measure.Distance;
 import frc.lib.module.LinearPositionModule;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 class Arm extends LinearPositionModule {
     private ArmState state;
@@ -45,7 +44,6 @@ class Arm extends LinearPositionModule {
 
         private static final Distance DEPLOY_DISTANCE = Meters.of(0.2);
 
-        private ArmConstants() {
-        }
+        private ArmConstants() {}
     }
 }
