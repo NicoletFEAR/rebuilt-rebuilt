@@ -17,11 +17,11 @@ public class Wheels extends AngularVelocityModule {
         state = WheelState.OFF;
     }
 
-    private enum WheelState {
+    enum WheelState {
         OFF,
-        JOSTLING,
-        INTAKING,
-        EXTAKING,
+        JOSTLE,
+        INTAKE,
+        EXTAKE,
     }
 
     @Override
@@ -31,26 +31,14 @@ public class Wheels extends AngularVelocityModule {
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));
-            case JOSTLING -> super.setVelocitySetpoint(WheelConstants.JOSTLE_VELOCITY);
-            case INTAKING -> super.setVelocitySetpoint(WheelConstants.INTAKE_VELOCITY);
-            case EXTAKING -> super.setVelocitySetpoint(WheelConstants.EXTAKE_VELOCITY);
+            case JOSTLE -> super.setVelocitySetpoint(WheelConstants.JOSTLE_VELOCITY);
+            case INTAKE -> super.setVelocitySetpoint(WheelConstants.INTAKE_VELOCITY);
+            case EXTAKE -> super.setVelocitySetpoint(WheelConstants.EXTAKE_VELOCITY);
         }
     }
 
-    void off() {
-        state = WheelState.OFF;
-    }
-
-    void jostle() {
-        state = WheelState.JOSTLING;
-    }
-
-    void intake() {
-        state = WheelState.INTAKING;
-    }
-
-    void extake() {
-        state = WheelState.EXTAKING;
+    void setState(WheelState state) {
+        this.state = state;
     }
 
     public static final class WheelConstants {

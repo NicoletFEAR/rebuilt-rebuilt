@@ -12,6 +12,7 @@ import frc.lib.motor.MotorConfig;
 import frc.lib.motor.RealMotor;
 import frc.robot.constants.DeviceIds;
 import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.Superstructure.SuperState;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveConstants;
 import frc.robot.subsystems.drive.SwerveModule;
@@ -43,7 +44,7 @@ public class RobotContainer extends SubsystemBase {
                 Logger.processInputs("RobotState", robotState);
 
                 // Sets up the drivebase by mapping the controls to the joysticks
-                superstructure.driveAround();
+                superstructure.setState(SuperState.DRIVE_AROUND_TEMPORARY);
                 superstructure.applyDriveSpeedsFromControls(
                                 driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX());
         }
@@ -53,26 +54,27 @@ public class RobotContainer extends SubsystemBase {
                 // Intake - Left Trigger on Driver Controller
                 driverController
                                 .L2()
-                                .onTrue(new InstantCommand(() -> superstructure.intake()))
-                                .onFalse(new InstantCommand(() -> superstructure.idle()));
+                                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.INTAKE)))
+                                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
 
                 // Launch - Right Trigger on Driver Controller
                 driverController
                                 .R2()
-                                .onTrue(new InstantCommand(() -> superstructure.launch()))
-                                .onFalse(new InstantCommand(() -> superstructure.idle()));
+                                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.LAUNCH)))
+                                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
 
                 // Launch and Intake - Left and Right Trigger on Driver Controller
                 driverController
                                 .L2()
                                 .and(driverController.R2())
-                                .onTrue(new InstantCommand(() -> superstructure.launchAndIntake()))
-                                .onFalse(new InstantCommand(() -> idle()));
+                                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.LAUNCH_AND_INTAKE)))
+                                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
 
+                // Extake - Right Bumper on Driver Controller
                 driverController
                                 .R1()
-                                .onTrue(new InstantCommand(() -> superstructure.extake()))
-                                .onFalse(new InstantCommand(() -> superstructure.idle()));
+                                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.EXTAKE)))
+                                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
         }
 
         private Drive buildDrive() {

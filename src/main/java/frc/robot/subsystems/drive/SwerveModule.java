@@ -8,6 +8,9 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
+import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
+import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
+
 import org.littletonrobotics.junction.Logger;
 
 public class SwerveModule extends SubsystemBase {
@@ -27,9 +30,9 @@ public class SwerveModule extends SubsystemBase {
         state = SwerveModuleState.OFF;
     }
 
-    private enum SwerveModuleState {
+    public enum SwerveModuleState {
         OFF,
-        DRIVING,
+        DRIVE,
     }
 
     @Override
@@ -38,23 +41,19 @@ public class SwerveModule extends SubsystemBase {
 
         switch (state) {
             case OFF -> {
-                drive.off();
-                turn.off();
+                drive.setState(DriveMotorState.OFF);
+                turn.setState(TurnMotorState.OFF);
             }
 
-            case DRIVING -> {
-                drive.drive();
-                turn.turn();
+            case DRIVE -> {
+                drive.setState(DriveMotorState.DRIVE);
+                turn.setState(TurnMotorState.TURN);
             }
         }
     }
 
-    void off() {
-        state = SwerveModuleState.OFF;
-    }
-
-    void drive() {
-        state = SwerveModuleState.DRIVING;
+    void setState(SwerveModuleState state) {
+        this.state = state;
     }
 
     void setDesiredSetpoints(LinearVelocity velocity, Angle position) {

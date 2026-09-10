@@ -19,9 +19,9 @@ class TurnMotor extends CanCoderAngularPositionModule {
         desiredPosition = Radians.of(0.0);
     }
 
-    private enum TurnMotorState {
+    enum TurnMotorState {
         OFF,
-        TURNING,
+        TURN,
     }
 
     @Override
@@ -32,16 +32,12 @@ class TurnMotor extends CanCoderAngularPositionModule {
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));
-            case TURNING -> super.setPositionSetpoint(desiredPosition);
+            case TURN -> super.setPositionSetpoint(desiredPosition);
         }
     }
 
-    void off() {
-        state = TurnMotorState.OFF;
-    }
-
-    void turn() {
-        state = TurnMotorState.TURNING;
+    void setState(TurnMotorState state) {
+        this.state = state;
     }
 
     void setDesiredPosition(Angle position) {

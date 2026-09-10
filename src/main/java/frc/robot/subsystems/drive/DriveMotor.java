@@ -18,9 +18,9 @@ class DriveMotor extends LinearVelocityModule {
         desiredVelocity = MetersPerSecond.of(0.0);
     }
 
-    private enum DriveMotorState {
+    enum DriveMotorState {
         OFF,
-        DRIVING,
+        DRIVE,
     }
 
     @Override
@@ -31,16 +31,12 @@ class DriveMotor extends LinearVelocityModule {
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));
-            case DRIVING -> super.setVelocitySetpoint(desiredVelocity);
+            case DRIVE -> super.setVelocitySetpoint(desiredVelocity);
         }
     }
 
-    void off() {
-        state = DriveMotorState.OFF;
-    }
-
-    void drive() {
-        state = DriveMotorState.DRIVING;
+    void setState(DriveMotorState state) {
+        this.state = state;
     }
 
     void setDesiredVelocity(LinearVelocity velocity) {

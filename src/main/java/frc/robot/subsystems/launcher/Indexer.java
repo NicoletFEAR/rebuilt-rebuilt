@@ -17,10 +17,10 @@ public class Indexer extends AngularVelocityModule {
         state = IndexerState.OFF;
     }
 
-    private enum IndexerState {
+    enum IndexerState {
         OFF,
-        INDEXING,
-        EXTAKING,
+        INDEX,
+        EXTAKE,
     }
 
     @Override
@@ -30,21 +30,13 @@ public class Indexer extends AngularVelocityModule {
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));
-            case INDEXING -> super.setVelocitySetpoint(IndexerConstants.INDEX_VELOCITY);
-            case EXTAKING -> super.setVelocitySetpoint(IndexerConstants.EXTAKE_VELOCITY);
+            case INDEX -> super.setVelocitySetpoint(IndexerConstants.INDEX_VELOCITY);
+            case EXTAKE -> super.setVelocitySetpoint(IndexerConstants.EXTAKE_VELOCITY);
         }
     }
 
-    void off() {
-        state = IndexerState.OFF;
-    }
-
-    void index() {
-        state = IndexerState.INDEXING;
-    }
-
-    void extake() {
-        state = IndexerState.EXTAKING;
+    void setState(IndexerState state) {
+        this.state = state;
     }
 
     public static final class IndexerConstants {
