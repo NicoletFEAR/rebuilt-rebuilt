@@ -3,7 +3,9 @@ package frc.robot;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 
 import edu.wpi.first.wpilibj.PS5Controller;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.lib.cancoder.CanCoderConfig;
 import frc.lib.cancoder.RealCanCoder;
 import frc.lib.motor.KrakenType;
@@ -27,20 +29,31 @@ import org.littletonrobotics.junction.Logger;
 public class RobotContainer extends SubsystemBase {
     private final RobotStateAutoLogged robotState;
     private final Superstructure superstructure;
-    private final PS5Controller driverController;
+    private final CommandPS5Controller driverController;
 
     public RobotContainer() {
         robotState = new RobotStateAutoLogged();
-        driverController = new PS5Controller(0);
+        driverController = new CommandPS5Controller(0);
         superstructure = new Superstructure(buildDrive(), buildLauncher(), buildIntake());
+
+        configureBindings();
     }
 
     @Override
     public void periodic() {
         Logger.processInputs("RobotState", robotState);
+
+        // Sets up the drivebase by mapping the controls to the joysticks
         superstructure.driveAround();
         superstructure.applyDriveSpeedsFromControls(
                 driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX());
+    }
+
+    private void configureBindings() {
+        driverController
+                .L2()
+                .onTrue(new InstantCommand(() -> superstructure.intake()))
+                .onFalse(new InstantCommand(() -> superstructure.idle()));
     }
 
     private Drive buildDrive() {

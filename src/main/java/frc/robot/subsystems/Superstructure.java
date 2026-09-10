@@ -26,6 +26,7 @@ public class Superstructure extends SubsystemBase {
         IDLE,
         STOPPED,
         DRIVE_AROUND_TEMPORARY,
+        INTAKE,
     }
 
     @Override
@@ -41,6 +42,7 @@ public class Superstructure extends SubsystemBase {
 
             case IDLE -> {
                 launcher.flywheelIdle();
+                intake.deploy();
             }
 
             case STOPPED -> {
@@ -54,6 +56,11 @@ public class Superstructure extends SubsystemBase {
                 launcher.off();
                 intake.deploy();
             }
+
+            case INTAKE -> {
+                launcher.flywheelIdle();
+                intake.intake();
+            }
         }
     }
 
@@ -63,6 +70,10 @@ public class Superstructure extends SubsystemBase {
 
     public void driveAround() {
         state = SuperstructureState.DRIVE_AROUND_TEMPORARY;
+    }
+
+    public void intake() {
+        state = SuperstructureState.INTAKE;
     }
 
     public void applyDriveSpeedsFromControls(double x, double y, double omega) {

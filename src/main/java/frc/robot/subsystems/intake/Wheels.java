@@ -56,6 +56,8 @@ public class Wheels extends AngularVelocityModule {
         private static final AngularVelocity JOSTLE_VELOCITY = RadiansPerSecond.of(Math.PI * 15.0);
         private static final AngularVelocity INTAKE_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private WheelConstants() {/* Keep this constructor empty */}
+        private WheelConstants() {
+            /* Keep this constructor empty */
+        }
     }
 }
