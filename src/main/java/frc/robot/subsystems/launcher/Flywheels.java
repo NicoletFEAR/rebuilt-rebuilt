@@ -71,6 +71,8 @@ public class Flywheels extends MultiAngularVelocityModule {
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
         private static final AngularVelocity FLYWHEEL_IDLE = RadiansPerSecond.of(84);
 
-        private FlywheelConstants() {/* Keep this constructor empty */}
+        private FlywheelConstants() {
+            /* Keep this constructor empty */
+        }
     }
 }
