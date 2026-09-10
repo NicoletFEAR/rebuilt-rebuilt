@@ -48,14 +48,14 @@ public class Wheels extends AngularVelocityModule {
     }
 
     public static final class WheelConstants {
-        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        public static final FeedforwardValues FEEDFORWARD_VALUES =
+                new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.6;
 
         private static final AngularVelocity JOSTLE_VELOCITY = RadiansPerSecond.of(Math.PI * 15.0);
         private static final AngularVelocity INTAKE_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private WheelConstants() {
-        }
+        private WheelConstants() {}
     }
 }

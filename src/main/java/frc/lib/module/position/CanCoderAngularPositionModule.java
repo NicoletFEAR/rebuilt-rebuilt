@@ -21,7 +21,8 @@ public class CanCoderAngularPositionModule extends AngularPositionModule {
     public void periodic() {
         super.periodic();
         canCoderIO.updateInputs(canCoderInputs);
-        Logger.processInputs(name + "/CanCoder", canCoderInputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
+        Logger.processInputs(
+                name + "/CanCoder", canCoderInputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
     }
 
     @Override

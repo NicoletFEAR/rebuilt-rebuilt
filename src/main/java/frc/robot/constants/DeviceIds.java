@@ -29,6 +29,5 @@ public final class DeviceIds {
     public static final CanId INTAKE_WHEELS = new CanId(Constants.CANIVORE_BUS, 18);
     public static final CanId INTAKE_ARM = new CanId(Constants.CANIVORE_BUS, 19);
 
-    private DeviceIds() {
-    }
+    private DeviceIds() {}
 }

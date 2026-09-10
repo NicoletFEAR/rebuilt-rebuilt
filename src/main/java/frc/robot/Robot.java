@@ -1,8 +1,7 @@
 package frc.robot;
 
-import org.littletonrobotics.junction.LoggedRobot;
-
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.littletonrobotics.junction.LoggedRobot;
 
 public class Robot extends LoggedRobot {
     @SuppressWarnings("unused")
