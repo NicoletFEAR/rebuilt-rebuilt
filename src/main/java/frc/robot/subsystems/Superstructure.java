@@ -23,10 +23,9 @@ public class Superstructure extends SubsystemBase {
 
     private enum SuperstructureState {
         START,
-        IDLE,
         STOPPED,
-        DRIVE_AROUND_TEMPORARY,
-        INTAKE,
+        OPERATING,
+        INTAKING,
     }
 
     @Override
@@ -40,24 +39,20 @@ public class Superstructure extends SubsystemBase {
                 intake.start();
             }
 
-            case IDLE -> {
-                launcher.flywheelIdle();
-                intake.deploy();
-            }
-
             case STOPPED -> {
                 drive.off();
                 launcher.off();
                 intake.deploy();
             }
 
-            case DRIVE_AROUND_TEMPORARY -> {
+            case OPERATING -> {
                 drive.drive();
-                launcher.off();
-                intake.deploy();
+                launcher.flywheelIdle();
+                intake.retract();
             }
 
-            case INTAKE -> {
+            case INTAKING -> {
+                drive.drive();
                 launcher.flywheelIdle();
                 intake.intake();
             }
@@ -68,12 +63,12 @@ public class Superstructure extends SubsystemBase {
         state = SuperstructureState.STOPPED;
     }
 
-    public void driveAround() {
-        state = SuperstructureState.DRIVE_AROUND_TEMPORARY;
+    public void operate() {
+        state = SuperstructureState.OPERATING;
     }
 
     public void intake() {
-        state = SuperstructureState.INTAKE;
+        state = SuperstructureState.INTAKING;
     }
 
     public void applyDriveSpeedsFromControls(double x, double y, double omega) {

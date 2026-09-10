@@ -22,7 +22,6 @@ public class Intake extends SubsystemBase {
         DEPLOYING,
         INTAKING,
         RETRACTING,
-        JOSTLING,
     }
 
     @Override
@@ -49,10 +48,6 @@ public class Intake extends SubsystemBase {
                 arm.retract();
                 wheels.jostle();
             }
-
-            case JOSTLING -> {
-                wheels.jostle();
-            }
         }
     }
 
@@ -70,9 +65,5 @@ public class Intake extends SubsystemBase {
 
     public void retract() {
         state = IntakeState.RETRACTING;
-    }
-
-    public void jostle() {
-        state = IntakeState.JOSTLING;
     }
 }

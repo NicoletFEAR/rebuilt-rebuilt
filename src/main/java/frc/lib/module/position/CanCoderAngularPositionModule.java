@@ -30,7 +30,7 @@ public class CanCoderAngularPositionModule extends AngularPositionModule {
         if (canCoderInputs.connected) {
             return canCoderInputs.position.div(rotorToMechanismRatio);
         } else {
-            return super.getPosition().div(rotorToMechanismRatio);
+            return super.getPosition();
         }
     }
 }

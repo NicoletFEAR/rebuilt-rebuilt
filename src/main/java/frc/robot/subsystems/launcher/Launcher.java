@@ -47,6 +47,8 @@ public class Launcher extends SubsystemBase {
 
             case FLYWHEEL_IDLE -> {
                 flywheels.idle();
+                indexer.off();
+                hood.off();
             }
 
             case SPINNING_UP -> {

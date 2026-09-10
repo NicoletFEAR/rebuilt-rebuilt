@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive;
 
 import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
@@ -68,8 +69,8 @@ public class Drive extends SubsystemBase {
                 new SwerveDrivePoseEstimator(
                         kinematics,
                         DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
-                                ? Rotation2d.fromDegrees(0)
-                                : Rotation2d.fromDegrees(180),
+                                ? Rotation2d.fromRadians(0.0)
+                                : Rotation2d.fromRadians(Math.PI),
                         getModulePositions(),
                         new Pose2d(),
                         VecBuilder.fill(0.1, 0.1, 0.0),
@@ -86,6 +87,7 @@ public class Drive extends SubsystemBase {
     @Override
     public void periodic() {
         Logger.recordOutput("Drive/State", state);
+        Logger.recordOutput("Drive/ModulePositions", getModulePositions());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), Rotation2d.kZero, getModulePositions());
         robotState.addOdometryMeasurement(getOdometryMeasurement());
 
@@ -156,7 +158,10 @@ public class Drive extends SubsystemBase {
     }
 
     public static final class DriveConstants {
-        public static final double DRIVE_ROTOR_TO_MECHANISM_RATIO = 425.0 / 63.0;
+        private static final Distance WHEEL_RADIUS = Meters.of(0.0508);
+
+        public static final double DRIVE_ROTOR_TO_MECHANISM_RATIO =
+                425.0 / 63.0 * WHEEL_RADIUS.in(Meters);
         public static final double TURN_ROTOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
 
         public static final Angle FRONT_LEFT_OFFSET = Rotations.of(-0.8896484375);
@@ -165,9 +170,9 @@ public class Drive extends SubsystemBase {
         public static final Angle BACK_RIGHT_OFFSET = Rotations.of(-0.37841796875);
 
         public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES =
-                new FeedforwardValues(2.7141, 0.0, 0.0, 0.067703, 2.4746, 0.36888);
+                new FeedforwardValues(2.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         public static final FeedforwardValues TURN_FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.02, 0.0, 0.01, 0.0, 0.0, 0.0);
+                new FeedforwardValues(0.03, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         private static final Distance TRACK_WIDTH_X = Inches.of(20.753888);
         private static final Distance TRACK_WIDTH_Y = Inches.of(20.753888);

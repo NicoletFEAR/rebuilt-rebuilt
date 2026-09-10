@@ -1,6 +1,7 @@
 package frc.lib.motor;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
@@ -57,6 +58,7 @@ public record MotorConfig(
                 .withSlot0(feedforwardValues.getSlot0Configs())
                 .withMotionMagic(
                         new MotionMagicConfigs()
-                                .withMotionMagicAcceleration(RadiansPerSecondPerSecond.of(Math.PI * 200.0)));
+                                .withMotionMagicAcceleration(RadiansPerSecondPerSecond.of(Math.PI * 200.0))
+                                .withMotionMagicCruiseVelocity(RadiansPerSecond.of(Math.PI * 200.0)));
     }
 }

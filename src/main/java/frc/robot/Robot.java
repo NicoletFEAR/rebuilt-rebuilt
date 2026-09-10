@@ -1,9 +1,11 @@
 package frc.robot;
 
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.math.MathShared;
 import edu.wpi.first.math.MathSharedStore;
 import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.constants.BuildConstants;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -18,6 +20,7 @@ public class Robot extends LoggedRobot {
     public Robot() {
         initLogging();
         silenceMeaninglessErrors();
+        setUpSimulation();
 
         robotContainer = new RobotContainer();
     }
@@ -61,6 +64,10 @@ public class Robot extends LoggedRobot {
                         return mathShared.getTimestamp();
                     }
                 });
+    }
+
+    private void setUpSimulation() {
+        DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
     }
 
     @Override
