@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
 
-class SwerveModule extends SubsystemBase {
+public class SwerveModule extends SubsystemBase {
     private final String name;
 
     private final DriveMotor drive;
@@ -19,7 +19,7 @@ class SwerveModule extends SubsystemBase {
 
     private SwerveModuleState state;
 
-    SwerveModule(MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
+    public SwerveModule(MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
         name = config.name();
         drive = new DriveMotor(driveMotor, config.getDriveMotorConfig());
         turn = new TurnMotor(turnMotor, turnCanCoder, config.getTurnMotorConfig());

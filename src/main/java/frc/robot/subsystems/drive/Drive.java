@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Seconds;
 
 import org.littletonrobotics.junction.Logger;
@@ -15,11 +16,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.constants.Constants;
+import frc.lib.motor.FeedforwardValues;
 import frc.robot.constants.OperatorConstants;
 
 public class Drive extends SubsystemBase {
@@ -27,7 +30,7 @@ public class Drive extends SubsystemBase {
 
     private final SwerveDriveKinematics kinematics;
 
-    private final DriveState state;
+    private DriveState state;
 
     public Drive(SwerveModule frontLeft, SwerveModule frontRight, SwerveModule backLeft, SwerveModule backRight) {
         modules = new SwerveModule[4];
@@ -72,6 +75,14 @@ public class Drive extends SubsystemBase {
         }
     }
 
+    public void off() {
+        state = DriveState.OFF;
+    }
+
+    public void drive() {
+        state = DriveState.DRIVING;
+    }
+
     public void applySpeedsFromControls(double x, double y, double omega) {
         double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), OperatorConstants.DRIVE_DEADBAND);
         Translation2d linearVelocity = new Pose2d(Translation2d.kZero, new Rotation2d(x, y))
@@ -96,7 +107,20 @@ public class Drive extends SubsystemBase {
         }
     }
 
-    private static final class DriveConstants {
+    public static final class DriveConstants {
+        public static final double DRIVE_ROTOR_TO_MECHANISM_RATIO = 425.0 / 63.0;
+        public static final double TURN_ROTOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
+
+        public static final Angle FRONT_LEFT_OFFSET = Rotations.of(-0.8896484375);
+        public static final Angle FRONT_RIGHT_OFFSET = Rotations.of(-0.09716796875);
+        public static final Angle BACK_LEFT_OFFSET = Rotations.of(-0.721923828125);
+        public static final Angle BACK_RIGHT_OFFSET = Rotations.of(-0.37841796875);
+
+        public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES = new FeedforwardValues(2.7141, 0.0, 0.0,
+                0.067703, 2.4746, 0.36888);
+        public static final FeedforwardValues TURN_FEEDFORWARD_VALUES = new FeedforwardValues(0.02, 0.0, 0.01, 0.0, 0.0,
+                0.0);
+
         private static final Distance TRACK_WIDTH_X = Inches.of(20.753888);
         private static final Distance TRACK_WIDTH_Y = Inches.of(20.753888);
 

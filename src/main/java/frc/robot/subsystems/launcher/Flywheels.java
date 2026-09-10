@@ -9,9 +9,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.constants.Constants;
 import frc.lib.module.MultiAngularVelocityModule;
+import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 
-class Flywheels extends MultiAngularVelocityModule {
+public class Flywheels extends MultiAngularVelocityModule {
     private FlywheelState state;
     private AngularVelocity desiredVelocity;
 
@@ -56,7 +57,9 @@ class Flywheels extends MultiAngularVelocityModule {
                 Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER * desiredVelocityRadiansPerSecond);
     }
 
-    private static final class FlywheelConstants {
+    public static final class FlywheelConstants {
+        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.0, 0.0, 0.0);
+
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
 
         private FlywheelConstants() {

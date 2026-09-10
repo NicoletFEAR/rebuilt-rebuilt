@@ -7,9 +7,10 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.module.AngularVelocityModule;
+import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 
-class Wheels extends AngularVelocityModule {
+public class Wheels extends AngularVelocityModule {
     private WheelState state;
 
     Wheels(MotorIO motor) {
@@ -47,7 +48,9 @@ class Wheels extends AngularVelocityModule {
         state = WheelState.INTAKING;
     }
 
-    private static final class WheelConstants {
+    public static final class WheelConstants {
+        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.6;
 
         private static final AngularVelocity JOSTLE_VELOCITY = RadiansPerSecond.of(Math.PI * 15.0);
