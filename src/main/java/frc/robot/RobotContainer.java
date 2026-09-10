@@ -1,55 +1,100 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import static edu.wpi.first.units.Units.KilogramSquareMeters;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
-public class RobotContainer {
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController m_driverController = new CommandXboxController(0);
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.cancoder.CanCoderConfig;
+import frc.lib.cancoder.RealCanCoder;
+import frc.lib.motor.KrakenType;
+import frc.lib.motor.MotorConfig;
+import frc.lib.motor.RealMotor;
+import frc.robot.constants.DeviceIds;
+import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.SwerveModule;
+import frc.robot.subsystems.drive.SwerveModuleConfig;
+import frc.robot.subsystems.drive.Drive.DriveConstants;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.Arm.ArmConstants;
+import frc.robot.subsystems.intake.Wheels.WheelConstants;
+import frc.robot.subsystems.launcher.Launcher;
+import frc.robot.subsystems.launcher.Flywheels.FlywheelConstants;
+import frc.robot.subsystems.launcher.Hood.HoodConstants;
+import frc.robot.subsystems.launcher.Indexer.IndexerConstants;
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
+public class RobotContainer extends SubsystemBase {
+    private final Superstructure superstructure;
+    private final XboxController driverController;
+
     public RobotContainer() {
-        // Configure the trigger bindings
-        configureBindings();
+        driverController = new XboxController(0);
+        superstructure = new Superstructure(buildDrive(), buildLauncher(), buildIntake());
     }
 
-    /**
-     * Use this method to define your trigger->command mappings. Triggers can be created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-     * predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-     * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-     * joysticks}.
-     */
-    private void configureBindings() {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        new Trigger(() -> false).onTrue(Commands.none());
-
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-        // pressed, cancelling on release.
-        m_driverController.b().whileTrue(Commands.none());
+    private Drive buildDrive() {
+        return new Drive(
+                new SwerveModule(
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.FRONT_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                        KrakenType.X60, KilogramSquareMeters.of(0.01))),
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.FRONT_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                        KrakenType.X44, KilogramSquareMeters.of(0.01))),
+                        new RealCanCoder(new CanCoderConfig(DeviceIds.FRONT_LEFT_CAN_CODER,
+                                DriveConstants.FRONT_LEFT_OFFSET)),
+                        new SwerveModuleConfig("FrontLeft", DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                new SwerveModule(
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.FRONT_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                        KrakenType.X60, KilogramSquareMeters.of(0.01))),
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.FRONT_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                        KrakenType.X44, KilogramSquareMeters.of(0.01))),
+                        new RealCanCoder(new CanCoderConfig(DeviceIds.FRONT_RIGHT_CAN_CODER,
+                                DriveConstants.FRONT_RIGHT_OFFSET)),
+                        new SwerveModuleConfig("FrontRight", DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                new SwerveModule(
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.BACK_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                        KrakenType.X60, KilogramSquareMeters.of(0.01))),
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.BACK_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                        KrakenType.X44, KilogramSquareMeters.of(0.01))),
+                        new RealCanCoder(new CanCoderConfig(DeviceIds.BACK_LEFT_CAN_CODER,
+                                DriveConstants.BACK_LEFT_OFFSET)),
+                        new SwerveModuleConfig("BackLeft", DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                new SwerveModule(
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.BACK_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                        KrakenType.X60, KilogramSquareMeters.of(0.01))),
+                        new RealMotor(
+                                new MotorConfig(DeviceIds.BACK_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                        KrakenType.X44, KilogramSquareMeters.of(0.01))),
+                        new RealCanCoder(new CanCoderConfig(DeviceIds.BACK_RIGHT_CAN_CODER,
+                                DriveConstants.BACK_RIGHT_OFFSET)),
+                        new SwerveModuleConfig("BackRight", DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)));
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return Commands.none();
+    private Launcher buildLauncher() {
+        return new Launcher(
+                new RealMotor(
+                        new MotorConfig(DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES, KrakenType.X60)),
+                new RealMotor(new MotorConfig(DeviceIds.RIGHT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES,
+                        KrakenType.X60)),
+                new RealMotor(new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
+                new RealMotor(new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
+                new RealCanCoder(new CanCoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
+    }
+
+    private Intake buildIntake() {
+        return new Intake(
+                new RealMotor(new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
+                new RealMotor(new MotorConfig(DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES,
+                        KrakenType.X44)));
     }
 }

@@ -5,10 +5,11 @@ import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.module.velocity.AngularVelocityModule;
+import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
 
-class Indexer extends AngularVelocityModule {
+public class Indexer extends AngularVelocityModule {
     private IndexerState state;
 
     Indexer(MotorIO motor) {
@@ -40,9 +41,10 @@ class Indexer extends AngularVelocityModule {
         state = IndexerState.INDEXING;
     }
 
-    private static final class IndexerConstants {
-        private static final double ROTOR_TO_MECHANISM_RATIO = 1.0;
+    public static final class IndexerConstants {
+        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
+        private static final double ROTOR_TO_MECHANISM_RATIO = 1.0;
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
         private IndexerConstants() {/* Keep this constructor empty */}

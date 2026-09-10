@@ -5,18 +5,19 @@ import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.module.velocity.AngularVelocityModule;
+import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
 
-class IntakeFlywheels extends AngularVelocityModule {
-    private FlywheelState state;
+public class Wheels extends AngularVelocityModule {
+    private WheelState state;
 
-    IntakeFlywheels(MotorIO motor) {
-        super("Intake/Flywheels", motor, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
-        state = FlywheelState.OFF;
+    Wheels(MotorIO motor) {
+        super("Intake/Flywheels", motor, WheelConstants.ROTOR_TO_MECHANISM_RATIO);
+        state = WheelState.OFF;
     }
 
-    private enum FlywheelState {
+    private enum WheelState {
         OFF,
         JOSTLING,
         INTAKING,
@@ -29,29 +30,32 @@ class IntakeFlywheels extends AngularVelocityModule {
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));
-            case JOSTLING -> super.setVelocitySetpoint(FlywheelConstants.JOSTLE_VELOCITY);
-            case INTAKING -> super.setVelocitySetpoint(FlywheelConstants.INTAKE_VELOCITY);
+            case JOSTLING -> super.setVelocitySetpoint(WheelConstants.JOSTLE_VELOCITY);
+            case INTAKING -> super.setVelocitySetpoint(WheelConstants.INTAKE_VELOCITY);
         }
     }
 
     void off() {
-        state = FlywheelState.OFF;
+        state = WheelState.OFF;
     }
 
     void jostle() {
-        state = FlywheelState.JOSTLING;
+        state = WheelState.JOSTLING;
     }
 
     void intake() {
-        state = FlywheelState.INTAKING;
+        state = WheelState.INTAKING;
     }
 
-    private static final class FlywheelConstants {
+    public static final class WheelConstants {
+        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.6;
 
         private static final AngularVelocity JOSTLE_VELOCITY = RadiansPerSecond.of(Math.PI * 15.0);
         private static final AngularVelocity INTAKE_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private FlywheelConstants() {/* Keep this constructor empty */}
+        private WheelConstants() {
+        }
     }
 }
