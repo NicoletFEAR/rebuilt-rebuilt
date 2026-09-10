@@ -4,7 +4,8 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import lombok.Builder;
 
 @Builder
-public record FeedforwardValues(double p, double i, double d, double s, double v, double a, double g) {
+public record FeedforwardValues(
+        double p, double i, double d, double s, double v, double a, double g) {
     public FeedforwardValues(double p, double i, double d, double s, double v, double a) {
         this(p, i, d, s, v, a, 0.0);
     }

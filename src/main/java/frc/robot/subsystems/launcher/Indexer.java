@@ -42,11 +42,14 @@ public class Indexer extends AngularVelocityModule {
     }
 
     public static final class IndexerConstants {
-        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        public static final FeedforwardValues FEEDFORWARD_VALUES =
+                new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         private static final double ROTOR_TO_MECHANISM_RATIO = 1.0;
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private IndexerConstants() {/* Keep this constructor empty */}
+        private IndexerConstants() {
+            /* Keep this constructor empty */
+        }
     }
 }

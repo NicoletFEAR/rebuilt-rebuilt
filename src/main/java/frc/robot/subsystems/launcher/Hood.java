@@ -61,10 +61,13 @@ public class Hood extends CanCoderAngularPositionModule {
 
     public static final class HoodConstants {
         public static final Angle HOOD_OFFSET = Rotations.of(-0.25439453125);
-        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(5.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        public static final FeedforwardValues FEEDFORWARD_VALUES =
+                new FeedforwardValues(5.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         private static final double ROTOR_TO_MECHANISM_RATIO = 30.0;
 
-        private HoodConstants() {/* Keep this constructor empty */}
+        private HoodConstants() {
+            /* Keep this constructor empty */
+        }
     }
 }

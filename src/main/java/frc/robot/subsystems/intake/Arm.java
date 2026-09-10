@@ -41,12 +41,15 @@ public class Arm extends LinearPositionModule {
     }
 
     public static final class ArmConstants {
-        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(25.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        public static final FeedforwardValues FEEDFORWARD_VALUES =
+                new FeedforwardValues(25.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         private static final double ROTOR_TO_MECHANISM_RATIO = 40.0 / 3.0;
 
         private static final Distance DEPLOY_DISTANCE = Meters.of(0.2);
 
-        private ArmConstants() {/* Keep this constructor empty */}
+        private ArmConstants() {
+            /* Keep this constructor empty */
+        }
     }
 }

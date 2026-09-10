@@ -18,7 +18,8 @@ public class SwerveModule extends SubsystemBase {
 
     private SwerveModuleState state;
 
-    public SwerveModule(MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
+    public SwerveModule(
+            MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
         name = config.name();
         drive = new DriveMotor(driveMotor, config.getDriveMotorConfig());
         turn = new TurnMotor(turnMotor, turnCanCoder, config.getTurnMotorConfig());

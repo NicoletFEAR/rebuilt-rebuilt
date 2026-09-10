@@ -125,10 +125,10 @@ public class Drive extends SubsystemBase {
         public static final Angle BACK_LEFT_OFFSET = Rotations.of(-0.721923828125);
         public static final Angle BACK_RIGHT_OFFSET = Rotations.of(-0.37841796875);
 
-        public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES = new FeedforwardValues(2.7141, 0.0, 0.0,
-                0.067703, 2.4746, 0.36888);
-        public static final FeedforwardValues TURN_FEEDFORWARD_VALUES = new FeedforwardValues(0.02, 0.0, 0.01, 0.0, 0.0,
-                0.0);
+        public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES =
+                new FeedforwardValues(2.7141, 0.0, 0.0, 0.067703, 2.4746, 0.36888);
+        public static final FeedforwardValues TURN_FEEDFORWARD_VALUES =
+                new FeedforwardValues(0.02, 0.0, 0.01, 0.0, 0.0, 0.0);
 
         private static final Distance TRACK_WIDTH_X = Inches.of(20.753888);
         private static final Distance TRACK_WIDTH_Y = Inches.of(20.753888);
@@ -136,6 +136,8 @@ public class Drive extends SubsystemBase {
         private static final LinearVelocity MAX_VELOCITY = MetersPerSecond.of(4.8);
         private static final AngularVelocity MAX_ANGULAR_VELOCITY = RadiansPerSecond.of(Math.PI * 3.0);
 
-        private DriveConstants() {/* Keep this contructor empty */}
+        private DriveConstants() {
+            /* Keep this contructor empty */
+        }
     }
 }
