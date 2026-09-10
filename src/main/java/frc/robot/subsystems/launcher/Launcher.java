@@ -1,12 +1,11 @@
 package frc.robot.subsystems.launcher;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 public class Launcher extends SubsystemBase {
     private final Flywheels flywheels;
@@ -15,9 +14,13 @@ public class Launcher extends SubsystemBase {
 
     private LauncherState state;
 
-    public Launcher(MotorIO leftFlywheelMotor, MotorIO rightFlywheelMotor, MotorIO indexMotor, MotorIO hoodMotor,
+    public Launcher(
+            MotorIO leftFlywheelMotor,
+            MotorIO rightFlywheelMotor,
+            MotorIO indexMotor,
+            MotorIO hoodMotor,
             CanCoderIO hoodCanCoder) {
-        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] { rightFlywheelMotor });
+        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
         indexer = new Indexer(indexMotor);
         hood = new Hood(hoodMotor, hoodCanCoder);
 
@@ -26,6 +29,7 @@ public class Launcher extends SubsystemBase {
 
     private enum LauncherState {
         OFF,
+        FLYWHEEL_IDLE,
         SPINNING_UP,
         LAUNCHING,
     }
@@ -39,6 +43,10 @@ public class Launcher extends SubsystemBase {
                 flywheels.off();
                 indexer.off();
                 hood.off();
+            }
+
+            case FLYWHEEL_IDLE -> {
+                flywheels.idle();
             }
 
             case SPINNING_UP -> {
@@ -57,6 +65,10 @@ public class Launcher extends SubsystemBase {
 
     public void off() {
         state = LauncherState.OFF;
+    }
+
+    public void flywheelIdle() {
+        state = LauncherState.FLYWHEEL_IDLE;
     }
 
     public void spinUp() {

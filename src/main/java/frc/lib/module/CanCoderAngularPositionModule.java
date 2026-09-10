@@ -1,18 +1,17 @@
 package frc.lib.module;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.units.measure.Angle;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.cancoder.CanCoderIOInputsAutoLogged;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 public class CanCoderAngularPositionModule extends AngularPositionModule {
     private final CanCoderIO canCoderIO;
     private final CanCoderIOInputsAutoLogged canCoderInputs;
 
-    public CanCoderAngularPositionModule(String name, MotorIO motorIO, CanCoderIO canCoderIO,
-            double rotorToMechanismRatio) {
+    public CanCoderAngularPositionModule(
+            String name, MotorIO motorIO, CanCoderIO canCoderIO, double rotorToMechanismRatio) {
         super(name, motorIO, rotorToMechanismRatio);
         this.canCoderIO = canCoderIO;
         canCoderInputs = new CanCoderIOInputsAutoLogged();

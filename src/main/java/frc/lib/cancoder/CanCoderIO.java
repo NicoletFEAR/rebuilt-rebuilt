@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
-
 import org.littletonrobotics.junction.AutoLog;
 
 public interface CanCoderIO {

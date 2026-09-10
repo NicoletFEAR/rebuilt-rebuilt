@@ -4,8 +4,6 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Volts;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
 import frc.lib.cancoder.CanCoderIO;
@@ -13,6 +11,7 @@ import frc.lib.constants.Constants;
 import frc.lib.module.CanCoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 public class Hood extends CanCoderAngularPositionModule {
     private HoodState state;
@@ -54,7 +53,9 @@ public class Hood extends CanCoderAngularPositionModule {
     }
 
     boolean isAtDesiredPosition() {
-        return MathUtil.isNear(getPosition().in(Radians), desiredPosition.in(Radians),
+        return MathUtil.isNear(
+                getPosition().in(Radians),
+                desiredPosition.in(Radians),
                 Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE.in(Radians));
     }
 
@@ -64,7 +65,6 @@ public class Hood extends CanCoderAngularPositionModule {
 
         private static final double ROTOR_TO_MECHANISM_RATIO = 30.0;
 
-        private HoodConstants() {
-        }
+        private HoodConstants() {}
     }
 }

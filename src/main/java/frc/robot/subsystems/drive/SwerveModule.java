@@ -2,14 +2,13 @@ package frc.robot.subsystems.drive;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 public class SwerveModule extends SubsystemBase {
     private final String name;

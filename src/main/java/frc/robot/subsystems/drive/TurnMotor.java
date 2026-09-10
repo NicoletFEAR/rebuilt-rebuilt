@@ -3,12 +3,11 @@ package frc.robot.subsystems.drive;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Volts;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.units.measure.Angle;
 import frc.lib.cancoder.CanCoderIO;
 import frc.lib.module.CanCoderAngularPositionModule;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 class TurnMotor extends CanCoderAngularPositionModule {
     private TurnMotorState state;

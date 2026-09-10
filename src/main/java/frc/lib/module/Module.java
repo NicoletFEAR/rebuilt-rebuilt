@@ -1,13 +1,11 @@
 package frc.lib.module;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
+import org.littletonrobotics.junction.Logger;
 
 public abstract class Module extends SubsystemBase {
     protected final MotorIO io;

@@ -1,19 +1,18 @@
 package frc.robot.subsystems.intake;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
+import org.littletonrobotics.junction.Logger;
 
 public class Intake extends SubsystemBase {
     private final Arm arm;
-    private final Wheels flywheels;
+    private final IntakeFlywheels intakeFlywheels;
 
     private IntakeState state;
 
     public Intake(MotorIO armMotor, MotorIO flywheelMotor) {
         arm = new Arm(armMotor);
-        flywheels = new Wheels(flywheelMotor);
+        intakeFlywheels = new IntakeFlywheels(flywheelMotor);
 
         state = IntakeState.START;
     }
@@ -32,22 +31,22 @@ public class Intake extends SubsystemBase {
         switch (state) {
             case START -> {
                 arm.retract();
-                flywheels.off();
+                intakeFlywheels.off();
             }
 
             case DEPLOYING -> {
                 arm.deploy();
-                flywheels.off();
+                intakeFlywheels.off();
             }
 
             case INTAKING -> {
                 arm.deploy();
-                flywheels.intake();
+                intakeFlywheels.intake();
             }
 
             case RETRACTING -> {
                 arm.retract();
-                flywheels.jostle();
+                intakeFlywheels.jostle();
             }
         }
     }

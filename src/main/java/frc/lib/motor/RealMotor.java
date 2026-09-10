@@ -34,9 +34,10 @@ public class RealMotor extends MotorIO {
     protected final StatusSignal<Temperature> temperatureSignal;
 
     private final Follower followerControl = new Follower(0, MotorAlignmentValue.Aligned);
-    private final MotionMagicVoltage positionControl = new MotionMagicVoltage(Radians.of(0.0)).withSlot(0);
-    private final MotionMagicVelocityVoltage velocityControl = new MotionMagicVelocityVoltage(RadiansPerSecond.of(0.0))
-            .withSlot(0);
+    private final MotionMagicVoltage positionControl =
+            new MotionMagicVoltage(Radians.of(0.0)).withSlot(0);
+    private final MotionMagicVelocityVoltage velocityControl =
+            new MotionMagicVelocityVoltage(RadiansPerSecond.of(0.0)).withSlot(0);
     private final VoltageOut voltageControl = new VoltageOut(Volts.of(0.0));
 
     public RealMotor(MotorConfig config) {

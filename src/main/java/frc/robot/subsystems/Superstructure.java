@@ -1,11 +1,10 @@
 package frc.robot.subsystems;
 
-import org.littletonrobotics.junction.Logger;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.launcher.Launcher;
+import org.littletonrobotics.junction.Logger;
 
 public class Superstructure extends SubsystemBase {
     private final Drive drive;
@@ -24,6 +23,7 @@ public class Superstructure extends SubsystemBase {
 
     private enum SuperstructureState {
         START,
+        IDLE,
         STOPPED,
         DRIVE_AROUND_TEMPORARY,
     }
@@ -37,6 +37,10 @@ public class Superstructure extends SubsystemBase {
                 drive.off();
                 launcher.off();
                 intake.start();
+            }
+
+            case IDLE -> {
+                launcher.flywheelIdle();
             }
 
             case STOPPED -> {
