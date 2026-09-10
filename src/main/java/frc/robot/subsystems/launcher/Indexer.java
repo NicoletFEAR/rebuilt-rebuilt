@@ -45,7 +45,6 @@ class Indexer extends AngularVelocityModule {
 
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private IndexerConstants() {
-        }
+        private IndexerConstants() {}
     }
 }

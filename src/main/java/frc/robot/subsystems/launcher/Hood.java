@@ -60,7 +60,6 @@ class Hood extends CanCoderAngularPositionModule {
     private static final class HoodConstants {
         private static final double ROTOR_TO_MECHANISM_RATIO = 30.0;
 
-        private HoodConstants() {
-        }
+        private HoodConstants() {}
     }
 }
