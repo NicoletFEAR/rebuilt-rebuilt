@@ -112,6 +112,6 @@ public class Drive extends SubsystemBase {
         private static final LinearVelocity MAX_VELOCITY = MetersPerSecond.of(4.8);
         private static final AngularVelocity MAX_ANGULAR_VELOCITY = RadiansPerSecond.of(Math.PI * 3.0);
 
-        private DriveConstants() {}
+        private DriveConstants() {/* Keep this contructor empty */}
     }
 }
