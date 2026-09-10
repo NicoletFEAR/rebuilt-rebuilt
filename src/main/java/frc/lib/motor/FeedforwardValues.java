@@ -1,7 +1,6 @@
 package frc.lib.motor;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
-import java.util.Objects;
 import lombok.Builder;
 
 @Builder
