@@ -6,13 +6,13 @@ import org.littletonrobotics.junction.Logger;
 
 public class Intake extends SubsystemBase {
     private final Arm arm;
-    private final IntakeFlywheels intakeFlywheels;
+    private final Wheels wheels;
 
     private IntakeState state;
 
-    public Intake(MotorIO armMotor, MotorIO flywheelMotor) {
+    public Intake(MotorIO armMotor, MotorIO wheelMotor) {
         arm = new Arm(armMotor);
-        intakeFlywheels = new IntakeFlywheels(flywheelMotor);
+        wheels = new Wheels(wheelMotor);
 
         state = IntakeState.START;
     }
@@ -31,22 +31,22 @@ public class Intake extends SubsystemBase {
         switch (state) {
             case START -> {
                 arm.retract();
-                intakeFlywheels.off();
+                wheels.off();
             }
 
             case DEPLOYING -> {
                 arm.deploy();
-                intakeFlywheels.off();
+                wheels.off();
             }
 
             case INTAKING -> {
                 arm.deploy();
-                intakeFlywheels.intake();
+                wheels.intake();
             }
 
             case RETRACTING -> {
                 arm.retract();
-                intakeFlywheels.jostle();
+                wheels.jostle();
             }
         }
     }
