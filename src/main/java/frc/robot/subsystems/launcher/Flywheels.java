@@ -57,7 +57,8 @@ public class Flywheels extends MultiAngularVelocityModule {
     }
 
     public static final class FlywheelConstants {
-        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.0, 0.0, 0.0);
+        public static final FeedforwardValues FEEDFORWARD_VALUES =
+                new FeedforwardValues(0.1, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
         private static final AngularVelocity FLYWHEEL_IDLE = RadiansPerSecond.of(84);

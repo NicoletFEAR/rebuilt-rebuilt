@@ -10,7 +10,6 @@ import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
 import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
 import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
-
 import org.littletonrobotics.junction.Logger;
 
 public class SwerveModule extends SubsystemBase {

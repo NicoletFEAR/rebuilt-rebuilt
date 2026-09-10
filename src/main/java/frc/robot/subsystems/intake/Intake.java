@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.robot.subsystems.intake.Arm.ArmState;
 import frc.robot.subsystems.intake.Wheels.WheelState;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Intake extends SubsystemBase {

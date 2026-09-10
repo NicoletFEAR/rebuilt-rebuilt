@@ -7,7 +7,6 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.Launcher.LauncherState;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Superstructure extends SubsystemBase {

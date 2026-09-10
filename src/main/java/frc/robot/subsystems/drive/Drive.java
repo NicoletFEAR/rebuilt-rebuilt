@@ -44,13 +44,14 @@ public class Drive extends SubsystemBase {
 
         Distance halfTrackWidthX = DriveConstants.TRACK_WIDTH_X.div(2.0);
         Distance halfTrackWidthY = DriveConstants.TRACK_WIDTH_Y.div(2.0);
-        kinematics = new SwerveDriveKinematics(
-                new Translation2d[] {
-                        new Translation2d(halfTrackWidthX, halfTrackWidthY),
-                        new Translation2d(halfTrackWidthX, halfTrackWidthY.unaryMinus()),
-                        new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY),
-                        new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY.unaryMinus()),
-                });
+        kinematics =
+                new SwerveDriveKinematics(
+                        new Translation2d[] {
+                            new Translation2d(halfTrackWidthX, halfTrackWidthY),
+                            new Translation2d(halfTrackWidthX, halfTrackWidthY.unaryMinus()),
+                            new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY),
+                            new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY.unaryMinus()),
+                        });
 
         state = DriveState.OFF;
     }
@@ -84,18 +85,22 @@ public class Drive extends SubsystemBase {
     }
 
     public void applySpeedsFromControls(double x, double y, double omega) {
-        double linearMagnitude = MathUtil.applyDeadband(Math.hypot(x, y), OperatorConstants.DRIVE_DEADBAND);
-        Translation2d linearVelocity = new Pose2d(Translation2d.kZero, new Rotation2d(x, y))
-                .transformBy(new Transform2d(linearMagnitude, 0.0, Rotation2d.kZero))
-                .getTranslation()
-                .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
-        omega = MathUtil.applyDeadband(omega, OperatorConstants.DRIVE_DEADBAND)
-                * DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
+        double linearMagnitude =
+                MathUtil.applyDeadband(Math.hypot(x, y), OperatorConstants.DRIVE_DEADBAND);
+        Translation2d linearVelocity =
+                new Pose2d(Translation2d.kZero, new Rotation2d(x, y))
+                        .transformBy(new Transform2d(linearMagnitude, 0.0, Rotation2d.kZero))
+                        .getTranslation()
+                        .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
+        omega =
+                MathUtil.applyDeadband(omega, OperatorConstants.DRIVE_DEADBAND)
+                        * DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
         applySpeeds(new ChassisSpeeds(linearVelocity.getX(), linearVelocity.getY(), omega));
     }
 
     private void applySpeeds(ChassisSpeeds speeds) {
-        ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, Constants.LOOP_PERIOD.asPeriod().in(Seconds));
+        ChassisSpeeds discreteSpeeds =
+                ChassisSpeeds.discretize(speeds, Constants.LOOP_PERIOD.asPeriod().in(Seconds));
         SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_VELOCITY);
         applyStates(setpointStates);
@@ -116,10 +121,10 @@ public class Drive extends SubsystemBase {
         public static final Angle BACK_LEFT_OFFSET = Rotations.of(-0.721923828125);
         public static final Angle BACK_RIGHT_OFFSET = Rotations.of(-0.37841796875);
 
-        public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES = new FeedforwardValues(2.7141, 0.0, 0.0,
-                0.067703, 2.4746, 0.36888);
-        public static final FeedforwardValues TURN_FEEDFORWARD_VALUES = new FeedforwardValues(0.02, 0.0, 0.01, 0.0, 0.0,
-                0.0);
+        public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES =
+                new FeedforwardValues(2.7141, 0.0, 0.0, 0.067703, 2.4746, 0.36888);
+        public static final FeedforwardValues TURN_FEEDFORWARD_VALUES =
+                new FeedforwardValues(0.02, 0.0, 0.01, 0.0, 0.0, 0.0);
 
         private static final Distance TRACK_WIDTH_X = Inches.of(20.753888);
         private static final Distance TRACK_WIDTH_Y = Inches.of(20.753888);

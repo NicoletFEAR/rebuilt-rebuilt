@@ -8,7 +8,6 @@ import frc.lib.motor.MotorIO;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
 import frc.robot.subsystems.launcher.Hood.HoodState;
 import frc.robot.subsystems.launcher.Indexer.IndexerState;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Launcher extends SubsystemBase {
@@ -24,7 +23,7 @@ public class Launcher extends SubsystemBase {
             MotorIO indexMotor,
             MotorIO hoodMotor,
             CanCoderIO hoodCanCoder) {
-        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] { rightFlywheelMotor });
+        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
         indexer = new Indexer(indexMotor);
         hood = new Hood(hoodMotor, hoodCanCoder);
 
@@ -35,7 +34,6 @@ public class Launcher extends SubsystemBase {
         OFF,
         IDLE,
         SPIN_UP,
-        READY_TO_LAUNCH,
         LAUNCH,
         EXTAKE,
     }
