@@ -13,7 +13,7 @@ public class Wheels extends AngularVelocityModule {
     private WheelState state;
 
     Wheels(MotorIO motor) {
-        super("Intake/Flywheels", motor, WheelConstants.ROTOR_TO_MECHANISM_RATIO);
+        super("Intake/Wheels", motor, WheelConstants.ROTOR_TO_MECHANISM_RATIO);
         state = WheelState.OFF;
     }
 
@@ -55,7 +55,6 @@ public class Wheels extends AngularVelocityModule {
         private static final AngularVelocity JOSTLE_VELOCITY = RadiansPerSecond.of(Math.PI * 15.0);
         private static final AngularVelocity INTAKE_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private WheelConstants() {
-        }
+        private WheelConstants() {/* Keep this constructor empty */}
     }
 }
