@@ -48,6 +48,6 @@ public class Indexer extends AngularVelocityModule {
         private static final double ROTOR_TO_MECHANISM_RATIO = 1.0;
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
 
-        private IndexerConstants() {}
+        private IndexerConstants() {/* Keep this constructor empty */}
     }
 }

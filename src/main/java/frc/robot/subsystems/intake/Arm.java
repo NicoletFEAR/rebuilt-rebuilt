@@ -48,6 +48,6 @@ public class Arm extends LinearPositionModule {
 
         private static final Distance DEPLOY_DISTANCE = Meters.of(0.2);
 
-        private ArmConstants() {}
+        private ArmConstants() {/* Keep this constructor empty */}
     }
 }
