@@ -35,6 +35,7 @@ public class Launcher extends SubsystemBase {
         OFF,
         IDLE,
         SPIN_UP,
+        READY_TO_LAUNCH,
         LAUNCH,
         EXTAKE,
     }
@@ -58,8 +59,11 @@ public class Launcher extends SubsystemBase {
                 flywheels.setState(FlywheelState.LAUNCH);
                 indexer.setState(IndexerState.OFF);
                 hood.setState(HoodState.HOLD_POSITION);
-            }
 
+                if (isReadyToLaunch()) {
+                    state = LauncherState.LAUNCH;
+                }
+            }
             case LAUNCH -> {
                 flywheels.setState(FlywheelState.LAUNCH);
                 indexer.setState(IndexerState.INDEX);

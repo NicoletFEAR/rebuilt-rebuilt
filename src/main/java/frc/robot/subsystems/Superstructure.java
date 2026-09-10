@@ -73,21 +73,13 @@ public class Superstructure extends SubsystemBase {
             case LAUNCH -> {
                 drive.setState(DriveState.DRIVE);
                 intake.setState(IntakeState.DEPLOY);
-                if (launcher.isReadyToLaunch()) {
-                    launcher.setState(LauncherState.LAUNCH);
-                } else {
-                    launcher.setState(LauncherState.SPIN_UP);
-                }
+                launcher.setState(LauncherState.SPIN_UP);
             }
 
             case LAUNCH_AND_INTAKE -> {
                 drive.setState(DriveState.DRIVE);
                 intake.setState(IntakeState.INTAKE);
-                if (launcher.isReadyToLaunch()) {
-                    launcher.setState(LauncherState.LAUNCH);
-                } else {
-                    launcher.setState(LauncherState.SPIN_UP);
-                }
+                launcher.setState(LauncherState.SPIN_UP);
             }
 
             case EXTAKE -> {
