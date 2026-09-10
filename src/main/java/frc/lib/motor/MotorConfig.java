@@ -1,7 +1,9 @@
 package frc.lib.motor;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -35,9 +37,26 @@ public record MotorConfig(
         this(id, NeutralModeValue.Coast, feedforwardValues, type, momentOfInertia, Optional.empty());
     }
 
+    public MotorConfig(
+            CanId id,
+            FeedforwardValues feedforwardValues,
+            KrakenType type,
+            MotorAlignmentValue alignment) {
+        this(
+                id,
+                NeutralModeValue.Coast,
+                feedforwardValues,
+                type,
+                KilogramSquareMeters.of(0.016),
+                Optional.of(alignment));
+    }
+
     public TalonFXConfiguration getTalonFXConfiguration() {
         return new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(neutralMode))
-                .withSlot0(feedforwardValues.getSlot0Configs());
+                .withSlot0(feedforwardValues.getSlot0Configs())
+                .withMotionMagic(
+                        new MotionMagicConfigs()
+                                .withMotionMagicAcceleration(RadiansPerSecondPerSecond.of(Math.PI * 200.0)));
     }
 }

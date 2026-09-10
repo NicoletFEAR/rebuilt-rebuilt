@@ -1,8 +1,11 @@
 package frc.lib.module.velocity;
 
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.LinearVelocity;
 import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
@@ -15,6 +18,10 @@ public class LinearVelocityModule extends Module {
     protected void setVelocitySetpoint(LinearVelocity velocity) {
         io.setVelocitySetpoint(
                 RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
+    }
+
+    public Distance getPosition() {
+        return Meters.of(inputs.position.in(Radians) / rotorToMechanismRatio);
     }
 
     public LinearVelocity getVelocity() {

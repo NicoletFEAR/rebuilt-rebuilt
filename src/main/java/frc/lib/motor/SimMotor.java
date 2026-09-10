@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class SimMotor extends RealMotor {
     private final DCMotorSim simMotor;
+    private final TalonFXSimState motorSim;
     private double lastUpdateTimestamp = 0.0;
 
     public SimMotor(MotorConfig config) {
@@ -23,11 +24,11 @@ public class SimMotor extends RealMotor {
                         LinearSystemId.createDCMotorSystem(
                                 dcMotor, config.momentOfInertia().in(KilogramSquareMeters), 1.0),
                         dcMotor);
+        motorSim = motor.getSimState();
     }
 
     @Override
     public void updateInputs(MotorIOInputs inputs) {
-        TalonFXSimState motorSim = motor.getSimState();
         motorSim.setSupplyVoltage(RobotController.getBatteryVoltage());
         simMotor.setInputVoltage(motorSim.getMotorVoltageMeasure().in(Volts));
 

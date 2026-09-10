@@ -14,7 +14,7 @@ class TurnMotor extends CanCoderAngularPositionModule {
     private Angle desiredPosition;
 
     TurnMotor(MotorIO motor, CanCoderIO canCoder, TurnMotorConfig config) {
-        super("Drive/" + config.name() + " Turn", motor, canCoder, config.rotorToMechanismRatio());
+        super("Drive/" + config.name() + "Turn", motor, canCoder, config.rotorToMechanismRatio());
         state = TurnMotorState.OFF;
         desiredPosition = Radians.of(0.0);
     }
