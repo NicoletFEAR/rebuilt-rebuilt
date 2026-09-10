@@ -21,6 +21,7 @@ public class Wheels extends AngularVelocityModule {
         OFF,
         JOSTLING,
         INTAKING,
+        EXTAKING,
     }
 
     @Override
@@ -32,6 +33,7 @@ public class Wheels extends AngularVelocityModule {
             case OFF -> super.setVoltage(Volts.of(0.0));
             case JOSTLING -> super.setVelocitySetpoint(WheelConstants.JOSTLE_VELOCITY);
             case INTAKING -> super.setVelocitySetpoint(WheelConstants.INTAKE_VELOCITY);
+            case EXTAKING -> super.setVelocitySetpoint(WheelConstants.EXTAKE_VELOCITY);
         }
     }
 
@@ -47,14 +49,18 @@ public class Wheels extends AngularVelocityModule {
         state = WheelState.INTAKING;
     }
 
+    void extake() {
+        state = WheelState.EXTAKING;
+    }
+
     public static final class WheelConstants {
-        public static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        public static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.6;
 
         private static final AngularVelocity JOSTLE_VELOCITY = RadiansPerSecond.of(Math.PI * 15.0);
         private static final AngularVelocity INTAKE_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);
+        private static final AngularVelocity EXTAKE_VELOCITY = RadiansPerSecond.of(Math.PI * -100.0);
 
         private WheelConstants() {
             /* Keep this constructor empty */

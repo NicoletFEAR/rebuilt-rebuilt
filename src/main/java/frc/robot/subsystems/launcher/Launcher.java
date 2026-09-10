@@ -20,7 +20,7 @@ public class Launcher extends SubsystemBase {
             MotorIO indexMotor,
             MotorIO hoodMotor,
             CanCoderIO hoodCanCoder) {
-        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
+        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] { rightFlywheelMotor });
         indexer = new Indexer(indexMotor);
         hood = new Hood(hoodMotor, hoodCanCoder);
 
@@ -32,6 +32,7 @@ public class Launcher extends SubsystemBase {
         FLYWHEEL_IDLE,
         SPINNING_UP,
         LAUNCHING,
+        EXTAKING,
     }
 
     @Override
@@ -60,6 +61,12 @@ public class Launcher extends SubsystemBase {
                 indexer.index();
                 hood.holdPosition();
             }
+
+            case EXTAKING -> {
+                flywheels.idle();
+                indexer.extake();
+                hood.off();
+            }
         }
     }
 
@@ -77,6 +84,10 @@ public class Launcher extends SubsystemBase {
 
     public void launch() {
         state = LauncherState.LAUNCHING;
+    }
+
+    public void extake() {
+        state = LauncherState.EXTAKING;
     }
 
     public void setLaunchParameters(AngularVelocity flywheelVelocity, Angle hoodAngle) {
