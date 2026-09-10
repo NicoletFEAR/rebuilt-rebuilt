@@ -2,7 +2,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.cancoder.CanCoderConfig;
 import frc.lib.cancoder.RealCanCoder;
@@ -22,14 +22,25 @@ import frc.robot.subsystems.launcher.Flywheels.FlywheelConstants;
 import frc.robot.subsystems.launcher.Hood.HoodConstants;
 import frc.robot.subsystems.launcher.Indexer.IndexerConstants;
 import frc.robot.subsystems.launcher.Launcher;
+import org.littletonrobotics.junction.Logger;
 
 public class RobotContainer extends SubsystemBase {
+    private final RobotStateAutoLogged robotState;
     private final Superstructure superstructure;
-    private final XboxController driverController;
+    private final PS5Controller driverController;
 
     public RobotContainer() {
-        driverController = new XboxController(0);
+        robotState = new RobotStateAutoLogged();
+        driverController = new PS5Controller(0);
         superstructure = new Superstructure(buildDrive(), buildLauncher(), buildIntake());
+    }
+
+    @Override
+    public void periodic() {
+        Logger.processInputs("RobotState", robotState);
+        superstructure.driveAround();
+        superstructure.applyDriveSpeedsFromControls(
+                driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX());
     }
 
     private Drive buildDrive() {
