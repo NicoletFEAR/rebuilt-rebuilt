@@ -8,7 +8,19 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.units.measure.Angle;
 import frc.lib.CanId;
 
+/**
+ * Used to automatically configure a CTRE CANcoder
+ * 
+ * @param id     The ID of the CANcoder in Phoenix Tuner
+ * @param offset The zero offset of the CANcoder
+ */
 public record CanCoderConfig(CanId id, Angle offset) {
+
+    /**
+     * Configures and returns a fully configured CANcoder
+     * 
+     * @return The configuration of the CANcoder
+     */
     public CANcoderConfiguration getCanCoderConfiguration() {
         return new CANcoderConfiguration()
                 .withMagnetSensor(

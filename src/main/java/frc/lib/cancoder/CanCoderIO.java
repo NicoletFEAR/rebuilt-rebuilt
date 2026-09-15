@@ -7,6 +7,9 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import org.littletonrobotics.junction.AutoLog;
 
+/**
+ * Used to create a Real and Simulation CANcoder
+ */
 public interface CanCoderIO {
     @AutoLog
     public static class CanCoderIOInputs {
