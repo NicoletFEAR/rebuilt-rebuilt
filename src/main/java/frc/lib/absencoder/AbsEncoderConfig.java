@@ -1,4 +1,4 @@
-package frc.lib.cancoder;
+package frc.lib.absencoder;
 
 import static edu.wpi.first.units.Units.Radians;
 
@@ -9,15 +9,15 @@ import edu.wpi.first.units.measure.Angle;
 import frc.lib.CanId;
 
 /**
- * Used to automatically configure a CTRE CANcoder
+ * Used to represent a vendor-agnostic absolute encoder configuration
  *
- * @param id The ID of the CANcoder in Phoenix Tuner
- * @param offset The zero offset of the CANcoder
+ * @param id The CAN ID of the absolute encoder
+ * @param offset The zero offset of the absolute encoder
  */
-public record CanCoderConfig(CanId id, Angle offset) {
+public record AbsEncoderConfig(CanId id, Angle offset) {
 
     /**
-     * Configures and returns a fully configured CANcoder
+     * Gets the CTRE CANcoderConfiguration according to this object's fields
      *
      * @return The configuration of the CANcoder
      */

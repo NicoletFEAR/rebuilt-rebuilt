@@ -3,7 +3,7 @@ package frc.robot.subsystems.launcher;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.cancoder.CanCoderIO;
+import frc.lib.absencoder.AbsEncoderIO;
 import frc.lib.motor.MotorIO;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
 import frc.robot.subsystems.launcher.Hood.HoodState;
@@ -22,7 +22,7 @@ public class Launcher extends SubsystemBase {
             MotorIO rightFlywheelMotor,
             MotorIO indexMotor,
             MotorIO hoodMotor,
-            CanCoderIO hoodCanCoder) {
+            AbsEncoderIO hoodCanCoder) {
         flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
         indexer = new Indexer(indexMotor);
         hood = new Hood(hoodMotor, hoodCanCoder);

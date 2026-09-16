@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.cancoder.CanCoderIO;
+import frc.lib.absencoder.AbsEncoderIO;
 import frc.lib.motor.MotorIO;
 import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
 import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
@@ -21,7 +21,7 @@ public class SwerveModule extends SubsystemBase {
     private SwerveModuleState state;
 
     public SwerveModule(
-            MotorIO driveMotor, MotorIO turnMotor, CanCoderIO turnCanCoder, SwerveModuleConfig config) {
+            MotorIO driveMotor, MotorIO turnMotor, AbsEncoderIO turnCanCoder, SwerveModuleConfig config) {
         name = config.name();
         drive = new DriveMotor(driveMotor, config.getDriveMotorConfig());
         turn = new TurnMotor(turnMotor, turnCanCoder, config.getTurnMotorConfig());

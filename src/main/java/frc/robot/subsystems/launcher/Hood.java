@@ -6,18 +6,18 @@ import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
-import frc.lib.cancoder.CanCoderIO;
+import frc.lib.absencoder.AbsEncoderIO;
 import frc.lib.constants.Constants;
-import frc.lib.module.position.CanCoderAngularPositionModule;
+import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
 
-public class Hood extends CanCoderAngularPositionModule {
+public class Hood extends AbsEncoderAngularPositionModule {
     private HoodState state;
     private Angle desiredPosition;
 
-    Hood(MotorIO motor, CanCoderIO canCoder) {
+    Hood(MotorIO motor, AbsEncoderIO canCoder) {
         super("Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
         state = HoodState.OFF;
         desiredPosition = Radians.of(0.0);

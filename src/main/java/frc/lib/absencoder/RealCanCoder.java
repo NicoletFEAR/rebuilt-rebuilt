@@ -1,4 +1,4 @@
-package frc.lib.cancoder;
+package frc.lib.absencoder;
 
 import static edu.wpi.first.units.Units.Hertz;
 import static edu.wpi.first.units.Units.Radians;
@@ -9,8 +9,8 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 
-/** Implements {@link CanCoderIO} in order to create the real/physical CANcoder */
-public class RealCanCoder implements CanCoderIO {
+/** Implements {@link AbsEncoderIO} in order to create the real/physical CANcoder */
+public class RealCanCoder implements AbsEncoderIO {
     private final CANcoder canCoder;
 
     /** Stores the Position and Velocity Signals given from the CANcoder */
@@ -27,7 +27,7 @@ public class RealCanCoder implements CanCoderIO {
      *
      * @param config Is the configuration for the CANcoder
      */
-    public RealCanCoder(CanCoderConfig config) {
+    public RealCanCoder(AbsEncoderConfig config) {
         canCoder = new CANcoder(config.id().id(), config.id().bus());
         canCoder.getConfigurator().apply(config.getCanCoderConfiguration());
 
@@ -41,7 +41,7 @@ public class RealCanCoder implements CanCoderIO {
 
     /** Provides the implementation for updating the inputs/data of the CANcoder */
     @Override
-    public void updateInputs(CanCoderIOInputs inputs) {
+    public void updateInputs(AbsEncoderIOInputs inputs) {
         signals.refreshAll();
         inputs.connected = signals.isAllGood();
         inputs.position = positionSignal.getValue();

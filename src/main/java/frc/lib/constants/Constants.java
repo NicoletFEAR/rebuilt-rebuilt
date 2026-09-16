@@ -20,7 +20,9 @@ public final class Constants {
     public static final Frequency LOOP_PERIOD = Hertz.of(0.02);
 
     /**
-     * Sets the tolerance of a velocity mechanism to be within 0.05 radians per second of the setpoint
+     * Sets the tolerance of a velocity mechanism to be within 0.05*setpoint of the setpoint.
+     * This works because as speed grows higher, precision becomes less important, and
+     * demanding too much precision at high speeds can even be detrimental.
      */
     public static final double VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER = 0.05;
 
