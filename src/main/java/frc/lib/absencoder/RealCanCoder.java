@@ -9,7 +9,9 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 
-/** Implements {@link AbsEncoderIO} in order to create the real/physical CANcoder */
+/**
+ * Implements {@link AbsEncoderIO} in order to create the real/physical CANcoder
+ */
 public class RealCanCoder implements AbsEncoderIO {
     private final CANcoder canCoder;
 

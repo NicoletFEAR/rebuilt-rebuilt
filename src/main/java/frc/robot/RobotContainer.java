@@ -133,7 +133,8 @@ public class RobotContainer extends SubsystemBase {
                                         KrakenType.X44,
                                         KilogramSquareMeters.of(0.01))),
                         new RealCanCoder(
-                                new AbsEncoderConfig(DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
+                                new AbsEncoderConfig(
+                                        DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
                         new SwerveModuleConfig(
                                 "BackLeft",
                                 DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,

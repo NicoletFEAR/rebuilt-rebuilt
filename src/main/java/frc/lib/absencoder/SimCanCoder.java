@@ -14,9 +14,10 @@ public class SimCanCoder extends RealCanCoder {
     }
 
     /**
-     * Sets the connected value as false, causing the subsystem to default to using the motor's position
-     * rather than the position provided by the absolute encoder. This is fine because in simulation,
-     * we only care about the relative position, and assume the absolute position is correct.
+     * Sets the connected value as false, causing the subsystem to default to using the motor's
+     * position rather than the position provided by the absolute encoder. This is fine because in
+     * simulation, we only care about the relative position, and assume the absolute position is
+     * correct.
      */
     @Override
     public void updateInputs(AbsEncoderIOInputs inputs) {
