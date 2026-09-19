@@ -1,4 +1,4 @@
-package frc.lib.absencoder;
+package frc.lib.sensor.absencoder;
 
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -10,16 +10,13 @@ import org.littletonrobotics.junction.AutoLog;
 /**
  * An interface for communicating with an Absolute Encoder
  *
- * <p>
- * Can be used to create a real and/or a simulated Absolute Encoder
+ * <p>Can be used to create a real and/or a simulated Absolute Encoder
  */
 public interface AbsEncoderIO {
     /**
      * Stores the inputs and sensor readings of the Absolute Encoder
      *
-     * <p>
-     * Automatically logs the values to AdvantageScope through the {@link AutoLog}
-     * annotation.
+     * <p>Automatically logs the values to AdvantageScope through the {@link AutoLog} annotation.
      */
     @AutoLog
     public static class AbsEncoderIOInputs {
@@ -34,13 +31,11 @@ public interface AbsEncoderIO {
         public AngularVelocity velocity = RadiansPerSecond.of(0.0);
 
         /**
-         * Converts the raw position value of the Absolute Encoder into the mechanism
-         * unit using the
+         * Converts the raw position value of the Absolute Encoder into the mechanism unit using the
          * rotorToMechanismRatio
          *
          * @param rotorToMechanismRatio Is the gear ratio of the mechanism
-         * @return Returns the converted values of the mechanism in easily
-         *         understandable units
+         * @return Returns the converted values of the mechanism in easily understandable units
          */
         public AbsEncoderIOInputsAutoLogged applyRotorToMechanismRatio(double rotorToMechanismRatio) {
             AbsEncoderIOInputsAutoLogged result = new AbsEncoderIOInputsAutoLogged();

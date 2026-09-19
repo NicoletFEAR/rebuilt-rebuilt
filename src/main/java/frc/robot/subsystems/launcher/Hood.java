@@ -6,11 +6,11 @@ import static edu.wpi.first.units.Units.Volts;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.units.measure.Angle;
-import frc.lib.absencoder.AbsEncoderIO;
 import frc.lib.constants.Constants;
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
+import frc.lib.sensor.absencoder.AbsEncoderIO;
 import org.littletonrobotics.junction.Logger;
 
 public class Hood extends AbsEncoderAngularPositionModule {

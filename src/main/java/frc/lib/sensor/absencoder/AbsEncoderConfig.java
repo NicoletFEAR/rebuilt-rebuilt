@@ -1,4 +1,4 @@
-package frc.lib.absencoder;
+package frc.lib.sensor.absencoder;
 
 import static edu.wpi.first.units.Units.Radians;
 
