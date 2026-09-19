@@ -22,18 +22,13 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.lib.CanId;
 
 /**
- * Real hardware implementation of {@link MotorIO} for a CTRE TalonFX motor
- * controller.
- * 
- * <p>
- * This class provides an interface between the library's motor abstraction
- * and a physical TalonFX. It handles retrieving motor status information,
- * configuring follower motors, and controlling the motor using position,
- * velocity, and voltage control modes.
- * 
- * <p>
- * Motor status signals are updated at 100 Hz and are optimized for reduced
- * CAN bus utilization.
+ * Real hardware implementation of {@link MotorIO} for a CTRE TalonFX motor controller.
+ *
+ * <p>This class provides an interface between the library's motor abstraction and a physical
+ * TalonFX. It handles retrieving motor status information, configuring follower motors, and
+ * controlling the motor using position, velocity, and voltage control modes.
+ *
+ * <p>Motor status signals are updated at 100 Hz and are optimized for reduced CAN bus utilization.
  */
 public class RealMotor extends MotorIO {
 
@@ -68,25 +63,24 @@ public class RealMotor extends MotorIO {
     private final Follower followerControl = new Follower(0, MotorAlignmentValue.Aligned);
 
     /** CTRE Motion Magic position control request. */
-    private final MotionMagicVoltage positionControl = new MotionMagicVoltage(Radians.of(0.0)).withSlot(0);
+    private final MotionMagicVoltage positionControl =
+            new MotionMagicVoltage(Radians.of(0.0)).withSlot(0);
 
     /** CTRE Motion Magic velocity control request. */
-    private final MotionMagicVelocityVoltage velocityControl = new MotionMagicVelocityVoltage(RadiansPerSecond.of(0.0))
-            .withSlot(0);
+    private final MotionMagicVelocityVoltage velocityControl =
+            new MotionMagicVelocityVoltage(RadiansPerSecond.of(0.0)).withSlot(0);
 
     /** CTRE voltage control request. */
     private final VoltageOut voltageControl = new VoltageOut(Volts.of(0.0));
 
     /**
      * Creates a real motor using the provided configuration.
-     * 
-     * <p>
-     * The TalonFX is initialized using the CAN ID, CAN bus, neutral mode, and
-     * Slot 0 configuration specified by the {@link MotorConfig}.
-     * 
-     * <p>
-     * The motor's status signals are configured to update at 100 Hz.
-     * 
+     *
+     * <p>The TalonFX is initialized using the CAN ID, CAN bus, neutral mode, and Slot 0 configuration
+     * specified by the {@link MotorConfig}.
+     *
+     * <p>The motor's status signals are configured to update at 100 Hz.
+     *
      * @param config configuration for the motor
      */
     public RealMotor(MotorConfig config) {
@@ -115,11 +109,10 @@ public class RealMotor extends MotorIO {
 
     /**
      * Updates the provided inputs with the motor's current status.
-     * 
-     * <p>
-     * The motor's status signals are refreshed and their values are copied into
-     * the provided {@link MotorIOInputs} object.
-     * 
+     *
+     * <p>The motor's status signals are refreshed and their values are copied into the provided
+     * {@link MotorIOInputs} object.
+     *
      * @param inputs object to populate with the motor's current inputs
      */
     @Override
@@ -136,8 +129,8 @@ public class RealMotor extends MotorIO {
 
     /**
      * Configures this motor to follow another TalonFX.
-     * 
-     * @param leader    CAN ID of the motor to follow
+     *
+     * @param leader CAN ID of the motor to follow
      * @param alignment alignment of this motor relative to the leader
      */
     @Override
@@ -147,11 +140,10 @@ public class RealMotor extends MotorIO {
 
     /**
      * Sets the neutral mode of the motor.
-     * 
-     * <p>
-     * The neutral mode is only sent to the motor controller when it differs from
-     * the currently configured mode.
-     * 
+     *
+     * <p>The neutral mode is only sent to the motor controller when it differs from the currently
+     * configured mode.
+     *
      * @param mode neutral mode to apply to the motor
      */
     @Override
@@ -164,7 +156,7 @@ public class RealMotor extends MotorIO {
 
     /**
      * Sets the desired rotor position using CTRE Motion Magic position control.
-     * 
+     *
      * @param position desired rotor position
      */
     @Override
@@ -173,9 +165,8 @@ public class RealMotor extends MotorIO {
     }
 
     /**
-     * Sets the desired rotor angular velocity using CTRE Motion Magic velocity
-     * control.
-     * 
+     * Sets the desired rotor angular velocity using CTRE Motion Magic velocity control.
+     *
      * @param velocity desired rotor angular velocity
      */
     @Override
@@ -185,7 +176,7 @@ public class RealMotor extends MotorIO {
 
     /**
      * Sets the voltage output of the motor.
-     * 
+     *
      * @param voltage voltage to apply to the motor
      */
     @Override

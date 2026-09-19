@@ -31,7 +31,6 @@ import frc.lib.motor.FeedforwardValues;
 import frc.robot.RobotState;
 import frc.robot.constants.OperatorConstants;
 import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
@@ -128,7 +127,8 @@ public class Drive extends SubsystemBase {
     private void applySpeeds(ChassisSpeeds speeds) {
         ChassisSpeeds discreteSpeeds =
                 ChassisSpeeds.discretize(speeds, Constants.LOOP_PERIOD.asPeriod().in(Seconds));
-        edu.wpi.first.math.kinematics.SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
+        edu.wpi.first.math.kinematics.SwerveModuleState[] setpointStates =
+                kinematics.toSwerveModuleStates(discreteSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_VELOCITY);
         applyStates(setpointStates);
     }
