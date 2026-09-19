@@ -48,7 +48,15 @@ public class RobotContainer extends SubsystemBase {
         superstructure.setState(SuperState.OPERATE);
 
         if (driverController.getL2Button()) {
-            superstructure.setState(SuperState.INTAKE);
+            if (driverController.getR2Button()) {
+                superstructure.setState(SuperState.LAUNCH_AND_INTAKE);
+            } else {
+                superstructure.setState(SuperState.INTAKE);
+            }
+        } else if (driverController.getR2Button()) {
+            superstructure.setState(SuperState.LAUNCH);
+        } else if (driverController.getR1Button()) {
+            superstructure.setState(SuperState.EXTAKE);
         }
     }
 

@@ -5,3 +5,6 @@
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
 * Add gyroscope
 * Edit subsystems so that they use setDynamicPosition instead of setPositionSetpoint when appropriate
+* Make sure every subsystem state does something with every part of the subsystem
+* Request system
+* LedIO
