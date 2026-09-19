@@ -5,15 +5,16 @@ import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.cancoder.CanCoderConfig;
-import frc.lib.cancoder.RealCanCoder;
-import frc.lib.cancoder.SimCanCoder;
+import frc.lib.sensor.absencoder.AbsEncoderConfig;
+import frc.lib.sensor.absencoder.RealCanCoder;
+import frc.lib.sensor.absencoder.SimCanCoder;
 import frc.lib.motor.KrakenType;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.RealMotor;
 import frc.lib.motor.SimMotor;
 import frc.robot.constants.DeviceIds;
 import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.Superstructure.SuperState;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveConstants;
 import frc.robot.subsystems.drive.SwerveModule;
@@ -44,10 +45,10 @@ public class RobotContainer extends SubsystemBase {
         superstructure.applyDriveSpeedsFromControls(
                 -driverController.getLeftX(), -driverController.getLeftY(), driverController.getRightX());
 
-        superstructure.operate();
+        superstructure.setState(SuperState.OPERATE);
 
         if (driverController.getL2Button()) {
-            superstructure.intake();
+            superstructure.setState(SuperState.INTAKE);
         }
     }
 
@@ -69,7 +70,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new RealCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
                             new SwerveModuleConfig(
                                     "FrontLeft",
@@ -89,7 +90,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new RealCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
                                     "FrontRight",
@@ -109,7 +110,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new RealCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
                             new SwerveModuleConfig(
                                     "BackLeft",
@@ -129,7 +130,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new RealCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
                                     "BackRight",
@@ -152,7 +153,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new SimCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
                             new SwerveModuleConfig(
                                     "FrontLeft",
@@ -172,7 +173,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new SimCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
                                     "FrontRight",
@@ -192,7 +193,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new SimCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
                             new SwerveModuleConfig(
                                     "BackLeft",
@@ -212,7 +213,7 @@ public class RobotContainer extends SubsystemBase {
                                             KrakenType.X44,
                                             KilogramSquareMeters.of(0.01))),
                             new SimCanCoder(
-                                    new CanCoderConfig(
+                                    new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
                                     "BackRight",
@@ -237,7 +238,7 @@ public class RobotContainer extends SubsystemBase {
                                 DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
                 new RealMotor(
                         new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
-                new RealCanCoder(new CanCoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
+                new RealCanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
     private Intake buildIntake() {

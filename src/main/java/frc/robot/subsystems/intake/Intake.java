@@ -2,6 +2,8 @@ package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
+import frc.robot.subsystems.intake.Arm.ArmState;
+import frc.robot.subsystems.intake.Wheels.WheelState;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake extends SubsystemBase {
@@ -17,11 +19,13 @@ public class Intake extends SubsystemBase {
         state = IntakeState.START;
     }
 
-    private enum IntakeState {
+    public enum IntakeState {
         START,
-        DEPLOYING,
-        INTAKING,
-        RETRACTING,
+        DEPLOY,
+        INTAKE,
+        RETRACT,
+        JOSTLE,
+        EXTAKE
     }
 
     @Override
@@ -30,40 +34,38 @@ public class Intake extends SubsystemBase {
 
         switch (state) {
             case START -> {
-                arm.retract();
-                wheels.off();
+                arm.setState(ArmState.RETRACT);
+                wheels.setState(WheelState.OFF);
             }
 
-            case DEPLOYING -> {
-                arm.deploy();
-                wheels.off();
+            case DEPLOY -> {
+                arm.setState(ArmState.DEPLOY);
+                wheels.setState(WheelState.OFF);
             }
 
-            case INTAKING -> {
-                arm.deploy();
-                wheels.intake();
+            case INTAKE -> {
+                arm.setState(ArmState.DEPLOY);
+                wheels.setState(WheelState.INTAKE);
             }
 
-            case RETRACTING -> {
-                arm.retract();
-                wheels.jostle();
+            case RETRACT -> {
+                arm.setState(ArmState.DEPLOY);
+                wheels.setState(WheelState.INTAKE);
+            }
+
+            case JOSTLE -> {
+                arm.setState(ArmState.DEPLOY);
+                wheels.setState(WheelState.JOSTLE);
+            }
+
+            case EXTAKE -> {
+                arm.setState(ArmState.DEPLOY);
+                wheels.setState(WheelState.EXTAKE);
             }
         }
     }
 
-    public void start() {
-        state = IntakeState.START;
-    }
-
-    public void deploy() {
-        state = IntakeState.DEPLOYING;
-    }
-
-    public void intake() {
-        state = IntakeState.INTAKING;
-    }
-
-    public void retract() {
-        state = IntakeState.RETRACTING;
+    public void setState(IntakeState state) {
+        this.state = state;
     }
 }

@@ -2,8 +2,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.Drive.DriveState;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.launcher.Launcher;
+import frc.robot.subsystems.launcher.Launcher.LauncherState;
 import org.littletonrobotics.junction.Logger;
 
 public class Superstructure extends SubsystemBase {
@@ -11,21 +14,24 @@ public class Superstructure extends SubsystemBase {
     private final Launcher launcher;
     private final Intake intake;
 
-    private SuperstructureState state;
+    private SuperState state;
 
     public Superstructure(Drive drive, Launcher launcher, Intake intake) {
         this.drive = drive;
         this.launcher = launcher;
         this.intake = intake;
 
-        state = SuperstructureState.START;
+        state = SuperState.START;
     }
 
-    private enum SuperstructureState {
+    public enum SuperState {
         START,
         STOPPED,
-        OPERATING,
-        INTAKING,
+        OPERATE,
+        INTAKE,
+        LAUNCH,
+        LAUNCH_AND_INTAKE,
+        EXTAKE,
     }
 
     @Override
@@ -34,41 +40,51 @@ public class Superstructure extends SubsystemBase {
 
         switch (state) {
             case START -> {
-                drive.off();
-                launcher.off();
-                intake.start();
+                drive.setState(DriveState.DRIVE);
+                launcher.setState(LauncherState.OFF);
+                intake.setState(IntakeState.DEPLOY);
             }
 
             case STOPPED -> {
-                drive.off();
-                launcher.off();
-                intake.deploy();
+                drive.setState(DriveState.DRIVE);
+                launcher.setState(LauncherState.OFF);
+                intake.setState(IntakeState.DEPLOY);
             }
 
-            case OPERATING -> {
-                drive.drive();
-                launcher.flywheelIdle();
-                intake.retract();
+            case OPERATE -> {
+                drive.setState(DriveState.DRIVE);
+                launcher.setState(LauncherState.OFF);
+                intake.setState(IntakeState.DEPLOY);
             }
 
-            case INTAKING -> {
-                drive.drive();
-                launcher.flywheelIdle();
-                intake.intake();
+            case INTAKE -> {
+                drive.setState(DriveState.DRIVE);
+                launcher.setState(LauncherState.IDLE);
+                intake.setState(IntakeState.INTAKE);
+            }
+
+            case LAUNCH -> {
+                drive.setState(DriveState.DRIVE);
+                intake.setState(IntakeState.DEPLOY);
+                launcher.setState(LauncherState.SPIN_UP);
+            }
+
+            case LAUNCH_AND_INTAKE -> {
+                drive.setState(DriveState.DRIVE);
+                intake.setState(IntakeState.INTAKE);
+                launcher.setState(LauncherState.SPIN_UP);
+            }
+
+            case EXTAKE -> {
+                drive.setState(DriveState.DRIVE);
+                intake.setState(IntakeState.EXTAKE);
+                launcher.setState(LauncherState.EXTAKE);
             }
         }
     }
 
-    public void stop() {
-        state = SuperstructureState.STOPPED;
-    }
-
-    public void operate() {
-        state = SuperstructureState.OPERATING;
-    }
-
-    public void intake() {
-        state = SuperstructureState.INTAKING;
+    public void setState(SuperState state) {
+        this.state = state;
     }
 
     public void applyDriveSpeedsFromControls(double x, double y, double omega) {

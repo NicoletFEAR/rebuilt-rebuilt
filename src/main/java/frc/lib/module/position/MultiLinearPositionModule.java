@@ -1,20 +1,10 @@
-package frc.lib.module.velocity;
+package frc.lib.module.position;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
-/**
- * An angular velocity module that controls a leader motor and one or more follower motors.
- *
- * <p>This module extends {@link AngularVelocityModule} and uses one motor as the leader while
- * configuring the provided follower motors to follow it. Follower motor inputs are also updated and
- * logged periodically.
- *
- * <p>Each follower must have an {@code alignment} value configured in its motor configuration. The
- * alignment determines how the follower operates relative to the leader.
- */
-public class MultiAngularVelocityModule extends AngularVelocityModule {
+public class MultiLinearPositionModule extends LinearPositionModule {
 
     /** Number of follower motors controlled by this module. */
     private final int numberOfFollowers;
@@ -26,10 +16,10 @@ public class MultiAngularVelocityModule extends AngularVelocityModule {
     private final MotorIOInputsAutoLogged[] followerInputs;
 
     /**
-     * Creates a multi-motor angular velocity module.
+     * Creates a multi-motor angular position module.
      *
      * <p>The provided follower motors are configured to follow the leader motor. Each follower must
-     * have an {@code alignment} value defined in its motor configuration.
+     * have an {@code alignment} value defined in its configuration.
      *
      * @param name name used to identify and log this module
      * @param leader motor IO interface for the leader motor
@@ -38,7 +28,7 @@ public class MultiAngularVelocityModule extends AngularVelocityModule {
      * @throws IllegalArgumentException if a follower does not have an {@code alignment} value
      *     configured
      */
-    public MultiAngularVelocityModule(
+    public MultiLinearPositionModule(
             String name, MotorIO leader, MotorIO[] followers, double rotorToMechanismRatio) {
         super(name, leader, rotorToMechanismRatio);
         numberOfFollowers = followers.length;
@@ -73,7 +63,7 @@ public class MultiAngularVelocityModule extends AngularVelocityModule {
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].updateInputs(followerInputs[i]);
             Logger.processInputs(
-                    name + "/follower" + (numberOfFollowers == 1 ? "" : i),
+                    name + "/Follower" + (numberOfFollowers == 1 ? "" : i),
                     followerInputs[i].applyRotorToMechanismRatio(rotorToMechanismRatio));
         }
     }

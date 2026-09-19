@@ -21,10 +21,10 @@ public class Flywheels extends MultiAngularVelocityModule {
         desiredVelocity = RadiansPerSecond.of(0.0);
     }
 
-    private enum FlywheelState {
+    enum FlywheelState {
         OFF,
-        FLYWHEEL_IDLE,
-        LAUNCHING,
+        IDLE,
+        LAUNCH,
     }
 
     @Override
@@ -35,21 +35,13 @@ public class Flywheels extends MultiAngularVelocityModule {
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));
-            case FLYWHEEL_IDLE -> super.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
-            case LAUNCHING -> super.setVelocitySetpoint(desiredVelocity);
+            case IDLE -> super.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
+            case LAUNCH -> super.setVelocitySetpoint(desiredVelocity);
         }
     }
 
-    void off() {
-        state = FlywheelState.OFF;
-    }
-
-    void launch() {
-        state = FlywheelState.LAUNCHING;
-    }
-
-    void flywheelIdle() {
-        state = FlywheelState.FLYWHEEL_IDLE;
+    void setState(FlywheelState state) {
+        this.state = state;
     }
 
     void setDesiredVelocity(AngularVelocity velocity) {

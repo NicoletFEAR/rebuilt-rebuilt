@@ -3,8 +3,11 @@ package frc.robot.subsystems.launcher;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.cancoder.CanCoderIO;
 import frc.lib.motor.MotorIO;
+import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
+import frc.robot.subsystems.launcher.Hood.HoodState;
+import frc.robot.subsystems.launcher.Indexer.IndexerState;
 import org.littletonrobotics.junction.Logger;
 
 public class Launcher extends SubsystemBase {
@@ -19,7 +22,7 @@ public class Launcher extends SubsystemBase {
             MotorIO rightFlywheelMotor,
             MotorIO indexMotor,
             MotorIO hoodMotor,
-            CanCoderIO hoodCanCoder) {
+            AbsEncoderIO hoodCanCoder) {
         flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
         indexer = new Indexer(indexMotor);
         hood = new Hood(hoodMotor, hoodCanCoder);
@@ -27,11 +30,12 @@ public class Launcher extends SubsystemBase {
         state = LauncherState.OFF;
     }
 
-    private enum LauncherState {
+    public enum LauncherState {
         OFF,
-        FLYWHEEL_IDLE,
-        SPINNING_UP,
-        LAUNCHING,
+        IDLE,
+        SPIN_UP,
+        LAUNCH,
+        EXTAKE,
     }
 
     @Override
@@ -40,45 +44,40 @@ public class Launcher extends SubsystemBase {
 
         switch (state) {
             case OFF -> {
-                flywheels.off();
-                indexer.off();
-                hood.off();
+                flywheels.setState(FlywheelState.OFF);
+                indexer.setState(IndexerState.OFF);
+                hood.setState(HoodState.OFF);
             }
 
-            case FLYWHEEL_IDLE -> {
-                flywheels.idle();
-                indexer.off();
-                hood.off();
+            case IDLE -> {
+                flywheels.setState(FlywheelState.IDLE);
             }
 
-            case SPINNING_UP -> {
-                flywheels.launch();
-                indexer.off();
-                hood.holdPosition();
+            case SPIN_UP -> {
+                flywheels.setState(FlywheelState.LAUNCH);
+                indexer.setState(IndexerState.OFF);
+                hood.setState(HoodState.HOLD_POSITION);
+
+                if (isReadyToLaunch()) {
+                    state = LauncherState.LAUNCH;
+                }
+            }
+            case LAUNCH -> {
+                flywheels.setState(FlywheelState.LAUNCH);
+                indexer.setState(IndexerState.INDEX);
+                hood.setState(HoodState.HOLD_POSITION);
             }
 
-            case LAUNCHING -> {
-                flywheels.launch();
-                indexer.index();
-                hood.holdPosition();
+            case EXTAKE -> {
+                flywheels.setState(FlywheelState.IDLE);
+                indexer.setState(IndexerState.EXTAKE);
+                hood.setState(HoodState.OFF);
             }
         }
     }
 
-    public void off() {
-        state = LauncherState.OFF;
-    }
-
-    public void flywheelIdle() {
-        state = LauncherState.FLYWHEEL_IDLE;
-    }
-
-    public void spinUp() {
-        state = LauncherState.SPINNING_UP;
-    }
-
-    public void launch() {
-        state = LauncherState.LAUNCHING;
+    public void setState(LauncherState state) {
+        this.state = state;
     }
 
     public void setLaunchParameters(AngularVelocity flywheelVelocity, Angle hoodAngle) {

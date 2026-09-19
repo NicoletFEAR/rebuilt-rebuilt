@@ -17,7 +17,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Distance;
@@ -31,6 +30,8 @@ import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.motor.FeedforwardValues;
 import frc.robot.RobotState;
 import frc.robot.constants.OperatorConstants;
+import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
@@ -79,9 +80,9 @@ public class Drive extends SubsystemBase {
         state = DriveState.OFF;
     }
 
-    private enum DriveState {
+    public enum DriveState {
         OFF,
-        DRIVING,
+        DRIVE,
     }
 
     @Override
@@ -94,24 +95,20 @@ public class Drive extends SubsystemBase {
         switch (state) {
             case OFF -> {
                 for (int i = 0; i < 4; i++) {
-                    modules[i].off();
+                    modules[i].setState(SwerveModuleState.OFF);
                 }
             }
 
-            case DRIVING -> {
+            case DRIVE -> {
                 for (int i = 0; i < 4; i++) {
-                    modules[i].drive();
+                    modules[i].setState(SwerveModuleState.DRIVE);
                 }
             }
         }
     }
 
-    public void off() {
-        state = DriveState.OFF;
-    }
-
-    public void drive() {
-        state = DriveState.DRIVING;
+    public void setState(DriveState state) {
+        this.state = state;
     }
 
     public void applySpeedsFromControls(double x, double y, double omega) {
@@ -131,12 +128,12 @@ public class Drive extends SubsystemBase {
     private void applySpeeds(ChassisSpeeds speeds) {
         ChassisSpeeds discreteSpeeds =
                 ChassisSpeeds.discretize(speeds, Constants.LOOP_PERIOD.asPeriod().in(Seconds));
-        SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
+        edu.wpi.first.math.kinematics.SwerveModuleState[] setpointStates = kinematics.toSwerveModuleStates(discreteSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_VELOCITY);
         applyStates(setpointStates);
     }
 
-    private void applyStates(SwerveModuleState[] states) {
+    private void applyStates(edu.wpi.first.math.kinematics.SwerveModuleState[] states) {
         for (int i = 0; i < 4; i++) {
             modules[i].applyState(states[i]);
         }
