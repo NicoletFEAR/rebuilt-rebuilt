@@ -2,6 +2,7 @@ package frc.lib.sensor.beambreak;
 
 import static edu.wpi.first.units.Units.Hertz;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
 import frc.lib.CanId;
@@ -51,7 +52,7 @@ public class CanRangeBeamBreak implements BeamBreakIO {
     @Override
     public void updateInputs(BeamBreakIOInputs inputs) {
         trippedSignal.refresh();
-        inputs.connected = StatusSignal.isAllGood();
+        inputs.connected = BaseStatusSignal.isAllGood(trippedSignal);
         inputs.tripped = trippedSignal.getValue();
     }
 }
