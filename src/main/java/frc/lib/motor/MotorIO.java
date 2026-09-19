@@ -117,11 +117,22 @@ public abstract class MotorIO {
     public abstract void setNeutralMode(NeutralModeValue mode);
 
     /**
-     * Sets the desired angular position of the motor rotor.
+     * Sets the desired angular position of the motor rotor. This should be
+     * used when the desired position is a known setpoint so that the motor
+     * can run a motion profile effectively.
      *
      * @param position desired rotor position
      */
     public abstract void setPositionSetpoint(Angle position);
+
+    /**
+     * Sets the desired angular position of the motor rotor. This should be
+     * used when the desired position changes over time (like in an
+     * auto-aiming launcher hood) to avoid the delay of a motion profile.
+     *
+     * @param position desired rotor position
+     */
+    public abstract void setDynamicPosition(Angle position);
 
     /**
      * Sets the desired angular velocity of the motor rotor.

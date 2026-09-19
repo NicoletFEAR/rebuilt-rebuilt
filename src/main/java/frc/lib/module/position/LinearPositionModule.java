@@ -40,6 +40,18 @@ public class LinearPositionModule extends Module {
     }
 
     /**
+     * Sets the desired linear position of the mechanism.
+     *
+     * <p>The requested mechanism position is converted from meters to rotor position using the
+     * configured rotor-to-mechanism ratio before being sent to the motor.
+     *
+     * @param position desired mechanism position
+     */
+    protected void setDynamicPosition(Distance position) {
+        io.setDynamicPosition(Radians.of(position.in(Meters) * rotorToMechanismRatio));
+    }
+
+    /**
      * Gets the current linear position of the mechanism.
      *
      * <p>The motor's rotor position is converted to meters using the configured rotor-to-mechanism

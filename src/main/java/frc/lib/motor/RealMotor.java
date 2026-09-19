@@ -10,6 +10,7 @@ import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -63,7 +64,7 @@ public class RealMotor extends MotorIO {
     private final Follower followerControl = new Follower(0, MotorAlignmentValue.Aligned);
 
     /** CTRE Motion Magic position control request. */
-    private final MotionMagicVoltage positionControl =
+    private final MotionMagicVoltage motionMagicPositionControl =
             new MotionMagicVoltage(Radians.of(0.0)).withSlot(0);
 
     /** CTRE Motion Magic velocity control request. */
@@ -72,6 +73,9 @@ public class RealMotor extends MotorIO {
 
     /** CTRE voltage control request. */
     private final VoltageOut voltageControl = new VoltageOut(Volts.of(0.0));
+
+    /** CTRE position control request. */
+    private final PositionVoltage positionControl = new PositionVoltage(Radians.of(0.0));
 
     /**
      * Creates a real motor using the provided configuration.
@@ -156,11 +160,25 @@ public class RealMotor extends MotorIO {
 
     /**
      * Sets the desired rotor position using CTRE Motion Magic position control.
+     * This is best for optimizing the path to a known, static setpoint according
+     * to 1690.
      *
      * @param position desired rotor position
      */
     @Override
     public void setPositionSetpoint(Angle position) {
+        motor.setControl(motionMagicPositionControl.withPosition(position));
+    }
+
+    /**
+     * Sets the desired rotor position using a simple PositionVoltage control. This
+     * is better for moving setpoints because the position will adjust without the
+     * delay of a Motion Magic profile.
+     * 
+     * @param position desired rotor position
+     */
+    @Override
+    public void setDynamicPosition(Angle position) {
         motor.setControl(positionControl.withPosition(position));
     }
 
