@@ -159,9 +159,8 @@ public class RealMotor extends MotorIO {
     }
 
     /**
-     * Sets the desired rotor position using CTRE Motion Magic position control.
-     * This is best for optimizing the path to a known, static setpoint according
-     * to 1690.
+     * Sets the desired rotor position using CTRE Motion Magic position control. This is best for
+     * optimizing the path to a known, static setpoint according to 1690.
      *
      * @param position desired rotor position
      */
@@ -171,10 +170,9 @@ public class RealMotor extends MotorIO {
     }
 
     /**
-     * Sets the desired rotor position using a simple PositionVoltage control. This
-     * is better for moving setpoints because the position will adjust without the
-     * delay of a Motion Magic profile.
-     * 
+     * Sets the desired rotor position using a simple PositionVoltage control. This is better for
+     * moving setpoints because the position will adjust without the delay of a Motion Magic profile.
+     *
      * @param position desired rotor position
      */
     @Override
