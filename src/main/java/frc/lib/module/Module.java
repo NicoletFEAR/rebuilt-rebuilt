@@ -9,16 +9,13 @@ import org.littletonrobotics.junction.Logger;
 
 /**
  * Base class for modules that control a motor and interact with a mechanism.
- * 
- * <p>
- * This class extends WPILib's {@link SubsystemBase} and provides common
- * functionality for motor control, input updates, logging, and converting
- * motor rotor measurements into mechanism measurements.
- * 
- * <p>
- * Specific module types, such as position and velocity modules, can extend
- * this class to add functionality for controlling a particular type of
- * mechanism.
+ *
+ * <p>This class extends WPILib's {@link SubsystemBase} and provides common functionality for motor
+ * control, input updates, logging, and converting motor rotor measurements into mechanism
+ * measurements.
+ *
+ * <p>Specific module types, such as position and velocity modules, can extend this class to add
+ * functionality for controlling a particular type of mechanism.
  */
 public abstract class Module extends SubsystemBase {
 
@@ -36,9 +33,9 @@ public abstract class Module extends SubsystemBase {
 
     /**
      * Creates a module using the provided motor and configuration.
-     * 
-     * @param name                  name used to identify and log this module
-     * @param io                    interface used to communicate with the motor
+     *
+     * @param name name used to identify and log this module
+     * @param io interface used to communicate with the motor
      * @param rotorToMechanismRatio ratio between the motor rotor and the mechanism
      */
     public Module(String name, MotorIO io, double rotorToMechanismRatio) {
@@ -51,12 +48,10 @@ public abstract class Module extends SubsystemBase {
 
     /**
      * Updates the motor inputs and logs the current state of the module.
-     * 
-     * <p>
-     * The motor inputs are first updated through the {@link MotorIO} interface.
-     * The inputs are then converted from rotor measurements to mechanism
-     * measurements using the configured rotor-to-mechanism ratio before being
-     * sent to the AdvantageKit logger.
+     *
+     * <p>The motor inputs are first updated through the {@link MotorIO} interface. The inputs are
+     * then converted from rotor measurements to mechanism measurements using the configured
+     * rotor-to-mechanism ratio before being sent to the AdvantageKit logger.
      */
     @Override
     public void periodic() {
@@ -66,11 +61,9 @@ public abstract class Module extends SubsystemBase {
 
     /**
      * Sets the neutral mode of the motor.
-     * 
-     * <p>
-     * The neutral mode determines how the motor behaves when no output is being
-     * applied.
-     * 
+     *
+     * <p>The neutral mode determines how the motor behaves when no output is being applied.
+     *
      * @param mode neutral mode to apply to the motor
      */
     protected void setNeutralMode(NeutralModeValue mode) {
@@ -79,7 +72,7 @@ public abstract class Module extends SubsystemBase {
 
     /**
      * Sets the voltage output of the motor.
-     * 
+     *
      * @param voltage voltage to apply to the motor
      */
     protected void setVoltage(Voltage voltage) {

@@ -26,9 +26,8 @@ public class Superstructure extends SubsystemBase {
 
     public enum SuperState {
         START,
-        IDLE,
         STOPPED,
-        DRIVE_AROUND_TEMPORARY,
+        OPERATE,
         INTAKE,
         LAUNCH,
         LAUNCH_AND_INTAKE,
@@ -46,18 +45,13 @@ public class Superstructure extends SubsystemBase {
                 intake.setState(IntakeState.DEPLOY);
             }
 
-            case IDLE -> {
-                launcher.setState(LauncherState.IDLE);
-                intake.setState(IntakeState.DEPLOY);
-            }
-
             case STOPPED -> {
                 drive.setState(DriveState.DRIVE);
                 launcher.setState(LauncherState.OFF);
                 intake.setState(IntakeState.DEPLOY);
             }
 
-            case DRIVE_AROUND_TEMPORARY -> {
+            case OPERATE -> {
                 drive.setState(DriveState.DRIVE);
                 launcher.setState(LauncherState.OFF);
                 intake.setState(IntakeState.DEPLOY);

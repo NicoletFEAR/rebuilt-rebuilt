@@ -4,10 +4,9 @@ import edu.wpi.first.math.system.plant.DCMotor;
 
 /**
  * Represents the available Kraken motor types supported by the library.
- * 
- * <p>
- * Each motor type can be converted into a {@link DCMotor} model for use with
- * WPILib's system identification and simulation tools.
+ *
+ * <p>Each motor type can be converted into a {@link DCMotor} model for use with WPILib's system
+ * identification and simulation tools.
  */
 public enum KrakenType {
 
@@ -19,12 +18,10 @@ public enum KrakenType {
     ;
 
     /**
-     * Gets the WPILib {@link DCMotor} model corresponding to this Kraken motor
-     * type.
-     * 
-     * <p>
-     * The returned motor model represents a single motor.
-     * 
+     * Gets the WPILib {@link DCMotor} model corresponding to this Kraken motor type.
+     *
+     * <p>The returned motor model represents a single motor.
+     *
      * @return the {@link DCMotor} model for this motor type
      */
     DCMotor getDcMotor() {

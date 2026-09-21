@@ -2,14 +2,16 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.lib.motor.KrakenType;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.RealMotor;
+import frc.lib.motor.SimMotor;
 import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.sensor.absencoder.RealCanCoder;
+import frc.lib.sensor.absencoder.SimCanCoder;
 import frc.robot.constants.DeviceIds;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.Superstructure.SuperState;
@@ -29,136 +31,203 @@ import org.littletonrobotics.junction.Logger;
 public class RobotContainer extends SubsystemBase {
     private final RobotStateAutoLogged robotState;
     private final Superstructure superstructure;
-    private final CommandPS5Controller driverController;
+    private final PS5Controller driverController;
 
     public RobotContainer() {
         robotState = new RobotStateAutoLogged();
-        driverController = new CommandPS5Controller(0);
-        superstructure = new Superstructure(buildDrive(), buildLauncher(), buildIntake());
-
-        configureBindings();
+        driverController = new PS5Controller(0);
+        superstructure = new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
     }
 
     @Override
     public void periodic() {
         Logger.processInputs("RobotState", robotState);
-
-        // Sets up the drivebase by mapping the controls to the joysticks
-        superstructure.setState(SuperState.DRIVE_AROUND_TEMPORARY);
         superstructure.applyDriveSpeedsFromControls(
-                driverController.getLeftX(), driverController.getLeftY(), driverController.getRightX());
+                -driverController.getLeftX(), -driverController.getLeftY(), driverController.getRightX());
+
+        superstructure.setState(SuperState.OPERATE);
+
+        if (driverController.getL2Button()) {
+            if (driverController.getR2Button()) {
+                superstructure.setState(SuperState.LAUNCH_AND_INTAKE);
+            } else {
+                superstructure.setState(SuperState.INTAKE);
+            }
+        } else if (driverController.getR2Button()) {
+            superstructure.setState(SuperState.LAUNCH);
+        } else if (driverController.getR1Button()) {
+            superstructure.setState(SuperState.EXTAKE);
+        }
     }
 
-    private void configureBindings() {
-
-        // Intake - Left Trigger on Driver Controller
-        driverController
-                .L2()
-                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.INTAKE)))
-                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
-
-        // Launch - Right Trigger on Driver Controller
-        driverController
-                .R2()
-                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.LAUNCH)))
-                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
-
-        // Launch and Intake - Left and Right Trigger on Driver Controller
-        driverController
-                .L2()
-                .and(driverController.R2())
-                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.LAUNCH_AND_INTAKE)))
-                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
-
-        // Extake - Right Bumper on Driver Controller
-        driverController
-                .R1()
-                .onTrue(new InstantCommand(() -> superstructure.setState(SuperState.EXTAKE)))
-                .onFalse(new InstantCommand(() -> superstructure.setState(SuperState.IDLE)));
-    }
-
-    private Drive buildDrive() {
-        return new Drive(
-                new SwerveModule(
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.FRONT_LEFT_DRIVE,
-                                        DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                        KrakenType.X60,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.FRONT_LEFT_TURN,
-                                        DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                        KrakenType.X44,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealCanCoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
-                        new SwerveModuleConfig(
-                                "FrontLeft",
-                                DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
-                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
-                new SwerveModule(
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.FRONT_RIGHT_DRIVE,
-                                        DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                        KrakenType.X60,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.FRONT_RIGHT_TURN,
-                                        DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                        KrakenType.X44,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealCanCoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
-                        new SwerveModuleConfig(
-                                "FrontRight",
-                                DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
-                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
-                new SwerveModule(
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.BACK_LEFT_DRIVE,
-                                        DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                        KrakenType.X60,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.BACK_LEFT_TURN,
-                                        DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                        KrakenType.X44,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealCanCoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
-                        new SwerveModuleConfig(
-                                "BackLeft",
-                                DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
-                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
-                new SwerveModule(
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.BACK_RIGHT_DRIVE,
-                                        DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                        KrakenType.X60,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealMotor(
-                                new MotorConfig(
-                                        DeviceIds.BACK_RIGHT_TURN,
-                                        DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                        KrakenType.X44,
-                                        KilogramSquareMeters.of(0.01))),
-                        new RealCanCoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
-                        new SwerveModuleConfig(
-                                "BackRight",
-                                DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
-                                DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)));
+    private Drive buildDrive(RobotState robotState) {
+        if (Robot.isReal()) {
+            return new Drive(
+                    robotState,
+                    new SwerveModule(
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_LEFT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_LEFT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "FrontLeft",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                    new SwerveModule(
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_RIGHT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_RIGHT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "FrontRight",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                    new SwerveModule(
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_LEFT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_LEFT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "BackLeft",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                    new SwerveModule(
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_RIGHT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_RIGHT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new RealCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "BackRight",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)));
+        } else {
+            return new Drive(
+                    robotState,
+                    new SwerveModule(
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_LEFT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_LEFT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "FrontLeft",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                    new SwerveModule(
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_RIGHT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.FRONT_RIGHT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "FrontRight",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                    new SwerveModule(
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_LEFT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_LEFT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "BackLeft",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
+                    new SwerveModule(
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_RIGHT_DRIVE,
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
+                                            KrakenType.X60,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimMotor(
+                                    new MotorConfig(
+                                            DeviceIds.BACK_RIGHT_TURN,
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
+                                            KrakenType.X44,
+                                            KilogramSquareMeters.of(0.01))),
+                            new SimCanCoder(
+                                    new AbsEncoderConfig(
+                                            DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
+                            new SwerveModuleConfig(
+                                    "BackRight",
+                                    DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
+                                    DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)));
+        }
     }
 
     private Launcher buildLauncher() {
@@ -168,7 +237,10 @@ public class RobotContainer extends SubsystemBase {
                                 DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES, KrakenType.X60)),
                 new RealMotor(
                         new MotorConfig(
-                                DeviceIds.RIGHT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES, KrakenType.X60)),
+                                DeviceIds.RIGHT_LAUNCHER,
+                                FlywheelConstants.FEEDFORWARD_VALUES,
+                                KrakenType.X60,
+                                MotorAlignmentValue.Opposed)),
                 new RealMotor(
                         new MotorConfig(
                                 DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES, KrakenType.X44)),

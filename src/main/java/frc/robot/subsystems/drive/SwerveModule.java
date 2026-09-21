@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -65,5 +66,9 @@ public class SwerveModule extends SubsystemBase {
         state.optimize(currentRotation);
         state.cosineScale(currentRotation);
         setDesiredSetpoints(MetersPerSecond.of(state.speedMetersPerSecond), state.angle.getMeasure());
+    }
+
+    SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(drive.getPosition(), turn.getRotation());
     }
 }

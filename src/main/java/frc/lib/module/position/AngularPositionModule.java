@@ -40,6 +40,18 @@ public class AngularPositionModule extends Module {
     }
 
     /**
+     * * Sets the desired angular position of the mechanism.
+     *
+     * <p>The requested mechanism position is converted to rotor position using the configured
+     * rotor-to-mechanism ratio before being sent to the motor.
+     *
+     * @param position desired mechanism position
+     */
+    protected void setDynamicPosition(Angle position) {
+        io.setDynamicPosition(position.times(rotorToMechanismRatio));
+    }
+
+    /**
      * Gets the current angular position of the mechanism.
      *
      * <p>The motor's rotor position is converted to mechanism position using the configured
