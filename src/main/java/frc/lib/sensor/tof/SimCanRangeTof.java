@@ -1,10 +1,16 @@
 package frc.lib.sensor.tof;
 
+import frc.lib.sensor.CanRangeConfig;
+
 /**
- * Simulation implementation of {@link CanRangeTof} for a CANrange time-of-flight sensor.
+ * Simulation implementation of {@link CanRangeTof} for a CANrange
+ * time-of-flight sensor.
  *
- * <p>This class extends {@link CanRangeTof} so that it can be used anywhere a CANrange
- * time-of-flight sensor is expected. During simulation, the sensor is reported as disconnected
+ * <p>
+ * This class extends {@link CanRangeTof} so that it can be used anywhere a
+ * CANrange
+ * time-of-flight sensor is expected. During simulation, the sensor is reported
+ * as disconnected
  * because there is no physical CANrange sensor connected.
  */
 public class SimCanRangeTof extends CanRangeTof {
@@ -13,17 +19,20 @@ public class SimCanRangeTof extends CanRangeTof {
      *
      * @param config configuration for the simulated CANrange sensor
      */
-    public SimCanRangeTof(CanRangeTofConfig config) {
+    public SimCanRangeTof(CanRangeConfig config) {
         super(config);
     }
 
     /**
      * Updates the simulated time-of-flight sensor inputs.
      *
-     * <p>The simulated sensor is reported as disconnected because no physical CANrange sensor is
+     * <p>
+     * The simulated sensor is reported as disconnected because no physical CANrange
+     * sensor is
      * present during simulation.
      *
-     * @param inputs object that should be populated with the sensor's current inputs
+     * @param inputs object that should be populated with the sensor's current
+     *               inputs
      */
     @Override
     public void updateInputs(TofIOInputs inputs) {
