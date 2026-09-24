@@ -1,17 +1,12 @@
 package frc.lib.sensor.beambreak;
 
-import frc.lib.CanId;
 import frc.lib.sensor.CanRangeConfig;
 
 /**
- * Simulation implementation of {@link CanRangeBeamBreak} for a CANrange beam
- * break sensor.
+ * Simulation implementation of {@link CanRangeBeamBreak} for a CANrange beam break sensor.
  *
- * <p>
- * This class extends {@link CanRangeBeamBreak} so that it can be used anywhere
- * a CANrange beam
- * break sensor is expected. During simulation, the sensor is reported as
- * disconnected because there
+ * <p>This class extends {@link CanRangeBeamBreak} so that it can be used anywhere a CANrange beam
+ * break sensor is expected. During simulation, the sensor is reported as disconnected because there
  * is no physical CANrange sensor connected.
  */
 public class SimCanRangeBeamBreak extends CanRangeBeamBreak {
@@ -28,13 +23,10 @@ public class SimCanRangeBeamBreak extends CanRangeBeamBreak {
     /**
      * Updates the simulated beam break sensor inputs.
      *
-     * <p>
-     * The simulated sensor is reported as disconnected because no physical CANrange
-     * sensor is
+     * <p>The simulated sensor is reported as disconnected because no physical CANrange sensor is
      * present during simulation.
      *
-     * @param inputs object that should be populated with the sensor's current
-     *               inputs
+     * @param inputs object that should be populated with the sensor's current inputs
      */
     @Override
     public void updateInputs(BeamBreakIOInputs inputs) {

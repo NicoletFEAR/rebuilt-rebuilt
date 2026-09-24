@@ -5,23 +5,16 @@ import static edu.wpi.first.units.Units.Hertz;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
-import frc.lib.CanId;
 import frc.lib.sensor.CanRangeConfig;
 
 /**
- * Real hardware implementation of {@link BeamBreakIO} using a CTRE CANrange
- * sensor.
+ * Real hardware implementation of {@link BeamBreakIO} using a CTRE CANrange sensor.
  *
- * <p>
- * This class provides an interface between the library's beam break abstraction
- * and a physical
- * CANrange sensor. It retrieves the sensor's detection status and reports
- * whether the sensor is
+ * <p>This class provides an interface between the library's beam break abstraction and a physical
+ * CANrange sensor. It retrieves the sensor's detection status and reports whether the sensor is
  * connected and whether the beam is currently tripped.
  *
- * <p>
- * The detection status is updated at 100 Hz to provide frequent sensor updates
- * while optimizing
+ * <p>The detection status is updated at 100 Hz to provide frequent sensor updates while optimizing
  * CAN bus utilization.
  */
 public class CanRangeBeamBreak implements BeamBreakIO {
@@ -35,9 +28,7 @@ public class CanRangeBeamBreak implements BeamBreakIO {
     /**
      * Creates a CANrange beam break sensor using the provided CAN ID.
      *
-     * <p>
-     * The sensor's detection status is configured to update at 100 Hz, and CAN bus
-     * utilization is
+     * <p>The sensor's detection status is configured to update at 100 Hz, and CAN bus utilization is
      * optimized.
      *
      * @param config Configuration for the CANrange sensor
@@ -54,9 +45,7 @@ public class CanRangeBeamBreak implements BeamBreakIO {
     /**
      * Updates the provided inputs with the CANrange sensor's current status.
      *
-     * <p>
-     * The detection status is refreshed and the connection status and tripped state
-     * are stored in
+     * <p>The detection status is refreshed and the connection status and tripped state are stored in
      * the provided inputs object.
      *
      * @param inputs object to populate with the sensor's current inputs
