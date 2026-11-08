@@ -5,8 +5,8 @@ import static org.wpilib.units.Units.Hertz;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
-import org.wpilib.units.measure.Distance;
 import frc.lib.sensor.CanRangeConfig;
+import org.wpilib.units.measure.Distance;
 
 /**
  * Real hardware implementation of {@link TofIO} using a CTRE CANrange sensor.

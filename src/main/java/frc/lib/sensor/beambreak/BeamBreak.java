@@ -1,6 +1,6 @@
 package frc.lib.sensor.beambreak;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import org.wpilib.hardware.discrete.DigitalInput;
 
 /**
  * Real hardware implementation of {@link BeamBreakIO} using a WPILib {@link DigitalInput}.

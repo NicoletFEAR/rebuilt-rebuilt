@@ -34,7 +34,7 @@ public class CanRangeBeamBreak implements BeamBreakIO {
      * @param config Configuration for the CANrange sensor
      */
     public CanRangeBeamBreak(CanRangeConfig config) {
-        canRange = new CANrange(config.id().id());
+        canRange = new CANrange(config.id().id(), config.id().bus());
         canRange.getConfigurator().apply(config.getCanRangeConfiguration());
 
         trippedSignal = canRange.getIsDetected();

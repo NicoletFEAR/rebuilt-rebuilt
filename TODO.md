@@ -1,7 +1,7 @@
 * Replace CTRE motor simulation with generic motor simulation
 * Make everything actually vendor-agnostic
 * ADTs for other state machines
-* Simulation voltage subsystem
+* Simulation voltage subsystem, and track which battery we're using at all times
 * Clock subsystem and integration into simulation
 * Get everything we have so far working in simulation
 * Make sure every subsystem state does something with every part of the subsystem
@@ -19,4 +19,4 @@
 * LedIO
 * Add CTRE swerve IO
 * Procedurally generated autos (ideally with custom pathfinder optimized for limelight-based accuracy)
-* Auto-checklists with data tracking to determine normal values and detect anomalies
+* Auto-checklists with data tracking to determine normal values and detect anomalies, also use these normal values for more accurate simulation

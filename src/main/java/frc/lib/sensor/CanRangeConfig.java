@@ -1,8 +1,9 @@
 package frc.lib.sensor;
 
+import org.wpilib.units.measure.Distance;
+
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.ProximityParamsConfigs;
-import edu.wpi.first.units.measure.Distance;
 import frc.lib.CanId;
 import frc.lib.constants.Constants;
 
