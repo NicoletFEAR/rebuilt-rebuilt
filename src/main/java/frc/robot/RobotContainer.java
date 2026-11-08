@@ -1,9 +1,6 @@
 package frc.robot;
 
-import static org.wpilib.units.Units.KilogramSquareMeters;
-
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
-import frc.lib.motor.KrakenType;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.SimMotor;
 import frc.lib.motor.TalonFXMotor;
@@ -71,15 +68,11 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
@@ -91,15 +84,11 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
@@ -111,15 +100,11 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
@@ -131,15 +116,11 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
@@ -154,15 +135,11 @@ public class RobotContainer {
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
@@ -174,15 +151,11 @@ public class RobotContainer {
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
@@ -194,15 +167,11 @@ public class RobotContainer {
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
@@ -214,15 +183,11 @@ public class RobotContainer {
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES,
-                                            KrakenType.X60,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES,
-                                            KrakenType.X44,
-                                            KilogramSquareMeters.of(0.01))),
+                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
@@ -237,27 +202,26 @@ public class RobotContainer {
         return new Launcher(
                 new TalonFXMotor(
                         new MotorConfig(
-                                DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES, KrakenType.X60)),
+                                DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES)),
                 new TalonFXMotor(
                         new MotorConfig(
                                 DeviceIds.RIGHT_LAUNCHER,
                                 FlywheelConstants.FEEDFORWARD_VALUES,
-                                KrakenType.X60,
                                 MotorAlignmentValue.Opposed)),
                 new TalonFXMotor(
                         new MotorConfig(
-                                DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
+                                DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES)),
                 new TalonFXMotor(
-                        new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
+                        new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES)),
                 new RealCanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
     private Intake buildIntake() {
         return new Intake(
                 new TalonFXMotor(
-                        new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
+                        new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES)),
                 new TalonFXMotor(
                         new MotorConfig(
-                                DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES, KrakenType.X44)));
+                                DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES)));
     }
 }

@@ -1,13 +1,14 @@
 package frc.lib.constants;
 
-import static org.wpilib.units.Units.Hertz;
-import static org.wpilib.units.Units.Meters;
-import static org.wpilib.units.Units.Radians;
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.DistanceUnit.Meters;
+import static frc.lib.units.FrequencyUnit.Hertz;
 
 import com.ctre.phoenix6.CANBus;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.Distance;
-import org.wpilib.units.measure.Frequency;
+
+import frc.lib.units.Angle;
+import frc.lib.units.Distance;
+import frc.lib.units.Frequency;
 
 /** This file houses all of the general constants that are needed to run the robot */
 public final class Constants {
@@ -17,7 +18,7 @@ public final class Constants {
      *
      * <p>Each periodic loop is 20 ms
      */
-    public static final Frequency LOOP_PERIOD = Hertz.of(0.02);
+    public static final Frequency LOOP_PERIOD = Hertz.of(50);
 
     /**
      * Sets the tolerance of a velocity mechanism to be within 0.05*setpoint of the setpoint. This

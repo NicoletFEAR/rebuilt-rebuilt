@@ -1,14 +1,14 @@
 package frc.lib.module.velocity;
 
-import static org.wpilib.units.Units.Meters;
-import static org.wpilib.units.Units.MetersPerSecond;
-import static org.wpilib.units.Units.Radians;
-import static org.wpilib.units.Units.RadiansPerSecond;
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.DistanceUnit.Meters;
+import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
 import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
-import org.wpilib.units.measure.Distance;
-import org.wpilib.units.measure.LinearVelocity;
+import frc.lib.units.Distance;
+import frc.lib.units.Velocity;
 
 /**
  * A module that controls and measures the linear velocity of a mechanism.
@@ -38,7 +38,7 @@ public class LinearVelocityModule extends Module {
      *
      * @param velocity desired mechanism linear velocity
      */
-    protected void setVelocitySetpoint(LinearVelocity velocity) {
+    protected void setVelocitySetpoint(Velocity velocity) {
         io.setVelocitySetpoint(
                 RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
     }
@@ -55,7 +55,7 @@ public class LinearVelocityModule extends Module {
      *
      * @return current mechanism linear velocity
      */
-    public LinearVelocity getVelocity() {
+    public Velocity getVelocity() {
         return MetersPerSecond.of(inputs.velocity.in(RadiansPerSecond) / rotorToMechanismRatio);
     }
 }

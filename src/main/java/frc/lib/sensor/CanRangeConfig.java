@@ -1,11 +1,10 @@
 package frc.lib.sensor;
 
-import org.wpilib.units.measure.Distance;
-
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.ProximityParamsConfigs;
 import frc.lib.CanId;
 import frc.lib.constants.Constants;
+import org.wpilib.units.measure.Distance;
 
 /**
  * Stores the configuration for a CTRE CANrange time-of-flight sensor.

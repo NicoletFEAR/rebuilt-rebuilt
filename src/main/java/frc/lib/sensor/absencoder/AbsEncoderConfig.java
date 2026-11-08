@@ -1,12 +1,12 @@
 package frc.lib.sensor.absencoder;
 
-import static org.wpilib.units.Units.Radians;
+import static frc.lib.units.AngleUnit.Rotations;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import frc.lib.CanId;
-import org.wpilib.units.measure.Angle;
+import frc.lib.units.Angle;
 
 /**
  * Used to represent a vendor-agnostic absolute encoder configuration
@@ -25,8 +25,8 @@ public record AbsEncoderConfig(CanId id, Angle offset) {
         return new CANcoderConfiguration()
                 .withMagnetSensor(
                         new MagnetSensorConfigs()
-                                .withAbsoluteSensorDiscontinuityPoint(Radians.of(Math.PI * 2.0))
-                                .withMagnetOffset(offset)
+                                .withAbsoluteSensorDiscontinuityPoint(Rotations.raw(1.0))
+                                .withMagnetOffset(offset.in(Rotations))
                                 .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive));
     }
 }

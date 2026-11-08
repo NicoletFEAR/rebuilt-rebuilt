@@ -1,17 +1,20 @@
 package frc.robot.subsystems.drive;
 
-import static org.wpilib.units.Units.MetersPerSecond;
-
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.lib.units.Angle;
+import frc.lib.units.AngleUnit;
+import frc.lib.units.Velocity;
 import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
 import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
+
+import static frc.lib.units.DistanceUnit.Meters;
+import static frc.lib.units.VelocityUnit.MetersPerSecond;
+
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.SwerveModulePosition;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.LinearVelocity;
 
 public class SwerveModule {
     private final String name;
@@ -58,7 +61,7 @@ public class SwerveModule {
         this.state = state;
     }
 
-    void setDesiredSetpoints(LinearVelocity velocity, Angle position) {
+    void setDesiredSetpoints(Velocity velocity, Angle position) {
         drive.setDesiredVelocity(velocity);
         turn.setDesiredPosition(position);
     }
@@ -66,18 +69,18 @@ public class SwerveModule {
     void applyState(SwerveModuleVelocity state) {
         Rotation2d currentRotation = turn.getRotation();
         state = state.optimize(currentRotation).cosineScale(currentRotation);
-        setDesiredSetpoints(MetersPerSecond.of(state.velocity), state.angle.getMeasure());
+        setDesiredSetpoints(MetersPerSecond.of(state.velocity), AngleUnit.ofRotation(state.angle));
     }
 
     SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(drive.getPosition(), turn.getRotation());
+        return new SwerveModulePosition(drive.getPosition().in(Meters), turn.getRotation());
     }
 
     SwerveModuleVelocity getState() {
-        return new SwerveModuleVelocity(drive.getVelocity(), turn.getRotation());
+        return new SwerveModuleVelocity(drive.getVelocity().in(MetersPerSecond), turn.getRotation());
     }
 
     SwerveModuleVelocity getDesiredState() {
-        return new SwerveModuleVelocity(drive.getDesiredVelocity(), turn.getDesiredRotation());
+        return new SwerveModuleVelocity(drive.getDesiredVelocity().in(MetersPerSecond), turn.getDesiredRotation());
     }
 }

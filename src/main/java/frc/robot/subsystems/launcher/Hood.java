@@ -1,17 +1,18 @@
 package frc.robot.subsystems.launcher;
 
-import static org.wpilib.units.Units.Radians;
-import static org.wpilib.units.Units.Rotations;
-import static org.wpilib.units.Units.Volts;
-
 import frc.lib.constants.Constants;
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.lib.units.Angle;
+
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngleUnit.Rotations;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.util.MathUtil;
-import org.wpilib.units.measure.Angle;
 
 public class Hood extends AbsEncoderAngularPositionModule {
     private HoodState state;
@@ -32,7 +33,7 @@ public class Hood extends AbsEncoderAngularPositionModule {
     public void periodic() {
         super.periodic();
         Logger.recordOutput(name + "/State", state);
-        Logger.recordOutput(name + "/DesiredPosition", desiredPosition);
+        Logger.recordOutput(name + "/DesiredPosition", desiredPosition.in(Radians));
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));

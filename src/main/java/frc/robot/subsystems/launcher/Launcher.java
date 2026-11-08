@@ -2,12 +2,12 @@ package frc.robot.subsystems.launcher;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.lib.units.Angle;
+import frc.lib.units.AngularVelocity;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
 import frc.robot.subsystems.launcher.Hood.HoodState;
 import frc.robot.subsystems.launcher.Indexer.IndexerState;
 import org.littletonrobotics.junction.Logger;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
 
 public class Launcher {
     private final Flywheels flywheels;

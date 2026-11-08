@@ -1,11 +1,13 @@
 package frc.lib.sensor.tof;
 
-import static org.wpilib.units.Units.Hertz;
-
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
 import frc.lib.sensor.CanRangeConfig;
+import frc.lib.units.DistanceUnit;
+
+import static frc.lib.units.FrequencyUnit.Hertz;
+
 import org.wpilib.units.measure.Distance;
 
 /**
@@ -39,7 +41,7 @@ public class CanRangeTof implements TofIO {
         canRange.getConfigurator().apply(config.getCanRangeConfiguration());
 
         distanceSignal = canRange.getDistance();
-        distanceSignal.setUpdateFrequency(Hertz.of(100));
+        distanceSignal.setUpdateFrequency(Hertz.raw(100));
         canRange.optimizeBusUtilization();
     }
 
@@ -55,6 +57,6 @@ public class CanRangeTof implements TofIO {
     public void updateInputs(TofIOInputs inputs) {
         distanceSignal.refresh();
         inputs.connected = BaseStatusSignal.isAllGood(distanceSignal);
-        inputs.distance = distanceSignal.getValue();
+        inputs.distance = DistanceUnit.ofWpi(distanceSignal.getValue());
     }
 }

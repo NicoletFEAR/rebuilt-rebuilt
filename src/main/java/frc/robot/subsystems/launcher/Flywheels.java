@@ -1,15 +1,16 @@
 package frc.robot.subsystems.launcher;
 
-import static org.wpilib.units.Units.RadiansPerSecond;
-import static org.wpilib.units.Units.Volts;
-
 import frc.lib.constants.Constants;
 import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
+import frc.lib.units.AngularVelocity;
+
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.util.MathUtil;
-import org.wpilib.units.measure.AngularVelocity;
 
 public class Flywheels extends MultiAngularVelocityModule {
     private FlywheelState state;
@@ -31,7 +32,7 @@ public class Flywheels extends MultiAngularVelocityModule {
     public void periodic() {
         super.periodic();
         Logger.recordOutput(name + "/State", state);
-        Logger.recordOutput(name + "/DesiredVelocity", desiredVelocity);
+        Logger.recordOutput(name + "/DesiredVelocity", desiredVelocity.in(RadiansPerSecond));
 
         switch (state) {
             case OFF -> super.setVoltage(Volts.of(0.0));

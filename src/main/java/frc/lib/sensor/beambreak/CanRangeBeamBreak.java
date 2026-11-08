@@ -1,6 +1,6 @@
 package frc.lib.sensor.beambreak;
 
-import static org.wpilib.units.Units.Hertz;
+import static frc.lib.units.FrequencyUnit.Hertz;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -38,7 +38,7 @@ public class CanRangeBeamBreak implements BeamBreakIO {
         canRange.getConfigurator().apply(config.getCanRangeConfiguration());
 
         trippedSignal = canRange.getIsDetected();
-        trippedSignal.setUpdateFrequency(Hertz.of(100));
+        trippedSignal.setUpdateFrequency(Hertz.raw(100));
         canRange.optimizeBusUtilization();
     }
 

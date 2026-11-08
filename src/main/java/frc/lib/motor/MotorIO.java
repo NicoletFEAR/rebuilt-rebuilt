@@ -1,19 +1,23 @@
 package frc.lib.motor;
 
-import static org.wpilib.units.Units.Amps;
-import static org.wpilib.units.Units.Celsius;
-import static org.wpilib.units.Units.Radians;
-import static org.wpilib.units.Units.RadiansPerSecond;
-import static org.wpilib.units.Units.Volts;
-
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+
+import frc.lib.units.Angle;
+import frc.lib.units.AngularAcceleration;
+import frc.lib.units.AngularVelocity;
+import frc.lib.units.Current;
+import frc.lib.units.Temperature;
+import frc.lib.units.Voltage;
 import lombok.Getter;
+
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngularAccelerationUnit.RadiansPerSecondSquared;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.CurrentUnit.Amps;
+import static frc.lib.units.TemperatureUnit.Kelvin;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import org.littletonrobotics.junction.AutoLog;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
-import org.wpilib.units.measure.Current;
-import org.wpilib.units.measure.Temperature;
-import org.wpilib.units.measure.Voltage;
 
 /**
  * Provides an interface for communicating with a motor controller.
@@ -57,6 +61,9 @@ public abstract class MotorIO {
         /** Current motor rotor angular velocity. */
         public AngularVelocity velocity = RadiansPerSecond.of(0.0);
 
+        /** Current motor rotor angular acceleration. */
+        public AngularAcceleration acceleration = RadiansPerSecondSquared.of(0.0);
+
         /** Current voltage being applied to the motor. */
         public Voltage voltage = Volts.of(0.0);
 
@@ -67,7 +74,7 @@ public abstract class MotorIO {
         public Current supplyCurrent = Amps.of(0.0);
 
         /** Current motor temperature. */
-        public Temperature temperature = Celsius.of(21.0);
+        public Temperature temperature = Kelvin.of(294.0);
 
         /**
          * Converts rotor position and velocity into mechanism position and velocity using the provided
@@ -84,6 +91,7 @@ public abstract class MotorIO {
             result.connected = connected;
             result.position = position.div(rotorToMechanismRatio);
             result.velocity = velocity.div(rotorToMechanismRatio);
+            result.acceleration = acceleration.div(rotorToMechanismRatio);
             result.voltage = voltage;
             result.statorCurrent = statorCurrent;
             result.supplyCurrent = supplyCurrent;

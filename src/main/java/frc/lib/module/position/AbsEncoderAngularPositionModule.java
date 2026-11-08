@@ -3,8 +3,9 @@ package frc.lib.module.position;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.sensor.absencoder.AbsEncoderIOInputsAutoLogged;
+import frc.lib.units.Angle;
+
 import org.littletonrobotics.junction.Logger;
-import org.wpilib.units.measure.Angle;
 
 /**
  * An angular position module that uses an absolute encoder as its primary source for mechanism

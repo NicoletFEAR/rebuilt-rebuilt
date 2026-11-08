@@ -1,10 +1,5 @@
 package frc.lib.motor;
 
-import static org.wpilib.units.Units.Hertz;
-import static org.wpilib.units.Units.Radians;
-import static org.wpilib.units.Units.RadiansPerSecond;
-import static org.wpilib.units.Units.Volts;
-
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.controls.Follower;
@@ -14,11 +9,27 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
+
+import frc.lib.units.Angle;
+import frc.lib.units.AngleUnit;
+import frc.lib.units.AngularAccelerationUnit;
+import frc.lib.units.AngularVelocity;
+import frc.lib.units.AngularVelocityUnit;
+import frc.lib.units.CurrentUnit;
+import frc.lib.units.TemperatureUnit;
+import frc.lib.units.Voltage;
+import frc.lib.units.VoltageUnit;
+
+import org.wpilib.units.measure.AngularAcceleration;
 import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Temperature;
-import org.wpilib.units.measure.Voltage;
+
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngleUnit.Rotations;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.AngularVelocityUnit.RotationsPerSecond;
+import static frc.lib.units.FrequencyUnit.Hertz;
+import static frc.lib.units.VoltageUnit.Volts;
 
 /**
  * Real hardware implementation of {@link MotorIO} for a CTRE TalonFX motor controller.
@@ -38,13 +49,16 @@ public class TalonFXMotor extends MotorIO {
     private final StatusSignalCollection signals = new StatusSignalCollection(6);
 
     /** Rotor position status signal. */
-    private final StatusSignal<Angle> positionSignal;
+    private final StatusSignal<org.wpilib.units.measure.Angle> positionSignal;
 
     /** Rotor angular velocity status signal. */
-    private final StatusSignal<AngularVelocity> velocitySignal;
+    private final StatusSignal<org.wpilib.units.measure.AngularVelocity> velocitySignal;
+
+    /** Rotor angular acceleration status signal. */
+    private final StatusSignal<AngularAcceleration> accelerationSignal;
 
     /** Motor voltage status signal. */
-    private final StatusSignal<Voltage> voltageSignal;
+    private final StatusSignal<org.wpilib.units.measure.Voltage> voltageSignal;
 
     /** Stator current status signal. */
     private final StatusSignal<Current> statorCurrentSignal;
@@ -60,17 +74,17 @@ public class TalonFXMotor extends MotorIO {
 
     /** CTRE Motion Magic position control request. */
     private final MotionMagicVoltage motionMagicPositionControl =
-            new MotionMagicVoltage(Radians.of(0.0)).withSlot(0);
+            new MotionMagicVoltage(Radians.raw(0.0)).withSlot(0);
 
     /** CTRE Motion Magic velocity control request. */
     private final MotionMagicVelocityVoltage velocityControl =
-            new MotionMagicVelocityVoltage(RadiansPerSecond.of(0.0)).withSlot(0);
+            new MotionMagicVelocityVoltage(RadiansPerSecond.raw(0.0)).withSlot(0);
 
     /** CTRE voltage control request. */
-    private final VoltageOut voltageControl = new VoltageOut(Volts.of(0.0));
+    private final VoltageOut voltageControl = new VoltageOut(Volts.raw(0.0));
 
     /** CTRE position control request. */
-    private final PositionVoltage positionControl = new PositionVoltage(Radians.of(0.0));
+    private final PositionVoltage positionControl = new PositionVoltage(Radians.raw(0.0));
 
     /**
      * Creates a real motor using the provided configuration.
@@ -89,6 +103,7 @@ public class TalonFXMotor extends MotorIO {
 
         positionSignal = motor.getRotorPosition();
         velocitySignal = motor.getRotorVelocity();
+        accelerationSignal = motor.getAcceleration();
         voltageSignal = motor.getMotorVoltage();
         statorCurrentSignal = motor.getStatorCurrent();
         supplyCurrentSignal = motor.getSupplyCurrent();
@@ -97,11 +112,12 @@ public class TalonFXMotor extends MotorIO {
         signals.addSignals(
                 positionSignal,
                 velocitySignal,
+                accelerationSignal,
                 voltageSignal,
                 statorCurrentSignal,
                 supplyCurrentSignal,
                 temperatureSignal);
-        signals.setUpdateFrequencyForAll(Hertz.of(100.0));
+        signals.setUpdateFrequencyForAll(Hertz.raw(100.0));
         motor.optimizeBusUtilization();
     }
 
@@ -117,12 +133,13 @@ public class TalonFXMotor extends MotorIO {
     public void updateInputs(MotorIOInputs inputs) {
         signals.refreshAll();
         inputs.connected = signals.isAllGood();
-        inputs.position = positionSignal.getValue();
-        inputs.velocity = velocitySignal.getValue();
-        inputs.voltage = voltageSignal.getValue();
-        inputs.statorCurrent = statorCurrentSignal.getValue();
-        inputs.supplyCurrent = supplyCurrentSignal.getValue();
-        inputs.temperature = temperatureSignal.getValue();
+        inputs.position = AngleUnit.ofWpi(positionSignal.getValue());
+        inputs.velocity = AngularVelocityUnit.ofWpi(velocitySignal.getValue());
+        inputs.acceleration = AngularAccelerationUnit.ofWpi(accelerationSignal.getValue());
+        inputs.voltage = VoltageUnit.ofWpi(voltageSignal.getValue());
+        inputs.statorCurrent = CurrentUnit.ofWpi(statorCurrentSignal.getValue());
+        inputs.supplyCurrent = CurrentUnit.ofWpi(supplyCurrentSignal.getValue());
+        inputs.temperature = TemperatureUnit.ofWpi(temperatureSignal.getValue());
     }
 
     /**
@@ -145,7 +162,7 @@ public class TalonFXMotor extends MotorIO {
      */
     @Override
     public void setPositionSetpoint(Angle position) {
-        motor.setControl(motionMagicPositionControl.withPosition(position));
+        motor.setControl(motionMagicPositionControl.withPosition(position.in(Rotations)));
     }
 
     /**
@@ -156,7 +173,7 @@ public class TalonFXMotor extends MotorIO {
      */
     @Override
     public void setDynamicPosition(Angle position) {
-        motor.setControl(positionControl.withPosition(position));
+        motor.setControl(positionControl.withPosition(position.in(Rotations)));
     }
 
     /**
@@ -166,7 +183,7 @@ public class TalonFXMotor extends MotorIO {
      */
     @Override
     public void setVelocitySetpoint(AngularVelocity velocity) {
-        motor.setControl(velocityControl.withVelocity(velocity));
+        motor.setControl(velocityControl.withVelocity(velocity.in(RotationsPerSecond)));
     }
 
     /**
@@ -176,6 +193,6 @@ public class TalonFXMotor extends MotorIO {
      */
     @Override
     public void setVoltage(Voltage voltage) {
-        motor.setControl(voltageControl.withOutput(voltage));
+        motor.setControl(voltageControl.withOutput(voltage.in(Volts)));
     }
 }

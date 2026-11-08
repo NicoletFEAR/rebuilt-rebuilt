@@ -2,8 +2,9 @@ package frc.lib.module;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
+import frc.lib.units.Voltage;
+
 import org.littletonrobotics.junction.Logger;
-import org.wpilib.units.measure.Voltage;
 
 /**
  * Base class for modules that control a motor and interact with a mechanism.

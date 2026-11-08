@@ -1,14 +1,24 @@
 package frc.lib.motor;
 
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+
+import frc.lib.units.Angle;
+import frc.lib.units.AngularAcceleration;
+import frc.lib.units.AngularVelocity;
+import frc.lib.units.Current;
+import frc.lib.units.Temperature;
+import frc.lib.units.Voltage;
+
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.AngularAccelerationUnit.RadiansPerSecondSquared;
+import static frc.lib.units.CurrentUnit.Amps;
+import static frc.lib.units.TemperatureUnit.Kelvin;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import org.wpilib.math.system.DCMotor;
 import org.wpilib.simulation.DCMotorSim;
 import org.wpilib.system.Timer;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
-import org.wpilib.units.measure.Current;
-import org.wpilib.units.measure.Temperature;
-import org.wpilib.units.measure.Voltage;
 
 /**
  * Simulation implementation of {@link MotorIO} that models a TalonFX motor using WPILib's {@link
@@ -24,13 +34,15 @@ import org.wpilib.units.measure.Voltage;
 public class SimMotor extends MotorIO {
 
     private Control control;
+    private MotorIOInputsAutoLogged leaderInputs = new MotorIOInputsAutoLogged();
 
-    private Angle position;
-    private AngularVelocity velocity;
-    private Voltage voltage;
-    private Current statorCurrent;
-    private Current supplyCurrent;
-    private Temperature temperature;
+    private Angle position = Radians.of(0.0);
+    private AngularVelocity velocity = RadiansPerSecond.of(0.0);
+    private AngularAcceleration acceleration = RadiansPerSecondSquared.of(0.0);
+    private Voltage voltage = Volts.of(0.0);
+    private Current statorCurrent = Amps.of(0.0);
+    private Current supplyCurrent = Amps.of(0.0);
+    private Temperature temperature = Kelvin.of(294.0);
 
     /** FPGA timestamp from the previous simulation update. */
     private double lastUpdateTimestamp = 0.0;
@@ -72,11 +84,25 @@ public class SimMotor extends MotorIO {
     public void updateInputs(MotorIOInputs inputs) {
         double timestamp = Timer.getTimestamp();
 
-        // switch (control) {
-        //     case FollowerControl(MotorIO leader, MotorAlignmentValue alignment) -> {
-        //         this.position = leader.
-        //     }
-        // }
+        switch (control) {
+            case FollowerControl(MotorIO leader, MotorAlignmentValue alignment) -> {
+                leader.updateInputs(leaderInputs);
+                double alignmentModifier = alignment == MotorAlignmentValue.Aligned ? 1.0 : -1.0;
+                position = leaderInputs.position.times(alignmentModifier);
+                velocity = leaderInputs.velocity.times(alignmentModifier);
+                acceleration = leaderInputs.acceleration.times(alignmentModifier);
+                voltage = leaderInputs.voltage.times(alignmentModifier);
+                statorCurrent = leaderInputs.statorCurrent;
+                supplyCurrent = leaderInputs.supplyCurrent;
+                temperature = leaderInputs.temperature;
+            }
+
+            case VoltageControl(Voltage voltage) -> {
+                this.voltage = voltage;
+            }
+
+            default -> {}
+        }
 
         lastUpdateTimestamp = timestamp;
 

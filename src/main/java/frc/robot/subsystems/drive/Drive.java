@@ -1,17 +1,22 @@
 package frc.robot.subsystems.drive;
 
-import static org.wpilib.units.Units.Inches;
-import static org.wpilib.units.Units.Meters;
-import static org.wpilib.units.Units.MetersPerSecond;
-import static org.wpilib.units.Units.RadiansPerSecond;
-import static org.wpilib.units.Units.Rotations;
-import static org.wpilib.units.Units.Seconds;
-
 import frc.lib.constants.Constants;
 import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.motor.FeedforwardValues;
+import frc.lib.units.Angle;
+import frc.lib.units.AngularVelocity;
+import frc.lib.units.Distance;
+import frc.lib.units.Velocity;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
+
+import static frc.lib.units.AngleUnit.Rotations;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.DistanceUnit.Inches;
+import static frc.lib.units.DistanceUnit.Meters;
+import static frc.lib.units.TimeUnit.Seconds;
+import static frc.lib.units.VelocityUnit.MetersPerSecond;
+
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.Alliance;
 import org.wpilib.driverstation.MatchState;
@@ -26,10 +31,6 @@ import org.wpilib.math.kinematics.SwerveModulePosition;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.system.Timer;
-import org.wpilib.units.measure.Angle;
-import org.wpilib.units.measure.AngularVelocity;
-import org.wpilib.units.measure.Distance;
-import org.wpilib.units.measure.LinearVelocity;
 
 public class Drive {
     private final RobotState robotState;
@@ -58,10 +59,10 @@ public class Drive {
         kinematics =
                 new SwerveDriveKinematics(
                         new Translation2d[] {
-                            new Translation2d(halfTrackWidthX, halfTrackWidthY),
-                            new Translation2d(halfTrackWidthX, halfTrackWidthY.unaryMinus()),
-                            new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY),
-                            new Translation2d(halfTrackWidthX.unaryMinus(), halfTrackWidthY.unaryMinus()),
+                            new Translation2d(halfTrackWidthX.in(Meters), halfTrackWidthY.in(Meters)),
+                            new Translation2d(halfTrackWidthX.in(Meters), halfTrackWidthY.negative().in(Meters)),
+                            new Translation2d(halfTrackWidthX.negative().in(Meters), halfTrackWidthY.in(Meters)),
+                            new Translation2d(halfTrackWidthX.negative().in(Meters), halfTrackWidthY.negative().in(Meters)),
                         });
         poseEstimator =
                 new SwerveDrivePoseEstimator(
@@ -125,11 +126,11 @@ public class Drive {
 
     private void applySpeeds(ChassisVelocities speeds) {
         ChassisVelocities discreteSpeeds =
-                speeds.discretize(Constants.LOOP_PERIOD.asPeriod().in(Seconds));
+                speeds.discretize(Constants.LOOP_PERIOD.reciprocal().in(Seconds));
         SwerveModuleVelocity[] setpointStates = kinematics.toSwerveModuleVelocities(discreteSpeeds);
         setpointStates =
                 SwerveDriveKinematics.desaturateWheelVelocities(
-                        setpointStates, DriveConstants.MAX_VELOCITY);
+                        setpointStates, DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
         applyStates(setpointStates);
     }
 
@@ -175,7 +176,7 @@ public class Drive {
     }
 
     public static final class DriveConstants {
-        private static final Distance WHEEL_RADIUS = Meters.of(0.0508);
+        private static final Distance WHEEL_RADIUS = Inches.of(2.0);
 
         public static final double DRIVE_ROTOR_TO_MECHANISM_RATIO =
                 425.0 / 63.0 * WHEEL_RADIUS.in(Meters);
@@ -194,7 +195,7 @@ public class Drive {
         private static final Distance TRACK_WIDTH_X = Inches.of(20.753888);
         private static final Distance TRACK_WIDTH_Y = Inches.of(20.753888);
 
-        private static final LinearVelocity MAX_VELOCITY = MetersPerSecond.of(4.8);
+        private static final Velocity MAX_VELOCITY = MetersPerSecond.of(4.8);
         private static final AngularVelocity MAX_ANGULAR_VELOCITY = RadiansPerSecond.of(Math.PI * 3.0);
 
         private DriveConstants() {

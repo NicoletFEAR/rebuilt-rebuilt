@@ -2,7 +2,7 @@ package frc.lib.module.velocity;
 
 import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
-import org.wpilib.units.measure.AngularVelocity;
+import frc.lib.units.AngularVelocity;
 
 /**
  * A module that controls and measures the angular velocity of a mechanism.

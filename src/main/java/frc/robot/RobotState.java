@@ -1,12 +1,12 @@
 package frc.robot;
 
-import static org.wpilib.units.Units.Seconds;
-
 import frc.lib.estimate.OdometryMeasurement;
+import frc.lib.units.Time;
 import lombok.Data;
 import org.littletonrobotics.junction.AutoLog;
 import org.wpilib.math.geometry.Pose2d;
-import org.wpilib.units.measure.Time;
+
+import static frc.lib.units.TimeUnit.Seconds;
 
 @Data
 @AutoLog
@@ -15,7 +15,7 @@ public class RobotState {
     Time lastTimestamp = Seconds.of(Double.MIN_NORMAL);
 
     public void addOdometryMeasurement(OdometryMeasurement measurement) {
-        if (measurement.timestamp().gt(lastTimestamp)) {
+        if (measurement.timestamp().greaterThan(lastTimestamp)) {
             lastTimestamp = measurement.timestamp();
             estimatedPose = measurement.pose();
         }
