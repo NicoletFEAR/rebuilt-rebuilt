@@ -1,16 +1,15 @@
 package frc.robot.subsystems.launcher;
 
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
 import frc.robot.subsystems.launcher.Hood.HoodState;
 import frc.robot.subsystems.launcher.Indexer.IndexerState;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 
-public class Launcher extends SubsystemBase {
+public class Launcher {
     private final Flywheels flywheels;
     private final Indexer indexer;
     private final Hood hood;
@@ -38,7 +37,6 @@ public class Launcher extends SubsystemBase {
         EXTAKE,
     }
 
-    @Override
     public void periodic() {
         Logger.recordOutput("Launcher/State", state);
 
@@ -74,6 +72,10 @@ public class Launcher extends SubsystemBase {
                 hood.setState(HoodState.OFF);
             }
         }
+
+        flywheels.periodic();
+        indexer.periodic();
+        hood.periodic();
     }
 
     public void setState(LauncherState state) {

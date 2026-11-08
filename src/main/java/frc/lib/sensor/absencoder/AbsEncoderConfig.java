@@ -1,12 +1,12 @@
 package frc.lib.sensor.absencoder;
 
-import static edu.wpi.first.units.Units.Radians;
+import static org.wpilib.units.Units.Radians;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
-import edu.wpi.first.units.measure.Angle;
 import frc.lib.CanId;
+import org.wpilib.units.measure.Angle;
 
 /**
  * Used to represent a vendor-agnostic absolute encoder configuration

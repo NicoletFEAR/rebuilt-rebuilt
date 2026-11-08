@@ -1,11 +1,9 @@
 package frc.lib.module;
 
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.units.measure.Voltage;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.units.measure.Voltage;
 
 /**
  * Base class for modules that control a motor and interact with a mechanism.
@@ -17,7 +15,7 @@ import org.littletonrobotics.junction.Logger;
  * <p>Specific module types, such as position and velocity modules, can extend this class to add
  * functionality for controlling a particular type of mechanism.
  */
-public abstract class Module extends SubsystemBase {
+public abstract class Module {
 
     /** Interface used to communicate with the motor. */
     protected final MotorIO io;
@@ -39,8 +37,7 @@ public abstract class Module extends SubsystemBase {
      * @param rotorToMechanismRatio ratio between the motor rotor and the mechanism
      */
     public Module(String name, MotorIO io, double rotorToMechanismRatio) {
-        super(name);
-        this.name = getName();
+        this.name = name;
         this.io = io;
         inputs = new MotorIOInputsAutoLogged();
         this.rotorToMechanismRatio = rotorToMechanismRatio;
@@ -53,21 +50,9 @@ public abstract class Module extends SubsystemBase {
      * then converted from rotor measurements to mechanism measurements using the configured
      * rotor-to-mechanism ratio before being sent to the AdvantageKit logger.
      */
-    @Override
     public void periodic() {
         io.updateInputs(inputs);
         Logger.processInputs(name, inputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
-    }
-
-    /**
-     * Sets the neutral mode of the motor.
-     *
-     * <p>The neutral mode determines how the motor behaves when no output is being applied.
-     *
-     * @param mode neutral mode to apply to the motor
-     */
-    protected void setNeutralMode(NeutralModeValue mode) {
-        io.setNeutralMode(mode);
     }
 
     /**

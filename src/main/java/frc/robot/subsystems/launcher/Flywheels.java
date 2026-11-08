@@ -1,15 +1,15 @@
 package frc.robot.subsystems.launcher;
 
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.RadiansPerSecond;
+import static org.wpilib.units.Units.Volts;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.units.measure.AngularVelocity;
 import frc.lib.constants.Constants;
 import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.math.util.MathUtil;
+import org.wpilib.units.measure.AngularVelocity;
 
 public class Flywheels extends MultiAngularVelocityModule {
     private FlywheelState state;

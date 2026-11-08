@@ -1,18 +1,17 @@
 package frc.robot;
 
-import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static org.wpilib.units.Units.KilogramSquareMeters;
 
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
-import edu.wpi.first.wpilibj.PS5Controller;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.KrakenType;
 import frc.lib.motor.MotorConfig;
-import frc.lib.motor.RealMotor;
 import frc.lib.motor.SimMotor;
+import frc.lib.motor.TalonFXMotor;
 import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.sensor.absencoder.RealCanCoder;
 import frc.lib.sensor.absencoder.SimCanCoder;
 import frc.robot.constants.DeviceIds;
+import frc.robot.constants.OperatorConstants;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.Superstructure.SuperState;
 import frc.robot.subsystems.drive.Drive;
@@ -27,37 +26,41 @@ import frc.robot.subsystems.launcher.Hood.HoodConstants;
 import frc.robot.subsystems.launcher.Indexer.IndexerConstants;
 import frc.robot.subsystems.launcher.Launcher;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.driverstation.Gamepad;
 
-public class RobotContainer extends SubsystemBase {
+public class RobotContainer {
     private final RobotStateAutoLogged robotState;
     private final Superstructure superstructure;
-    private final PS5Controller driverController;
+    private final Gamepad driverController;
 
     public RobotContainer() {
         robotState = new RobotStateAutoLogged();
-        driverController = new PS5Controller(0);
+        driverController = new Gamepad(0);
+        driverController.setLeftTriggerDeadband(OperatorConstants.JOYSTICK_DEADBAND);
+        driverController.setRightTriggerDeadband(OperatorConstants.JOYSTICK_DEADBAND);
         superstructure = new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
     }
 
-    @Override
     public void periodic() {
         Logger.processInputs("RobotState", robotState);
         superstructure.applyDriveSpeedsFromControls(
-                -driverController.getLeftX(), -driverController.getLeftY(), driverController.getRightX());
+                -driverController.getLeftY(), -driverController.getLeftX(), driverController.getRightX());
 
         superstructure.setState(SuperState.OPERATE);
 
-        if (driverController.getL2Button()) {
-            if (driverController.getR2Button()) {
+        if (driverController.getLeftTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
+            if (driverController.getRightTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
                 superstructure.setState(SuperState.LAUNCH_AND_INTAKE);
             } else {
                 superstructure.setState(SuperState.INTAKE);
             }
-        } else if (driverController.getR2Button()) {
+        } else if (driverController.getRightTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
             superstructure.setState(SuperState.LAUNCH);
-        } else if (driverController.getR1Button()) {
+        } else if (driverController.getRightBumperButton()) {
             superstructure.setState(SuperState.EXTAKE);
         }
+
+        superstructure.periodic();
     }
 
     private Drive buildDrive(RobotState robotState) {
@@ -65,13 +68,13 @@ public class RobotContainer extends SubsystemBase {
             return new Drive(
                     robotState,
                     new SwerveModule(
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_LEFT_DRIVE,
                                             DriveConstants.DRIVE_FEEDFORWARD_VALUES,
                                             KrakenType.X60,
                                             KilogramSquareMeters.of(0.01))),
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_LEFT_TURN,
                                             DriveConstants.TURN_FEEDFORWARD_VALUES,
@@ -85,13 +88,13 @@ public class RobotContainer extends SubsystemBase {
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_RIGHT_DRIVE,
                                             DriveConstants.DRIVE_FEEDFORWARD_VALUES,
                                             KrakenType.X60,
                                             KilogramSquareMeters.of(0.01))),
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_RIGHT_TURN,
                                             DriveConstants.TURN_FEEDFORWARD_VALUES,
@@ -105,13 +108,13 @@ public class RobotContainer extends SubsystemBase {
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_LEFT_DRIVE,
                                             DriveConstants.DRIVE_FEEDFORWARD_VALUES,
                                             KrakenType.X60,
                                             KilogramSquareMeters.of(0.01))),
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_LEFT_TURN,
                                             DriveConstants.TURN_FEEDFORWARD_VALUES,
@@ -125,13 +128,13 @@ public class RobotContainer extends SubsystemBase {
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_RIGHT_DRIVE,
                                             DriveConstants.DRIVE_FEEDFORWARD_VALUES,
                                             KrakenType.X60,
                                             KilogramSquareMeters.of(0.01))),
-                            new RealMotor(
+                            new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_RIGHT_TURN,
                                             DriveConstants.TURN_FEEDFORWARD_VALUES,
@@ -232,28 +235,28 @@ public class RobotContainer extends SubsystemBase {
 
     private Launcher buildLauncher() {
         return new Launcher(
-                new RealMotor(
+                new TalonFXMotor(
                         new MotorConfig(
                                 DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES, KrakenType.X60)),
-                new RealMotor(
+                new TalonFXMotor(
                         new MotorConfig(
                                 DeviceIds.RIGHT_LAUNCHER,
                                 FlywheelConstants.FEEDFORWARD_VALUES,
                                 KrakenType.X60,
                                 MotorAlignmentValue.Opposed)),
-                new RealMotor(
+                new TalonFXMotor(
                         new MotorConfig(
                                 DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
-                new RealMotor(
+                new TalonFXMotor(
                         new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
                 new RealCanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
     private Intake buildIntake() {
         return new Intake(
-                new RealMotor(
+                new TalonFXMotor(
                         new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES, KrakenType.X44)),
-                new RealMotor(
+                new TalonFXMotor(
                         new MotorConfig(
                                 DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES, KrakenType.X44)));
     }

@@ -1,13 +1,14 @@
 package frc.robot.subsystems.drive;
 
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.Radians;
+import static org.wpilib.units.Units.Volts;
 
-import edu.wpi.first.units.measure.Angle;
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.units.measure.Angle;
 
 class TurnMotor extends AbsEncoderAngularPositionModule {
     private TurnMotorState state;
@@ -42,5 +43,9 @@ class TurnMotor extends AbsEncoderAngularPositionModule {
 
     void setDesiredPosition(Angle position) {
         desiredPosition = position;
+    }
+
+    Rotation2d getDesiredRotation() {
+        return Rotation2d.fromRadians(desiredPosition.in(Radians));
     }
 }

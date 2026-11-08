@@ -1,10 +1,22 @@
-* Create SwerveDriveTemplate class so that RobotContainer doesn't have to do so much instantiation for the drivebase
 * Replace CTRE motor simulation with generic motor simulation
-* Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
-* Create new type of module that can be controlled with position or velocity
-* Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
-* Add gyroscope
-* Edit subsystems so that they use setDynamicPosition instead of setPositionSetpoint when appropriate
+* Make everything actually vendor-agnostic
+* ADTs for other state machines
+* Simulation voltage subsystem
+* Clock subsystem and integration into simulation
+* Get everything we have so far working in simulation
 * Make sure every subsystem state does something with every part of the subsystem
-* Request system
+* Create SwerveDriveTemplate class so that RobotContainer doesn't have to do so much instantiation for the drivebase
+* Edit subsystems so that they use setDynamicPosition instead of setPositionSetpoint when appropriate
+* Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
+* Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
+* Add MotionMagic parameters to MotorConfig
+* Make motor simulation actually simulate motors
+* LQR? Kalman filters?
+* Add gyroscope
+* Universal controller class
+* Set up alerts system in case anything goes wrong (like disconnected controllers)
+* Error injection for simulation
 * LedIO
+* Add CTRE swerve IO
+* Procedurally generated autos (ideally with custom pathfinder optimized for limelight-based accuracy)
+* Auto-checklists with data tracking to determine normal values and detect anomalies

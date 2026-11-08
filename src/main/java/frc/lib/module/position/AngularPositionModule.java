@@ -1,11 +1,11 @@
 package frc.lib.module.position;
 
-import static edu.wpi.first.units.Units.Radians;
+import static org.wpilib.units.Units.Radians;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.units.measure.Angle;
 import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.units.measure.Angle;
 
 /**
  * A module that controls and measures the angular position of a mechanism.

@@ -1,12 +1,12 @@
 package frc.robot.subsystems.intake;
 
-import static edu.wpi.first.units.Units.Meters;
+import static org.wpilib.units.Units.Meters;
 
-import edu.wpi.first.units.measure.Distance;
 import frc.lib.module.position.LinearPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.units.measure.Distance;
 
 public class Arm extends LinearPositionModule {
     private ArmState state;

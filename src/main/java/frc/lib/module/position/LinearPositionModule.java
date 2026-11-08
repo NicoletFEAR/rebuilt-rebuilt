@@ -1,11 +1,11 @@
 package frc.lib.module.position;
 
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Radians;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Radians;
 
-import edu.wpi.first.units.measure.Distance;
 import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
+import org.wpilib.units.measure.Distance;
 
 /**
  * A module that controls and measures the linear position of a mechanism.

@@ -1,39 +1,37 @@
 package frc.robot.subsystems.drive;
 
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Rotations;
-import static edu.wpi.first.units.Units.Seconds;
+import static org.wpilib.units.Units.Inches;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.RadiansPerSecond;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.Seconds;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.constants.Constants;
 import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.motor.FeedforwardValues;
 import frc.robot.RobotState;
-import frc.robot.constants.OperatorConstants;
 import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.driverstation.Alliance;
+import org.wpilib.driverstation.MatchState;
+import org.wpilib.math.estimator.SwerveDrivePoseEstimator;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Transform2d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.kinematics.ChassisVelocities;
+import org.wpilib.math.kinematics.SwerveDriveKinematics;
+import org.wpilib.math.kinematics.SwerveModulePosition;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.system.Timer;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.LinearVelocity;
 
-public class Drive extends SubsystemBase {
+public class Drive {
     private final RobotState robotState;
     private final SwerveModule[] modules;
 
@@ -68,7 +66,7 @@ public class Drive extends SubsystemBase {
         poseEstimator =
                 new SwerveDrivePoseEstimator(
                         kinematics,
-                        DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue
+                        MatchState.getAlliance().orElse(Alliance.BLUE) == Alliance.BLUE
                                 ? Rotation2d.fromRadians(0.0)
                                 : Rotation2d.fromRadians(Math.PI),
                         getModulePositions(),
@@ -84,11 +82,12 @@ public class Drive extends SubsystemBase {
         DRIVE,
     }
 
-    @Override
     public void periodic() {
         Logger.recordOutput("Drive/State", state);
         Logger.recordOutput("Drive/ModulePositions", getModulePositions());
-        poseEstimator.updateWithTime(Timer.getFPGATimestamp(), Rotation2d.kZero, getModulePositions());
+        Logger.recordOutput("Drive/ModuleStates", getModuleStates());
+        Logger.recordOutput("Drive/DesiredModuleStates", getDesiredModuleStates());
+        poseEstimator.updateWithTime(Timer.getTimestamp(), Rotation2d.ZERO, getModulePositions());
         robotState.addOdometryMeasurement(getOdometryMeasurement());
 
         switch (state) {
@@ -104,6 +103,10 @@ public class Drive extends SubsystemBase {
                 }
             }
         }
+
+        for (int i = 0; i < 4; i++) {
+            modules[i].periodic();
+        }
     }
 
     public void setState(DriveState state) {
@@ -111,29 +114,26 @@ public class Drive extends SubsystemBase {
     }
 
     public void applySpeedsFromControls(double x, double y, double omega) {
-        double linearMagnitude =
-                MathUtil.applyDeadband(Math.hypot(x, y), OperatorConstants.DRIVE_DEADBAND);
         Translation2d linearVelocity =
-                new Pose2d(Translation2d.kZero, new Rotation2d(x, y))
-                        .transformBy(new Transform2d(linearMagnitude, 0.0, Rotation2d.kZero))
+                new Pose2d(Translation2d.ZERO, new Rotation2d(x, y))
+                        .transformBy(new Transform2d(Math.hypot(x, y), 0.0, Rotation2d.ZERO))
                         .getTranslation()
                         .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
-        omega =
-                MathUtil.applyDeadband(omega, OperatorConstants.DRIVE_DEADBAND)
-                        * DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
-        applySpeeds(new ChassisSpeeds(linearVelocity.getX(), linearVelocity.getY(), omega));
+        omega *= DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
+        applySpeeds(new ChassisVelocities(linearVelocity.getX(), linearVelocity.getY(), omega));
     }
 
-    private void applySpeeds(ChassisSpeeds speeds) {
-        ChassisSpeeds discreteSpeeds =
-                ChassisSpeeds.discretize(speeds, Constants.LOOP_PERIOD.asPeriod().in(Seconds));
-        edu.wpi.first.math.kinematics.SwerveModuleState[] setpointStates =
-                kinematics.toSwerveModuleStates(discreteSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.MAX_VELOCITY);
+    private void applySpeeds(ChassisVelocities speeds) {
+        ChassisVelocities discreteSpeeds =
+                speeds.discretize(Constants.LOOP_PERIOD.asPeriod().in(Seconds));
+        SwerveModuleVelocity[] setpointStates = kinematics.toSwerveModuleVelocities(discreteSpeeds);
+        setpointStates =
+                SwerveDriveKinematics.desaturateWheelVelocities(
+                        setpointStates, DriveConstants.MAX_VELOCITY);
         applyStates(setpointStates);
     }
 
-    private void applyStates(edu.wpi.first.math.kinematics.SwerveModuleState[] states) {
+    private void applyStates(SwerveModuleVelocity[] states) {
         for (int i = 0; i < 4; i++) {
             modules[i].applyState(states[i]);
         }
@@ -141,7 +141,7 @@ public class Drive extends SubsystemBase {
 
     private OdometryMeasurement getOdometryMeasurement() {
         return new OdometryMeasurement(
-                Seconds.of(Timer.getFPGATimestamp()), poseEstimator.getEstimatedPosition());
+                Seconds.of(Timer.getTimestamp()), poseEstimator.getEstimatedPosition());
     }
 
     private SwerveModulePosition[] getModulePositions() {
@@ -149,6 +149,26 @@ public class Drive extends SubsystemBase {
 
         for (int i = 0; i < 4; i++) {
             result[i] = modules[i].getPosition();
+        }
+
+        return result;
+    }
+
+    private SwerveModuleVelocity[] getModuleStates() {
+        SwerveModuleVelocity[] result = new SwerveModuleVelocity[4];
+
+        for (int i = 0; i < 4; i++) {
+            result[i] = modules[i].getState();
+        }
+
+        return result;
+    }
+
+    private SwerveModuleVelocity[] getDesiredModuleStates() {
+        SwerveModuleVelocity[] result = new SwerveModuleVelocity[4];
+
+        for (int i = 0; i < 4; i++) {
+            result[i] = modules[i].getDesiredState();
         }
 
         return result;

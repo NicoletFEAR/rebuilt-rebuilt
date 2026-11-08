@@ -47,7 +47,7 @@ public class MultiAngularVelocityModule extends AngularVelocityModule {
 
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].follow(
-                    leader.getConfig().id(),
+                    leader,
                     followerIOs[i]
                             .getConfig()
                             .alignment()

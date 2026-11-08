@@ -1,21 +1,19 @@
 package frc.lib.motor;
 
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Celsius;
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.Amps;
+import static org.wpilib.units.Units.Celsius;
+import static org.wpilib.units.Units.Radians;
+import static org.wpilib.units.Units.RadiansPerSecond;
+import static org.wpilib.units.Units.Volts;
 
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Temperature;
-import edu.wpi.first.units.measure.Voltage;
-import frc.lib.CanId;
 import lombok.Getter;
 import org.littletonrobotics.junction.AutoLog;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Temperature;
+import org.wpilib.units.measure.Voltage;
 
 /**
  * Provides an interface for communicating with a motor controller.
@@ -107,32 +105,26 @@ public abstract class MotorIO {
      * @param leader CAN ID of the motor to follow
      * @param alignment alignment of this motor relative to the leader
      */
-    public abstract void follow(CanId leader, MotorAlignmentValue alignment);
+    public abstract void follow(MotorIO leader, MotorAlignmentValue alignment);
 
     /**
-     * Sets the neutral mode of the motor.
-     *
-     * @param mode neutral mode to apply when the motor is not being commanded
-     */
-    public abstract void setNeutralMode(NeutralModeValue mode);
-
-    /**
-     * Sets the desired angular position of the motor rotor. This should be
-     * used when the desired position is a known setpoint so that the motor
-     * can run a motion profile effectively.
+     * Sets the desired angular position of the motor rotor. This should be used when the desired
+     * position is a known setpoint so that the motor can run a motion profile effectively.
      *
      * @param position desired rotor position
      */
     public abstract void setPositionSetpoint(Angle position);
 
     /**
-     * Sets the desired angular position of the motor rotor. This should be
-     * used when the desired position changes over time (like in an
-     * auto-aiming launcher hood) to avoid the delay of a motion profile.
+     * Sets the desired angular position of the motor rotor. This should be used when the desired
+     * position changes over time (like in an auto-aiming launcher hood) to avoid the delay of a
+     * motion profile.
      *
      * @param position desired rotor position
      */
-    public abstract void setDynamicPosition(Angle position);
+    public void setDynamicPosition(Angle position) {
+        setPositionSetpoint(position);
+    }
 
     /**
      * Sets the desired angular velocity of the motor rotor.

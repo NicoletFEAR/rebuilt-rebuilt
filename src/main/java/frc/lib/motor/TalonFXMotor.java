@@ -1,9 +1,9 @@
 package frc.lib.motor;
 
-import static edu.wpi.first.units.Units.Hertz;
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.Volts;
+import static org.wpilib.units.Units.Hertz;
+import static org.wpilib.units.Units.Radians;
+import static org.wpilib.units.Units.RadiansPerSecond;
+import static org.wpilib.units.Units.Volts;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
@@ -14,13 +14,11 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.units.measure.Current;
-import edu.wpi.first.units.measure.Temperature;
-import edu.wpi.first.units.measure.Voltage;
-import frc.lib.CanId;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Current;
+import org.wpilib.units.measure.Temperature;
+import org.wpilib.units.measure.Voltage;
 
 /**
  * Real hardware implementation of {@link MotorIO} for a CTRE TalonFX motor controller.
@@ -31,34 +29,31 @@ import frc.lib.CanId;
  *
  * <p>Motor status signals are updated at 100 Hz and are optimized for reduced CAN bus utilization.
  */
-public class RealMotor extends MotorIO {
+public class TalonFXMotor extends MotorIO {
 
     /** Physical TalonFX motor controller. */
-    protected final TalonFX motor;
-
-    /** Current neutral mode configured for the motor. */
-    private NeutralModeValue neutralMode;
+    private final TalonFX motor;
 
     /** Collection of status signals used to retrieve motor inputs. */
-    protected final StatusSignalCollection signals = new StatusSignalCollection(6);
+    private final StatusSignalCollection signals = new StatusSignalCollection(6);
 
     /** Rotor position status signal. */
-    protected final StatusSignal<Angle> positionSignal;
+    private final StatusSignal<Angle> positionSignal;
 
     /** Rotor angular velocity status signal. */
-    protected final StatusSignal<AngularVelocity> velocitySignal;
+    private final StatusSignal<AngularVelocity> velocitySignal;
 
     /** Motor voltage status signal. */
-    protected final StatusSignal<Voltage> voltageSignal;
+    private final StatusSignal<Voltage> voltageSignal;
 
     /** Stator current status signal. */
-    protected final StatusSignal<Current> statorCurrentSignal;
+    private final StatusSignal<Current> statorCurrentSignal;
 
     /** Supply current status signal. */
-    protected final StatusSignal<Current> supplyCurrentSignal;
+    private final StatusSignal<Current> supplyCurrentSignal;
 
     /** Motor temperature status signal. */
-    protected final StatusSignal<Temperature> temperatureSignal;
+    private final StatusSignal<Temperature> temperatureSignal;
 
     /** CTRE control request used to configure this motor as a follower. */
     private final Follower followerControl = new Follower(0, MotorAlignmentValue.Aligned);
@@ -87,9 +82,8 @@ public class RealMotor extends MotorIO {
      *
      * @param config configuration for the motor
      */
-    public RealMotor(MotorConfig config) {
+    public TalonFXMotor(MotorConfig config) {
         super(config);
-        this.neutralMode = config.neutralMode();
         motor = new TalonFX(config.id().id(), config.id().bus());
         motor.getConfigurator().apply(config.getTalonFXConfiguration());
 
@@ -138,30 +132,14 @@ public class RealMotor extends MotorIO {
      * @param alignment alignment of this motor relative to the leader
      */
     @Override
-    public void follow(CanId leader, MotorAlignmentValue alignment) {
-        motor.setControl(followerControl.withLeaderID(leader.id()).withMotorAlignment(alignment));
+    public void follow(MotorIO leader, MotorAlignmentValue alignment) {
+        motor.setControl(
+                followerControl.withLeaderID(leader.getConfig().id().id()).withMotorAlignment(alignment));
     }
 
     /**
-     * Sets the neutral mode of the motor.
-     *
-     * <p>The neutral mode is only sent to the motor controller when it differs from the currently
-     * configured mode.
-     *
-     * @param mode neutral mode to apply to the motor
-     */
-    @Override
-    public void setNeutralMode(NeutralModeValue mode) {
-        if (mode != neutralMode) {
-            neutralMode = mode;
-            motor.setNeutralMode(neutralMode);
-        }
-    }
-
-    /**
-     * Sets the desired rotor position using CTRE Motion Magic position control.
-     * This is best for optimizing the path to a known, static setpoint according
-     * to 1690.
+     * Sets the desired rotor position using CTRE Motion Magic position control. This is best for
+     * optimizing the path to a known, static setpoint according to 1690.
      *
      * @param position desired rotor position
      */
@@ -171,10 +149,9 @@ public class RealMotor extends MotorIO {
     }
 
     /**
-     * Sets the desired rotor position using a simple PositionVoltage control. This
-     * is better for moving setpoints because the position will adjust without the
-     * delay of a Motion Magic profile.
-     * 
+     * Sets the desired rotor position using a simple PositionVoltage control. This is better for
+     * moving setpoints because the position will adjust without the delay of a Motion Magic profile.
+     *
      * @param position desired rotor position
      */
     @Override

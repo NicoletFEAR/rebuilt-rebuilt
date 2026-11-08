@@ -1,13 +1,13 @@
 package frc.lib.sensor.absencoder;
 
-import static edu.wpi.first.units.Units.Hertz;
-import static edu.wpi.first.units.Units.Radians;
+import static org.wpilib.units.Units.Hertz;
+import static org.wpilib.units.Units.Radians;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.hardware.CANcoder;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.AngularVelocity;
 
 /** Implements {@link AbsEncoderIO} in order to create the real/physical CANcoder */
 public class RealCanCoder implements AbsEncoderIO {

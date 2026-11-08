@@ -1,11 +1,11 @@
 package frc.lib.sensor.tof;
 
-import static edu.wpi.first.units.Units.Hertz;
+import static org.wpilib.units.Units.Hertz;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.units.measure.Distance;
 
 /**
  * Real hardware implementation of {@link TofIO} using a CTRE CANrange sensor.

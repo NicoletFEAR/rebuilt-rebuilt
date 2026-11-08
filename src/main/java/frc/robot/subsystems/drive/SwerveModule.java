@@ -1,19 +1,19 @@
 package frc.robot.subsystems.drive;
 
-import static edu.wpi.first.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.MetersPerSecond;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.LinearVelocity;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
 import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
 import org.littletonrobotics.junction.Logger;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.kinematics.SwerveModulePosition;
+import org.wpilib.math.kinematics.SwerveModuleVelocity;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.LinearVelocity;
 
-public class SwerveModule extends SubsystemBase {
+public class SwerveModule {
     private final String name;
 
     private final DriveMotor drive;
@@ -35,7 +35,6 @@ public class SwerveModule extends SubsystemBase {
         DRIVE,
     }
 
-    @Override
     public void periodic() {
         Logger.recordOutput(name + "/State", state);
 
@@ -50,6 +49,9 @@ public class SwerveModule extends SubsystemBase {
                 turn.setState(TurnMotorState.TURN);
             }
         }
+
+        drive.periodic();
+        turn.periodic();
     }
 
     void setState(SwerveModuleState state) {
@@ -61,14 +63,21 @@ public class SwerveModule extends SubsystemBase {
         turn.setDesiredPosition(position);
     }
 
-    void applyState(edu.wpi.first.math.kinematics.SwerveModuleState state) {
+    void applyState(SwerveModuleVelocity state) {
         Rotation2d currentRotation = turn.getRotation();
-        state.optimize(currentRotation);
-        state.cosineScale(currentRotation);
-        setDesiredSetpoints(MetersPerSecond.of(state.speedMetersPerSecond), state.angle.getMeasure());
+        state = state.optimize(currentRotation).cosineScale(currentRotation);
+        setDesiredSetpoints(MetersPerSecond.of(state.velocity), state.angle.getMeasure());
     }
 
     SwerveModulePosition getPosition() {
         return new SwerveModulePosition(drive.getPosition(), turn.getRotation());
+    }
+
+    SwerveModuleVelocity getState() {
+        return new SwerveModuleVelocity(drive.getVelocity(), turn.getRotation());
+    }
+
+    SwerveModuleVelocity getDesiredState() {
+        return new SwerveModuleVelocity(drive.getDesiredVelocity(), turn.getDesiredRotation());
     }
 }

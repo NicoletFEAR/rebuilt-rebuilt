@@ -1,6 +1,6 @@
 package frc.lib.motor;
 
-import edu.wpi.first.math.system.plant.DCMotor;
+import org.wpilib.math.system.DCMotor;
 
 /**
  * Represents the available Kraken motor types supported by the library.

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveState;
 import frc.robot.subsystems.intake.Intake;
@@ -9,7 +8,7 @@ import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.Launcher.LauncherState;
 import org.littletonrobotics.junction.Logger;
 
-public class Superstructure extends SubsystemBase {
+public class Superstructure {
     private final Drive drive;
     private final Launcher launcher;
     private final Intake intake;
@@ -34,7 +33,6 @@ public class Superstructure extends SubsystemBase {
         EXTAKE,
     }
 
-    @Override
     public void periodic() {
         Logger.recordOutput("Superstructure/State", state);
 
@@ -81,6 +79,10 @@ public class Superstructure extends SubsystemBase {
                 launcher.setState(LauncherState.EXTAKE);
             }
         }
+
+        drive.periodic();
+        intake.periodic();
+        launcher.periodic();
     }
 
     public void setState(SuperState state) {

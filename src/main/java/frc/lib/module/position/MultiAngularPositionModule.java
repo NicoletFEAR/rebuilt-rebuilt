@@ -47,7 +47,7 @@ public class MultiAngularPositionModule extends AngularPositionModule {
 
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].follow(
-                    leader.getConfig().id(),
+                    leader,
                     followerIOs[i]
                             .getConfig()
                             .alignment()

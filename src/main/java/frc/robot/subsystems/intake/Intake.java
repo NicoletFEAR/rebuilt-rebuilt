@@ -1,12 +1,11 @@
 package frc.robot.subsystems.intake;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.motor.MotorIO;
 import frc.robot.subsystems.intake.Arm.ArmState;
 import frc.robot.subsystems.intake.Wheels.WheelState;
 import org.littletonrobotics.junction.Logger;
 
-public class Intake extends SubsystemBase {
+public class Intake {
     private final Arm arm;
     private final Wheels wheels;
 
@@ -28,7 +27,6 @@ public class Intake extends SubsystemBase {
         EXTAKE
     }
 
-    @Override
     public void periodic() {
         Logger.recordOutput("Intake/State", state);
 
@@ -63,6 +61,9 @@ public class Intake extends SubsystemBase {
                 wheels.setState(WheelState.EXTAKE);
             }
         }
+
+        arm.periodic();
+        wheels.periodic();
     }
 
     public void setState(IntakeState state) {

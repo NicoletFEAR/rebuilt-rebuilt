@@ -1,13 +1,13 @@
 package frc.lib.constants;
 
-import static edu.wpi.first.units.Units.Hertz;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Radians;
+import static org.wpilib.units.Units.Hertz;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.Radians;
 
 import com.ctre.phoenix6.CANBus;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.units.measure.Frequency;
+import org.wpilib.units.measure.Angle;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.units.measure.Frequency;
 
 /** This file houses all of the general constants that are needed to run the robot */
 public final class Constants {
@@ -45,5 +45,6 @@ public final class Constants {
     public static final CANBus CANIVORE_BUS = new CANBus("*");
 
     private Constants() {
-        /* Keep this constructor empty */ }
+        /* Keep this constructor empty */
+    }
 }

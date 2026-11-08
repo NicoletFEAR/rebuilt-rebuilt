@@ -37,7 +37,7 @@ public class MultiLinearPositionModule extends LinearPositionModule {
 
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].follow(
-                    leader.getConfig().id(),
+                    leader,
                     followerIOs[i]
                             .getConfig()
                             .alignment()
