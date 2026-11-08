@@ -5,7 +5,7 @@ import static org.wpilib.units.Units.Hertz;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
-import frc.lib.CanId;
+import frc.lib.sensor.CanRangeConfig;
 
 /**
  * Real hardware implementation of {@link BeamBreakIO} using a CTRE CANrange sensor.
@@ -31,10 +31,11 @@ public class CanRangeBeamBreak implements BeamBreakIO {
      * <p>The sensor's detection status is configured to update at 100 Hz, and CAN bus utilization is
      * optimized.
      *
-     * @param id CAN ID of the CANrange sensor
+     * @param config Configuration for the CANrange sensor
      */
-    public CanRangeBeamBreak(CanId id) {
-        canRange = new CANrange(id.id(), id.bus());
+    public CanRangeBeamBreak(CanRangeConfig config) {
+        canRange = new CANrange(config.id().id());
+        canRange.getConfigurator().apply(config.getCanRangeConfiguration());
 
         trippedSignal = canRange.getIsDetected();
         trippedSignal.setUpdateFrequency(Hertz.of(100));

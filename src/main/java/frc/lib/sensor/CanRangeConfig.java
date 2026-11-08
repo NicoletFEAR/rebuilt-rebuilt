@@ -1,7 +1,8 @@
-package frc.lib.sensor.tof;
+package frc.lib.sensor;
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.ProximityParamsConfigs;
+import edu.wpi.first.units.measure.Distance;
 import frc.lib.CanId;
 import frc.lib.constants.Constants;
 
@@ -12,8 +13,9 @@ import frc.lib.constants.Constants;
  * converted into a CTRE {@link CANrangeConfiguration} using {@link #getCanRangeConfiguration()}.
  *
  * @param id CAN ID and CAN bus of the CANrange sensor
+ * @param sensorTolerance the distance at which the CANrange starts sensing distance
  */
-public record CanRangeTofConfig(CanId id) {
+public record CanRangeConfig(CanId id, Distance sensorTolerance) {
 
     /**
      * Creates a CTRE CANrange configuration using the library's configured time-of-flight sensor
@@ -25,7 +27,6 @@ public record CanRangeTofConfig(CanId id) {
      */
     public CANrangeConfiguration getCanRangeConfiguration() {
         return new CANrangeConfiguration()
-                .withProximityParams(
-                        new ProximityParamsConfigs().withProximityThreshold(Constants.TOF_SENSOR_TOLERANCE));
+                .withProximityParams(new ProximityParamsConfigs().withProximityThreshold(sensorTolerance));
     }
 }

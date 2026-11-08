@@ -6,6 +6,7 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
 import org.wpilib.units.measure.Distance;
+import frc.lib.sensor.CanRangeConfig;
 
 /**
  * Real hardware implementation of {@link TofIO} using a CTRE CANrange sensor.
@@ -33,7 +34,7 @@ public class CanRangeTof implements TofIO {
      *
      * @param config configuration for the CANrange sensor
      */
-    public CanRangeTof(CanRangeTofConfig config) {
+    public CanRangeTof(CanRangeConfig config) {
         canRange = new CANrange(config.id().id(), config.id().bus());
         canRange.getConfigurator().apply(config.getCanRangeConfiguration());
 

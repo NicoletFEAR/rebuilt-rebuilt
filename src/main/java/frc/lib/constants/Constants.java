@@ -34,8 +34,6 @@ public final class Constants {
     /** Sets the tolerance of a linear position mechanism to be within 0.005 meters of the setpoint */
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
-    public static final Distance TOF_SENSOR_TOLERANCE = Meters.of(0.2);
-
     /**
      * Used to define the different CAN Busses on the Robot Important for the SystemCore since there
      * are 5 CAN Busses
