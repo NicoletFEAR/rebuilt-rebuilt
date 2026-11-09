@@ -1,12 +1,11 @@
 package frc.robot.subsystems.intake;
 
+import static frc.lib.units.DistanceUnit.Meters;
+
 import frc.lib.module.position.LinearPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.units.Distance;
-
-import static frc.lib.units.DistanceUnit.Meters;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Arm extends LinearPositionModule {

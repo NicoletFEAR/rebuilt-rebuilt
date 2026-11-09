@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class ActionPerAngle extends Quantity<ActionPerAngle, ActionPerAngleUnit> {
     ActionPerAngle(double value) {
-        super(value);
+        super(value, "J/Hz/rad");
     }
 
     public ActionPerAngle plus(ActionPerAngle other) {

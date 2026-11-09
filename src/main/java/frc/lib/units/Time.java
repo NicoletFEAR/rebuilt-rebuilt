@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Time extends Quantity<Time, TimeUnit> {
     Time(double value) {
-        super(value);
+        super(value, "s");
     }
 
     public Time plus(Time other) {

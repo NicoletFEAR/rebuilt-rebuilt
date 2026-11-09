@@ -2,9 +2,8 @@ package frc.lib.sensor.tof;
 
 import static frc.lib.units.DistanceUnit.Meters;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import frc.lib.units.Distance;
+import org.littletonrobotics.junction.AutoLog;
 
 /**
  * Provides an interface for communicating with a time-of-flight sensor.

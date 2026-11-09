@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class MomentOfInertia extends Quantity<MomentOfInertia, MomentOfInertiaUnit> {
     MomentOfInertia(double value) {
-        super(value);
+        super(value, "kg⋅m²");
     }
 
     public MomentOfInertia plus(MomentOfInertia other) {

@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Voltage extends Quantity<Voltage, VoltageUnit> {
     Voltage(double value) {
-        super(value);
+        super(value, "V");
     }
 
     public Voltage plus(Voltage other) {

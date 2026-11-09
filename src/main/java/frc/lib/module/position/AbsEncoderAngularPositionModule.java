@@ -4,7 +4,6 @@ import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.sensor.absencoder.AbsEncoderIOInputsAutoLogged;
 import frc.lib.units.Angle;
-
 import org.littletonrobotics.junction.Logger;
 
 /**

@@ -1,10 +1,15 @@
 package frc.lib.units;
 
-public abstract class Quantity<S extends Quantity<S, U>, U extends Unit> {
-    protected double value;
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-    protected Quantity(double value) {
+public abstract class Quantity<S extends Quantity<S, U>, U extends Unit> implements LoggableInputs {
+    protected double value;
+    protected String baseUnitSymbol;
+
+    protected Quantity(double value, String baseUnitSymbol) {
         this.value = value;
+        this.baseUnitSymbol = baseUnitSymbol;
     }
 
     public boolean greaterThan(S other) {
@@ -17,5 +22,17 @@ public abstract class Quantity<S extends Quantity<S, U>, U extends Unit> {
 
     public double in(U unit) {
         return value * unit.inBaseUnits;
+    }
+
+    @Override
+    public void toLog(LogTable table) {
+        table.put("Value", value);
+        table.put("Unit", baseUnitSymbol);
+    }
+
+    @Override
+    public void fromLog(LogTable table) {
+        value = table.get("Value", value);
+        baseUnitSymbol = table.get("Unit", baseUnitSymbol);
     }
 }

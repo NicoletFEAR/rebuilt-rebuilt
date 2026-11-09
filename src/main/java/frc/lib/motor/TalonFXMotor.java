@@ -1,5 +1,12 @@
 package frc.lib.motor;
 
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngleUnit.Rotations;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.AngularVelocityUnit.RotationsPerSecond;
+import static frc.lib.units.FrequencyUnit.Hertz;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.controls.Follower;
@@ -9,7 +16,6 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
-
 import frc.lib.units.Angle;
 import frc.lib.units.AngleUnit;
 import frc.lib.units.AngularAccelerationUnit;
@@ -19,17 +25,9 @@ import frc.lib.units.CurrentUnit;
 import frc.lib.units.TemperatureUnit;
 import frc.lib.units.Voltage;
 import frc.lib.units.VoltageUnit;
-
 import org.wpilib.units.measure.AngularAcceleration;
 import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Temperature;
-
-import static frc.lib.units.AngleUnit.Radians;
-import static frc.lib.units.AngleUnit.Rotations;
-import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
-import static frc.lib.units.AngularVelocityUnit.RotationsPerSecond;
-import static frc.lib.units.FrequencyUnit.Hertz;
-import static frc.lib.units.VoltageUnit.Volts;
 
 /**
  * Real hardware implementation of {@link MotorIO} for a CTRE TalonFX motor controller.

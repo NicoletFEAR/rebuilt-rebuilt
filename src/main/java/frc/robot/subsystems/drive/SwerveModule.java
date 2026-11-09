@@ -1,5 +1,8 @@
 package frc.robot.subsystems.drive;
 
+import static frc.lib.units.DistanceUnit.Meters;
+import static frc.lib.units.VelocityUnit.MetersPerSecond;
+
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.units.Angle;
@@ -7,10 +10,6 @@ import frc.lib.units.AngleUnit;
 import frc.lib.units.Velocity;
 import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
 import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
-
-import static frc.lib.units.DistanceUnit.Meters;
-import static frc.lib.units.VelocityUnit.MetersPerSecond;
-
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.SwerveModulePosition;
@@ -81,6 +80,7 @@ public class SwerveModule {
     }
 
     SwerveModuleVelocity getDesiredState() {
-        return new SwerveModuleVelocity(drive.getDesiredVelocity().in(MetersPerSecond), turn.getDesiredRotation());
+        return new SwerveModuleVelocity(
+                drive.getDesiredVelocity().in(MetersPerSecond), turn.getDesiredRotation());
     }
 }

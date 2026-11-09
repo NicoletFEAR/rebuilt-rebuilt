@@ -1,13 +1,12 @@
 package frc.lib.sensor.tof;
 
+import static frc.lib.units.FrequencyUnit.Hertz;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
 import frc.lib.sensor.CanRangeConfig;
 import frc.lib.units.DistanceUnit;
-
-import static frc.lib.units.FrequencyUnit.Hertz;
-
 import org.wpilib.units.measure.Distance;
 
 /**

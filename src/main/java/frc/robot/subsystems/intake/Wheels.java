@@ -1,13 +1,12 @@
 package frc.robot.subsystems.intake;
 
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import frc.lib.module.velocity.AngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.units.AngularVelocity;
-
-import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
-import static frc.lib.units.VoltageUnit.Volts;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Wheels extends AngularVelocityModule {

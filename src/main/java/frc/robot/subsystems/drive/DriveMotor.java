@@ -1,12 +1,11 @@
 package frc.robot.subsystems.drive;
 
-import frc.lib.module.velocity.LinearVelocityModule;
-import frc.lib.motor.MotorIO;
-import frc.lib.units.Velocity;
-
 import static frc.lib.units.VelocityUnit.MetersPerSecond;
 import static frc.lib.units.VoltageUnit.Volts;
 
+import frc.lib.module.velocity.LinearVelocityModule;
+import frc.lib.motor.MotorIO;
+import frc.lib.units.Velocity;
 import org.littletonrobotics.junction.Logger;
 
 class DriveMotor extends LinearVelocityModule {

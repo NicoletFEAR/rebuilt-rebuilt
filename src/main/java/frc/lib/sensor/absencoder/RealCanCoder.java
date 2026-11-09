@@ -1,15 +1,13 @@
 package frc.lib.sensor.absencoder;
 
-import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.StatusSignalCollection;
-import com.ctre.phoenix6.hardware.CANcoder;
-
-import frc.lib.units.AngleUnit;
-import frc.lib.units.AngularVelocityUnit;
-
 import static frc.lib.units.AngleUnit.Radians;
 import static frc.lib.units.FrequencyUnit.Hertz;
 
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.StatusSignalCollection;
+import com.ctre.phoenix6.hardware.CANcoder;
+import frc.lib.units.AngleUnit;
+import frc.lib.units.AngularVelocityUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 

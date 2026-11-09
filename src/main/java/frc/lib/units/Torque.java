@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Torque extends Quantity<Torque, TorqueUnit> {
     Torque(double value) {
-        super(value);
+        super(value, "N⋅m");
     }
 
     public Torque plus(Torque other) {

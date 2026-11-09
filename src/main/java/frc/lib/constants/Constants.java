@@ -5,7 +5,6 @@ import static frc.lib.units.DistanceUnit.Meters;
 import static frc.lib.units.FrequencyUnit.Hertz;
 
 import com.ctre.phoenix6.CANBus;
-
 import frc.lib.units.Angle;
 import frc.lib.units.Distance;
 import frc.lib.units.Frequency;

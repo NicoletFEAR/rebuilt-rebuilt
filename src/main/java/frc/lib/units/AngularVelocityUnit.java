@@ -14,6 +14,8 @@ public class AngularVelocityUnit extends Unit {
     }
 
     public static final AngularVelocityUnit RadiansPerSecond = new AngularVelocityUnit(1.0);
-    public static final AngularVelocityUnit RotationsPerSecond = new AngularVelocityUnit(Math.PI * 2.0);
-    public static final AngularVelocityUnit RotationsPerMinute = new AngularVelocityUnit(Math.PI * 120.0);
+    public static final AngularVelocityUnit RotationsPerSecond =
+            new AngularVelocityUnit(Math.PI * 2.0);
+    public static final AngularVelocityUnit RotationsPerMinute =
+            new AngularVelocityUnit(Math.PI * 120.0);
 }

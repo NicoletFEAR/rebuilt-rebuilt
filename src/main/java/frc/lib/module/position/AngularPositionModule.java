@@ -1,11 +1,10 @@
 package frc.lib.module.position;
 
+import static frc.lib.units.AngleUnit.Radians;
+
 import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
 import frc.lib.units.Angle;
-
-import static frc.lib.units.AngleUnit.Radians;
-
 import org.wpilib.math.geometry.Rotation2d;
 
 /**

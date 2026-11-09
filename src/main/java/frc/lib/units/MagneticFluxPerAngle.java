@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class MagneticFluxPerAngle extends Quantity<MagneticFluxPerAngle, MagneticFluxPerAngleUnit> {
     MagneticFluxPerAngle(double value) {
-        super(value);
+        super(value, "Wb/rad");
     }
 
     public MagneticFluxPerAngle plus(MagneticFluxPerAngle other) {

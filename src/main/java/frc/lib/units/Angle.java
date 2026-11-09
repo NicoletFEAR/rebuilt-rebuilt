@@ -4,7 +4,7 @@ import org.wpilib.math.geometry.Rotation2d;
 
 public class Angle extends Quantity<Angle, AngleUnit> {
     Angle(double value) {
-        super(value);
+        super(value, "rad");
     }
 
     public Rotation2d toRotation() {

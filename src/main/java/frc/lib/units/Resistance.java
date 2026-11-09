@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Resistance extends Quantity<Resistance, ResistanceUnit> {
     Resistance(double value) {
-        super(value);
+        super(value, "Ω");
     }
 
     public Resistance plus(Resistance other) {

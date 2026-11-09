@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class MagneticFlux extends Quantity<MagneticFlux, MagneticFluxUnit> {
     MagneticFlux(double value) {
-        super(value);
+        super(value, "Wb");
     }
 
     public MagneticFlux plus(MagneticFlux other) {

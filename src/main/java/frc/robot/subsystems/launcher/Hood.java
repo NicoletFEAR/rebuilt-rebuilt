@@ -1,16 +1,15 @@
 package frc.robot.subsystems.launcher;
 
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngleUnit.Rotations;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import frc.lib.constants.Constants;
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.units.Angle;
-
-import static frc.lib.units.AngleUnit.Radians;
-import static frc.lib.units.AngleUnit.Rotations;
-import static frc.lib.units.VoltageUnit.Volts;
-
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.util.MathUtil;
 

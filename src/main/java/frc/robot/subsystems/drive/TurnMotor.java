@@ -1,13 +1,12 @@
 package frc.robot.subsystems.drive;
 
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.units.Angle;
-
-import static frc.lib.units.AngleUnit.Radians;
-import static frc.lib.units.VoltageUnit.Volts;
-
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.geometry.Rotation2d;
 

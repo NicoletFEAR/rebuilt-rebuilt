@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Velocity extends Quantity<Velocity, VelocityUnit> {
     Velocity(double value) {
-        super(value);
+        super(value, "m/s");
     }
 
     public Velocity plus(Angle other) {

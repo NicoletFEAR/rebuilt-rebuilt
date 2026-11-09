@@ -1,14 +1,13 @@
 package frc.robot.subsystems.launcher;
 
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.VoltageUnit.Volts;
+
 import frc.lib.constants.Constants;
 import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.units.AngularVelocity;
-
-import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
-import static frc.lib.units.VoltageUnit.Volts;
-
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.util.MathUtil;
 

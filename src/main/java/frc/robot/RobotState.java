@@ -1,12 +1,12 @@
 package frc.robot;
 
+import static frc.lib.units.TimeUnit.Seconds;
+
 import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.units.Time;
 import lombok.Data;
 import org.littletonrobotics.junction.AutoLog;
 import org.wpilib.math.geometry.Pose2d;
-
-import static frc.lib.units.TimeUnit.Seconds;
 
 @Data
 @AutoLog

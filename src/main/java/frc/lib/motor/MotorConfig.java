@@ -9,15 +9,14 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import frc.lib.CanId;
-
 import java.util.Optional;
 
 /**
  * Stores the configuration values used to configure a motor.
  *
  * <p>This record contains the motor's CAN ID, neutral mode, feedback and feedforward gains, and
- * optional follower alignment. The configuration can be converted into
- * a CTRE Phoenix 6 {@link TalonFXConfiguration} using {@link #getTalonFXConfiguration()}.
+ * optional follower alignment. The configuration can be converted into a CTRE Phoenix 6 {@link
+ * TalonFXConfiguration} using {@link #getTalonFXConfiguration()}.
  *
  * @param id CAN ID and CAN bus of the motor
  * @param neutralMode neutral behavior of the motor when no output is applied
@@ -31,8 +30,7 @@ public record MotorConfig(
         Optional<MotorAlignmentValue> alignment) {
 
     /**
-     * Creates a motor configuration using the default neutral mode and no
-     * follower alignment.
+     * Creates a motor configuration using the default neutral mode and no follower alignment.
      *
      * <p>The default neutral mode is {@link NeutralModeValue#Coast} and the motor is configured
      * without a follower alignment.
@@ -42,22 +40,11 @@ public record MotorConfig(
      * @param type type of Kraken motor being used
      */
     public MotorConfig(CanId id, FeedforwardValues feedforwardValues) {
-        this(
-                id,
-                NeutralModeValue.Coast,
-                feedforwardValues,
-                Optional.empty());
+        this(id, NeutralModeValue.Coast, feedforwardValues, Optional.empty());
     }
 
-    public MotorConfig(
-            CanId id,
-            FeedforwardValues feedforwardValues,
-            MotorAlignmentValue alignment) {
-        this(
-                id,
-                NeutralModeValue.Coast,
-                feedforwardValues,
-                Optional.of(alignment));
+    public MotorConfig(CanId id, FeedforwardValues feedforwardValues, MotorAlignmentValue alignment) {
+        this(id, NeutralModeValue.Coast, feedforwardValues, Optional.of(alignment));
     }
 
     /**

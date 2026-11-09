@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Temperature extends Quantity<Temperature, TemperatureUnit> {
     Temperature(double value) {
-        super(value);
+        super(value, "K");
     }
 
     public Temperature plus(Distance other) {

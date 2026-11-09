@@ -1,21 +1,19 @@
 package frc.lib.motor;
 
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngularAccelerationUnit.RadiansPerSecondSquared;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+import static frc.lib.units.CurrentUnit.Amps;
+import static frc.lib.units.TemperatureUnit.Kelvin;
+import static frc.lib.units.VoltageUnit.Volts;
 
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import frc.lib.units.Angle;
 import frc.lib.units.AngularAcceleration;
 import frc.lib.units.AngularVelocity;
 import frc.lib.units.Current;
 import frc.lib.units.Temperature;
 import frc.lib.units.Voltage;
-
-import static frc.lib.units.AngleUnit.Radians;
-import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
-import static frc.lib.units.AngularAccelerationUnit.RadiansPerSecondSquared;
-import static frc.lib.units.CurrentUnit.Amps;
-import static frc.lib.units.TemperatureUnit.Kelvin;
-import static frc.lib.units.VoltageUnit.Volts;
-
 import org.wpilib.math.system.DCMotor;
 import org.wpilib.simulation.DCMotorSim;
 import org.wpilib.system.Timer;

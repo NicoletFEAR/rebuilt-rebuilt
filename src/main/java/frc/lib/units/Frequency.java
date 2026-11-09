@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Frequency extends Quantity<Frequency, FrequencyUnit> {
     Frequency(double value) {
-        super(value);
+        super(value, "Hz");
     }
 
     public Frequency plus(Frequency other) {

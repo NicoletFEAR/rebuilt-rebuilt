@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class Current extends Quantity<Current, CurrentUnit> {
     Current(double value) {
-        super(value);
+        super(value, "A");
     }
 
     public Current plus(Current other) {

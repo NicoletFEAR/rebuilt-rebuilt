@@ -2,7 +2,7 @@ package frc.lib.units;
 
 public class AngularVelocity extends Quantity<AngularVelocity, AngularVelocityUnit> {
     AngularVelocity(double value) {
-        super(value);
+        super(value, "rad/s");
     }
 
     public AngularVelocity plus(AngularVelocity other) {

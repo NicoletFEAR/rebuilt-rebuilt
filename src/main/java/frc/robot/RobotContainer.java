@@ -67,12 +67,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
@@ -83,12 +81,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
@@ -99,12 +95,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
@@ -115,12 +109,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new TalonFXMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new RealCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
@@ -134,12 +126,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
@@ -150,12 +140,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.FRONT_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.FRONT_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
@@ -166,12 +154,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_LEFT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_LEFT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
@@ -182,12 +168,10 @@ public class RobotContainer {
                     new SwerveModule(
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_RIGHT_DRIVE,
-                                            DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                             new SimMotor(
                                     new MotorConfig(
-                                            DeviceIds.BACK_RIGHT_TURN,
-                                            DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                            DeviceIds.BACK_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
                             new SimCanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
@@ -201,27 +185,21 @@ public class RobotContainer {
     private Launcher buildLauncher() {
         return new Launcher(
                 new TalonFXMotor(
-                        new MotorConfig(
-                                DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES)),
+                        new MotorConfig(DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES)),
                 new TalonFXMotor(
                         new MotorConfig(
                                 DeviceIds.RIGHT_LAUNCHER,
                                 FlywheelConstants.FEEDFORWARD_VALUES,
                                 MotorAlignmentValue.Opposed)),
-                new TalonFXMotor(
-                        new MotorConfig(
-                                DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES)),
-                new TalonFXMotor(
-                        new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES)),
+                new TalonFXMotor(new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES)),
+                new TalonFXMotor(new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES)),
                 new RealCanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
     private Intake buildIntake() {
         return new Intake(
+                new TalonFXMotor(new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES)),
                 new TalonFXMotor(
-                        new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES)),
-                new TalonFXMotor(
-                        new MotorConfig(
-                                DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES)));
+                        new MotorConfig(DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES)));
     }
 }

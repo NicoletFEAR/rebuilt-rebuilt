@@ -3,10 +3,9 @@ package frc.lib.sensor.absencoder;
 import static frc.lib.units.AngleUnit.Radians;
 import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import frc.lib.units.Angle;
 import frc.lib.units.AngularVelocity;
+import org.littletonrobotics.junction.AutoLog;
 
 /**
  * An interface for communicating with an Absolute Encoder
