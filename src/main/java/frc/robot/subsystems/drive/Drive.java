@@ -15,6 +15,7 @@ import frc.lib.units.AngularVelocity;
 import frc.lib.units.Distance;
 import frc.lib.units.Velocity;
 import frc.robot.RobotState;
+import frc.robot.Utils;
 import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.Alliance;
@@ -116,7 +117,7 @@ public class Drive {
 
     public void applySpeedsFromControls(double x, double y, double omega) {
         Translation2d linearVelocity =
-                new Pose2d(Translation2d.ZERO, new Rotation2d(x, y))
+                new Pose2d(Translation2d.ZERO, Utils.zeroSafeRotation2d(x, y))
                         .transformBy(new Transform2d(Math.hypot(x, y), 0.0, Rotation2d.ZERO))
                         .getTranslation()
                         .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));

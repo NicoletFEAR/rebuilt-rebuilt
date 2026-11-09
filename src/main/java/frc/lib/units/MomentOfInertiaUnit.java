@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class MomentOfInertiaUnit extends Unit {
+public class MomentOfInertiaUnit extends Unit<MomentOfInertiaUnit> {
     public MomentOfInertiaUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

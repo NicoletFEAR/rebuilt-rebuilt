@@ -13,7 +13,7 @@ class DriveMotor extends LinearVelocityModule {
     private Velocity desiredVelocity;
 
     DriveMotor(MotorIO motor, DriveMotorConfig config) {
-        super("Drive/" + config.name() + "Drive", motor, config.rotorToMechanismRatio());
+        super("Drive/" + config.name() + " Drive", motor, config.rotorToMechanismRatio());
         state = DriveMotorState.OFF;
         desiredVelocity = MetersPerSecond.of(0.0);
     }

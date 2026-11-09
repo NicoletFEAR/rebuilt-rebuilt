@@ -5,6 +5,22 @@ public class Frequency extends Quantity<Frequency, FrequencyUnit> {
         super(value, "Hz");
     }
 
+    public Frequency max(Frequency other) {
+        if (value < other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
+    public Frequency min(Frequency other) {
+        if (value > other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
     public Frequency plus(Frequency other) {
         return new Frequency(value + other.value);
     }
@@ -23,6 +39,14 @@ public class Frequency extends Quantity<Frequency, FrequencyUnit> {
 
     public Frequency negative() {
         return new Frequency(-value);
+    }
+
+    public Frequency ceil() {
+        return new Frequency(Math.ceil(value));
+    }
+
+    public Frequency floor() {
+        return new Frequency(Math.floor(value));
     }
 
     public Time reciprocal() {

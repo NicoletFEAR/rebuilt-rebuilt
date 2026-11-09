@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class VoltageUnit extends Unit {
+public class VoltageUnit extends Unit<VoltageUnit> {
     public VoltageUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

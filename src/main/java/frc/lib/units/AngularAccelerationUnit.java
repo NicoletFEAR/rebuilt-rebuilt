@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class AngularAccelerationUnit extends Unit {
+public class AngularAccelerationUnit extends Unit<AngularAccelerationUnit> {
     public AngularAccelerationUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

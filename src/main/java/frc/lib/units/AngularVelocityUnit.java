@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class AngularVelocityUnit extends Unit {
+public class AngularVelocityUnit extends Unit<AngularVelocityUnit> {
     public AngularVelocityUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

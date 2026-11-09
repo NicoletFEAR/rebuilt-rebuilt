@@ -3,7 +3,8 @@ package frc.lib.units;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-public abstract class Quantity<S extends Quantity<S, U>, U extends Unit> implements LoggableInputs {
+public abstract class Quantity<S extends Quantity<S, U>, U extends Unit<U>>
+        implements LoggableInputs {
     protected double value;
     protected String baseUnitSymbol;
 
@@ -18,6 +19,14 @@ public abstract class Quantity<S extends Quantity<S, U>, U extends Unit> impleme
 
     public boolean lessThan(S other) {
         return value < other.value;
+    }
+
+    public boolean equal(S other, S tolerance) {
+        return Math.abs(value - other.value) < tolerance.value;
+    }
+
+    public boolean notEqual(S other, S tolerance) {
+        return Math.abs(value - other.value) > tolerance.value;
     }
 
     public double in(U unit) {

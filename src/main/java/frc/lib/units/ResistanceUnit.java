@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class ResistanceUnit extends Unit {
+public class ResistanceUnit extends Unit<ResistanceUnit> {
     public ResistanceUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

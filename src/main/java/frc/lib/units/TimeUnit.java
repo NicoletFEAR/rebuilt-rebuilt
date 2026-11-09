@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class TimeUnit extends Unit {
+public class TimeUnit extends Unit<TimeUnit> {
     public TimeUnit(double inBaseUnits) {
         super(inBaseUnits);
     }
@@ -11,6 +11,10 @@ public class TimeUnit extends Unit {
 
     public static Time ofWpi(org.wpilib.units.measure.Time quantity) {
         return Seconds.of(quantity.in(org.wpilib.units.Units.Seconds));
+    }
+
+    public Timestamp timestamp(double time) {
+        return new Timestamp(time * inBaseUnits);
     }
 
     public static final TimeUnit Seconds = new TimeUnit(1.0);

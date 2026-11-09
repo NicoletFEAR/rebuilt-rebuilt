@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class TemperatureUnit extends Unit {
+public class TemperatureUnit extends Unit<TemperatureUnit> {
     public TemperatureUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

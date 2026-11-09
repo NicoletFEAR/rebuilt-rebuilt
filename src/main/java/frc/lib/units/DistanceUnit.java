@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class DistanceUnit extends Unit {
+public class DistanceUnit extends Unit<DistanceUnit> {
     public DistanceUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

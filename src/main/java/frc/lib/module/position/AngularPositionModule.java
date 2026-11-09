@@ -1,7 +1,5 @@
 package frc.lib.module.position;
 
-import static frc.lib.units.AngleUnit.Radians;
-
 import frc.lib.module.Module;
 import frc.lib.motor.MotorIO;
 import frc.lib.units.Angle;
@@ -69,6 +67,6 @@ public class AngularPositionModule extends Module {
      * @return current mechanism rotation
      */
     public Rotation2d getRotation() {
-        return Rotation2d.fromRadians(getPosition().in(Radians));
+        return getPosition().toRotation();
     }
 }

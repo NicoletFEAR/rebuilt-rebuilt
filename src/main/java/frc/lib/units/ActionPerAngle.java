@@ -5,6 +5,22 @@ public class ActionPerAngle extends Quantity<ActionPerAngle, ActionPerAngleUnit>
         super(value, "J/Hz/rad");
     }
 
+    public ActionPerAngle max(ActionPerAngle other) {
+        if (value < other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
+    public ActionPerAngle min(ActionPerAngle other) {
+        if (value > other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
     public ActionPerAngle plus(ActionPerAngle other) {
         return new ActionPerAngle(value + other.value);
     }
@@ -23,5 +39,17 @@ public class ActionPerAngle extends Quantity<ActionPerAngle, ActionPerAngleUnit>
 
     public ActionPerAngle negative() {
         return new ActionPerAngle(-value);
+    }
+
+    public ActionPerAngle ceil() {
+        return new ActionPerAngle(Math.ceil(value));
+    }
+
+    public ActionPerAngle floor() {
+        return new ActionPerAngle(Math.floor(value));
+    }
+
+    public Torque times(AngularVelocity other) {
+        return new Torque(value * other.value);
     }
 }

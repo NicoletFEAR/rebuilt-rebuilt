@@ -64,7 +64,7 @@ public class AbsEncoderAngularPositionModule extends AngularPositionModule {
         if (absEncoderInputs.connected) {
             return absEncoderInputs.position.div(rotorToMechanismRatio);
         } else {
-            return super.getPosition().div(rotorToMechanismRatio);
+            return super.getPosition();
         }
     }
 }

@@ -5,6 +5,22 @@ public class MomentOfInertia extends Quantity<MomentOfInertia, MomentOfInertiaUn
         super(value, "kg⋅m²");
     }
 
+    public MomentOfInertia max(MomentOfInertia other) {
+        if (value < other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
+    public MomentOfInertia min(MomentOfInertia other) {
+        if (value > other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
     public MomentOfInertia plus(MomentOfInertia other) {
         return new MomentOfInertia(value + other.value);
     }
@@ -23,5 +39,17 @@ public class MomentOfInertia extends Quantity<MomentOfInertia, MomentOfInertiaUn
 
     public MomentOfInertia negative() {
         return new MomentOfInertia(-value);
+    }
+
+    public MomentOfInertia ceil() {
+        return new MomentOfInertia(Math.ceil(value));
+    }
+
+    public MomentOfInertia floor() {
+        return new MomentOfInertia(Math.floor(value));
+    }
+
+    public Torque times(AngularAcceleration other) {
+        return new Torque(value * other.value);
     }
 }

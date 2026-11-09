@@ -5,6 +5,7 @@ import static frc.lib.units.AngularAccelerationUnit.RadiansPerSecondSquared;
 import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 import static frc.lib.units.CurrentUnit.Amps;
 import static frc.lib.units.TemperatureUnit.Kelvin;
+import static frc.lib.units.TimeUnit.Seconds;
 import static frc.lib.units.VoltageUnit.Volts;
 
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -13,6 +14,8 @@ import frc.lib.units.AngularAcceleration;
 import frc.lib.units.AngularVelocity;
 import frc.lib.units.Current;
 import frc.lib.units.Temperature;
+import frc.lib.units.Time;
+import frc.lib.units.Timestamp;
 import frc.lib.units.Voltage;
 import org.wpilib.math.system.DCMotor;
 import org.wpilib.simulation.DCMotorSim;
@@ -31,7 +34,7 @@ import org.wpilib.system.Timer;
  */
 public class SimMotor extends MotorIO {
 
-    private Control control;
+    private Control control = new VoltageControl(Volts.of(0.0));
     private MotorIOInputsAutoLogged leaderInputs = new MotorIOInputsAutoLogged();
 
     private Angle position = Radians.of(0.0);
@@ -43,7 +46,7 @@ public class SimMotor extends MotorIO {
     private Temperature temperature = Kelvin.of(294.0);
 
     /** FPGA timestamp from the previous simulation update. */
-    private double lastUpdateTimestamp = 0.0;
+    private Timestamp lastUpdateTimestamp = Seconds.timestamp(0.0);
 
     /**
      * Creates a simulated motor using the provided motor configuration.
@@ -67,20 +70,21 @@ public class SimMotor extends MotorIO {
 
     private record VelocityControl(AngularVelocity desiredVelocity) implements Control {}
 
-    private record VoltageControl(Voltage voltage) implements Control {}
+    private record VoltageControl(Voltage desiredVoltage) implements Control {}
 
     /**
      * * Updates the simulated motor and the provided motor inputs.
      *
      * <p>The simulation uses the robot battery voltage and the voltage being commanded by the TalonFX
-     * to update the motor's position and velocity.The resulting simulated values are then written
+     * to update the motor's position and velocity. The resulting simulated values are then written
      * back to the TalonFX simulation state before the motor inputs are updated.
      *
      * @param inputs object to populate with the motor's current simulated inputs
      */
     @Override
     public void updateInputs(MotorIOInputs inputs) {
-        double timestamp = Timer.getTimestamp();
+        Timestamp timestamp = Seconds.timestamp(Timer.getTimestamp());
+        Time passedTime = timestamp.since(lastUpdateTimestamp);
 
         switch (control) {
             case FollowerControl(MotorIO leader, MotorAlignmentValue alignment) -> {
@@ -95,11 +99,48 @@ public class SimMotor extends MotorIO {
                 temperature = leaderInputs.temperature;
             }
 
-            case VoltageControl(Voltage voltage) -> {
-                this.voltage = voltage;
+            case VoltageControl(Voltage desiredVoltage) -> {
+                voltage = desiredVoltage.min(MotorConstants.MAX_VOLTAGE);
+                acceleration =
+                        MotorConstants.TORQUE_CONSTANT
+                                .times(
+                                        voltage
+                                                .minus(MotorConstants.BACK_EMF_CONSTANT.times(velocity))
+                                                .div(MotorConstants.WINDING_RESISTANCE))
+                                .minus(MotorConstants.VISCOUS_FRICTION.times(velocity))
+                                .minus(MotorConstants.LOAD_TORQUE)
+                                .div(MotorConstants.MOMENT_OF_INERTIA);
+                velocity = velocity.plus(acceleration.times(passedTime));
+                position = position.plus(velocity.times(passedTime));
             }
 
-            default -> {}
+            case VelocityControl(AngularVelocity desiredVelocity) -> {
+                AngularAcceleration desiredAcceleration = desiredVelocity.minus(velocity).div(passedTime);
+                voltage =
+                        desiredAcceleration
+                                .times(MotorConstants.MOMENT_OF_INERTIA)
+                                .plus(MotorConstants.VISCOUS_FRICTION.times(velocity))
+                                .plus(MotorConstants.LOAD_TORQUE)
+                                .div(MotorConstants.TORQUE_CONSTANT)
+                                .times(MotorConstants.WINDING_RESISTANCE)
+                                .plus(MotorConstants.BACK_EMF_CONSTANT.times(velocity))
+                                .min(MotorConstants.MAX_VOLTAGE);
+                acceleration =
+                        MotorConstants.TORQUE_CONSTANT
+                                .times(
+                                        voltage
+                                                .minus(MotorConstants.BACK_EMF_CONSTANT.times(velocity))
+                                                .div(MotorConstants.WINDING_RESISTANCE))
+                                .minus(MotorConstants.VISCOUS_FRICTION.times(velocity))
+                                .minus(MotorConstants.LOAD_TORQUE)
+                                .div(MotorConstants.MOMENT_OF_INERTIA);
+                velocity = velocity.plus(acceleration.times(passedTime));
+                position = position.plus(velocity.times(passedTime));
+            }
+
+            case PositionControl(Angle desiredPosition) -> {
+                position = desiredPosition;
+            }
         }
 
         lastUpdateTimestamp = timestamp;
@@ -107,6 +148,7 @@ public class SimMotor extends MotorIO {
         inputs.connected = true;
         inputs.position = position;
         inputs.velocity = velocity;
+        inputs.acceleration = acceleration;
         inputs.voltage = voltage;
         inputs.statorCurrent = statorCurrent;
         inputs.supplyCurrent = supplyCurrent;

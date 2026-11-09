@@ -5,6 +5,22 @@ public class MagneticFluxPerAngle extends Quantity<MagneticFluxPerAngle, Magneti
         super(value, "Wb/rad");
     }
 
+    public MagneticFluxPerAngle max(MagneticFluxPerAngle other) {
+        if (value < other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
+    public MagneticFluxPerAngle min(MagneticFluxPerAngle other) {
+        if (value > other.value) {
+            return other;
+        } else {
+            return this;
+        }
+    }
+
     public MagneticFluxPerAngle plus(MagneticFluxPerAngle other) {
         return new MagneticFluxPerAngle(value + other.value);
     }
@@ -23,5 +39,17 @@ public class MagneticFluxPerAngle extends Quantity<MagneticFluxPerAngle, Magneti
 
     public MagneticFluxPerAngle negative() {
         return new MagneticFluxPerAngle(-value);
+    }
+
+    public MagneticFluxPerAngle ceil() {
+        return new MagneticFluxPerAngle(Math.ceil(value));
+    }
+
+    public MagneticFluxPerAngle floor() {
+        return new MagneticFluxPerAngle(Math.floor(value));
+    }
+
+    public Voltage times(AngularVelocity other) {
+        return new Voltage(value * other.value);
     }
 }

@@ -52,4 +52,13 @@ public class Robot extends LoggedRobot {
     public void robotPeriodic() {
         robotContainer.periodic();
     }
+
+    @Override
+    public void disabledPeriodic() {}
+
+    @Override
+    public void teleopPeriodic() {}
+
+    @Override
+    public void simulationPeriodic() {}
 }

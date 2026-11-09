@@ -2,7 +2,7 @@ package frc.lib.units;
 
 import org.wpilib.math.geometry.Rotation2d;
 
-public class AngleUnit extends Unit {
+public class AngleUnit extends Unit<AngleUnit> {
     public AngleUnit(double inBaseUnits) {
         super(inBaseUnits);
     }
@@ -21,4 +21,5 @@ public class AngleUnit extends Unit {
 
     public static final AngleUnit Radians = new AngleUnit(1.0);
     public static final AngleUnit Rotations = new AngleUnit(Math.PI * 2.0);
+    public static final AngleUnit Degrees = new AngleUnit(Math.PI / 180.0);
 }

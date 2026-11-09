@@ -75,7 +75,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "FrontLeft",
+                                    "Front Left",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
@@ -89,7 +89,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "FrontRight",
+                                    "Front Right",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
@@ -103,7 +103,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "BackLeft",
+                                    "Back Left",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
@@ -117,7 +117,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "BackRight",
+                                    "Back Right",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)));
         } else {
@@ -134,7 +134,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "FrontLeft",
+                                    "Front Left",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
@@ -148,7 +148,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "FrontRight",
+                                    "Front Right",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
@@ -162,7 +162,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "BackLeft",
+                                    "Back Left",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)),
                     new SwerveModule(
@@ -176,7 +176,7 @@ public class RobotContainer {
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
-                                    "BackRight",
+                                    "Back Right",
                                     DriveConstants.DRIVE_ROTOR_TO_MECHANISM_RATIO,
                                     DriveConstants.TURN_ROTOR_TO_MECHANISM_RATIO)));
         }

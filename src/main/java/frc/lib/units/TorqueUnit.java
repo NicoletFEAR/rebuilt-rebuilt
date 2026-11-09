@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class TorqueUnit extends Unit {
+public class TorqueUnit extends Unit<TorqueUnit> {
     public TorqueUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

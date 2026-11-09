@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class ActionPerAngleUnit extends Unit {
+public class ActionPerAngleUnit extends Unit<ActionPerAngleUnit> {
     public ActionPerAngleUnit(double inBaseUnits) {
         super(inBaseUnits);
     }

@@ -1,4 +1,5 @@
-* Replace CTRE motor simulation with generic motor simulation
+* Implement motor voltage limits for actual motors, move motor max voltage out of MotorConstants
+* Fix things like motor voltage not logging in advantage scope
 * Make everything actually vendor-agnostic
 * Make all sim IO things vendor-agnostic
 * ADTs for other state machines
@@ -12,6 +13,7 @@
 * Edit subsystems so that they use setDynamicPosition instead of setPositionSetpoint when appropriate
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
+* Refactor Rotation2d safe creation out of utils now that there's a geometry section
 * Add MotionMagic parameters to MotorConfig
 * Make motor simulation actually simulate motors
 * LQR? Kalman filters?
@@ -24,3 +26,4 @@
 * Procedurally generated autos (ideally with custom pathfinder optimized for limelight-based accuracy)
 * Auto-checklists with data tracking to determine normal values and detect anomalies, also use these normal values for more accurate simulation (perhaps concurrently simulate and track deviations from simulated values)
 * Game piece simulation
+* Make positional control for sim motor actually simulate

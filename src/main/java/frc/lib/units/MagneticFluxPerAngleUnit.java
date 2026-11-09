@@ -1,6 +1,6 @@
 package frc.lib.units;
 
-public class MagneticFluxPerAngleUnit extends Unit {
+public class MagneticFluxPerAngleUnit extends Unit<MagneticFluxPerAngleUnit> {
     public MagneticFluxPerAngleUnit(double inBaseUnits) {
         super(inBaseUnits);
     }
