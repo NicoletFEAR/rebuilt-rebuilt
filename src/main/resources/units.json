@@ -1,0 +1,157 @@
+{
+    "package": "frc.lib.units",
+    "quantities": [
+        {
+            "name": "Distance",
+            "dimension": [1, 0, 0, 0, 0, 0, 0, 0],
+            "baseUnitSymbol": "m",
+            "units": {
+                "Meters": 1
+            }
+        },
+        {
+            "name": "Mass",
+            "dimension": [0, 1, 0, 0, 0, 0, 0, 0],
+            "baseUnitSymbol": "kg",
+            "units": {
+                "Kilograms": 1
+            }
+        },
+        {
+            "name": "Time",
+            "dimension": [0, 0, 1, 0, 0, 0, 0, 0],
+            "baseUnitSymbol": "s",
+            "units": {
+                "Seconds": 1
+            }
+        },
+        {
+            "name": "Current",
+            "dimension": [0, 0, 0, 1, 0, 0, 0, 0],
+            "baseUnitSymbol": "A",
+            "units": {
+                "Amps": 1
+            }
+        },
+        {
+            "name": "Temperature",
+            "dimension": [0, 0, 0, 0, 1, 0, 0, 0],
+            "baseUnitSymbol": "K",
+            "units": {
+                "Kelvin": 1
+            }
+        },
+        {
+            "name": "Amount",
+            "dimension": [0, 0, 0, 0, 0, 1, 0, 0],
+            "baseUnitSymbol": "mol",
+            "units": {
+                "Moles": 1
+            }
+        },
+        {
+            "name": "Light",
+            "dimension": [0, 0, 0, 0, 0, 0, 1, 0],
+            "baseUnitSymbol": "cd",
+            "units": {
+                "Candelas": 1
+            }
+        },
+        {
+            "name": "Angle",
+            "dimension": [0, 0, 0, 0, 0, 0, 0, 1],
+            "baseUnitSymbol": "rad",
+            "units": {
+                "Radians": 1,
+                "Rotations": 6.283185307179586
+            }
+        },
+        {
+            "name": "Frequency",
+            "dimension": [0, 0, -1, 0, 0, 0, 0, 0],
+            "baseUnitSymbol": "Hz",
+            "units": {
+                "Hertz": 1
+            }
+        },
+        {
+            "name": "Anglement",
+            "dimension": [0, 0, 1, 0, 0, 0, 0, 1],
+            "baseUnitSymbol": "rad⋅s",
+            "units": {
+                "RadianSeconds": 1
+            }
+        },
+        {
+            "name": "Velocity",
+            "dimension": [1, 0, -1, 0, 0, 0, 0, 0],
+            "baseUnitSymbol": "m/s",
+            "units": {
+                "MetersPerSecond": 1
+            }
+        },
+        {
+            "name": "AngularVelocity",
+            "dimension": [0, 0, -1, 0, 0, 0, 0, 1],
+            "baseUnitSymbol": "rad/s",
+            "units": {
+                "RadiansPerSecond": 1,
+                "RotationsPerSecond": 6.283185307179586,
+                "RotationsPerMinute": 376.99111843077515
+            }
+        },
+        {
+            "name": "MomentOfInertia",
+            "dimension": [2, 1, 0, 0, 0, 0, 0, 0],
+            "baseUnitSymbol": "kg⋅m²"
+        },
+        {
+            "name": "Torque",
+            "dimension": [2, 1, -2, 0, 0, 0, 0, 0],
+            "baseUnitSymbol": "N⋅m",
+            "units": {
+                "NewtonMeters": 1
+            }
+        },
+        {
+            "name": "ActionPerAngle",
+            "dimension": [2, 1, -1, 0, 0, 0, 0, -1],
+            "baseUnitSymbol": "J/Hz/rad",
+            "units": {
+                "JoulesPerHertzPerRadian": 1
+            }
+        },
+        {
+            "name": "MagneticFlux",
+            "dimension": [2, 1, -2, -1, 0, 0, 0, 0],
+            "baseUnitSymbol": "Wb",
+            "units": {
+                "Webers": 1
+            }
+        },
+        {
+            "name": "Voltage",
+            "dimension": [2, 1, -3, -1, 0, 0, 0, 0],
+            "baseUnitSymbol": "V",
+            "units": {
+                "Volts": 1
+            }
+        },
+        {
+            "name": "MagneticFluxPerAngle",
+            "dimension": [2, 1, -2, -1, 0, 0, 0, -1],
+            "baseUnitSymbol": "Wb/rad",
+            "units": {
+                "WebersPerRadian": 1
+            }
+        },
+        {
+            "name": "Resistance",
+            "dimension": [2, 1, -3, -2, 0, 0, 0, 0],
+            "baseUnitSymbol": "Ω",
+            "units": {
+                "Ohms": 1
+            }
+        }
+    ]
+}

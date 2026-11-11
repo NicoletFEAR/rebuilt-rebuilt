@@ -138,6 +138,7 @@ $RECYCLE.BIN/
 ### Gradle ###
 .gradle
 /build/
+/buildSrc/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -186,6 +187,3 @@ compile_commands.json
 
 # Eclipse generated file for annotation processors
 .factorypath
-
-# Auto-generated build constants
-src/main/java/frc/robot/constants/BuildConstants.java

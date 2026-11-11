@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id "application"
-    id "org.wpilib.GradleRIO" version "2027.0.0-alpha-8"
+    id 'application'
+    id 'org.wpilib.GradleRIO' version '2027.0.0-alpha-8'
     id 'com.diffplug.spotless' version '8.10.2'
     id 'io.freefair.lombok' version '9.5.0'
 }
@@ -17,7 +17,7 @@ def runCommand(String... args) {
             commandLine args
         }.standardOutput.asText.get().trim()
     } catch (Exception e) {
-        return "unknown"
+        return 'unknown'
     }
 }
 
@@ -40,27 +40,27 @@ def status = provider {
     Boolean.toString(!runCommand('git', 'status', '--porcelain').isEmpty())
 }
 
-def createVersionFile = tasks.register("createVersionFile") {
-    dependsOn tasks.named("compDeploy")
+def createVersionFile = tasks.register('createVersionFile') {
+    dependsOn tasks.named('compDeploy')
 
-    inputs.property("projectGroup", projectGroup)
-    inputs.property("projectName", projectName)
-    inputs.property("projectVersion", projectVersion)
-    inputs.property("gitShaShort", gitShaShort)
-    inputs.property("gitSha", gitSha)
-    inputs.property("gitDate", gitDate)
-    inputs.property("gitBranch", gitBranch)
-    inputs.property("buildDate", buildDate)
-    inputs.property("buildUnixTime", buildUnixTime)
-    inputs.property("status", status)
+    inputs.property('projectGroup', projectGroup)
+    inputs.property('projectName', projectName)
+    inputs.property('projectVersion', projectVersion)
+    inputs.property('gitShaShort', gitShaShort)
+    inputs.property('gitSha', gitSha)
+    inputs.property('gitDate', gitDate)
+    inputs.property('gitBranch', gitBranch)
+    inputs.property('buildDate', buildDate)
+    inputs.property('buildUnixTime', buildUnixTime)
+    inputs.property('status', status)
 
-    def outputDir = layout.buildDirectory.dir("generated/sources/version/java")
+    def outputDir = layout.buildDirectory.dir('generated/sources/version/java')
     outputs.dir(outputDir)
 
     doLast {
-        def versionFile = outputDir.get().file("frc/robot/constants/BuildConstants.java").asFile
+        def versionFile = outputDir.get().file('frc/robot/constants/BuildConstants.java').asFile
         versionFile.parentFile.mkdirs()
-        versionFile.text = """\
+        versionFile.text = '''\
             package frc.robot.constants;
 
             public final class BuildConstants {
@@ -77,14 +77,14 @@ def createVersionFile = tasks.register("createVersionFile") {
 
                 private BuildConstants() {}
             }
-        """.stripIndent()
+        '''.stripIndent()
     }
 }
 
 sourceSets {
     main {
         java {
-            srcDir(tasks.named("createVersionFile"))
+            srcDir(tasks.named('createVersionFile'))
         }
     }
 }
@@ -159,7 +159,7 @@ dependencies {
     simulationRelease wpi.sim.enableRelease()
 
     def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + '/vendordeps/AdvantageKit.json').text)
-    annotationProcessor "org.littletonrobotics.akit:akit-autolog:$akitJson.version"
+    annotationProcessor 'org.littletonrobotics.akit:akit-autolog:$akitJson.version'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -201,14 +201,14 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
 
-def compDeploy = tasks.register("compDeploy") {
+def compDeploy = tasks.register('compDeploy') {
     def taskNamesProvider = project.provider {
         project.gradle.startParameter.taskNames
     }
 
     doLast {
         if (taskNamesProvider.get().any({
-            it.toLowerCase().contains("deploy")
+            it.toLowerCase().contains('deploy')
         })) {
             def branchPrefix = 'comp'
             def branch = 'git branch --show-current'.execute().text.trim()
