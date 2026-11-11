@@ -21,6 +21,10 @@ public class Torque extends Quantity<Torque, TorqueUnit> {
         }
     }
 
+    public Torque clamp(Torque low, Torque high) {
+        return max(low).min(high);
+    }
+
     public Torque plus(Torque other) {
         return new Torque(value + other.value);
     }

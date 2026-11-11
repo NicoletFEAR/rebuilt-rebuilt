@@ -21,6 +21,10 @@ public class MagneticFlux extends Quantity<MagneticFlux, MagneticFluxUnit> {
         }
     }
 
+    public MagneticFlux clamp(MagneticFlux low, MagneticFlux high) {
+        return max(low).min(high);
+    }
+
     public MagneticFlux plus(MagneticFlux other) {
         return new MagneticFlux(value + other.value);
     }

@@ -21,6 +21,10 @@ public class Velocity extends Quantity<Velocity, VelocityUnit> {
         }
     }
 
+    public Velocity clamp(Velocity low, Velocity high) {
+        return max(low).min(high);
+    }
+
     public Velocity plus(Angle other) {
         return new Velocity(value + other.value);
     }

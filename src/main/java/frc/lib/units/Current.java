@@ -21,6 +21,10 @@ public class Current extends Quantity<Current, CurrentUnit> {
         }
     }
 
+    public Current clamp(Current low, Current high) {
+        return max(low).min(high);
+    }
+
     public Current plus(Current other) {
         return new Current(value + other.value);
     }

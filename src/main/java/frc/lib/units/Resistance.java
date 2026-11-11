@@ -21,6 +21,10 @@ public class Resistance extends Quantity<Resistance, ResistanceUnit> {
         }
     }
 
+    public Resistance clamp(Resistance low, Resistance high) {
+        return max(low).min(high);
+    }
+
     public Resistance plus(Resistance other) {
         return new Resistance(value + other.value);
     }

@@ -21,6 +21,10 @@ public class Distance extends Quantity<Distance, DistanceUnit> {
         }
     }
 
+    public Distance clamp(Distance low, Distance high) {
+        return max(low).min(high);
+    }
+
     public Distance plus(Distance other) {
         return new Distance(value + other.value);
     }

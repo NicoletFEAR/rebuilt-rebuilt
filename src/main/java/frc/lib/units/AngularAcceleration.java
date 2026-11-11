@@ -21,6 +21,10 @@ public class AngularAcceleration extends Quantity<AngularAcceleration, AngularAc
         }
     }
 
+    public AngularAcceleration clamp(AngularAcceleration low, AngularAcceleration high) {
+        return max(low).min(high);
+    }
+
     public AngularAcceleration plus(AngularAcceleration other) {
         return new AngularAcceleration(value + other.value);
     }

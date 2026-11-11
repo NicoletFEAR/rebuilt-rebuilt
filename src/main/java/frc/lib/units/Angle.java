@@ -27,6 +27,10 @@ public class Angle extends Quantity<Angle, AngleUnit> {
         }
     }
 
+    public Angle clamp(Angle low, Angle high) {
+        return max(low).min(high);
+    }
+
     public Angle plus(Angle other) {
         return new Angle(value + other.value);
     }
@@ -63,7 +67,7 @@ public class Angle extends Quantity<Angle, AngleUnit> {
         return new Time(value / other.value);
     }
 
-    public AngularAbsement times(Time other) {
-        return new AngularAbsement(value * other.value);
+    public Anglement times(Time other) {
+        return new Anglement(value * other.value);
     }
 }

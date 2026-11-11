@@ -21,6 +21,10 @@ public class Time extends Quantity<Time, TimeUnit> {
         }
     }
 
+    public Time clamp(Time low, Time high) {
+        return max(low).min(high);
+    }
+
     public Time plus(Time other) {
         return new Time(value + other.value);
     }
@@ -65,7 +69,7 @@ public class Time extends Quantity<Time, TimeUnit> {
         return new Angle(value * other.value);
     }
 
-    public AngularAbsement times(Angle other) {
-        return new AngularAbsement(value * other.value);
+    public Anglement times(Angle other) {
+        return new Anglement(value * other.value);
     }
 }

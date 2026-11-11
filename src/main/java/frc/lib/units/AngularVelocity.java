@@ -21,6 +21,10 @@ public class AngularVelocity extends Quantity<AngularVelocity, AngularVelocityUn
         }
     }
 
+    public AngularVelocity clamp(AngularVelocity low, AngularVelocity high) {
+        return max(low).min(high);
+    }
+
     public AngularVelocity plus(AngularVelocity other) {
         return new AngularVelocity(value + other.value);
     }

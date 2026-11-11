@@ -39,7 +39,7 @@ public class Drive {
     private final SwerveDriveKinematics kinematics;
     private final SwerveDrivePoseEstimator poseEstimator;
 
-    private DriveState state;
+    private DriveState state = new DriveState.Off();
 
     public Drive(
             RobotState robotState,
@@ -75,33 +75,52 @@ public class Drive {
                         new Pose2d(),
                         VecBuilder.fill(0.1, 0.1, 0.0),
                         VecBuilder.fill(0.9, 0.9, 9999999));
-
-        state = DriveState.OFF;
     }
 
-    public enum DriveState {
-        OFF,
-        DRIVE,
+    public sealed interface DriveState permits DriveState.Off, DriveState.Teleop {
+        public record Off() implements DriveState {}
+
+        public record Teleop(DriveParameters parameters) implements DriveState {}
+
+        public Off OFF = new Off();
     }
 
     public void periodic() {
-        Logger.recordOutput("Drive/State", state);
+        Logger.recordOutput("Drive/State", (Record) state);
+
         Logger.recordOutput("Drive/ModulePositions", getModulePositions());
         Logger.recordOutput("Drive/ModuleStates", getModuleStates());
-        Logger.recordOutput("Drive/DesiredModuleStates", getDesiredModuleStates());
         poseEstimator.updateWithTime(Timer.getTimestamp(), Rotation2d.ZERO, getModulePositions());
         robotState.addOdometryMeasurement(getOdometryMeasurement());
 
         switch (state) {
-            case OFF -> {
+            case DriveState.Off() -> {
                 for (int i = 0; i < 4; i++) {
                     modules[i].setState(SwerveModuleState.OFF);
                 }
             }
 
-            case DRIVE -> {
+            case DriveState.Teleop(DriveParameters parameters) -> {
+                Translation2d linearVelocity =
+                        new Pose2d(Translation2d.ZERO, Utils.zeroSafeRotation2d(parameters.x(), parameters.y()))
+                                .transformBy(
+                                        new Transform2d(
+                                                Math.hypot(parameters.x(), parameters.y()), 0.0, Rotation2d.ZERO))
+                                .getTranslation()
+                                .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
+                double omega =
+                        parameters.omega() * DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
+                ChassisVelocities velocities =
+                        new ChassisVelocities(linearVelocity.getX(), linearVelocity.getY(), omega);
+                velocities = velocities.discretize(Constants.LOOP_PERIOD.reciprocal().in(Seconds));
+                SwerveModuleVelocity[] setpointStates = kinematics.toSwerveModuleVelocities(velocities);
+                setpointStates =
+                        SwerveDriveKinematics.desaturateWheelVelocities(
+                                setpointStates, DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
+                Logger.recordOutput("Drive/DesiredModuleStates", setpointStates);
+
                 for (int i = 0; i < 4; i++) {
-                    modules[i].setState(SwerveModuleState.DRIVE);
+                    modules[i].setState(new SwerveModuleState.Drive(setpointStates[i]));
                 }
             }
         }
@@ -113,32 +132,6 @@ public class Drive {
 
     public void setState(DriveState state) {
         this.state = state;
-    }
-
-    public void applySpeedsFromControls(double x, double y, double omega) {
-        Translation2d linearVelocity =
-                new Pose2d(Translation2d.ZERO, Utils.zeroSafeRotation2d(x, y))
-                        .transformBy(new Transform2d(Math.hypot(x, y), 0.0, Rotation2d.ZERO))
-                        .getTranslation()
-                        .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
-        omega *= DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
-        applySpeeds(new ChassisVelocities(linearVelocity.getX(), linearVelocity.getY(), omega));
-    }
-
-    private void applySpeeds(ChassisVelocities speeds) {
-        ChassisVelocities discreteSpeeds =
-                speeds.discretize(Constants.LOOP_PERIOD.reciprocal().in(Seconds));
-        SwerveModuleVelocity[] setpointStates = kinematics.toSwerveModuleVelocities(discreteSpeeds);
-        setpointStates =
-                SwerveDriveKinematics.desaturateWheelVelocities(
-                        setpointStates, DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
-        applyStates(setpointStates);
-    }
-
-    private void applyStates(SwerveModuleVelocity[] states) {
-        for (int i = 0; i < 4; i++) {
-            modules[i].applyState(states[i]);
-        }
     }
 
     private OdometryMeasurement getOdometryMeasurement() {
@@ -161,16 +154,6 @@ public class Drive {
 
         for (int i = 0; i < 4; i++) {
             result[i] = modules[i].getState();
-        }
-
-        return result;
-    }
-
-    private SwerveModuleVelocity[] getDesiredModuleStates() {
-        SwerveModuleVelocity[] result = new SwerveModuleVelocity[4];
-
-        for (int i = 0; i < 4; i++) {
-            result[i] = modules[i].getDesiredState();
         }
 
         return result;

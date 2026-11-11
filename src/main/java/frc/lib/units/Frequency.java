@@ -21,6 +21,10 @@ public class Frequency extends Quantity<Frequency, FrequencyUnit> {
         }
     }
 
+    public Frequency clamp(Frequency low, Frequency high) {
+        return max(low).min(high);
+    }
+
     public Frequency plus(Frequency other) {
         return new Frequency(value + other.value);
     }

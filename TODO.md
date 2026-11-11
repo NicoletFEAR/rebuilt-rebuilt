@@ -1,15 +1,15 @@
 * Implement motor voltage limits for actual motors, move motor max voltage out of MotorConstants
-* Fix things like motor voltage not logging in advantage scope
 * Make everything actually vendor-agnostic
 * Make all sim IO things vendor-agnostic
 * ADTs for other state machines
+* Annotation processor for units generation?
 * Units for feedforward values
 * Simulation voltage subsystem, and track which battery we're using at all times
 * CAN bus subsystem to keep bus usage below 90%
 * Clock subsystem and integration into simulation
 * Get everything we have so far working in simulation
 * Make sure every subsystem state does something with every part of the subsystem
-* Create SwerveDriveTemplate class so that RobotContainer doesn't have to do so much instantiation for the drivebase
+* Create SwerveDriveTemplate class so that RobotContainer doesn't have to do so much instantiation for the drivebase and then make SwerveModule private
 * Edit subsystems so that they use setDynamicPosition instead of setPositionSetpoint when appropriate
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
@@ -20,6 +20,7 @@
 * Add gyroscope
 * Universal controller class
 * Set up alerts system in case anything goes wrong (like disconnected controllers)
+* Alerts when attempting to set a voltage higher than 12.0
 * Error injection for simulation
 * LedIO
 * Add CTRE swerve IO

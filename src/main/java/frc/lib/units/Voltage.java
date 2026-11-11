@@ -21,6 +21,10 @@ public class Voltage extends Quantity<Voltage, VoltageUnit> {
         }
     }
 
+    public Voltage clamp(Voltage low, Voltage high) {
+        return max(low).min(high);
+    }
+
     public Voltage plus(Voltage other) {
         return new Voltage(value + other.value);
     }

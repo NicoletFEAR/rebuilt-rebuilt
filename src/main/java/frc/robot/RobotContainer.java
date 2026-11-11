@@ -13,6 +13,7 @@ import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.Superstructure.SuperState;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveConstants;
+import frc.robot.subsystems.drive.DriveParameters;
 import frc.robot.subsystems.drive.SwerveModule;
 import frc.robot.subsystems.drive.SwerveModuleConfig;
 import frc.robot.subsystems.intake.Arm.ArmConstants;
@@ -40,21 +41,24 @@ public class RobotContainer {
 
     public void periodic() {
         Logger.processInputs("RobotState", robotState);
-        superstructure.applyDriveSpeedsFromControls(
-                -driverController.getLeftY(), -driverController.getLeftX(), driverController.getRightX());
+        DriveParameters driveParameters =
+                new DriveParameters(
+                        -driverController.getLeftY(),
+                        -driverController.getLeftX(),
+                        driverController.getRightX());
 
-        superstructure.setState(SuperState.OPERATE);
+        superstructure.setState(new SuperState.Operate(driveParameters));
 
         if (driverController.getLeftTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
             if (driverController.getRightTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
-                superstructure.setState(SuperState.LAUNCH_AND_INTAKE);
+                superstructure.setState(new SuperState.LaunchAndIntake(driveParameters));
             } else {
-                superstructure.setState(SuperState.INTAKE);
+                superstructure.setState(new SuperState.Intake(driveParameters));
             }
         } else if (driverController.getRightTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
-            superstructure.setState(SuperState.LAUNCH);
+            superstructure.setState(new SuperState.Launch(driveParameters));
         } else if (driverController.getRightBumperButton()) {
-            superstructure.setState(SuperState.EXTAKE);
+            superstructure.setState(new SuperState.Extake(driveParameters));
         }
 
         superstructure.periodic();

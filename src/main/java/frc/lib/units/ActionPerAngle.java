@@ -21,6 +21,10 @@ public class ActionPerAngle extends Quantity<ActionPerAngle, ActionPerAngleUnit>
         }
     }
 
+    public ActionPerAngle clamp(ActionPerAngle low, ActionPerAngle high) {
+        return max(low).min(high);
+    }
+
     public ActionPerAngle plus(ActionPerAngle other) {
         return new ActionPerAngle(value + other.value);
     }

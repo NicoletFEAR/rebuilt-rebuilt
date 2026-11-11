@@ -35,8 +35,8 @@ public final class Constants {
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
     /**
-     * Used to define the different CAN Busses on the Robot Important for the SystemCore since there
-     * are 5 CAN Busses
+     * Used to define the different CAN Buses on the Robot. Important for the SystemCore since there
+     * are 5 CAN Buses
      */
     public static final CANBus RIO_BUS = new CANBus("rio");
 

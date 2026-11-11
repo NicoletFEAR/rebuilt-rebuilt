@@ -21,6 +21,10 @@ public class MomentOfInertia extends Quantity<MomentOfInertia, MomentOfInertiaUn
         }
     }
 
+    public MomentOfInertia clamp(MomentOfInertia low, MomentOfInertia high) {
+        return max(low).min(high);
+    }
+
     public MomentOfInertia plus(MomentOfInertia other) {
         return new MomentOfInertia(value + other.value);
     }

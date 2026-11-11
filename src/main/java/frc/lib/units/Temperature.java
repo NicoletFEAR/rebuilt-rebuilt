@@ -21,6 +21,10 @@ public class Temperature extends Quantity<Temperature, TemperatureUnit> {
         }
     }
 
+    public Temperature clamp(Temperature low, Temperature high) {
+        return max(low).min(high);
+    }
+
     public Temperature plus(Distance other) {
         return new Temperature(value + other.value);
     }

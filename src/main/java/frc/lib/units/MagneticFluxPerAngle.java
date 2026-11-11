@@ -21,6 +21,10 @@ public class MagneticFluxPerAngle extends Quantity<MagneticFluxPerAngle, Magneti
         }
     }
 
+    public MagneticFluxPerAngle clamp(MagneticFluxPerAngle low, MagneticFluxPerAngle high) {
+        return max(low).min(high);
+    }
+
     public MagneticFluxPerAngle plus(MagneticFluxPerAngle other) {
         return new MagneticFluxPerAngle(value + other.value);
     }

@@ -5,9 +5,7 @@ import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
-import frc.lib.units.Angle;
 import frc.lib.units.AngleUnit;
-import frc.lib.units.Velocity;
 import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
 import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
 import org.littletonrobotics.junction.Logger;
@@ -21,34 +19,37 @@ public class SwerveModule {
     private final DriveMotor drive;
     private final TurnMotor turn;
 
-    private SwerveModuleState state;
+    private SwerveModuleState state = new SwerveModuleState.Off();
 
     public SwerveModule(
             MotorIO driveMotor, MotorIO turnMotor, AbsEncoderIO turnCanCoder, SwerveModuleConfig config) {
         name = config.name();
         drive = new DriveMotor(driveMotor, config.getDriveMotorConfig());
         turn = new TurnMotor(turnMotor, turnCanCoder, config.getTurnMotorConfig());
-
-        state = SwerveModuleState.OFF;
     }
 
-    public enum SwerveModuleState {
-        OFF,
-        DRIVE,
+    public sealed interface SwerveModuleState permits SwerveModuleState.Off, SwerveModuleState.Drive {
+        public record Off() implements SwerveModuleState {}
+
+        public record Drive(SwerveModuleVelocity state) implements SwerveModuleState {}
+
+        public static final Off OFF = new Off();
     }
 
     public void periodic() {
-        Logger.recordOutput(name + "/State", state);
+        Logger.recordOutput(name + "/State", (Record) state);
 
         switch (state) {
-            case OFF -> {
+            case SwerveModuleState.Off() -> {
                 drive.setState(DriveMotorState.OFF);
                 turn.setState(TurnMotorState.OFF);
             }
 
-            case DRIVE -> {
-                drive.setState(DriveMotorState.DRIVE);
-                turn.setState(TurnMotorState.TURN);
+            case SwerveModuleState.Drive(SwerveModuleVelocity state) -> {
+                Rotation2d currentRotation = turn.getRotation();
+                state = state.optimize(currentRotation).cosineScale(currentRotation);
+                drive.setState(new DriveMotorState.Drive(MetersPerSecond.of(state.velocity)));
+                turn.setState(new TurnMotorState.Turn(AngleUnit.ofRotation(state.angle)));
             }
         }
 
@@ -60,27 +61,11 @@ public class SwerveModule {
         this.state = state;
     }
 
-    void setDesiredSetpoints(Velocity velocity, Angle position) {
-        drive.setDesiredVelocity(velocity);
-        turn.setDesiredPosition(position);
-    }
-
-    void applyState(SwerveModuleVelocity state) {
-        Rotation2d currentRotation = turn.getRotation();
-        state = state.optimize(currentRotation).cosineScale(currentRotation);
-        setDesiredSetpoints(MetersPerSecond.of(state.velocity), AngleUnit.ofRotation(state.angle));
-    }
-
     SwerveModulePosition getPosition() {
         return new SwerveModulePosition(drive.getPosition().in(Meters), turn.getRotation());
     }
 
     SwerveModuleVelocity getState() {
         return new SwerveModuleVelocity(drive.getVelocity().in(MetersPerSecond), turn.getRotation());
-    }
-
-    SwerveModuleVelocity getDesiredState() {
-        return new SwerveModuleVelocity(
-                drive.getDesiredVelocity().in(MetersPerSecond), turn.getDesiredRotation());
     }
 }
