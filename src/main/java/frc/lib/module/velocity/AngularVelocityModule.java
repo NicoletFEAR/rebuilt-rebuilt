@@ -32,7 +32,7 @@ public class AngularVelocityModule extends Module {
      * @param velocity desired mechanism angular velocity
      */
     protected void setVelocitySetpoint(AngularVelocity velocity) {
-        io.setVelocitySetpoint(velocity);
+        io.setVelocitySetpoint(velocity.times(rotorToMechanismRatio));
     }
 
     /**

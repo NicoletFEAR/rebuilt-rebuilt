@@ -8,35 +8,35 @@ import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.units.AngularVelocity;
+
 import org.littletonrobotics.junction.Logger;
-import org.wpilib.math.util.MathUtil;
 
 public class Flywheels extends MultiAngularVelocityModule {
     private FlywheelState state;
-    private AngularVelocity desiredVelocity;
 
     Flywheels(MotorIO motor, MotorIO[] followers) {
         super("Launcher/Flywheels", motor, followers, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
         state = FlywheelState.OFF;
-        desiredVelocity = RadiansPerSecond.of(0.0);
     }
 
-    enum FlywheelState {
-        OFF,
-        IDLE,
-        LAUNCH,
+    sealed interface FlywheelState permits FlywheelState.Off, FlywheelState.Idle, FlywheelState.Launch {
+        public record Off() implements FlywheelState {}
+        public record Idle() implements FlywheelState {}
+        public record Launch(AngularVelocity velocity) implements FlywheelState {}
+
+        public static final Off OFF = new Off();
+        public static final Idle IDLE = new Idle();
     }
 
     @Override
     public void periodic() {
         super.periodic();
-        Logger.recordOutput(name + "/State", state);
-        Logger.recordOutput(name + "/DesiredVelocity", desiredVelocity.in(RadiansPerSecond));
+        Logger.recordOutput(name + "/State", (Record) state);
 
         switch (state) {
-            case OFF -> super.setVoltage(Volts.of(0.0));
-            case IDLE -> super.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
-            case LAUNCH -> super.setVelocitySetpoint(desiredVelocity);
+            case FlywheelState.Off() -> super.setVoltage(Volts.of(0.0));
+            case FlywheelState.Idle() -> super.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
+            case FlywheelState.Launch(AngularVelocity velocity) -> super.setVelocitySetpoint(velocity);
         }
     }
 
@@ -44,16 +44,12 @@ public class Flywheels extends MultiAngularVelocityModule {
         this.state = state;
     }
 
-    void setDesiredVelocity(AngularVelocity velocity) {
-        desiredVelocity = velocity;
-    }
-
-    boolean isAtDesiredVelocity() {
-        double desiredVelocityRadiansPerSecond = desiredVelocity.in(RadiansPerSecond);
-        return MathUtil.isNear(
-                getVelocity().in(RadiansPerSecond),
-                desiredVelocityRadiansPerSecond,
-                Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER * desiredVelocityRadiansPerSecond);
+    boolean isAtLaunchVelocity() {
+        return switch (state) {
+            case FlywheelState.Off() -> false;
+            case FlywheelState.Idle() -> false;
+            case FlywheelState.Launch(AngularVelocity velocity) -> velocity.equal(getVelocity(), velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
+        };
     }
 
     public static final class FlywheelConstants {

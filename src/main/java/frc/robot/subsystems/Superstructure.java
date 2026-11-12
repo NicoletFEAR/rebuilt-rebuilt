@@ -7,6 +7,10 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.Launcher.LauncherState;
+
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+
 import org.littletonrobotics.junction.Logger;
 
 public class Superstructure {
@@ -44,8 +48,8 @@ public class Superstructure {
 
         public record Extake(DriveParameters driveParameters) implements SuperState {}
 
-        public Start START = new Start();
-        public Stopped STOPPED = new Stopped();
+        public static final Start START = new Start();
+        public static final Stopped STOPPED = new Stopped();
     }
 
     public void periodic() {
@@ -79,13 +83,23 @@ public class Superstructure {
             case SuperState.Launch(DriveParameters driveParameters) -> {
                 drive.setState(new DriveState.Teleop(driveParameters));
                 intake.setState(IntakeState.DEPLOY);
-                launcher.setState(LauncherState.SPIN_UP);
+
+                if (launcher.isReadyToLaunch()) {
+                    launcher.setState(new LauncherState.Launch(RadiansPerSecond.of(600.0), Radians.of(2.5)));
+                } else {
+                    launcher.setState(new LauncherState.SpinUp(RadiansPerSecond.of(600.0), Radians.of(2.5)));
+                }
             }
 
             case SuperState.LaunchAndIntake(DriveParameters driveParameters) -> {
                 drive.setState(new DriveState.Teleop(driveParameters));
                 intake.setState(IntakeState.INTAKE);
-                launcher.setState(LauncherState.SPIN_UP);
+                
+                if (launcher.isReadyToLaunch()) {
+                    launcher.setState(new LauncherState.Launch(RadiansPerSecond.of(600.0), Radians.of(2.5)));
+                } else {
+                    launcher.setState(new LauncherState.SpinUp(RadiansPerSecond.of(600.0), Radians.of(2.5)));
+                }
             }
 
             case SuperState.Extake(DriveParameters driveParameters) -> {

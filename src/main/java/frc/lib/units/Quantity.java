@@ -30,7 +30,7 @@ public abstract class Quantity<S extends Quantity<S, U>, U extends Unit<U>>
     }
 
     public double in(U unit) {
-        return value * unit.inBaseUnits;
+        return value / unit.inBaseUnits;
     }
 
     @Override

@@ -1,3 +1,4 @@
+* Create Configurator class to make sure configuration application succeeds
 * Make all the IOs vendor-agnostic
 * Make all sim IO things vendor-agnostic
 * Finish replacing state enums with sealed interfaces

@@ -1,6 +1,5 @@
 package frc.robot.subsystems.launcher;
 
-import static frc.lib.units.AngleUnit.Radians;
 import static frc.lib.units.AngleUnit.Rotations;
 import static frc.lib.units.VoltageUnit.Volts;
 
@@ -11,32 +10,30 @@ import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.units.Angle;
 import org.littletonrobotics.junction.Logger;
-import org.wpilib.math.util.MathUtil;
 
 public class Hood extends AbsEncoderAngularPositionModule {
     private HoodState state;
-    private Angle desiredPosition;
 
     Hood(MotorIO motor, AbsEncoderIO canCoder) {
         super("Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
         state = HoodState.OFF;
-        desiredPosition = Radians.of(0.0);
     }
 
-    enum HoodState {
-        OFF,
-        HOLD_POSITION,
+    sealed interface HoodState permits HoodState.Off, HoodState.HoldPosition {
+        public record Off() implements HoodState {}
+        public record HoldPosition(Angle position) implements HoodState {}
+
+        public static final Off OFF = new Off();
     }
 
     @Override
     public void periodic() {
         super.periodic();
-        Logger.recordOutput(name + "/State", state);
-        Logger.recordOutput(name + "/DesiredPosition", desiredPosition.in(Radians));
+        Logger.recordOutput(name + "/State", (Record) state);
 
         switch (state) {
-            case OFF -> super.setVoltage(Volts.of(0.0));
-            case HOLD_POSITION -> super.setPositionSetpoint(desiredPosition);
+            case HoodState.Off() -> super.setVoltage(Volts.of(0.0));
+            case HoodState.HoldPosition(Angle position) -> super.setPositionSetpoint(position);
         }
     }
 
@@ -44,15 +41,11 @@ public class Hood extends AbsEncoderAngularPositionModule {
         this.state = state;
     }
 
-    void setDesiredPosition(Angle position) {
-        desiredPosition = position;
-    }
-
-    boolean isAtDesiredPosition() {
-        return MathUtil.isNear(
-                getPosition().in(Radians),
-                desiredPosition.in(Radians),
-                Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE.in(Radians));
+    boolean isAtLaunchPosition() {
+        return switch (state) {
+            case HoodState.Off() -> false;
+            case HoodState.HoldPosition(Angle position) -> position.equal(getPosition(), Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
+        };
     }
 
     public static final class HoodConstants {

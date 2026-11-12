@@ -15,7 +15,6 @@ import frc.lib.units.AngularVelocity;
 import frc.lib.units.Distance;
 import frc.lib.units.Velocity;
 import frc.robot.RobotState;
-import frc.robot.Utils;
 import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.Alliance;
@@ -23,7 +22,6 @@ import org.wpilib.driverstation.MatchState;
 import org.wpilib.math.estimator.SwerveDrivePoseEstimator;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Transform2d;
 import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.kinematics.ChassisVelocities;
 import org.wpilib.math.kinematics.SwerveDriveKinematics;
@@ -82,7 +80,7 @@ public class Drive {
 
         public record Teleop(DriveParameters parameters) implements DriveState {}
 
-        public Off OFF = new Off();
+        public static final Off OFF = new Off();
     }
 
     public void periodic() {
@@ -102,11 +100,7 @@ public class Drive {
 
             case DriveState.Teleop(DriveParameters parameters) -> {
                 Translation2d linearVelocity =
-                        new Pose2d(Translation2d.ZERO, Utils.zeroSafeRotation2d(parameters.x(), parameters.y()))
-                                .transformBy(
-                                        new Transform2d(
-                                                Math.hypot(parameters.x(), parameters.y()), 0.0, Rotation2d.ZERO))
-                                .getTranslation()
+                        new Translation2d(parameters.x(), parameters.y())
                                 .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
                 double omega =
                         parameters.omega() * DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);

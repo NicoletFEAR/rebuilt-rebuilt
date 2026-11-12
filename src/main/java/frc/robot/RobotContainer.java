@@ -34,8 +34,12 @@ public class RobotContainer {
     public RobotContainer() {
         robotState = new RobotStateAutoLogged();
         driverController = new Gamepad(0);
-        driverController.setLeftTriggerDeadband(OperatorConstants.JOYSTICK_DEADBAND);
-        driverController.setRightTriggerDeadband(OperatorConstants.JOYSTICK_DEADBAND);
+        driverController.setLeftXDeadband(OperatorConstants.DEADBAND);
+        driverController.setLeftYDeadband(OperatorConstants.DEADBAND);
+        driverController.setLeftTriggerDeadband(OperatorConstants.DEADBAND);
+        driverController.setRightXDeadband(OperatorConstants.DEADBAND);
+        driverController.setRightYDeadband(OperatorConstants.DEADBAND);
+        driverController.setRightTriggerDeadband(OperatorConstants.DEADBAND);
         superstructure = new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
     }
 
