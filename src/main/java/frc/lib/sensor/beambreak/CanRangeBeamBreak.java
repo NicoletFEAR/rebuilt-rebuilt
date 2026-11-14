@@ -5,6 +5,7 @@ import static frc.lib.units.FrequencyUnit.Hertz;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
+import frc.lib.Configurator;
 import frc.lib.sensor.CanRangeConfig;
 
 /**
@@ -35,7 +36,7 @@ public class CanRangeBeamBreak implements BeamBreakIO {
      */
     public CanRangeBeamBreak(CanRangeConfig config) {
         canRange = new CANrange(config.id().id(), config.id().bus());
-        canRange.getConfigurator().apply(config.getCanRangeConfiguration());
+        Configurator.applyCanRangeConfiguration(canRange, config.getCanRangeConfiguration());
 
         trippedSignal = canRange.getIsDetected();
         trippedSignal.setUpdateFrequency(Hertz.raw(100));

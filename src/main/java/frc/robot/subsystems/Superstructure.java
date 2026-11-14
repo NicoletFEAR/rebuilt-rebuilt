@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import static frc.lib.units.AngleUnit.Radians;
+import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
+
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveState;
 import frc.robot.subsystems.drive.DriveParameters;
@@ -7,10 +10,6 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.Launcher.LauncherState;
-
-import static frc.lib.units.AngleUnit.Radians;
-import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Superstructure {
@@ -94,7 +93,7 @@ public class Superstructure {
             case SuperState.LaunchAndIntake(DriveParameters driveParameters) -> {
                 drive.setState(new DriveState.Teleop(driveParameters));
                 intake.setState(IntakeState.INTAKE);
-                
+
                 if (launcher.isReadyToLaunch()) {
                     launcher.setState(new LauncherState.Launch(RadiansPerSecond.of(600.0), Radians.of(2.5)));
                 } else {

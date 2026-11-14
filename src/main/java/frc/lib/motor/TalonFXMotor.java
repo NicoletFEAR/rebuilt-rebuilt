@@ -16,6 +16,7 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import frc.lib.Configurator;
 import frc.lib.units.Angle;
 import frc.lib.units.AngleUnit;
 import frc.lib.units.AngularAccelerationUnit;
@@ -97,7 +98,7 @@ public class TalonFXMotor extends MotorIO {
     public TalonFXMotor(MotorConfig config) {
         super(config);
         motor = new TalonFX(config.id().id(), config.id().bus());
-        motor.getConfigurator().apply(config.getTalonFXConfiguration());
+        Configurator.applyTalonFxConfiguration(motor, config.getTalonFXConfiguration());
 
         positionSignal = motor.getRotorPosition();
         velocitySignal = motor.getRotorVelocity();

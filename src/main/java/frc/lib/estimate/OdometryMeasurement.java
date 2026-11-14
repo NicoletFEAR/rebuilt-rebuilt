@@ -1,6 +1,6 @@
 package frc.lib.estimate;
 
-import frc.lib.units.Time;
+import frc.lib.units.Timestamp;
 import org.wpilib.math.geometry.Pose2d;
 
-public record OdometryMeasurement(Time timestamp, Pose2d pose) {}
+public record OdometryMeasurement(Timestamp timestamp, Pose2d pose) {}

@@ -73,7 +73,7 @@ public class MultiAngularVelocityModule extends AngularVelocityModule {
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].updateInputs(followerInputs[i]);
             Logger.processInputs(
-                    name + "/follower" + (numberOfFollowers == 1 ? "" : i),
+                    name + "/Follower" + (numberOfFollowers == 1 ? "" : i),
                     followerInputs[i].applyRotorToMechanismRatio(rotorToMechanismRatio));
         }
     }

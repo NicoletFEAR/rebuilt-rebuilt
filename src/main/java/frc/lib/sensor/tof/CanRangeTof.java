@@ -5,6 +5,7 @@ import static frc.lib.units.FrequencyUnit.Hertz;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
+import frc.lib.Configurator;
 import frc.lib.sensor.CanRangeConfig;
 import frc.lib.units.DistanceUnit;
 import org.wpilib.units.measure.Distance;
@@ -37,7 +38,7 @@ public class CanRangeTof implements TofIO {
      */
     public CanRangeTof(CanRangeConfig config) {
         canRange = new CANrange(config.id().id(), config.id().bus());
-        canRange.getConfigurator().apply(config.getCanRangeConfiguration());
+        Configurator.applyCanRangeConfiguration(canRange, config.getCanRangeConfiguration());
 
         distanceSignal = canRange.getDistance();
         distanceSignal.setUpdateFrequency(Hertz.raw(100));

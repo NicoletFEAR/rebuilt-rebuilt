@@ -1,7 +1,7 @@
 package frc.lib.sensor.absencoder;
 
 /** Creates a Simulation CANcoder for when we are simulating the robot */
-public class SimCanCoder extends RealCanCoder {
+public class SimCanCoder extends CanCoder {
 
     /**
      * Sets up the Simulated CANcoder the same way a real CANcoder would be setup

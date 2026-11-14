@@ -8,7 +8,6 @@ import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.units.AngularVelocity;
-
 import org.littletonrobotics.junction.Logger;
 
 public class Flywheels extends MultiAngularVelocityModule {
@@ -19,9 +18,12 @@ public class Flywheels extends MultiAngularVelocityModule {
         state = FlywheelState.OFF;
     }
 
-    sealed interface FlywheelState permits FlywheelState.Off, FlywheelState.Idle, FlywheelState.Launch {
+    sealed interface FlywheelState
+            permits FlywheelState.Off, FlywheelState.Idle, FlywheelState.Launch {
         public record Off() implements FlywheelState {}
+
         public record Idle() implements FlywheelState {}
+
         public record Launch(AngularVelocity velocity) implements FlywheelState {}
 
         public static final Off OFF = new Off();
@@ -48,7 +50,9 @@ public class Flywheels extends MultiAngularVelocityModule {
         return switch (state) {
             case FlywheelState.Off() -> false;
             case FlywheelState.Idle() -> false;
-            case FlywheelState.Launch(AngularVelocity velocity) -> velocity.equal(getVelocity(), velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
+            case FlywheelState.Launch(AngularVelocity velocity) ->
+                    velocity.equal(
+                            getVelocity(), velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
         };
     }
 

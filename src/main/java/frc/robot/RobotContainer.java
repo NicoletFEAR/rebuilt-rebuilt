@@ -5,7 +5,7 @@ import frc.lib.motor.MotorConfig;
 import frc.lib.motor.SimMotor;
 import frc.lib.motor.TalonFXMotor;
 import frc.lib.sensor.absencoder.AbsEncoderConfig;
-import frc.lib.sensor.absencoder.RealCanCoder;
+import frc.lib.sensor.absencoder.CanCoder;
 import frc.lib.sensor.absencoder.SimCanCoder;
 import frc.robot.constants.DeviceIds;
 import frc.robot.constants.OperatorConstants;
@@ -23,16 +23,15 @@ import frc.robot.subsystems.launcher.Flywheels.FlywheelConstants;
 import frc.robot.subsystems.launcher.Hood.HoodConstants;
 import frc.robot.subsystems.launcher.Indexer.IndexerConstants;
 import frc.robot.subsystems.launcher.Launcher;
-import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.Gamepad;
 
 public class RobotContainer {
-    private final RobotStateAutoLogged robotState;
+    private final RobotState robotState;
     private final Superstructure superstructure;
     private final Gamepad driverController;
 
     public RobotContainer() {
-        robotState = new RobotStateAutoLogged();
+        robotState = new RobotState();
         driverController = new Gamepad(0);
         driverController.setLeftXDeadband(OperatorConstants.DEADBAND);
         driverController.setLeftYDeadband(OperatorConstants.DEADBAND);
@@ -44,7 +43,7 @@ public class RobotContainer {
     }
 
     public void periodic() {
-        Logger.processInputs("RobotState", robotState);
+        robotState.log();
         DriveParameters driveParameters =
                 new DriveParameters(
                         -driverController.getLeftY(),
@@ -79,7 +78,7 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                            new RealCanCoder(
+                            new CanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
                             new SwerveModuleConfig(
@@ -93,7 +92,7 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.FRONT_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                            new RealCanCoder(
+                            new CanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
@@ -107,7 +106,7 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                            new RealCanCoder(
+                            new CanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
                             new SwerveModuleConfig(
@@ -121,7 +120,7 @@ public class RobotContainer {
                             new TalonFXMotor(
                                     new MotorConfig(
                                             DeviceIds.BACK_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                            new RealCanCoder(
+                            new CanCoder(
                                     new AbsEncoderConfig(
                                             DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
                             new SwerveModuleConfig(
@@ -201,7 +200,7 @@ public class RobotContainer {
                                 MotorAlignmentValue.Opposed)),
                 new TalonFXMotor(new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES)),
                 new TalonFXMotor(new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES)),
-                new RealCanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
+                new CanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
     private Intake buildIntake() {

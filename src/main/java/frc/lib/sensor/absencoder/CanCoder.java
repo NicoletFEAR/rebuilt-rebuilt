@@ -6,13 +6,14 @@ import static frc.lib.units.FrequencyUnit.Hertz;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.StatusSignalCollection;
 import com.ctre.phoenix6.hardware.CANcoder;
+import frc.lib.Configurator;
 import frc.lib.units.AngleUnit;
 import frc.lib.units.AngularVelocityUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 
 /** Implements {@link AbsEncoderIO} in order to create the real/physical CANcoder */
-public class RealCanCoder implements AbsEncoderIO {
+public class CanCoder implements AbsEncoderIO {
     private final CANcoder canCoder;
 
     /** Stores the Position and Velocity Signals given from the CANcoder */
@@ -29,9 +30,9 @@ public class RealCanCoder implements AbsEncoderIO {
      *
      * @param config Is the configuration for the CANcoder
      */
-    public RealCanCoder(AbsEncoderConfig config) {
+    public CanCoder(AbsEncoderConfig config) {
         canCoder = new CANcoder(config.id().id(), config.id().bus());
-        canCoder.getConfigurator().apply(config.getCanCoderConfiguration());
+        Configurator.applyCanCoderConfiguration(canCoder, config.getCanCoderConfiguration());
 
         positionSignal = canCoder.getAbsolutePosition();
         velocitySignal = canCoder.getVelocity();

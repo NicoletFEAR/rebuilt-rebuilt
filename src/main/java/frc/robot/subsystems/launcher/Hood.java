@@ -21,6 +21,7 @@ public class Hood extends AbsEncoderAngularPositionModule {
 
     sealed interface HoodState permits HoodState.Off, HoodState.HoldPosition {
         public record Off() implements HoodState {}
+
         public record HoldPosition(Angle position) implements HoodState {}
 
         public static final Off OFF = new Off();
@@ -44,7 +45,8 @@ public class Hood extends AbsEncoderAngularPositionModule {
     boolean isAtLaunchPosition() {
         return switch (state) {
             case HoodState.Off() -> false;
-            case HoodState.HoldPosition(Angle position) -> position.equal(getPosition(), Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
+            case HoodState.HoldPosition(Angle position) ->
+                    position.equal(getPosition(), Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
         };
     }
 

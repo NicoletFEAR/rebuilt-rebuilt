@@ -52,7 +52,7 @@ public abstract class Module {
      */
     public void periodic() {
         io.updateInputs(inputs);
-        Logger.processInputs(name, inputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
+        Logger.processInputs(name, inputs);
     }
 
     /**

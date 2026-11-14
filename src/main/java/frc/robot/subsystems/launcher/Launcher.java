@@ -29,11 +29,22 @@ public class Launcher {
         state = LauncherState.OFF;
     }
 
-    public sealed interface LauncherState permits LauncherState.Off, LauncherState.Idle, LauncherState.SpinUp, LauncherState.Launch, LauncherState.Extake {
+    public sealed interface LauncherState
+            permits LauncherState.Off,
+                    LauncherState.Idle,
+                    LauncherState.SpinUp,
+                    LauncherState.Launch,
+                    LauncherState.Extake {
         public record Off() implements LauncherState {}
+
         public record Idle() implements LauncherState {}
-        public record SpinUp(AngularVelocity flywheelVelocity, Angle hoodAngle) implements LauncherState {}
-        public record Launch(AngularVelocity flywheelVelocity, Angle hoodAngle) implements LauncherState {}
+
+        public record SpinUp(AngularVelocity flywheelVelocity, Angle hoodAngle)
+                implements LauncherState {}
+
+        public record Launch(AngularVelocity flywheelVelocity, Angle hoodAngle)
+                implements LauncherState {}
+
         public record Extake() implements LauncherState {}
 
         public static final Off OFF = new Off();

@@ -130,7 +130,7 @@ public class Drive {
 
     private OdometryMeasurement getOdometryMeasurement() {
         return new OdometryMeasurement(
-                Seconds.of(Timer.getTimestamp()), poseEstimator.getEstimatedPosition());
+                Seconds.timestamp(Timer.getTimestamp()), poseEstimator.getEstimatedPosition());
     }
 
     private SwerveModulePosition[] getModulePositions() {
@@ -157,7 +157,7 @@ public class Drive {
         private static final Distance WHEEL_RADIUS = Inches.of(2.0);
 
         public static final double DRIVE_ROTOR_TO_MECHANISM_RATIO =
-                425.0 / 63.0 * WHEEL_RADIUS.in(Meters);
+                425.0 / 63.0 / WHEEL_RADIUS.in(Meters);
         public static final double TURN_ROTOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
 
         public static final Angle FRONT_LEFT_OFFSET = Rotations.of(-0.8896484375);
