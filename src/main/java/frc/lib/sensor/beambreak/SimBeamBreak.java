@@ -6,7 +6,7 @@ package frc.lib.sensor.beambreak;
  * <p>This class extends {@link BeamBreak} so that it can be used anywhere a normal beam break
  * sensor is expected. During simulation, the sensor is reported as disconnected.
  */
-public class SimBeamBreak extends BeamBreak {
+public final class SimBeamBreak extends BeamBreak {
 
     /**
      * Creates a simulated beam break sensor.

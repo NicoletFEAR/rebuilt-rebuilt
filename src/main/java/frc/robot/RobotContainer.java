@@ -4,7 +4,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderConfig;
-import frc.lib.sensor.absencoder.CanCoder;
+import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.robot.constants.DeviceIds;
 import frc.robot.constants.OperatorConstants;
 import frc.robot.subsystems.Superstructure;
@@ -83,8 +83,8 @@ public class RobotContainer {
     }
 
     /**
-     * Builds the drive subsystem. Four swerve modules are created in front-left,
-     * front-right, back-left, back-right order.
+     * Builds the drive subsystem. Four swerve modules are created in front-left, front-right,
+     * back-left, back-right order.
      */
     private Drive buildDrive(RobotState robotState) {
         return new Drive(
@@ -94,9 +94,8 @@ public class RobotContainer {
                                 new MotorConfig(
                                         DeviceIds.FRONT_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                         MotorIO.buildTalonFxMotor(
-                                new MotorConfig(
-                                        DeviceIds.FRONT_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                        new CanCoder(
+                                new MotorConfig(DeviceIds.FRONT_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                        AbsEncoderIO.buildCanCoder(
                                 new AbsEncoderConfig(
                                         DeviceIds.FRONT_LEFT_CAN_CODER, DriveConstants.FRONT_LEFT_OFFSET)),
                         new SwerveModuleConfig(
@@ -110,7 +109,7 @@ public class RobotContainer {
                         MotorIO.buildTalonFxMotor(
                                 new MotorConfig(
                                         DeviceIds.FRONT_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                        new CanCoder(
+                        AbsEncoderIO.buildCanCoder(
                                 new AbsEncoderConfig(
                                         DeviceIds.FRONT_RIGHT_CAN_CODER, DriveConstants.FRONT_RIGHT_OFFSET)),
                         new SwerveModuleConfig(
@@ -122,9 +121,8 @@ public class RobotContainer {
                                 new MotorConfig(
                                         DeviceIds.BACK_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                         MotorIO.buildTalonFxMotor(
-                                new MotorConfig(
-                                        DeviceIds.BACK_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                        new CanCoder(
+                                new MotorConfig(DeviceIds.BACK_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                        AbsEncoderIO.buildCanCoder(
                                 new AbsEncoderConfig(
                                         DeviceIds.BACK_LEFT_CAN_CODER, DriveConstants.BACK_LEFT_OFFSET)),
                         new SwerveModuleConfig(
@@ -136,9 +134,8 @@ public class RobotContainer {
                                 new MotorConfig(
                                         DeviceIds.BACK_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES)),
                         MotorIO.buildTalonFxMotor(
-                                new MotorConfig(
-                                        DeviceIds.BACK_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
-                        new CanCoder(
+                                new MotorConfig(DeviceIds.BACK_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                        AbsEncoderIO.buildCanCoder(
                                 new AbsEncoderConfig(
                                         DeviceIds.BACK_RIGHT_CAN_CODER, DriveConstants.BACK_RIGHT_OFFSET)),
                         new SwerveModuleConfig(
@@ -159,17 +156,19 @@ public class RobotContainer {
                                 DeviceIds.RIGHT_LAUNCHER,
                                 FlywheelConstants.FEEDFORWARD_VALUES,
                                 MotorAlignmentValue.Opposed)),
-                MotorIO.buildTalonFxMotor(new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES)),
-                MotorIO.buildTalonFxMotor(new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES)),
-                new CanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
+                MotorIO.buildTalonFxMotor(
+                        new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES)),
+                MotorIO.buildTalonFxMotor(
+                        new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES)),
+                AbsEncoderIO.buildCanCoder(
+                        new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
-    /**
-     * Builds the intake subsystem (arm and wheels).
-     */
+    /** Builds the intake subsystem (arm and wheels). */
     private Intake buildIntake() {
         return new Intake(
-                MotorIO.buildTalonFxMotor(new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES)),
+                MotorIO.buildTalonFxMotor(
+                        new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES)),
                 MotorIO.buildTalonFxMotor(
                         new MotorConfig(DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES)));
     }

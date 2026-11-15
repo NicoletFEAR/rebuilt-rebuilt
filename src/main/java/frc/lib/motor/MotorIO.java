@@ -43,7 +43,7 @@ public abstract class MotorIO {
 
     /**
      * Get the configuration for this motor.
-     * 
+     *
      * @return the motor's configuration
      */
     public MotorConfig getConfig() {
@@ -51,13 +51,13 @@ public abstract class MotorIO {
     }
 
     /**
-     * Creates a real TalonFX or a simulated TalonFX depending on whether the robot is
-     * being simulated or not.
-     * 
+     * Creates a real TalonFX or a simulated TalonFX depending on whether the robot is being simulated
+     * or not.
+     *
      * @param config configuration for the motor
      * @return the correct TalonFX motor implementation
      */
-    public static MotorIO buildTalonFxMotor(MotorConfig config) {
+    public static TalonFxMotor buildTalonFxMotor(MotorConfig config) {
         return Robot.isReal() ? new TalonFxMotor(config) : new SimTalonFxMotor(config);
     }
 
@@ -119,7 +119,9 @@ public abstract class MotorIO {
     }
 
     /**
-     * Updates the provided inputs with the motor's current status.
+     * Updates the provided inputs with the motor's current status. This is done instead of simply
+     * returning a new inputs object so that we can reuse inputs objects, and don't have to waste time
+     * each loop period allocating a bunch of new inputs objects.
      *
      * @param inputs object that should be populated with the motor's current inputs
      */

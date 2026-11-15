@@ -2,7 +2,9 @@ package frc.lib.sensor.tof;
 
 import static frc.lib.units.DistanceUnit.Meters;
 
+import frc.lib.sensor.CanRangeConfig;
 import frc.lib.units.Distance;
+import frc.robot.Robot;
 import org.littletonrobotics.junction.AutoLog;
 
 /**
@@ -16,6 +18,17 @@ import org.littletonrobotics.junction.AutoLog;
  * and measured distance.
  */
 public interface TofIO {
+
+    /**
+     * Creates a real CANrange time-of-flight sensor or a simulated CANrange time-of-flight sensor
+     * depending on whether the robot is being simulated or not.
+     *
+     * @param config configuration for the CANrange time-of-flight sensor
+     * @return the correct CANrange time-of-flight sensor implementation
+     */
+    static CanRangeTof buildCanRangeTof(CanRangeConfig config) {
+        return Robot.isReal() ? new CanRangeTof(config) : new SimCanRangeTof(config);
+    }
 
     /**
      * Stores the inputs and status information reported by a time-of-flight sensor.
@@ -35,7 +48,9 @@ public interface TofIO {
 
     /**
      * Updates the provided inputs with the time-of-flight sensor's current status and measured
-     * distance.
+     * distance. This is done instead of simply returning a new inputs object so that we can reuse
+     * inputs objects, and don't have to waste time each loop period allocating a bunch of new inputs
+     * objects.
      *
      * @param input object that should be populated with the sensor's current inputs
      */

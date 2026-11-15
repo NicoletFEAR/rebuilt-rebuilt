@@ -9,7 +9,7 @@ import frc.lib.sensor.CanRangeConfig;
  * time-of-flight sensor is expected. During simulation, the sensor is reported as disconnected
  * because there is no physical CANrange sensor connected.
  */
-public class SimCanRangeTof extends CanRangeTof {
+public final class SimCanRangeTof extends CanRangeTof {
     /**
      * Creates a simulated CANrange time-of-flight sensor.
      *

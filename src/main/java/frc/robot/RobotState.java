@@ -4,7 +4,6 @@ import static frc.lib.units.TimeUnit.Seconds;
 
 import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.units.Timestamp;
-import lombok.Data;
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.math.geometry.Pose2d;
 
@@ -16,7 +15,6 @@ import org.wpilib.math.geometry.Pose2d;
  * measurements) and other consumers of the robot's pose. Lombok's {@link Data} annotation provides
  * the getters and setters for {@link #estimatedPose} and {@link #lastTimestamp}.
  */
-@Data
 public class RobotState {
 
     /** Estimated field-relative pose of the robot; starts at the origin. */

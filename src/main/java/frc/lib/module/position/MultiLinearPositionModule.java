@@ -72,8 +72,7 @@ public final class MultiLinearPositionModule extends LinearPositionModule {
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].updateInputs(followerInputs[i]);
             Logger.processInputs(
-                    name + "/Follower" + (numberOfFollowers == 1 ? "" : " " + i),
-                    followerInputs[i]);
+                    name + "/Follower" + (numberOfFollowers == 1 ? "" : " " + i), followerInputs[i]);
         }
     }
 }

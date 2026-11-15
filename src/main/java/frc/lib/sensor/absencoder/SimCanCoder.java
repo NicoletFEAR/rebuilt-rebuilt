@@ -1,13 +1,12 @@
 package frc.lib.sensor.absencoder;
 
-/** Creates a Simulation CANcoder for when we are simulating the robot */
-public class SimCanCoder extends CanCoder {
+/** Creates a simulation CANcoder for when we are simulating the robot. */
+public final class SimCanCoder extends CanCoder {
 
     /**
-     * Sets up the Simulated CANcoder the same way a real CANcoder would be setup
+     * Sets up the simulated CANcoder the same way a real CANcoder would be set up.
      *
-     * @param config Is the configuration for the CANcoder you want to simulate. This should be the
-     *     same config used for the real CANcoder counterpart
+     * @param config the configuration for the CANcoder
      */
     public SimCanCoder(AbsEncoderConfig config) {
         super(config);
@@ -18,6 +17,8 @@ public class SimCanCoder extends CanCoder {
      * position rather than the position provided by the absolute encoder. This is fine because in
      * simulation, we only care about the relative position, and assume the absolute position is
      * correct.
+     *
+     * @param inputs object to populate with the CANcoder's current inputs
      */
     @Override
     public void updateInputs(AbsEncoderIOInputs inputs) {

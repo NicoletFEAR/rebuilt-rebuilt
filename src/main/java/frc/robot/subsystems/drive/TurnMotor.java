@@ -34,7 +34,8 @@ class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
     }
 
     /** States of the turn motor. */
-    static sealed interface TurnMotorState extends State permits TurnMotorState.Off, TurnMotorState.Turn {
+    static sealed interface TurnMotorState extends State
+            permits TurnMotorState.Off, TurnMotorState.Turn {
         /** Turn motor is off (zero voltage). */
         static record Off() implements TurnMotorState {}
 

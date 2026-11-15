@@ -5,14 +5,27 @@ import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 
 import frc.lib.units.Angle;
 import frc.lib.units.AngularVelocity;
+import frc.robot.Robot;
 import org.littletonrobotics.junction.AutoLog;
 
 /**
- * An interface for communicating with an Absolute Encoder
+ * Provides an interface for communicating with an absolute encoder.
  *
  * <p>Can be used to create a real and/or a simulated Absolute Encoder
  */
 public interface AbsEncoderIO {
+
+    /**
+     * Creates a real CANcoder or a simulated CANcoder depending on whether the robot is being
+     * simulated or not.
+     *
+     * @param config configuration for the CANcoder
+     * @return the correct CANcoder implementation
+     */
+    static CanCoder buildCanCoder(AbsEncoderConfig config) {
+        return Robot.isReal() ? new CanCoder(config) : new SimCanCoder(config);
+    }
+
     /**
      * Stores the inputs and sensor readings of the Absolute Encoder
      *
@@ -47,7 +60,9 @@ public interface AbsEncoderIO {
     }
 
     /**
-     * Updates the provided inputs with the latest Absolute Encoder data
+     * Updates the provided inputs with the latest Absolute Encoder data. This is done instead of
+     * simply returning a new inputs object so that we can reuse inputs objects, and don't have to
+     * waste time each loop period allocating a bunch of new inputs objects.
      *
      * @param inputs The input object whose data will be updated
      */

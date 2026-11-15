@@ -98,7 +98,8 @@ public class Drive extends StateMachine<Drive.DriveState> {
     }
 
     /** States of the drive subsystem. */
-    public static sealed interface DriveState extends State permits DriveState.Off, DriveState.Teleop {
+    public static sealed interface DriveState extends State
+            permits DriveState.Off, DriveState.Teleop {
         /** Drive motors are off. */
         static record Off() implements DriveState {}
 

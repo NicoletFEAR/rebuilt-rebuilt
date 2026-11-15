@@ -9,6 +9,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
  * <p>This record contains the PID gains ({@code p}, {@code i}, and {@code d}) along with the
  * feedforward gains ({@code s}, {@code v}, {@code a}, and {@code g}). These values can be converted
  * into a CTRE {@link Slot0Configs} object using {@link #getSlot0Configs()}. *
+ *
  * @param p proportional gain
  * @param i integral gain
  * @param d derivative gain

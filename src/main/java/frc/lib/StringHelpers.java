@@ -4,16 +4,16 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * Utility methods for formatting strings. I don't like having a utility class
- * like this but I'm not sure where else to put these methods.
+ * Utility methods for formatting strings. I don't like having a utility class like this but I'm not
+ * sure where else to put these methods.
  */
 public final class StringHelpers {
     private StringHelpers() {}
 
     /**
      * Inserts spaces into a PascalCase-like string at letter/non-letter boundaries and before a
-     * capitalized word that follows an uppercase letter. It is used to turn record class names
-     * into human-readable words for logging.
+     * capitalized word that follows an uppercase letter. It is used to turn record class names into
+     * human-readable words for logging.
      *
      * @param name the PascalCase-like string to split
      * @return the string with spaces inserted at the boundaries described above, or the input

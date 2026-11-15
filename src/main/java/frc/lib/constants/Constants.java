@@ -31,10 +31,15 @@ public final class Constants {
      */
     public static final Angle ANGULAR_POSITION_SETPOINT_TOLERANCE = Radians.of(0.05);
 
-    /** Sets the tolerance of a linear position mechanism to be within 0.005 meters of the setpoint. */
+    /**
+     * Sets the tolerance of a linear position mechanism to be within 0.005 meters of the setpoint.
+     */
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
-    /** The RoboRIO's CAN bus, which is slower than the CANivore bus but must be used by non-CTRE devices. */
+    /**
+     * The RoboRIO's CAN bus, which is slower than the CANivore bus but must be used by non-CTRE
+     * devices.
+     */
     public static final CANBus RIO_BUS = new CANBus("rio");
 
     /**

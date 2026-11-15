@@ -9,7 +9,7 @@ import frc.lib.sensor.CanRangeConfig;
  * break sensor is expected. During simulation, the sensor is reported as disconnected because there
  * is no physical CANrange sensor connected.
  */
-public class SimCanRangeBeamBreak extends CanRangeBeamBreak {
+public final class SimCanRangeBeamBreak extends CanRangeBeamBreak {
 
     /**
      * Creates a simulated CANrange beam break sensor.
