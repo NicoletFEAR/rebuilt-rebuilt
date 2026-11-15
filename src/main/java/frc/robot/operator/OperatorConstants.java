@@ -1,4 +1,4 @@
-package frc.robot.constants;
+package frc.robot.operator;
 
 /** Constants related to operator input handling. */
 public final class OperatorConstants {
@@ -16,6 +16,6 @@ public final class OperatorConstants {
     public static final double TRIGGER_THRESHOLD = 0.9;
 
     private OperatorConstants() {
-        /* Keep this constructor empty */
+        // Keep this constructor empty.
     }
 }

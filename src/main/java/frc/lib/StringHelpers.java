@@ -3,13 +3,8 @@ package frc.lib;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-/**
- * Utility methods for formatting strings. I don't like having a utility class like this but I'm not
- * sure where else to put these methods.
- */
+/** Utility methods for formatting strings. */
 public final class StringHelpers {
-    private StringHelpers() {}
-
     /**
      * Inserts spaces into a PascalCase-like string at letter/non-letter boundaries and before a
      * capitalized word that follows an uppercase letter. It is used to turn record class names into
@@ -46,8 +41,15 @@ public final class StringHelpers {
      *     case
      */
     public static String screamingSnakeCaseToWords(String name) {
+        // Splits name by underscores.
         return Arrays.stream(name.split("_"))
+                // Capitalizes first letter of each word and uncapitalizes the rest.
                 .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
+                // Puts word back together with spaces between.
                 .collect(Collectors.joining(" "));
+    }
+
+    private StringHelpers() {
+        // Keep this constructor empty.
     }
 }

@@ -80,5 +80,7 @@ public final class Configurator {
         return result.isOK();
     }
 
-    private Configurator() {}
+    private Configurator() {
+        // Keep this constructor empty.
+    }
 }

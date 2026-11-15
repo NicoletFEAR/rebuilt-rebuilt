@@ -2,12 +2,11 @@ package frc.robot;
 
 import org.wpilib.math.geometry.Rotation2d;
 
-// I don't like having a Utils class, but there is nowhere else to put this method
-// Eventually, it will be refactored somewhere else so that this class can be
-// deleted. Don't add anything here unless there is literally nowhere else to
-// put it.
-
-/** Utility methods for robot code. */
+/**
+ * Utility methods for robot code. I don't like having a Utils class, but there is nowhere else to
+ * put this method yet. Eventually, it will be refactored somewhere else so that this class can be
+ * deleted. Don't add anything here unless there is literally nowhere else to put it.
+ */
 public final class Utils {
 
     /**

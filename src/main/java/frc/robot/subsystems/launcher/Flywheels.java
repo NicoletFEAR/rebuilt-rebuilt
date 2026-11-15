@@ -3,7 +3,7 @@ package frc.robot.subsystems.launcher;
 import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 import static frc.lib.units.VoltageUnit.Volts;
 
-import frc.lib.constants.Constants;
+import frc.lib.ToleranceConstants;
 import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
@@ -70,7 +70,7 @@ public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
      * velocity is within the launch tolerance of the commanded velocity.
      *
      * <p>The tolerance is the commanded velocity times {@link
-     * Constants#VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER}.
+     * ToleranceConstants#VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER}.
      */
     boolean isAtLaunchVelocity() {
         return switch (state) {
@@ -79,7 +79,7 @@ public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
             case FlywheelState.Launch(AngularVelocity velocity) ->
                     velocity.equal(
                             module.getVelocity(),
-                            velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
+                            velocity.times(ToleranceConstants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
         };
     }
 

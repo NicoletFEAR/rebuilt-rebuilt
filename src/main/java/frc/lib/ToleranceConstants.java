@@ -1,23 +1,13 @@
-package frc.lib.constants;
+package frc.lib;
 
 import static frc.lib.units.AngleUnit.Radians;
 import static frc.lib.units.DistanceUnit.Meters;
-import static frc.lib.units.FrequencyUnit.Hertz;
 
-import com.ctre.phoenix6.CANBus;
 import frc.lib.units.Angle;
 import frc.lib.units.Distance;
-import frc.lib.units.Frequency;
 
 /** This file houses all of the general constants that are needed to run the robot. */
-public final class Constants {
-
-    /**
-     * Used as a reference for how long each periodic loop is.
-     *
-     * <p>Each periodic loop is 20 ms.
-     */
-    public static final Frequency LOOP_PERIOD = Hertz.of(50);
+public final class ToleranceConstants {
 
     /**
      * Sets the tolerance of a velocity mechanism to be within 0.05*setpoint of the setpoint. This
@@ -36,19 +26,7 @@ public final class Constants {
      */
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
-    /**
-     * The RoboRIO's CAN bus, which is slower than the CANivore bus but must be used by non-CTRE
-     * devices.
-     */
-    public static final CANBus RIO_BUS = new CANBus("rio");
-
-    /**
-     * The CANivore's CAN bus, which should be used by all CTRE devices because it's faster, but
-     * cannot be used by any non-CTRE devices.
-     */
-    public static final CANBus CANIVORE_BUS = new CANBus("*");
-
-    private Constants() {
-        /* Keep this constructor empty */
+    private ToleranceConstants() {
+        // Keep this constructor empty.
     }
 }

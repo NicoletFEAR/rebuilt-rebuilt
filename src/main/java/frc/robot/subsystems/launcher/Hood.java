@@ -3,7 +3,7 @@ package frc.robot.subsystems.launcher;
 import static frc.lib.units.AngleUnit.Rotations;
 import static frc.lib.units.VoltageUnit.Volts;
 
-import frc.lib.constants.Constants;
+import frc.lib.ToleranceConstants;
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
@@ -64,13 +64,15 @@ public class Hood extends StateMachine<Hood.HoodState> {
 
     /**
      * Returns whether the hood is in the {@link HoodState.HoldPosition} state and the measured angle
-     * is within {@link Constants#ANGULAR_POSITION_SETPOINT_TOLERANCE} of the commanded angle.
+     * is within {@link ToleranceConstants#ANGULAR_POSITION_SETPOINT_TOLERANCE} of the commanded
+     * angle.
      */
     boolean isAtLaunchPosition() {
         return switch (state) {
             case HoodState.Off() -> false;
             case HoodState.HoldPosition(Angle position) ->
-                    position.equal(module.getPosition(), Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
+                    position.equal(
+                            module.getPosition(), ToleranceConstants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
         };
     }
 

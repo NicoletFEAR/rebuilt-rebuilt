@@ -7,7 +7,6 @@ import static frc.lib.units.DistanceUnit.Meters;
 import static frc.lib.units.TimeUnit.Seconds;
 import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
-import frc.lib.constants.Constants;
 import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.statemachine.State;
@@ -16,6 +15,7 @@ import frc.lib.units.Angle;
 import frc.lib.units.AngularVelocity;
 import frc.lib.units.Distance;
 import frc.lib.units.Velocity;
+import frc.robot.ExecutionConstants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
 import org.littletonrobotics.junction.Logger;
@@ -139,7 +139,7 @@ public class Drive extends StateMachine<Drive.DriveState> {
                         parameters.omega() * DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
                 ChassisVelocities velocities =
                         new ChassisVelocities(linearVelocity.getX(), linearVelocity.getY(), omega);
-                velocities = velocities.discretize(Constants.LOOP_PERIOD.reciprocal().in(Seconds));
+                velocities = velocities.discretize(ExecutionConstants.LOOP_PERIOD.reciprocal().in(Seconds));
                 SwerveModuleVelocity[] setpointStates = kinematics.toSwerveModuleVelocities(velocities);
                 setpointStates =
                         SwerveDriveKinematics.desaturateWheelVelocities(
