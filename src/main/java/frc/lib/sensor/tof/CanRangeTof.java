@@ -31,7 +31,7 @@ public class CanRangeTof implements TofIO {
     /**
      * Creates a CANrange time-of-flight sensor using the provided configuration.
      *
-     * <p>The CANrange is configured using the values provided by the {@link CanRangeTofConfig}. The
+     * <p>The CANrange is configured using the values provided by the {@link CanRangeConfig}. The
      * distance signal is configured to update at 100 Hz.
      *
      * @param config configuration for the CANrange sensor

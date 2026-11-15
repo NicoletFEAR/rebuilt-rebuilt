@@ -4,6 +4,16 @@ import frc.lib.motor.MotorIO;
 import frc.lib.motor.MotorIOInputsAutoLogged;
 import org.littletonrobotics.junction.Logger;
 
+/**
+ * A linear position module that controls a leader motor and one or more follower motors.
+ *
+ * <p>This module extends {@link LinearPositionModule} and uses one motor as the leader while
+ * configuring the provided follower motors to follow it. Follower motor inputs are also updated and
+ * logged periodically.
+ *
+ * <p>Each follower must have an {@code alignment} value configured in its motor configuration. The
+ * alignment determines how the follower should operate relative to the leader.
+ */
 public class MultiLinearPositionModule extends LinearPositionModule {
 
     /** Number of follower motors controlled by this module. */
@@ -16,7 +26,7 @@ public class MultiLinearPositionModule extends LinearPositionModule {
     private final MotorIOInputsAutoLogged[] followerInputs;
 
     /**
-     * Creates a multi-motor angular position module.
+     * Creates a multi-motor linear position module.
      *
      * <p>The provided follower motors are configured to follow the leader motor. Each follower must
      * have an {@code alignment} value defined in its configuration.

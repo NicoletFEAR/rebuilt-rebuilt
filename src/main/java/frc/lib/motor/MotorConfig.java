@@ -37,12 +37,20 @@ public record MotorConfig(
      *
      * @param id CAN ID and CAN bus of the motor
      * @param feedforwardValues PID and feedforward gains for the motor
-     * @param type type of Kraken motor being used
      */
     public MotorConfig(CanId id, FeedforwardValues feedforwardValues) {
         this(id, NeutralModeValue.Coast, feedforwardValues, Optional.empty());
     }
 
+    /**
+     * Creates a motor configuration using the default neutral mode and the given follower alignment.
+     *
+     * <p>The default neutral mode is {@link NeutralModeValue#Coast}.
+     *
+     * @param id CAN ID and CAN bus of the motor
+     * @param feedforwardValues PID and feedforward gains for the motor
+     * @param alignment alignment to use when configuring the motor as a follower
+     */
     public MotorConfig(CanId id, FeedforwardValues feedforwardValues, MotorAlignmentValue alignment) {
         this(id, NeutralModeValue.Coast, feedforwardValues, Optional.of(alignment));
     }
@@ -50,8 +58,9 @@ public record MotorConfig(
     /**
      * Creates a CTRE Phoenix 6 configuration using the values stored in this motor configuration.
      *
-     * <p>The returned configuration sets the motor's neutral mode and Slot 0 PID and feedforward
-     * gains.
+     * <p>The returned configuration sets the motor's neutral mode, Slot 0 PID and feedforward gains,
+     * and Motion Magic cruise velocity and acceleration (hardcoded to 100 rotations per second and
+     * 100 rotations per second squared).
      *
      * @return a configured {@link TalonFXConfiguration}
      */

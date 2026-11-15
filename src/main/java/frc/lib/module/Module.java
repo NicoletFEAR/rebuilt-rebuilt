@@ -8,11 +8,10 @@ import org.littletonrobotics.junction.Logger;
 /**
  * Base class for modules that control a motor and interact with a mechanism.
  *
- * <p>This class extends WPILib's {@link SubsystemBase} and provides common functionality for motor
- * control, input updates, logging, and converting motor rotor measurements into mechanism
- * measurements.
+ * <p>This class provides common functionality for motor control, input updates, and converting
+ * motor rotor measurements into mechanism measurements.
  *
- * <p>Specific module types, such as position and velocity modules, can extend this class to add
+ * <p>Specific module types, such as position and velocity modules, extend this class to add
  * functionality for controlling a particular type of mechanism.
  */
 public abstract class Module {
@@ -46,9 +45,10 @@ public abstract class Module {
     /**
      * Updates the motor inputs and logs the current state of the module.
      *
-     * <p>The motor inputs are first updated through the {@link MotorIO} interface. The inputs are
-     * then converted from rotor measurements to mechanism measurements using the configured
-     * rotor-to-mechanism ratio before being sent to the AdvantageKit logger.
+     * <p>The motor inputs are updated through the {@link MotorIO} interface and then sent to the
+     * AdvantageKit logger. The logged inputs are rotor measurements; they are not converted to
+     * mechanism measurements here. Use {@code getPosition()}/{@code getVelocity()} on the concrete
+     * module to obtain mechanism-relative values.
      */
     public void updateInputs() {
         io.updateInputs(inputs);

@@ -17,24 +17,24 @@ import frc.lib.units.Temperature;
 import frc.lib.units.Time;
 import frc.lib.units.Timestamp;
 import frc.lib.units.Voltage;
-import org.wpilib.math.system.DCMotor;
-import org.wpilib.simulation.DCMotorSim;
 import org.wpilib.system.Timer;
 
 /**
- * Simulation implementation of {@link MotorIO} that models a TalonFX motor using WPILib's {@link
- * DCMotorSim}.
+ * Simulation implementation of {@link MotorIO}.
  *
- * <p>This class extends {@link TalonFXMotor} so that the simulated motor uses the same TalonFX
- * interface and control methods as a real motor. The motor's physical behavior is simulated using
- * the {@link DCMotor} model associated with the configured {@link KrakenType}.
+ * <p>The motor's electrical and mechanical behavior is modeled using the physical constants defined
+ * in {@link MotorConstants} (torque and back-EMF constants, winding resistance, viscous friction,
+ * load torque, and rotor moment of inertia).
  *
- * <p>The simulation uses the configured moment of inertia and the robot's current battery voltage
- * to calculate the motor's simulated position and velocity.
+ * <p>The simulation integrates the motor's acceleration and velocity each time {@link
+ * #updateInputs(MotorIOInputs)} is called, using the voltage commanded by whichever control mode is
+ * active (voltage, velocity, position, or follower).
  */
 public class SimMotor extends MotorIO {
 
     private Control control = new VoltageControl(Volts.of(0.0));
+
+    /** Reused inputs object for reading the leader's simulated state in follower mode. */
     private MotorIOInputsAutoLogged leaderInputs = new MotorIOInputsAutoLogged();
 
     private Angle position = Radians.of(0.0);
@@ -51,8 +51,7 @@ public class SimMotor extends MotorIO {
     /**
      * Creates a simulated motor using the provided motor configuration.
      *
-     * <p>The motor model and moment of inertia are obtained from the {@link MotorConfig}. The motor
-     * is simulated as a single motor.
+     * <p>The simulation uses the physical constants in {@link MotorConstants} for its motor model.
      *
      * @param config configuration for the simulated motor
      */
@@ -60,24 +59,33 @@ public class SimMotor extends MotorIO {
         super(config);
     }
 
+    /** The control mode currently commanded to the simulated motor. */
     private sealed interface Control
             permits FollowerControl, PositionControl, VelocityControl, VoltageControl {}
 
+    /** Follow another motor, mirroring its inputs (scaled by {@code alignment}). */
     private record FollowerControl(MotorIO leader, MotorAlignmentValue alignment)
             implements Control {}
 
+    /**
+     * Command the simulated position to a desired position (the simulation sets position directly,
+     * without modeling dynamics).
+     */
     private record PositionControl(Angle desiredPosition) implements Control {}
 
+    /** Command a desired angular velocity, computing the required voltage from the model. */
     private record VelocityControl(AngularVelocity desiredVelocity) implements Control {}
 
+    /** Command a desired voltage directly. */
     private record VoltageControl(Voltage desiredVoltage) implements Control {}
 
     /**
-     * * Updates the simulated motor and the provided motor inputs.
+     * Updates the simulated motor and the provided motor inputs.
      *
-     * <p>The simulation uses the robot battery voltage and the voltage being commanded by the TalonFX
-     * to update the motor's position and velocity. The resulting simulated values are then written
-     * back to the TalonFX simulation state before the motor inputs are updated.
+     * <p>The simulation integrates the motor model from the timestamp of the previous call to now,
+     * using whichever control mode is currently active (follower, voltage, velocity, or position),
+     * and then writes the resulting simulated values into the provided inputs. The very first call
+     * after construction uses an elapsed time computed from a zero timestamp.
      *
      * @param inputs object to populate with the motor's current simulated inputs
      */

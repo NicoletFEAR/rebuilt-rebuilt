@@ -26,7 +26,10 @@ public class AngularPositionModule extends Module {
     }
 
     /**
-     * * Sets the desired angular position of the mechanism.
+     * Sets the desired angular position of the mechanism for a known static setpoint.
+     *
+     * <p>The motor may follow a motion profile to reach the setpoint. Use {@code setDynamicPosition}
+     * for setpoints that change continuously.
      *
      * <p>The requested mechanism position is converted to rotor position using the configured
      * rotor-to-mechanism ratio before being sent to the motor.
@@ -38,7 +41,10 @@ public class AngularPositionModule extends Module {
     }
 
     /**
-     * * Sets the desired angular position of the mechanism.
+     * Sets the desired angular position of the mechanism for a continuously changing setpoint.
+     *
+     * <p>This variant is intended for setpoints that change over time; the motor adjusts without the
+     * delay of a motion profile. Use {@code setPositionSetpoint} for known static setpoints.
      *
      * <p>The requested mechanism position is converted to rotor position using the configured
      * rotor-to-mechanism ratio before being sent to the motor.
@@ -55,7 +61,7 @@ public class AngularPositionModule extends Module {
      * <p>The motor's rotor position is converted to mechanism position using the configured
      * rotor-to-mechanism ratio.
      *
-     * @return current mechanism positionas an {@link Angle}
+     * @return current mechanism position as an {@link Angle}
      */
     public Angle getPosition() {
         return inputs.position.div(rotorToMechanismRatio);

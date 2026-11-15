@@ -43,6 +43,14 @@ public class LinearVelocityModule extends Module {
                 RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
     }
 
+    /**
+     * Gets the current linear position of the mechanism.
+     *
+     * <p>The motor's rotor position is converted to meters using the configured rotor-to-mechanism
+     * ratio.
+     *
+     * @return current mechanism position as a {@link Distance}
+     */
     public Distance getPosition() {
         return Meters.of(inputs.position.in(Radians) / rotorToMechanismRatio);
     }

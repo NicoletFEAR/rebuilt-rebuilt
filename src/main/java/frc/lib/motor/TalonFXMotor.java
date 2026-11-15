@@ -144,7 +144,7 @@ public class TalonFXMotor extends MotorIO {
     /**
      * Configures this motor to follow another TalonFX.
      *
-     * @param leader CAN ID of the motor to follow
+     * @param leader the motor to follow
      * @param alignment alignment of this motor relative to the leader
      */
     @Override
@@ -155,7 +155,7 @@ public class TalonFXMotor extends MotorIO {
 
     /**
      * Sets the desired rotor position using CTRE Motion Magic position control. This is best for
-     * optimizing the path to a known, static setpoint according to 1690.
+     * optimizing the path to a known, static setpoint.
      *
      * @param position desired rotor position
      */

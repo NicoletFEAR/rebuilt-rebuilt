@@ -13,11 +13,24 @@ import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.Launcher.LauncherState;
 
+/**
+ * Top-level state machine that coordinates the drive, launcher, and intake subsystems.
+ *
+ * <p>Each superstructure state maps to a set of subsystem states; see {@link #periodic()} for the
+ * current mapping. Subsystems are updated in the order drive, intake, launcher.
+ */
 public class Superstructure extends StateMachine<Superstructure.SuperState> {
     private final Drive drive;
     private final Launcher launcher;
     private final Intake intake;
 
+    /**
+     * Creates the superstructure.
+     *
+     * @param drive the drive subsystem
+     * @param launcher the launcher subsystem
+     * @param intake the intake subsystem
+     */
     public Superstructure(Drive drive, Launcher launcher, Intake intake) {
         super("Superstructure", SuperState.START);
         this.drive = drive;
@@ -25,6 +38,7 @@ public class Superstructure extends StateMachine<Superstructure.SuperState> {
         this.intake = intake;
     }
 
+    /** States of the superstructure. */
     public sealed interface SuperState extends State
             permits SuperState.Start,
                     SuperState.Stopped,
@@ -33,24 +47,43 @@ public class Superstructure extends StateMachine<Superstructure.SuperState> {
                     SuperState.Launch,
                     SuperState.LaunchAndIntake,
                     SuperState.Extake {
+
+        /** Initial state; behaves the same as {@link Stopped}. */
         public record Start() implements SuperState {}
 
+        /** Robot is disabled/idle; drive and launcher are off, intake arm is deployed. */
         public record Stopped() implements SuperState {}
 
+        /** Drive teleop with the launcher off and the intake deployed. */
         public record Operate(DriveParameters driveParameters) implements SuperState {}
 
+        /** Drive teleop with the launcher idling (flywheels at idle speed) and the intake running. */
         public record Intake(DriveParameters driveParameters) implements SuperState {}
 
+        /** Drive teleop and fire the launcher (spinning up first until ready). */
         public record Launch(DriveParameters driveParameters) implements SuperState {}
 
+        /** Drive teleop, run the intake, and fire the launcher (spinning up first until ready). */
         public record LaunchAndIntake(DriveParameters driveParameters) implements SuperState {}
 
+        /** Drive teleop and run the intake and launcher in reverse (extake). */
         public record Extake(DriveParameters driveParameters) implements SuperState {}
 
+        /** Shared constant for the {@link Start} record. */
         public static final Start START = new Start();
+
+        /** Shared constant for the {@link Stopped} record. */
         public static final Stopped STOPPED = new Stopped();
     }
 
+    /**
+     * Applies the current superstructure state to the subsystems, runs each subsystem's periodic
+     * logic, and logs the superstructure's state.
+     *
+     * <p>The {@code Launch} and {@code LaunchAndIntake} states command the launcher to spin up until
+     * it reports ready (see {@link Launcher#isReadyToLaunch()}), after which they command it to
+     * launch.
+     */
     public void periodic() {
         switch (state) {
             case SuperState.Start() -> {

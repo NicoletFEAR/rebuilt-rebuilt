@@ -25,11 +25,23 @@ import frc.robot.subsystems.launcher.Indexer.IndexerConstants;
 import frc.robot.subsystems.launcher.Launcher;
 import org.wpilib.driverstation.Gamepad;
 
+/**
+ * Constructs and wires together the robot's subsystems and translates driver input into
+ * superstructure states.
+ *
+ * <p>The drive base is built with real hardware IO implementations when running on the robot and
+ * with simulation implementations when running in simulation; see {@link #buildDrive(RobotState)}.
+ * The launcher and intake are always built with the real hardware IO implementations.
+ */
 public class RobotContainer {
     private final RobotState robotState;
     private final Superstructure superstructure;
     private final Gamepad driverController;
 
+    /**
+     * Creates the robot container: the robot state, the driver gamepad (port 0, with deadbands
+     * applied), and the superstructure built from the drive, launcher, and intake subsystems.
+     */
     public RobotContainer() {
         robotState = new RobotState();
         driverController = new Gamepad(0);
@@ -42,6 +54,15 @@ public class RobotContainer {
         superstructure = new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
     }
 
+    /**
+     * Logs the robot state, decides the superstructure's desired state from the driver controller,
+     * and runs the superstructure's periodic logic.
+     *
+     * <p>Left and right triggers above {@link OperatorConstants#TRIGGER_THRESHOLD} command the intake
+     * and launcher respectively: left trigger intakes (and also spins up the launcher when the right
+     * trigger is also held), right trigger launches, and the right bumper extakes. With no trigger
+     * held, the robot drives with the launcher off.
+     */
     public void periodic() {
         robotState.log();
         DriveParameters driveParameters =
@@ -67,6 +88,13 @@ public class RobotContainer {
         superstructure.periodic();
     }
 
+    /**
+     * Builds the drive subsystem.
+     *
+     * <p>When running on the robot this creates real TalonFX motors and CANcoders; in simulation it
+     * creates simulated motors and CANcoders instead. Four swerve modules are created in front-left,
+     * front-right, back-left, back-right order.
+     */
     private Drive buildDrive(RobotState robotState) {
         if (Robot.isReal()) {
             return new Drive(
@@ -189,6 +217,12 @@ public class RobotContainer {
         }
     }
 
+    /**
+     * Builds the launcher subsystem (two flywheel motors, an indexer, a hood, and a hood encoder).
+     *
+     * <p>Unlike {@link #buildDrive(RobotState)}, this method does not branch on {@code
+     * Robot.isReal()} and always creates real TalonFX motor implementations.
+     */
     private Launcher buildLauncher() {
         return new Launcher(
                 new TalonFXMotor(
@@ -203,6 +237,12 @@ public class RobotContainer {
                 new CanCoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
+    /**
+     * Builds the intake subsystem (arm and wheels).
+     *
+     * <p>Unlike {@link #buildDrive(RobotState)}, this method does not branch on {@code
+     * Robot.isReal()} and always creates real TalonFX motor implementations.
+     */
     private Intake buildIntake() {
         return new Intake(
                 new TalonFXMotor(new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES)),

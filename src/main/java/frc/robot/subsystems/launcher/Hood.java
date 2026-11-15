@@ -12,22 +12,45 @@ import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Angle;
 
+/**
+ * Launcher hood that adjusts the launch angle.
+ *
+ * <p>The hood angle is controlled by an angular position module whose feedback comes from an
+ * absolute encoder (falling back to the motor's relative position when the encoder is
+ * disconnected).
+ */
 public class Hood extends StateMachine<Hood.HoodState> {
     private AbsEncoderAngularPositionModule module;
 
+    /**
+     * Creates the hood.
+     *
+     * @param motor interface used to communicate with the motor
+     * @param canCoder interface used to communicate with the absolute encoder
+     */
     Hood(MotorIO motor, AbsEncoderIO canCoder) {
         super("Launcher/Hood", HoodState.OFF);
-        module = new AbsEncoderAngularPositionModule("Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
+        module =
+                new AbsEncoderAngularPositionModule(
+                        "Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
+    /** States of the hood. */
     sealed interface HoodState extends State permits HoodState.Off, HoodState.HoldPosition {
+        /** Hood is off (zero voltage). */
         public record Off() implements HoodState {}
 
+        /** Hood is commanded to hold the given angle. */
         public record HoldPosition(Angle position) implements HoodState {}
 
+        /** Shared constant for the {@link Off} record. */
         public static final Off OFF = new Off();
     }
 
+    /**
+     * Updates the motor and encoder inputs, applies the behavior for the current state, and logs the
+     * state.
+     */
     public void periodic() {
         module.updateInputs();
 
@@ -39,6 +62,10 @@ public class Hood extends StateMachine<Hood.HoodState> {
         logState();
     }
 
+    /**
+     * Returns whether the hood is in the {@link HoodState.HoldPosition} state and the measured angle
+     * is within {@link Constants#ANGULAR_POSITION_SETPOINT_TOLERANCE} of the commanded angle.
+     */
     boolean isAtLaunchPosition() {
         return switch (state) {
             case HoodState.Off() -> false;
@@ -47,11 +74,17 @@ public class Hood extends StateMachine<Hood.HoodState> {
         };
     }
 
+    /** Constants for the hood. */
     public static final class HoodConstants {
+
+        /** Absolute encoder offset for the hood, in rotations. */
         public static final Angle HOOD_OFFSET = Rotations.of(-0.25439453125);
+
+        /** Feedforward and feedback gains for the hood motor. */
         public static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(5.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
+        /** Rotor-to-mechanism ratio for the hood. */
         private static final double ROTOR_TO_MECHANISM_RATIO = 30.0;
 
         private HoodConstants() {

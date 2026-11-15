@@ -16,7 +16,7 @@ public interface AbsEncoderIO {
     /**
      * Stores the inputs and sensor readings of the Absolute Encoder
      *
-     * <p>Automatically logs the values to AdvantageScope through the {@link AutoLog} annotation.
+     * <p>Automatically logs the values to AdvantageKit through the {@link AutoLog} annotation.
      */
     @AutoLog
     public static class AbsEncoderIOInputs {

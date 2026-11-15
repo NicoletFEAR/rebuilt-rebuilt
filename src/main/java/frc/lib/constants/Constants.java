@@ -40,6 +40,7 @@ public final class Constants {
      */
     public static final CANBus RIO_BUS = new CANBus("rio");
 
+    /** CAN bus used by the CTRE devices on the robot. */
     public static final CANBus CANIVORE_BUS = new CANBus("*");
 
     private Constants() {

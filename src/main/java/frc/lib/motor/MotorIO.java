@@ -108,7 +108,7 @@ public abstract class MotorIO {
     /**
      * Configures this motor to follow another motor.
      *
-     * @param leader CAN ID of the motor to follow
+     * @param leader the motor to follow
      * @param alignment alignment of this motor relative to the leader
      */
     public abstract void follow(MotorIO leader, MotorAlignmentValue alignment);

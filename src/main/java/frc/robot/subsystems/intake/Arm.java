@@ -9,19 +9,32 @@ import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Distance;
 
+/**
+ * Intake arm that extends and retracts the intake.
+ *
+ * <p>The arm is a linear mechanism whose position is commanded with a position setpoint; see {@link
+ * #periodic()} for the positions commanded by each state.
+ */
 public class Arm extends StateMachine<Arm.ArmState> {
     private LinearPositionModule module;
 
+    /**
+     * Creates the arm.
+     *
+     * @param motor interface used to communicate with the motor
+     */
     Arm(MotorIO motor) {
         super("Intake/Arm", ArmState.RETRACT);
         module = new LinearPositionModule(name, motor, ArmConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
+    /** States of the arm. */
     enum ArmState implements State {
         RETRACT,
         DEPLOY,
     }
 
+    /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
     public void periodic() {
         module.updateInputs();
 
@@ -33,12 +46,17 @@ public class Arm extends StateMachine<Arm.ArmState> {
         logState();
     }
 
+    /** Constants for the intake arm. */
     public static final class ArmConstants {
+
+        /** Feedforward and feedback gains for the arm motor. */
         public static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(25.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
+        /** Rotor-to-mechanism ratio for the arm, in rotor radians per meter of extension. */
         private static final double ROTOR_TO_MECHANISM_RATIO = 40.0 / 3.0;
 
+        /** Extension of the deployed arm position. */
         private static final Distance DEPLOY_DISTANCE = Meters.of(0.2);
 
         private ArmConstants() {

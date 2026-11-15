@@ -11,26 +11,48 @@ import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngularVelocity;
 
+/**
+ * Launcher flywheels.
+ *
+ * <p>A leader motor drives the flywheels; one or more follower motors are configured to follow it.
+ * Each state maps to either zero voltage, the idle velocity, or a commanded launch velocity.
+ */
 public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     private MultiAngularVelocityModule module;
 
+    /**
+     * Creates the flywheels.
+     *
+     * @param motor interface used to communicate with the leader motor
+     * @param followers interfaces used to communicate with the follower motors
+     */
     Flywheels(MotorIO motor, MotorIO[] followers) {
         super("Launcher/Flywheels", FlywheelState.OFF);
-        module = new MultiAngularVelocityModule(name, motor, followers, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
+        module =
+                new MultiAngularVelocityModule(
+                        name, motor, followers, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
+    /** States of the flywheels. */
     sealed interface FlywheelState extends State
             permits FlywheelState.Off, FlywheelState.Idle, FlywheelState.Launch {
+        /** Flywheels are off (zero voltage). */
         public record Off() implements FlywheelState {}
 
+        /** Flywheels are spinning at the idle velocity. */
         public record Idle() implements FlywheelState {}
 
+        /** Flywheels are commanded to a launch velocity. */
         public record Launch(AngularVelocity velocity) implements FlywheelState {}
 
+        /** Shared constant for the {@link Off} record. */
         public static final Off OFF = new Off();
+
+        /** Shared constant for the {@link Idle} record. */
         public static final Idle IDLE = new Idle();
     }
 
+    /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
     public void periodic() {
         module.updateInputs();
 
@@ -43,21 +65,35 @@ public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
         logState();
     }
 
+    /**
+     * Returns whether the flywheels are in the {@link FlywheelState.Launch} state and the measured
+     * velocity is within the launch tolerance of the commanded velocity.
+     *
+     * <p>The tolerance is the commanded velocity times {@link
+     * Constants#VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER}.
+     */
     boolean isAtLaunchVelocity() {
         return switch (state) {
             case FlywheelState.Off() -> false;
             case FlywheelState.Idle() -> false;
             case FlywheelState.Launch(AngularVelocity velocity) ->
                     velocity.equal(
-                            module.getVelocity(), velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
+                            module.getVelocity(),
+                            velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
         };
     }
 
+    /** Constants for the launcher flywheels. */
     public static final class FlywheelConstants {
+
+        /** Feedforward and feedback gains for the flywheel motors. */
         public static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(0.1, 0.0, 0.0, 0.0, 0.0, 0.0);
 
+        /** Rotor-to-mechanism ratio for the flywheels. */
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
+
+        /** Velocity commanded in the {@link FlywheelState#IDLE} state. */
         private static final AngularVelocity FLYWHEEL_IDLE = RadiansPerSecond.of(84);
 
         private FlywheelConstants() {

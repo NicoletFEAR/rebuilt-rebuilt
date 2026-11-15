@@ -3,6 +3,14 @@ package frc.robot.constants;
 import frc.lib.CanId;
 import frc.lib.constants.Constants;
 
+/**
+ * CAN IDs of every device on the robot.
+ *
+ * <p>All devices are on the {@code CANIVORE_BUS} bus defined in {@link
+ * frc.lib.constants.Constants}. Front left/right and back left/right refer to the four swerve
+ * modules; the launcher consists of the left and right flywheel motors, the indexer, the hood, and
+ * the hood encoder.
+ */
 public final class DeviceIds {
     public static final CanId FRONT_LEFT_DRIVE = new CanId(Constants.CANIVORE_BUS, 2);
     public static final CanId FRONT_LEFT_TURN = new CanId(Constants.CANIVORE_BUS, 1);

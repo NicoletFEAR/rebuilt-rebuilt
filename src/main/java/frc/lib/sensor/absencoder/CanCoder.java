@@ -12,23 +12,29 @@ import frc.lib.units.AngularVelocityUnit;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.AngularVelocity;
 
-/** Implements {@link AbsEncoderIO} in order to create the real/physical CANcoder */
+/**
+ * Real hardware implementation of {@link AbsEncoderIO} using a CTRE CANcoder.
+ *
+ * <p>This class provides an interface between the library's absolute encoder abstraction and a
+ * physical CANcoder. The position and velocity signals are updated at 100 Hz, and CAN bus
+ * utilization is optimized.
+ */
 public class CanCoder implements AbsEncoderIO {
     private final CANcoder canCoder;
 
-    /** Stores the Position and Velocity Signals given from the CANcoder */
+    /** Position and velocity signals from the CANcoder. */
     private final StatusSignalCollection signals = new StatusSignalCollection(2);
 
-    /** Is the current mechanism position the CANcoder is reading */
+    /** The mechanism position currently read by the CANcoder. */
     private final StatusSignal<Angle> positionSignal;
 
-    /** Is the current mechanism velocity the CANcoder is reading */
+    /** The mechanism velocity currently read by the CANcoder. */
     private final StatusSignal<AngularVelocity> velocitySignal;
 
     /**
-     * Configures the CANcoder with the values given in the config
+     * Configures the CANcoder with the values given in the config.
      *
-     * @param config Is the configuration for the CANcoder
+     * @param config configuration for the CANcoder
      */
     public CanCoder(AbsEncoderConfig config) {
         canCoder = new CANcoder(config.id().id(), config.id().bus());
@@ -42,7 +48,11 @@ public class CanCoder implements AbsEncoderIO {
         canCoder.optimizeBusUtilization();
     }
 
-    /** Provides the implementation for updating the inputs/data of the CANcoder */
+    /**
+     * Updates the provided inputs with the CANcoder's current position and velocity.
+     *
+     * @param inputs object to populate with the CANcoder's current inputs
+     */
     @Override
     public void updateInputs(AbsEncoderIOInputs inputs) {
         signals.refreshAll();
@@ -51,7 +61,7 @@ public class CanCoder implements AbsEncoderIO {
         inputs.velocity = AngularVelocityUnit.ofWpi(velocitySignal.getValue());
     }
 
-    /** Provides the implementation for zeroing/homing the CANcoder */
+    /** Sets the CANcoder's reported position to zero. */
     @Override
     public void setZeroPoint() {
         canCoder.setPosition(Radians.raw(0.0));
