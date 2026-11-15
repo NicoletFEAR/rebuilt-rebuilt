@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import static frc.lib.units.AngleUnit.Radians;
 import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveState;
 import frc.robot.subsystems.drive.DriveParameters;
@@ -10,22 +12,20 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.launcher.Launcher;
 import frc.robot.subsystems.launcher.Launcher.LauncherState;
-import org.littletonrobotics.junction.Logger;
 
-public class Superstructure {
+public class Superstructure extends StateMachine<Superstructure.SuperState> {
     private final Drive drive;
     private final Launcher launcher;
     private final Intake intake;
 
-    private SuperState state = new SuperState.Start();
-
     public Superstructure(Drive drive, Launcher launcher, Intake intake) {
+        super("Superstructure", SuperState.START);
         this.drive = drive;
         this.launcher = launcher;
         this.intake = intake;
     }
 
-    public sealed interface SuperState
+    public sealed interface SuperState extends State
             permits SuperState.Start,
                     SuperState.Stopped,
                     SuperState.Operate,
@@ -52,8 +52,6 @@ public class Superstructure {
     }
 
     public void periodic() {
-        Logger.recordOutput("Superstructure/State", (Record) state);
-
         switch (state) {
             case SuperState.Start() -> {
                 drive.setState(DriveState.OFF);
@@ -111,9 +109,6 @@ public class Superstructure {
         drive.periodic();
         intake.periodic();
         launcher.periodic();
-    }
-
-    public void setState(SuperState state) {
-        this.state = state;
+        logState();
     }
 }

@@ -1,16 +1,16 @@
-* Create Configurator class to make sure configuration application succeeds: check status code, retry on failure, then alert if still fails
-* Add logging for Timestamp and then make RobotState.log log the last timestamp
+* Make sure all logged keys have spaces if needed
+* Look over access modifiers and final classes
+* Delete Lombok
 * Module mech-relative logging and create subclass of LoggableInputs with a log method to log to outputs, then implement for everything that currently we just log as inputs
 * Separate logging inputs from outputs conceptually
 * Separate periodic into 4 phases: input refresh, then state decisions, then execution, then final logging
-* Implement StateMachine<S> class to log state, previous state, and state entry timestamp
-* Stop SimMotor followers from running leader's simulation again
+* Make Sim dependent on vendor again
 * Add current limits, inversion, soft limits to MotorConfig
 * Change gear ratio from manual to configured
 * Fix absolute encoders
 * Add replay IO
 * Add unit tests
-* Make Sim dependent on vendor again
+* Add null safety
 * Make all the IOs vendor-agnostic
 * Automatic units library generation
 * Make PID and feedforward values have units
@@ -24,6 +24,7 @@
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
 * Refactor Rotation2d safe creation out of Utils once we have a folder for field geometry
 * Add MotionMagic parameters to MotorConfig
+* Mechanism visualization
 * LQR? Kalman filters?
 * Add gyroscope
 * Add a class to manage the gamepads, which will hopefully make button bindings quicker to modify
@@ -36,4 +37,3 @@
 * Procedurally generated autos (ideally with custom pathfinder that keeps the Limelight(s) looking at AprilTags at all times for optimal accuracy)
 * Auto-checklists with data tracking to determine normal values and detect anomalies, also use these normal values for more accurate simulation (perhaps concurrently simulate and track deviations from simulated values mid-match if processing power allows)
 * Game piece simulation
-* Make positional control for sim motor actually simulate rather than instantly teleporting to desired position

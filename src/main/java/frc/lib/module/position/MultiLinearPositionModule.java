@@ -57,8 +57,8 @@ public class MultiLinearPositionModule extends LinearPositionModule {
      * ratio.
      */
     @Override
-    public void periodic() {
-        super.periodic();
+    public void updateInputs() {
+        super.updateInputs();
 
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].updateInputs(followerInputs[i]);

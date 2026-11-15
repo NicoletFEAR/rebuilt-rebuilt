@@ -10,6 +10,8 @@ import static frc.lib.units.VelocityUnit.MetersPerSecond;
 import frc.lib.constants.Constants;
 import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.motor.FeedforwardValues;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Angle;
 import frc.lib.units.AngularVelocity;
 import frc.lib.units.Distance;
@@ -30,14 +32,12 @@ import org.wpilib.math.kinematics.SwerveModuleVelocity;
 import org.wpilib.math.linalg.VecBuilder;
 import org.wpilib.system.Timer;
 
-public class Drive {
+public class Drive extends StateMachine<Drive.DriveState> {
     private final RobotState robotState;
     private final SwerveModule[] modules;
 
     private final SwerveDriveKinematics kinematics;
     private final SwerveDrivePoseEstimator poseEstimator;
-
-    private DriveState state = new DriveState.Off();
 
     public Drive(
             RobotState robotState,
@@ -45,6 +45,7 @@ public class Drive {
             SwerveModule frontRight,
             SwerveModule backLeft,
             SwerveModule backRight) {
+        super("Drive", DriveState.OFF);
         this.robotState = robotState;
         modules = new SwerveModule[4];
         modules[0] = frontLeft;
@@ -75,7 +76,7 @@ public class Drive {
                         VecBuilder.fill(0.9, 0.9, 9999999));
     }
 
-    public sealed interface DriveState permits DriveState.Off, DriveState.Teleop {
+    public sealed interface DriveState extends State permits DriveState.Off, DriveState.Teleop {
         public record Off() implements DriveState {}
 
         public record Teleop(DriveParameters parameters) implements DriveState {}
@@ -84,8 +85,6 @@ public class Drive {
     }
 
     public void periodic() {
-        Logger.recordOutput("Drive/State", (Record) state);
-
         Logger.recordOutput("Drive/ModulePositions", getModulePositions());
         Logger.recordOutput("Drive/ModuleStates", getModuleStates());
         poseEstimator.updateWithTime(Timer.getTimestamp(), Rotation2d.ZERO, getModulePositions());
@@ -122,10 +121,8 @@ public class Drive {
         for (int i = 0; i < 4; i++) {
             modules[i].periodic();
         }
-    }
 
-    public void setState(DriveState state) {
-        this.state = state;
+        logState();
     }
 
     private OdometryMeasurement getOdometryMeasurement() {

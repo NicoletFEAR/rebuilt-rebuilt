@@ -44,8 +44,8 @@ public class AbsEncoderAngularPositionModule extends AngularPositionModule {
      * latest absolute encoder data and sends it to the AdvantageKit logger.
      */
     @Override
-    public void periodic() {
-        super.periodic();
+    public void updateInputs() {
+        super.updateInputs();
         absEncoderIO.updateInputs(absEncoderInputs);
         Logger.processInputs(
                 name + "AbsEncoder", absEncoderInputs.applyRotorToMechanismRatio(rotorToMechanismRatio));

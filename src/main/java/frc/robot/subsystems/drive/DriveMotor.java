@@ -4,18 +4,20 @@ import static frc.lib.units.VoltageUnit.Volts;
 
 import frc.lib.module.velocity.LinearVelocityModule;
 import frc.lib.motor.MotorIO;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
+import frc.lib.units.Distance;
 import frc.lib.units.Velocity;
-import org.littletonrobotics.junction.Logger;
 
-class DriveMotor extends LinearVelocityModule {
-    private DriveMotorState state;
+class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
+    private LinearVelocityModule module;
 
     DriveMotor(MotorIO motor, DriveMotorConfig config) {
-        super("Drive/" + config.name() + " Drive", motor, config.rotorToMechanismRatio());
-        state = new DriveMotorState.Off();
+        super("Drive/" + config.name() + "/Drive", DriveMotorState.OFF);
+        module = new LinearVelocityModule(name, motor, config.rotorToMechanismRatio());
     }
 
-    sealed interface DriveMotorState permits DriveMotorState.Off, DriveMotorState.Drive {
+    sealed interface DriveMotorState extends State permits DriveMotorState.Off, DriveMotorState.Drive {
         public record Off() implements DriveMotorState {}
 
         public record Drive(Velocity velocity) implements DriveMotorState {}
@@ -23,19 +25,22 @@ class DriveMotor extends LinearVelocityModule {
         public static final Off OFF = new Off();
     }
 
-    @Override
-    public void periodic() {
-        super.periodic();
-
-        Logger.recordOutput(name + "/State", (Record) state);
+    void periodic() {
+        module.updateInputs();
 
         switch (state) {
-            case DriveMotorState.Off() -> super.setVoltage(Volts.of(0.0));
-            case DriveMotorState.Drive(Velocity velocity) -> super.setVelocitySetpoint(velocity);
+            case DriveMotorState.Off() -> module.setVoltage(Volts.of(0.0));
+            case DriveMotorState.Drive(Velocity velocity) -> module.setVelocitySetpoint(velocity);
         }
+
+        logState();
     }
 
-    void setState(DriveMotorState state) {
-        this.state = state;
+    Distance getPosition() {
+        return module.getPosition();
+    }
+
+    Velocity getVelocity() {
+        return module.getVelocity();
     }
 }

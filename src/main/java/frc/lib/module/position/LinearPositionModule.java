@@ -35,7 +35,7 @@ public class LinearPositionModule extends Module {
      *
      * @param position desired mechanism position
      */
-    protected void setPositionSetpoint(Distance position) {
+    public void setPositionSetpoint(Distance position) {
         io.setPositionSetpoint(Radians.of(position.in(Meters) * rotorToMechanismRatio));
     }
 
@@ -47,7 +47,7 @@ public class LinearPositionModule extends Module {
      *
      * @param position desired mechanism position
      */
-    protected void setDynamicPosition(Distance position) {
+    public void setDynamicPosition(Distance position) {
         io.setDynamicPosition(Radians.of(position.in(Meters) * rotorToMechanismRatio));
     }
 

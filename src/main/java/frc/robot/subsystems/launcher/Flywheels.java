@@ -7,18 +7,19 @@ import frc.lib.constants.Constants;
 import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngularVelocity;
-import org.littletonrobotics.junction.Logger;
 
-public class Flywheels extends MultiAngularVelocityModule {
-    private FlywheelState state;
+public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
+    private MultiAngularVelocityModule module;
 
     Flywheels(MotorIO motor, MotorIO[] followers) {
-        super("Launcher/Flywheels", motor, followers, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
-        state = FlywheelState.OFF;
+        super("Launcher/Flywheels", FlywheelState.OFF);
+        module = new MultiAngularVelocityModule(name, motor, followers, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
-    sealed interface FlywheelState
+    sealed interface FlywheelState extends State
             permits FlywheelState.Off, FlywheelState.Idle, FlywheelState.Launch {
         public record Off() implements FlywheelState {}
 
@@ -30,20 +31,16 @@ public class Flywheels extends MultiAngularVelocityModule {
         public static final Idle IDLE = new Idle();
     }
 
-    @Override
     public void periodic() {
-        super.periodic();
-        Logger.recordOutput(name + "/State", (Record) state);
+        module.updateInputs();
 
         switch (state) {
-            case FlywheelState.Off() -> super.setVoltage(Volts.of(0.0));
-            case FlywheelState.Idle() -> super.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
-            case FlywheelState.Launch(AngularVelocity velocity) -> super.setVelocitySetpoint(velocity);
+            case FlywheelState.Off() -> module.setVoltage(Volts.of(0.0));
+            case FlywheelState.Idle() -> module.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
+            case FlywheelState.Launch(AngularVelocity velocity) -> module.setVelocitySetpoint(velocity);
         }
-    }
 
-    void setState(FlywheelState state) {
-        this.state = state;
+        logState();
     }
 
     boolean isAtLaunchVelocity() {
@@ -52,7 +49,7 @@ public class Flywheels extends MultiAngularVelocityModule {
             case FlywheelState.Idle() -> false;
             case FlywheelState.Launch(AngularVelocity velocity) ->
                     velocity.equal(
-                            getVelocity(), velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
+                            module.getVelocity(), velocity.times(Constants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
         };
     }
 

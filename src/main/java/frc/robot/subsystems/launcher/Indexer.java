@@ -6,37 +6,34 @@ import static frc.lib.units.VoltageUnit.Volts;
 import frc.lib.module.velocity.AngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngularVelocity;
-import org.littletonrobotics.junction.Logger;
 
-public class Indexer extends AngularVelocityModule {
-    private IndexerState state;
+public class Indexer extends StateMachine<Indexer.IndexerState> {
+    private AngularVelocityModule module;
 
     Indexer(MotorIO motor) {
-        super("Launcher/Indexer", motor, IndexerConstants.ROTOR_TO_MECHANISM_RATIO);
-        state = IndexerState.OFF;
+        super("Launcher/Indexer", IndexerState.OFF);
+        module = new AngularVelocityModule("Launcher/Indexer", motor, IndexerConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
-    enum IndexerState {
+    enum IndexerState implements State {
         OFF,
         INDEX,
         EXTAKE,
     }
 
-    @Override
     public void periodic() {
-        super.periodic();
-        Logger.recordOutput(name + "/State", state);
+        module.updateInputs();
 
         switch (state) {
-            case OFF -> super.setVoltage(Volts.of(0.0));
-            case INDEX -> super.setVelocitySetpoint(IndexerConstants.INDEX_VELOCITY);
-            case EXTAKE -> super.setVelocitySetpoint(IndexerConstants.EXTAKE_VELOCITY);
+            case OFF -> module.setVoltage(Volts.of(0.0));
+            case INDEX -> module.setVelocitySetpoint(IndexerConstants.INDEX_VELOCITY);
+            case EXTAKE -> module.setVelocitySetpoint(IndexerConstants.EXTAKE_VELOCITY);
         }
-    }
 
-    void setState(IndexerState state) {
-        this.state = state;
+        logState();
     }
 
     public static final class IndexerConstants {

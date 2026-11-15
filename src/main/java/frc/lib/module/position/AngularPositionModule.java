@@ -33,7 +33,7 @@ public class AngularPositionModule extends Module {
      *
      * @param position desired mechanism position
      */
-    protected void setPositionSetpoint(Angle position) {
+    public void setPositionSetpoint(Angle position) {
         io.setPositionSetpoint(position.times(rotorToMechanismRatio));
     }
 
@@ -45,7 +45,7 @@ public class AngularPositionModule extends Module {
      *
      * @param position desired mechanism position
      */
-    protected void setDynamicPosition(Angle position) {
+    public void setDynamicPosition(Angle position) {
         io.setDynamicPosition(position.times(rotorToMechanismRatio));
     }
 

@@ -50,7 +50,7 @@ public abstract class Module {
      * then converted from rotor measurements to mechanism measurements using the configured
      * rotor-to-mechanism ratio before being sent to the AdvantageKit logger.
      */
-    public void periodic() {
+    public void updateInputs() {
         io.updateInputs(inputs);
         Logger.processInputs(name, inputs);
     }
@@ -60,7 +60,7 @@ public abstract class Module {
      *
      * @param voltage voltage to apply to the motor
      */
-    protected void setVoltage(Voltage voltage) {
+    public void setVoltage(Voltage voltage) {
         io.setVoltage(voltage);
     }
 }

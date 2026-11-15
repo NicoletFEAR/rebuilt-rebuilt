@@ -2,6 +2,8 @@ package frc.robot.subsystems.launcher;
 
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Angle;
 import frc.lib.units.AngularVelocity;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
@@ -9,12 +11,10 @@ import frc.robot.subsystems.launcher.Hood.HoodState;
 import frc.robot.subsystems.launcher.Indexer.IndexerState;
 import org.littletonrobotics.junction.Logger;
 
-public class Launcher {
+public class Launcher extends StateMachine<Launcher.LauncherState> {
     private final Flywheels flywheels;
     private final Indexer indexer;
     private final Hood hood;
-
-    private LauncherState state;
 
     public Launcher(
             MotorIO leftFlywheelMotor,
@@ -22,14 +22,13 @@ public class Launcher {
             MotorIO indexMotor,
             MotorIO hoodMotor,
             AbsEncoderIO hoodCanCoder) {
+        super("Launcher", LauncherState.OFF);
         flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
         indexer = new Indexer(indexMotor);
         hood = new Hood(hoodMotor, hoodCanCoder);
-
-        state = LauncherState.OFF;
     }
 
-    public sealed interface LauncherState
+    public sealed interface LauncherState extends State
             permits LauncherState.Off,
                     LauncherState.Idle,
                     LauncherState.SpinUp,
@@ -90,10 +89,6 @@ public class Launcher {
         flywheels.periodic();
         indexer.periodic();
         hood.periodic();
-    }
-
-    public void setState(LauncherState state) {
-        this.state = state;
     }
 
     public boolean isReadyToLaunch() {

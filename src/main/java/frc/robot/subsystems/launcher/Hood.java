@@ -8,18 +8,19 @@ import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Angle;
-import org.littletonrobotics.junction.Logger;
 
-public class Hood extends AbsEncoderAngularPositionModule {
-    private HoodState state;
+public class Hood extends StateMachine<Hood.HoodState> {
+    private AbsEncoderAngularPositionModule module;
 
     Hood(MotorIO motor, AbsEncoderIO canCoder) {
-        super("Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
-        state = HoodState.OFF;
+        super("Launcher/Hood", HoodState.OFF);
+        module = new AbsEncoderAngularPositionModule("Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
-    sealed interface HoodState permits HoodState.Off, HoodState.HoldPosition {
+    sealed interface HoodState extends State permits HoodState.Off, HoodState.HoldPosition {
         public record Off() implements HoodState {}
 
         public record HoldPosition(Angle position) implements HoodState {}
@@ -27,26 +28,22 @@ public class Hood extends AbsEncoderAngularPositionModule {
         public static final Off OFF = new Off();
     }
 
-    @Override
     public void periodic() {
-        super.periodic();
-        Logger.recordOutput(name + "/State", (Record) state);
+        module.updateInputs();
 
         switch (state) {
-            case HoodState.Off() -> super.setVoltage(Volts.of(0.0));
-            case HoodState.HoldPosition(Angle position) -> super.setPositionSetpoint(position);
+            case HoodState.Off() -> module.setVoltage(Volts.of(0.0));
+            case HoodState.HoldPosition(Angle position) -> module.setPositionSetpoint(position);
         }
-    }
 
-    void setState(HoodState state) {
-        this.state = state;
+        logState();
     }
 
     boolean isAtLaunchPosition() {
         return switch (state) {
             case HoodState.Off() -> false;
             case HoodState.HoldPosition(Angle position) ->
-                    position.equal(getPosition(), Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
+                    position.equal(module.getPosition(), Constants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
         };
     }
 

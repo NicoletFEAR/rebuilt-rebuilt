@@ -5,35 +5,32 @@ import static frc.lib.units.DistanceUnit.Meters;
 import frc.lib.module.position.LinearPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Distance;
-import org.littletonrobotics.junction.Logger;
 
-public class Arm extends LinearPositionModule {
-    private ArmState state;
+public class Arm extends StateMachine<Arm.ArmState> {
+    private LinearPositionModule module;
 
     Arm(MotorIO motor) {
-        super("Intake/Arm", motor, ArmConstants.ROTOR_TO_MECHANISM_RATIO);
-        state = ArmState.RETRACT;
+        super("Intake/Arm", ArmState.RETRACT);
+        module = new LinearPositionModule(name, motor, ArmConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
-    enum ArmState {
+    enum ArmState implements State {
         RETRACT,
         DEPLOY,
     }
 
-    @Override
     public void periodic() {
-        super.periodic();
-        Logger.recordOutput(name + "/State", state);
+        module.updateInputs();
 
         switch (state) {
-            case RETRACT -> super.setPositionSetpoint(Meters.of(0.0));
-            case DEPLOY -> super.setPositionSetpoint(ArmConstants.DEPLOY_DISTANCE);
+            case RETRACT -> module.setPositionSetpoint(Meters.of(0.0));
+            case DEPLOY -> module.setPositionSetpoint(ArmConstants.DEPLOY_DISTANCE);
         }
-    }
 
-    void setState(ArmState state) {
-        this.state = state;
+        logState();
     }
 
     public static final class ArmConstants {

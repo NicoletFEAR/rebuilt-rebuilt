@@ -21,6 +21,7 @@ public class RobotState {
     }
 
     public void log() {
-        Logger.recordOutput("RobotState/EstimatedPose", estimatedPose);
+        Logger.recordOutput("Robot State/Estimated Pose", estimatedPose);
+        lastTimestamp.log("Robot State/Last Timestamp");
     }
 }

@@ -6,39 +6,36 @@ import static frc.lib.units.VoltageUnit.Volts;
 import frc.lib.module.velocity.AngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorIO;
+import frc.lib.statemachine.State;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngularVelocity;
-import org.littletonrobotics.junction.Logger;
 
-public class Wheels extends AngularVelocityModule {
-    private WheelState state;
-
+public class Wheels extends StateMachine<Wheels.WheelState> {
+    private AngularVelocityModule module;
+    
     Wheels(MotorIO motor) {
-        super("Intake/Wheels", motor, WheelConstants.ROTOR_TO_MECHANISM_RATIO);
-        state = WheelState.OFF;
+        super("Intake/Wheels", WheelState.OFF);
+        module = new AngularVelocityModule(name, motor, WheelConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
-    enum WheelState {
+    enum WheelState implements State {
         OFF,
         JOSTLE,
         INTAKE,
         EXTAKE,
     }
 
-    @Override
     public void periodic() {
-        super.periodic();
-        Logger.recordOutput(name + "/State", state);
+        module.updateInputs();
 
         switch (state) {
-            case OFF -> super.setVoltage(Volts.of(0.0));
-            case JOSTLE -> super.setVelocitySetpoint(WheelConstants.JOSTLE_VELOCITY);
-            case INTAKE -> super.setVelocitySetpoint(WheelConstants.INTAKE_VELOCITY);
-            case EXTAKE -> super.setVelocitySetpoint(WheelConstants.EXTAKE_VELOCITY);
+            case OFF -> module.setVoltage(Volts.of(0.0));
+            case JOSTLE -> module.setVelocitySetpoint(WheelConstants.JOSTLE_VELOCITY);
+            case INTAKE -> module.setVelocitySetpoint(WheelConstants.INTAKE_VELOCITY);
+            case EXTAKE -> module.setVelocitySetpoint(WheelConstants.EXTAKE_VELOCITY);
         }
-    }
 
-    void setState(WheelState state) {
-        this.state = state;
+        logState();
     }
 
     public static final class WheelConstants {

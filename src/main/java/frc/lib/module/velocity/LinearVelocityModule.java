@@ -38,7 +38,7 @@ public class LinearVelocityModule extends Module {
      *
      * @param velocity desired mechanism linear velocity
      */
-    protected void setVelocitySetpoint(Velocity velocity) {
+    public void setVelocitySetpoint(Velocity velocity) {
         io.setVelocitySetpoint(
                 RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
     }
