@@ -22,7 +22,7 @@ public final class Constants {
     /**
      * Sets the tolerance of a velocity mechanism to be within 0.05*setpoint of the setpoint. This
      * works because as speed grows higher, precision becomes less important, and demanding too much
-     * precision at high speeds can even be detrimental.
+     * precision at high speeds can be detrimental.
      */
     public static final double VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER = 0.05;
 
@@ -34,13 +34,13 @@ public final class Constants {
     /** Sets the tolerance of a linear position mechanism to be within 0.005 meters of the setpoint */
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
-    /**
-     * Used to define the different CAN Buses on the Robot. Important for the SystemCore since there
-     * are 5 CAN Buses
-     */
+    /** The RoboRIO's CAN bus, which is slower than the CANivore bus but must be used by non-CTRE devices. */
     public static final CANBus RIO_BUS = new CANBus("rio");
 
-    /** CAN bus used by the CTRE devices on the robot. */
+    /**
+     * The CANivore's CAN bus, which should be used by all CTRE devices because it's faster, but
+     * cannot be used by any non-CTRE devices.
+     */
     public static final CANBus CANIVORE_BUS = new CANBus("*");
 
     private Constants() {

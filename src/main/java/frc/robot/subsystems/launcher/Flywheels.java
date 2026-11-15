@@ -58,7 +58,7 @@ public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
 
         switch (state) {
             case FlywheelState.Off() -> module.setVoltage(Volts.of(0.0));
-            case FlywheelState.Idle() -> module.setVelocitySetpoint(FlywheelConstants.FLYWHEEL_IDLE);
+            case FlywheelState.Idle() -> module.setVelocitySetpoint(FlywheelConstants.IDLE_VELOCITY);
             case FlywheelState.Launch(AngularVelocity velocity) -> module.setVelocitySetpoint(velocity);
         }
 
@@ -94,7 +94,7 @@ public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
 
         /** Velocity commanded in the {@link FlywheelState#IDLE} state. */
-        private static final AngularVelocity FLYWHEEL_IDLE = RadiansPerSecond.of(84);
+        private static final AngularVelocity IDLE_VELOCITY = RadiansPerSecond.of(84);
 
         private FlywheelConstants() {
             /* Keep this constructor empty */

@@ -39,7 +39,7 @@ import org.wpilib.units.measure.Temperature;
  *
  * <p>Motor status signals are updated at 100 Hz and are optimized for reduced CAN bus utilization.
  */
-public class TalonFXMotor extends MotorIO {
+public class TalonFxMotor extends MotorIO {
 
     /** Physical TalonFX motor controller. */
     private final TalonFX motor;
@@ -95,7 +95,7 @@ public class TalonFXMotor extends MotorIO {
      *
      * @param config configuration for the motor
      */
-    public TalonFXMotor(MotorConfig config) {
+    public TalonFxMotor(MotorConfig config) {
         super(config);
         motor = new TalonFX(config.id().id(), config.id().bus());
         Configurator.applyTalonFxConfiguration(motor, config.getTalonFXConfiguration());

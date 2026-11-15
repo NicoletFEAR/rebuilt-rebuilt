@@ -40,10 +40,6 @@ public class Intake extends StateMachine<Intake.IntakeState> {
 
     /**
      * Applies the current state to the arm and wheels, runs their periodic logic, and logs the state.
-     *
-     * <p>Note that the {@link IntakeState#RETRACT} state currently deploys the arm and spins the
-     * wheels inward, matching {@link IntakeState#INTAKE}; the {@link #setState(IntakeState)} override
-     * also bypasses {@link StateMachine#setState(State)} bookkeeping.
      */
     public void periodic() {
         switch (state) {
@@ -63,7 +59,7 @@ public class Intake extends StateMachine<Intake.IntakeState> {
             }
 
             case RETRACT -> {
-                arm.setState(ArmState.DEPLOY);
+                arm.setState(ArmState.RETRACT);
                 wheels.setState(WheelState.INTAKE);
             }
 
@@ -81,17 +77,5 @@ public class Intake extends StateMachine<Intake.IntakeState> {
         arm.periodic();
         wheels.periodic();
         logState();
-    }
-
-    /**
-     * Sets the intake's state.
-     *
-     * <p>This override bypasses {@link StateMachine#setState(State)}; it updates the current state
-     * without touching the stored previous state or entered timestamp.
-     *
-     * @param state the state to enter
-     */
-    public void setState(IntakeState state) {
-        this.state = state;
     }
 }

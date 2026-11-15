@@ -90,6 +90,9 @@ public class Drive extends StateMachine<Drive.DriveState> {
                                 : Rotation2d.fromRadians(Math.PI),
                         getModulePositions(),
                         new Pose2d(),
+                        // These values mean we trust the gyroscope and wheel odometry much more
+                        // than the camera, since the standard deviations for the camera measurements
+                        // are much higher.
                         VecBuilder.fill(0.1, 0.1, 0.0),
                         VecBuilder.fill(0.9, 0.9, 9999999));
     }

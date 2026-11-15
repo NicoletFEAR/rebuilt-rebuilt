@@ -48,7 +48,7 @@ public class AbsEncoderAngularPositionModule extends AngularPositionModule {
         super.updateInputs();
         absEncoderIO.updateInputs(absEncoderInputs);
         Logger.processInputs(
-                name + "AbsEncoder", absEncoderInputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
+                name + " Abs Encoder", absEncoderInputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
     }
 
     /**

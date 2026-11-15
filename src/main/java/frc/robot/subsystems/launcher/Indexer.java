@@ -28,7 +28,7 @@ public class Indexer extends StateMachine<Indexer.IndexerState> {
         super("Launcher/Indexer", IndexerState.OFF);
         module =
                 new AngularVelocityModule(
-                        "Launcher/Indexer", motor, IndexerConstants.ROTOR_TO_MECHANISM_RATIO);
+                        name, motor, IndexerConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
     /** States of the indexer. */

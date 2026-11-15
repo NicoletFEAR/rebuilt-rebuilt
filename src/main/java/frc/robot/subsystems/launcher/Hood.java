@@ -32,7 +32,7 @@ public class Hood extends StateMachine<Hood.HoodState> {
         super("Launcher/Hood", HoodState.OFF);
         module =
                 new AbsEncoderAngularPositionModule(
-                        "Launcher/Hood", motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
+                        name, motor, canCoder, HoodConstants.ROTOR_TO_MECHANISM_RATIO);
     }
 
     /** States of the hood. */

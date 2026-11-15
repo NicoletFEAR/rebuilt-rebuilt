@@ -7,7 +7,10 @@
 * Make Sim dependent on vendor again
 * Add current limits, inversion, soft limits to MotorConfig
 * Change gear ratio from manual to configured
+* Update CAN buses to SystemCore
+* Add wanted state / actual state dichotomy
 * Fix absolute encoders
+* Test deadbands to make sure they're fine
 * Add replay IO
 * Add unit tests
 * Add null safety
@@ -33,6 +36,7 @@
 * Alerts when a configuration doesn't apply
 * Error injection for simulation
 * LedIO
+* Camera stuff
 * Add CTRE swerve IO
 * Procedurally generated autos (ideally with custom pathfinder that keeps the Limelight(s) looking at AprilTags at all times for optimal accuracy)
 * Auto-checklists with data tracking to determine normal values and detect anomalies, also use these normal values for more accurate simulation (perhaps concurrently simulate and track deviations from simulated values mid-match if processing power allows)
