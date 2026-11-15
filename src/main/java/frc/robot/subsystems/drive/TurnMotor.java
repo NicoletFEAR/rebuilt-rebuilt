@@ -34,15 +34,15 @@ class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
     }
 
     /** States of the turn motor. */
-    sealed interface TurnMotorState extends State permits TurnMotorState.Off, TurnMotorState.Turn {
+    static sealed interface TurnMotorState extends State permits TurnMotorState.Off, TurnMotorState.Turn {
         /** Turn motor is off (zero voltage). */
-        public record Off() implements TurnMotorState {}
+        static record Off() implements TurnMotorState {}
 
         /** Turn motor is commanded to an angular position setpoint. */
-        public record Turn(Angle position) implements TurnMotorState {}
+        static record Turn(Angle position) implements TurnMotorState {}
 
         /** Shared constant for the {@link Off} record. */
-        public static final Off OFF = new Off();
+        static final Off OFF = new Off();
     }
 
     /**

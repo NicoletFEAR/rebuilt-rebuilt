@@ -30,16 +30,16 @@ class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
     }
 
     /** States of the drive motor. */
-    sealed interface DriveMotorState extends State
+    static sealed interface DriveMotorState extends State
             permits DriveMotorState.Off, DriveMotorState.Drive {
         /** Drive motor is off (zero voltage). */
-        public record Off() implements DriveMotorState {}
+        static record Off() implements DriveMotorState {}
 
         /** Drive motor is commanded to a linear velocity setpoint. */
-        public record Drive(Velocity velocity) implements DriveMotorState {}
+        static record Drive(Velocity velocity) implements DriveMotorState {}
 
         /** Shared constant for the {@link Off} record. */
-        public static final Off OFF = new Off();
+        static final Off OFF = new Off();
     }
 
     /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */

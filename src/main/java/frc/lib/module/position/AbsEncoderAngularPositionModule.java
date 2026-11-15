@@ -14,7 +14,7 @@ import org.littletonrobotics.junction.Logger;
  * the encoder is connected. If the absolute encoder is disconnected, the module falls back to the
  * position provided by the parent {@link AngularPositionModule}.
  */
-public class AbsEncoderAngularPositionModule extends AngularPositionModule {
+public final class AbsEncoderAngularPositionModule extends AngularPositionModule {
 
     /** Interface used to communicate with and retrieve data from the absolute encoder. */
     private final AbsEncoderIO absEncoderIO;

@@ -17,7 +17,7 @@ import frc.lib.units.Velocity;
  * mechanism's linear velocity. Motor rotor velocity is converted to mechanism velocity using the
  * configured rotor-to-mechanism ratio.
  */
-public class LinearVelocityModule extends Module {
+public final class LinearVelocityModule extends Module {
 
     /**
      * Creates a linear velocity module.

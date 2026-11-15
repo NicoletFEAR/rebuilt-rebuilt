@@ -9,6 +9,7 @@
 * Change gear ratio from manual to configured
 * Update CAN buses to SystemCore
 * Add wanted state / actual state dichotomy
+* See if there's some way to lower the number of module classes we have
 * Fix absolute encoders
 * Test deadbands to make sure they're fine
 * Add replay IO

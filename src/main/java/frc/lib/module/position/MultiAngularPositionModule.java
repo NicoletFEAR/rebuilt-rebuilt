@@ -14,7 +14,7 @@ import org.littletonrobotics.junction.Logger;
  * <p>Each follower must have an {@code alignment} value configured in its motor configuration. The
  * alignment determines how the follower should operate relative to the leader.
  */
-public class MultiAngularPositionModule extends AngularPositionModule {
+public final class MultiAngularPositionModule extends AngularPositionModule {
 
     /** Number of follower motors controlled by this module. */
     private final int numberOfFollowers;

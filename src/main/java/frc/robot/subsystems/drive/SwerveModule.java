@@ -41,16 +41,16 @@ public class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
     }
 
     /** States of the swerve module. */
-    public sealed interface SwerveModuleState extends State
+    static sealed interface SwerveModuleState extends State
             permits SwerveModuleState.Off, SwerveModuleState.Drive {
         /** Module is off; both motors receive zero voltage. */
-        public record Off() implements SwerveModuleState {}
+        static record Off() implements SwerveModuleState {}
 
         /** Module is commanded to the given kinematic module velocity. */
-        public record Drive(SwerveModuleVelocity state) implements SwerveModuleState {}
+        static record Drive(SwerveModuleVelocity state) implements SwerveModuleState {}
 
         /** Shared constant for the {@link Off} record. */
-        public static final Off OFF = new Off();
+        static final Off OFF = new Off();
     }
 
     /**
@@ -60,7 +60,7 @@ public class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
      * <p>In the {@link SwerveModuleState.Drive} state, the commanded velocity is optimized and
      * cosine-scaled against the current turn angle before being sent to the motors.
      */
-    public void periodic() {
+    void periodic() {
         switch (state) {
             case SwerveModuleState.Off() -> {
                 drive.setState(DriveMotorState.OFF);

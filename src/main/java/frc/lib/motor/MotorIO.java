@@ -15,7 +15,6 @@ import frc.lib.units.Current;
 import frc.lib.units.Temperature;
 import frc.lib.units.Voltage;
 import frc.robot.Robot;
-import lombok.Getter;
 import org.littletonrobotics.junction.AutoLog;
 
 /**
@@ -31,7 +30,7 @@ import org.littletonrobotics.junction.AutoLog;
 public abstract class MotorIO {
 
     /** Configuration associated with this motor. */
-    @Getter private final MotorConfig config;
+    private final MotorConfig config;
 
     /**
      * Creates a motor IO interface using the provided motor configuration.
@@ -43,6 +42,15 @@ public abstract class MotorIO {
     }
 
     /**
+     * Get the configuration for this motor.
+     * 
+     * @return the motor's configuration
+     */
+    public MotorConfig getConfig() {
+        return config;
+    }
+
+    /**
      * Creates a real TalonFX or a simulated TalonFX depending on whether the robot is
      * being simulated or not.
      * 
@@ -50,7 +58,7 @@ public abstract class MotorIO {
      * @return the correct TalonFX motor implementation
      */
     public static MotorIO buildTalonFxMotor(MotorConfig config) {
-        return Robot.isReal() ? new TalonFxMotor(config) : new SimMotor(config);
+        return Robot.isReal() ? new TalonFxMotor(config) : new SimTalonFxMotor(config);
     }
 
     /**

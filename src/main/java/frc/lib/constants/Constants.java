@@ -9,13 +9,13 @@ import frc.lib.units.Angle;
 import frc.lib.units.Distance;
 import frc.lib.units.Frequency;
 
-/** This file houses all of the general constants that are needed to run the robot */
+/** This file houses all of the general constants that are needed to run the robot. */
 public final class Constants {
 
     /**
-     * Used as a reference for how long each periodic loop is
+     * Used as a reference for how long each periodic loop is.
      *
-     * <p>Each periodic loop is 20 ms
+     * <p>Each periodic loop is 20 ms.
      */
     public static final Frequency LOOP_PERIOD = Hertz.of(50);
 
@@ -27,11 +27,11 @@ public final class Constants {
     public static final double VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER = 0.05;
 
     /**
-     * Sets the tolerance of an angular position mechanism to be within 0.05 radians of the setpoint
+     * Sets the tolerance of an angular position mechanism to be within 0.05 radians of the setpoint.
      */
     public static final Angle ANGULAR_POSITION_SETPOINT_TOLERANCE = Radians.of(0.05);
 
-    /** Sets the tolerance of a linear position mechanism to be within 0.005 meters of the setpoint */
+    /** Sets the tolerance of a linear position mechanism to be within 0.005 meters of the setpoint. */
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
     /** The RoboRIO's CAN bus, which is slower than the CANivore bus but must be used by non-CTRE devices. */

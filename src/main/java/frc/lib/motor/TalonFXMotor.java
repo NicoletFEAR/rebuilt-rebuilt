@@ -86,7 +86,7 @@ public class TalonFxMotor extends MotorIO {
     private final PositionVoltage positionControl = new PositionVoltage(Radians.raw(0.0));
 
     /**
-     * Creates a real motor using the provided configuration.
+     * Creates a real TalonFX motor using the provided configuration.
      *
      * <p>The TalonFX is initialized using the CAN ID, CAN bus, neutral mode, and Slot 0 configuration
      * specified by the {@link MotorConfig}.

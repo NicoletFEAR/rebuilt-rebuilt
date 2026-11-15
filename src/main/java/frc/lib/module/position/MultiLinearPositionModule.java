@@ -14,7 +14,7 @@ import org.littletonrobotics.junction.Logger;
  * <p>Each follower must have an {@code alignment} value configured in its motor configuration. The
  * alignment determines how the follower should operate relative to the leader.
  */
-public class MultiLinearPositionModule extends LinearPositionModule {
+public final class MultiLinearPositionModule extends LinearPositionModule {
 
     /** Number of follower motors controlled by this module. */
     private final int numberOfFollowers;
@@ -63,8 +63,7 @@ public class MultiLinearPositionModule extends LinearPositionModule {
      * Updates and logs the inputs for the leader and all follower motors.
      *
      * <p>The leader motor inputs are updated by the parent implementation. This method additionally
-     * updates each follower's inputs and logs them using the module's configured rotor-to-mechanism
-     * ratio.
+     * updates each follower's inputs and logs them.
      */
     @Override
     public void updateInputs() {
@@ -73,8 +72,8 @@ public class MultiLinearPositionModule extends LinearPositionModule {
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].updateInputs(followerInputs[i]);
             Logger.processInputs(
-                    name + "/Follower" + (numberOfFollowers == 1 ? "" : i),
-                    followerInputs[i].applyRotorToMechanismRatio(rotorToMechanismRatio));
+                    name + "/Follower" + (numberOfFollowers == 1 ? "" : " " + i),
+                    followerInputs[i]);
         }
     }
 }
