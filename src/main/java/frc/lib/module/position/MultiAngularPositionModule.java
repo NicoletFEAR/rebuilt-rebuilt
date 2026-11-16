@@ -73,7 +73,7 @@ public final class MultiAngularPositionModule extends AngularPositionModule {
         for (int i = 0; i < numberOfFollowers; i++) {
             followerIOs[i].updateInputs(followerInputs[i]);
             Logger.processInputs(
-                    name + "/Follower" + (numberOfFollowers == 1 ? "" : i),
+                    name + "/Follower" + (numberOfFollowers == 1 ? "" : " " + (i + 1)),
                     followerInputs[i].applyRotorToMechanismRatio(rotorToMechanismRatio));
         }
     }

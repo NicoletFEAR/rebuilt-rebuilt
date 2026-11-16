@@ -19,7 +19,7 @@ import frc.robot.subsystems.launcher.Launcher.LauncherState;
  * <p>Each superstructure state maps to a set of subsystem states; see {@link #periodic()} for the
  * current mapping. Subsystems are updated in the order drive, intake, launcher.
  */
-public class Superstructure extends StateMachine<Superstructure.SuperState> {
+public final class Superstructure extends StateMachine<Superstructure.SuperState> {
     private final Drive drive;
     private final Launcher launcher;
     private final Intake intake;

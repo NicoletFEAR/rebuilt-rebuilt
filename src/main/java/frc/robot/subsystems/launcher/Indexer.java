@@ -16,8 +16,8 @@ import frc.lib.units.AngularVelocity;
  * <p>The indexer is driven by an {@link AngularVelocityModule}; each state maps to either zero
  * voltage or a velocity setpoint defined in {@link IndexerConstants}.
  */
-public class Indexer extends StateMachine<Indexer.IndexerState> {
-    private AngularVelocityModule module;
+public final class Indexer extends StateMachine<Indexer.IndexerState> {
+    private final AngularVelocityModule module;
 
     /**
      * Creates the indexer.
@@ -37,7 +37,7 @@ public class Indexer extends StateMachine<Indexer.IndexerState> {
     }
 
     /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    public void periodic() {
+    void periodic() {
         module.updateInputs();
 
         switch (state) {

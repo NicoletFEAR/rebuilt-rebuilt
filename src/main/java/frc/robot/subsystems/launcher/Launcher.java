@@ -18,7 +18,7 @@ import org.littletonrobotics.junction.Logger;
  * #periodic()} for the current mapping. The right flywheel motor is configured as a follower of the
  * left flywheel motor (with the alignment taken from the follower's configuration).
  */
-public class Launcher extends StateMachine<Launcher.LauncherState> {
+public final class Launcher extends StateMachine<Launcher.LauncherState> {
     private final Flywheels flywheels;
     private final Indexer indexer;
     private final Hood hood;
@@ -46,7 +46,7 @@ public class Launcher extends StateMachine<Launcher.LauncherState> {
     }
 
     /** States of the launcher. */
-    public sealed interface LauncherState extends State
+    public static sealed interface LauncherState extends State
             permits LauncherState.Off,
                     LauncherState.Idle,
                     LauncherState.SpinUp,
@@ -54,30 +54,30 @@ public class Launcher extends StateMachine<Launcher.LauncherState> {
                     LauncherState.Extake {
 
         /** Launcher is off; flywheels, indexer, and hood receive zero voltage. */
-        public record Off() implements LauncherState {}
+        static record Off() implements LauncherState {}
 
         /** Flywheels are spinning at the idle velocity; indexer and hood are off. */
-        public record Idle() implements LauncherState {}
+        static record Idle() implements LauncherState {}
 
         /** Flywheels and hood are set up to launch, but the indexer is off. */
-        public record SpinUp(AngularVelocity flywheelVelocity, Angle hoodAngle)
+        static record SpinUp(AngularVelocity flywheelVelocity, Angle hoodAngle)
                 implements LauncherState {}
 
         /** Flywheels and hood are set up to launch, and the indexer feeds game pieces. */
-        public record Launch(AngularVelocity flywheelVelocity, Angle hoodAngle)
+        static record Launch(AngularVelocity flywheelVelocity, Angle hoodAngle)
                 implements LauncherState {}
 
         /** Flywheels idle, indexer runs in reverse, and the hood is off. */
-        public record Extake() implements LauncherState {}
+        static record Extake() implements LauncherState {}
 
-        /** Shared constant for the {@link Off} record. */
-        public static final Off OFF = new Off();
+        /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
+        static final Off OFF = new Off();
 
-        /** Shared constant for the {@link Idle} record. */
-        public static final Idle IDLE = new Idle();
+        /** Shared constant for the {@link Idle} record to avoid unnecessary allocations. */
+        static final Idle IDLE = new Idle();
 
-        /** Shared constant for the {@link Extake} record. */
-        public static final Extake EXTAKE = new Extake();
+        /** Shared constant for the {@link Extake} record to avoid unnecessary allocations. */
+        static final Extake EXTAKE = new Extake();
     }
 
     /**

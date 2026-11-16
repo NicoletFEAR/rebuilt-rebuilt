@@ -16,7 +16,7 @@ import org.wpilib.simulation.RoboRioSim;
  * class), setting up the simulated driver station when running in simulation, and constructing the
  * {@link RobotContainer} that wires together the subsystems.
  */
-public class Robot extends LoggedRobot {
+public final class Robot extends LoggedRobot {
     private final RobotContainer robotContainer;
 
     /**

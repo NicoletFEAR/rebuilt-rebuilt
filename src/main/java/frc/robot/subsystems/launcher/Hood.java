@@ -19,8 +19,8 @@ import frc.lib.units.Angle;
  * absolute encoder (falling back to the motor's relative position when the encoder is
  * disconnected).
  */
-public class Hood extends StateMachine<Hood.HoodState> {
-    private AbsEncoderAngularPositionModule module;
+public final class Hood extends StateMachine<Hood.HoodState> {
+    private final AbsEncoderAngularPositionModule module;
 
     /**
      * Creates the hood.
@@ -36,22 +36,22 @@ public class Hood extends StateMachine<Hood.HoodState> {
     }
 
     /** States of the hood. */
-    sealed interface HoodState extends State permits HoodState.Off, HoodState.HoldPosition {
+    static sealed interface HoodState extends State permits HoodState.Off, HoodState.HoldPosition {
         /** Hood is off (zero voltage). */
-        public record Off() implements HoodState {}
+        static record Off() implements HoodState {}
 
         /** Hood is commanded to hold the given angle. */
-        public record HoldPosition(Angle position) implements HoodState {}
+        static record HoldPosition(Angle position) implements HoodState {}
 
-        /** Shared constant for the {@link Off} record. */
-        public static final Off OFF = new Off();
+        /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
+        static final Off OFF = new Off();
     }
 
     /**
      * Updates the motor and encoder inputs, applies the behavior for the current state, and logs the
      * state.
      */
-    public void periodic() {
+    void periodic() {
         module.updateInputs();
 
         switch (state) {

@@ -27,30 +27,26 @@ import org.wpilib.driverstation.Gamepad;
  * Constructs and wires together the robot's subsystems and translates driver input into
  * superstructure states.
  */
-public class RobotContainer {
-    private final RobotState robotState;
-    private final Superstructure superstructure;
-    private final Gamepad driverController;
+public final class RobotContainer {
+    private final RobotState robotState = new RobotState();
+    private final Superstructure superstructure = new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
+    private final Gamepad driverController = new Gamepad(0);
 
     /**
-     * Creates the robot container: the robot state, the driver gamepad (port 0, with deadbands
-     * applied), and the superstructure built from the drive, launcher, and intake subsystems.
+     * Applies deadbands to the driver controller.
      */
     public RobotContainer() {
-        robotState = new RobotState();
-        driverController = new Gamepad(0);
         driverController.setLeftXDeadband(OperatorConstants.DEADBAND);
         driverController.setLeftYDeadband(OperatorConstants.DEADBAND);
         driverController.setLeftTriggerDeadband(OperatorConstants.DEADBAND);
         driverController.setRightXDeadband(OperatorConstants.DEADBAND);
         driverController.setRightYDeadband(OperatorConstants.DEADBAND);
         driverController.setRightTriggerDeadband(OperatorConstants.DEADBAND);
-        superstructure = new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
     }
 
     /**
-     * Logs the robot state, decides the superstructure's desired state from the driver controller,
-     * and runs the superstructure's periodic logic.
+     * Decides the superstructure's desired state from the driver controller, runs the superstructure's
+     * periodic logic, and logs the robot state.
      *
      * <p>Left and right triggers above {@link OperatorConstants#TRIGGER_THRESHOLD} command the intake
      * and launcher respectively: left trigger intakes (and also spins up the launcher when the right
@@ -80,6 +76,7 @@ public class RobotContainer {
         }
 
         superstructure.periodic();
+        robotState.log();
     }
 
     /**

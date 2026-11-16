@@ -17,13 +17,13 @@
 * Add unit tests
 * Add null safety
 * Make all the IOs vendor-agnostic
-* Automatic units library generation
 * Make PID and feedforward values have units
 * Add a class to manage voltage and track which battery is being used through Elastic dropdown
 * Add a class to monitor and log CAN bus information
 * Add a clock class and use that to get time rather than Timer.getTimestamp()
 * Make sure every subsystem state does something with every part of the subsystem
 * Create SwerveDriveTemplate class so that RobotContainer doesn't have to do so much instantiation for the drivebase and then make SwerveModule private
+* In general, get sub-subsystems internal
 * Edit subsystems so that they use setDynamicPosition instead of setPositionSetpoint when appropriate
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it

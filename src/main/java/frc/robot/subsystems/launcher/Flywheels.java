@@ -17,8 +17,8 @@ import frc.lib.units.AngularVelocity;
  * <p>A leader motor drives the flywheels; one or more follower motors are configured to follow it.
  * Each state maps to either zero voltage, the idle velocity, or a commanded launch velocity.
  */
-public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
-    private MultiAngularVelocityModule module;
+public final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
+    private final MultiAngularVelocityModule module;
 
     /**
      * Creates the flywheels.
@@ -34,26 +34,26 @@ public class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     }
 
     /** States of the flywheels. */
-    sealed interface FlywheelState extends State
+    static sealed interface FlywheelState extends State
             permits FlywheelState.Off, FlywheelState.Idle, FlywheelState.Launch {
         /** Flywheels are off (zero voltage). */
-        public record Off() implements FlywheelState {}
+        static record Off() implements FlywheelState {}
 
         /** Flywheels are spinning at the idle velocity. */
-        public record Idle() implements FlywheelState {}
+        static record Idle() implements FlywheelState {}
 
         /** Flywheels are commanded to a launch velocity. */
-        public record Launch(AngularVelocity velocity) implements FlywheelState {}
+        static record Launch(AngularVelocity velocity) implements FlywheelState {}
 
-        /** Shared constant for the {@link Off} record. */
-        public static final Off OFF = new Off();
+        /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
+        static final Off OFF = new Off();
 
-        /** Shared constant for the {@link Idle} record. */
-        public static final Idle IDLE = new Idle();
+        /** Shared constant for the {@link Idle} record to avoid unnecessary allocations. */
+        static final Idle IDLE = new Idle();
     }
 
     /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    public void periodic() {
+    void periodic() {
         module.updateInputs();
 
         switch (state) {

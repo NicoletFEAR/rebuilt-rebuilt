@@ -20,7 +20,7 @@ public final class AbsEncoderAngularPositionModule extends AngularPositionModule
     private final AbsEncoderIO absEncoderIO;
 
     /** Logged inputs containing the current state and position of the absolute encoder. */
-    private final AbsEncoderIOInputsAutoLogged absEncoderInputs;
+    private final AbsEncoderIOInputsAutoLogged absEncoderInputs = new AbsEncoderIOInputsAutoLogged();
 
     /**
      * Creates an angular position module using an absolute encoder for position feedback.
@@ -34,7 +34,6 @@ public final class AbsEncoderAngularPositionModule extends AngularPositionModule
             String name, MotorIO motorIO, AbsEncoderIO canCoderIO, double rotorToMechanismRatio) {
         super(name, motorIO, rotorToMechanismRatio);
         this.absEncoderIO = canCoderIO;
-        absEncoderInputs = new AbsEncoderIOInputsAutoLogged();
     }
 
     /**

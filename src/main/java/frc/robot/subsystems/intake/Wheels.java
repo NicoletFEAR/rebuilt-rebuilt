@@ -16,8 +16,8 @@ import frc.lib.units.AngularVelocity;
  * <p>The wheels are driven by an {@link AngularVelocityModule}; each state maps to either zero
  * voltage or a velocity setpoint defined in {@link WheelConstants}.
  */
-public class Wheels extends StateMachine<Wheels.WheelState> {
-    private AngularVelocityModule module;
+public final class Wheels extends StateMachine<Wheels.WheelState> {
+    private final AngularVelocityModule module;
 
     /**
      * Creates the wheels.
@@ -38,7 +38,7 @@ public class Wheels extends StateMachine<Wheels.WheelState> {
     }
 
     /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    public void periodic() {
+    void periodic() {
         module.updateInputs();
 
         switch (state) {

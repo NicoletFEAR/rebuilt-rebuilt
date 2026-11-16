@@ -15,8 +15,8 @@ import frc.lib.units.Velocity;
  * <p>Wraps a {@link LinearVelocityModule} in a state machine that either holds zero voltage or
  * commands a linear velocity setpoint.
  */
-class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
-    private LinearVelocityModule module;
+final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
+    private final LinearVelocityModule module;
 
     /**
      * Creates the drive motor component.
@@ -38,7 +38,7 @@ class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
         /** Drive motor is commanded to a linear velocity setpoint. */
         static record Drive(Velocity velocity) implements DriveMotorState {}
 
-        /** Shared constant for the {@link Off} record. */
+        /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
         static final Off OFF = new Off();
     }
 

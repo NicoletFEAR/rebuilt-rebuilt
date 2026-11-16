@@ -20,7 +20,7 @@ public abstract class Module {
     protected final MotorIO io;
 
     /** Logged inputs containing the current state of the motor. */
-    protected final MotorIOInputsAutoLogged inputs;
+    protected final MotorIOInputsAutoLogged inputs = new MotorIOInputsAutoLogged();
 
     /** Name used to identify and log this module. */
     protected final String name;
@@ -38,7 +38,6 @@ public abstract class Module {
     public Module(String name, MotorIO io, double rotorToMechanismRatio) {
         this.name = name;
         this.io = io;
-        inputs = new MotorIOInputsAutoLogged();
         this.rotorToMechanismRatio = rotorToMechanismRatio;
     }
 

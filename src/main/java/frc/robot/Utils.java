@@ -22,5 +22,7 @@ public final class Utils {
         return x == 0 && y == 0 ? Rotation2d.ZERO : new Rotation2d(x, y);
     }
 
-    private Utils() {}
+    private Utils() {
+        // Keep this constructor empty.
+    }
 }

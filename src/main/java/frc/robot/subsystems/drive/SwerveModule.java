@@ -21,7 +21,7 @@ import org.wpilib.math.kinematics.SwerveModuleVelocity;
  * against the current turn angle (including cosine scaling) before being applied to the drive and
  * turn motors.
  */
-public class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
+public final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
     private final DriveMotor drive;
     private final TurnMotor turn;
 
@@ -49,7 +49,7 @@ public class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
         /** Module is commanded to the given kinematic module velocity. */
         static record Drive(SwerveModuleVelocity state) implements SwerveModuleState {}
 
-        /** Shared constant for the {@link Off} record. */
+        /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
         static final Off OFF = new Off();
     }
 

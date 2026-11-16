@@ -12,7 +12,7 @@ import frc.robot.subsystems.intake.Wheels.WheelState;
  * <p>Each intake state maps to a set of arm and wheel states; see {@link #periodic()} for the
  * current mapping.
  */
-public class Intake extends StateMachine<Intake.IntakeState> {
+public final class Intake extends StateMachine<Intake.IntakeState> {
     private final Arm arm;
     private final Wheels wheels;
 

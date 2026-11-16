@@ -5,7 +5,7 @@ import static frc.lib.units.FrequencyUnit.Hertz;
 import frc.lib.units.Frequency;
 
 /** Constants critical to the way the code is executed. */
-public class ExecutionConstants {
+public final class ExecutionConstants {
 
     /**
      * Used as a reference for how long each periodic loop is.

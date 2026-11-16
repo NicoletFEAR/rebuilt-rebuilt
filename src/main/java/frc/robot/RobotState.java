@@ -15,13 +15,13 @@ import org.wpilib.math.geometry.Pose2d;
  * measurements) and other consumers of the robot's pose. Lombok's {@link Data} annotation provides
  * the getters and setters for {@link #estimatedPose} and {@link #lastTimestamp}.
  */
-public class RobotState {
+public final class RobotState {
 
     /** Estimated field-relative pose of the robot; starts at the origin. */
-    Pose2d estimatedPose = Pose2d.ZERO;
+    private Pose2d estimatedPose = Pose2d.ZERO;
 
     /** Timestamp of the odometry measurement that produced {@link #estimatedPose}. */
-    Timestamp lastTimestamp = Seconds.timestamp(0.0);
+    private Timestamp lastTimestamp = Seconds.timestamp(0.0);
 
     /**
      * Records an odometry measurement.

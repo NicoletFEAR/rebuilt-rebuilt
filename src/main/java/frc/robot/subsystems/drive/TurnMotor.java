@@ -17,8 +17,8 @@ import org.wpilib.math.geometry.Rotation2d;
  * voltage or commands an angular position setpoint. Position feedback comes from the absolute
  * encoder when it is connected, falling back to the motor's relative position otherwise.
  */
-class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
-    private AbsEncoderAngularPositionModule module;
+final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
+    private final AbsEncoderAngularPositionModule module;
 
     /**
      * Creates the turn motor component.
@@ -42,7 +42,7 @@ class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
         /** Turn motor is commanded to an angular position setpoint. */
         static record Turn(Angle position) implements TurnMotorState {}
 
-        /** Shared constant for the {@link Off} record. */
+        /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
         static final Off OFF = new Off();
     }
 

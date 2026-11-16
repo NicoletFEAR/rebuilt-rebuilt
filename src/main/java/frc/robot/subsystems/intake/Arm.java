@@ -15,8 +15,8 @@ import frc.lib.units.Distance;
  * <p>The arm is a linear mechanism whose position is commanded with a position setpoint; see {@link
  * #periodic()} for the positions commanded by each state.
  */
-public class Arm extends StateMachine<Arm.ArmState> {
-    private LinearPositionModule module;
+public final class Arm extends StateMachine<Arm.ArmState> {
+    private final LinearPositionModule module;
 
     /**
      * Creates the arm.
@@ -35,7 +35,7 @@ public class Arm extends StateMachine<Arm.ArmState> {
     }
 
     /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    public void periodic() {
+    void periodic() {
         module.updateInputs();
 
         switch (state) {

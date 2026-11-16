@@ -41,7 +41,7 @@ import org.wpilib.system.Timer;
  *
  * <p>Module order in the {@link #modules} array is front-left, front-right, back-left, back-right.
  */
-public class Drive extends StateMachine<Drive.DriveState> {
+public final class Drive extends StateMachine<Drive.DriveState> {
     private final RobotState robotState;
     private final SwerveModule[] modules;
 
@@ -106,7 +106,7 @@ public class Drive extends StateMachine<Drive.DriveState> {
         /** Drive teleop using the given driver input parameters. */
         static record Teleop(DriveParameters parameters) implements DriveState {}
 
-        /** Shared constant for the {@link Off} record. */
+        /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
         static final Off OFF = new Off();
     }
 
