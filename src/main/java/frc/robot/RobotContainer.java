@@ -29,12 +29,11 @@ import org.wpilib.driverstation.Gamepad;
  */
 public final class RobotContainer {
     private final RobotState robotState = new RobotState();
-    private final Superstructure superstructure = new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
+    private final Superstructure superstructure =
+            new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
     private final Gamepad driverController = new Gamepad(0);
 
-    /**
-     * Applies deadbands to the driver controller.
-     */
+    /** Applies deadbands to the driver controller. */
     public RobotContainer() {
         driverController.setLeftXDeadband(OperatorConstants.DEADBAND);
         driverController.setLeftYDeadband(OperatorConstants.DEADBAND);
@@ -45,8 +44,8 @@ public final class RobotContainer {
     }
 
     /**
-     * Decides the superstructure's desired state from the driver controller, runs the superstructure's
-     * periodic logic, and logs the robot state.
+     * Decides the superstructure's desired state from the driver controller, runs the
+     * superstructure's periodic logic, and logs the robot state.
      *
      * <p>Left and right triggers above {@link OperatorConstants#TRIGGER_THRESHOLD} command the intake
      * and launcher respectively: left trigger intakes (and also spins up the launcher when the right

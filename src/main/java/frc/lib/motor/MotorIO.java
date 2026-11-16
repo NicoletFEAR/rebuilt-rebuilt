@@ -168,6 +168,7 @@ public abstract class MotorIO {
      * Sets the desired angular velocity of the motor rotor. This should be used when the desired
      * velocity changes over time (like with a swerve module drive motor) to avoid the delay of a
      * motion profile.
+     *
      * @param velocity
      */
     public abstract void setDynamicVelocity(AngularVelocity velocity);

@@ -1,6 +1,4 @@
 * Replace CanRangeConfig with BeamBreakConfig and TofConfig
-* Module mech-relative logging and create subclass of LoggableInputs with a log method to log to outputs, then implement for everything that currently we just log as inputs
-* Separate logging inputs from outputs conceptually
 * Separate periodic into 4 phases: input refresh, then state decisions, then execution, then final logging
 * Make Sim dependent on vendor again
 * Add current limits, inversion, soft limits to MotorConfig
@@ -14,7 +12,6 @@
 * Add unit tests
 * Add null safety
 * Make all the IOs vendor-agnostic
-* Make PID and feedforward values have units
 * Add a class to manage voltage and track which battery is being used through Elastic dropdown
 * Add a class to monitor and log CAN bus information
 * Add a clock class and use that to get time rather than Timer.getTimestamp()

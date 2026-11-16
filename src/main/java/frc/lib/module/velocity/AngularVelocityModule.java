@@ -26,7 +26,7 @@ public class AngularVelocityModule extends Module {
 
     /**
      * Sets the desired angular velocity of the mechanism for a known, static velocity.
-     * 
+     *
      * <p>The motor may follow a motion profile to reach the velocity. Use {@code setDynamicVelocity}
      * for velocities that change continuously.
      *
@@ -41,7 +41,7 @@ public class AngularVelocityModule extends Module {
 
     /**
      * Sets the desired angular velocity of the mechanism for a continuously changing velocity.
-     * 
+     *
      * <p>This variant is intended for velocity setpoints that change over time; the motor adjusts
      * without the delay of a motion profile. Use {@code setVelocitySetpoint} for known static
      * velocities.

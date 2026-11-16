@@ -27,7 +27,6 @@ import frc.lib.units.CurrentUnit;
 import frc.lib.units.TemperatureUnit;
 import frc.lib.units.Voltage;
 import frc.lib.units.VoltageUnit;
-
 import org.wpilib.units.measure.AngularAcceleration;
 import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Temperature;
@@ -181,8 +180,8 @@ public class TalonFxMotor extends MotorIO {
     }
 
     /**
-     * Sets the desired rotor angular velocity using CTRE Motion Magic velocity control. This is best for
-     * optimizing the path to a known, static velocity.
+     * Sets the desired rotor angular velocity using CTRE Motion Magic velocity control. This is best
+     * for optimizing the path to a known, static velocity.
      *
      * @param velocity desired rotor angular velocity
      */
@@ -192,9 +191,10 @@ public class TalonFxMotor extends MotorIO {
     }
 
     /**
-     * Sets the desired rotor angular velocity using a simple VelocityVoltage control. This is better for
-     * moving setpoints because the position will adjust without the delay of a Motion Magic profile.
-     * 
+     * Sets the desired rotor angular velocity using a simple VelocityVoltage control. This is better
+     * for moving setpoints because the position will adjust without the delay of a Motion Magic
+     * profile.
+     *
      * @param velocity desired rotor angular velocity
      */
     @Override

@@ -8,17 +8,15 @@ import org.littletonrobotics.junction.Logger;
 public class Timestamp {
     double value;
 
-    /**
-     * Initializes a timestamp with a value, in seconds.
-     */
+    /** Initializes a timestamp with a value, in seconds. */
     Timestamp(double value) {
         this.value = value;
     }
 
     /**
-     * Logs the timestamp's value in seconds to {@code key}/Value, and
-     * the unit (always seconds) to {@code key}/Unit.
-     * 
+     * Logs the timestamp's value in seconds to {@code key}/Value, and the unit (always seconds) to
+     * {@code key}/Unit.
+     *
      * @param key the key at which to log the timestamp
      */
     public void log(String key) {
@@ -28,7 +26,7 @@ public class Timestamp {
 
     /**
      * Whether this timestamp came after another.
-     * 
+     *
      * @param other the timestamp being compared
      */
     public boolean after(Timestamp other) {
@@ -37,7 +35,7 @@ public class Timestamp {
 
     /**
      * Whether this timestamp came before another.
-     * 
+     *
      * @param other the timestamp being compared
      */
     public boolean before(Timestamp other) {
@@ -46,7 +44,7 @@ public class Timestamp {
 
     /**
      * The duration of time that passed between this timestamp and another.
-     * 
+     *
      * @param other the prior timestamp (or later, for a negative result)
      */
     public Time since(Timestamp other) {
