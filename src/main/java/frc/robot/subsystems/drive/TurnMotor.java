@@ -55,7 +55,7 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
 
         switch (state) {
             case TurnMotorState.Off() -> module.setVoltage(Volts.of(0.0));
-            case TurnMotorState.Turn(Angle position) -> module.setPositionSetpoint(position);
+            case TurnMotorState.Turn(Angle position) -> module.setDynamicPosition(position);
         }
 
         logState();

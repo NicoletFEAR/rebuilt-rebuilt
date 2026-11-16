@@ -25,14 +25,34 @@ public class AngularVelocityModule extends Module {
     }
 
     /**
-     * Sets the desired angular velocity of the mechanism.
+     * Sets the desired angular velocity of the mechanism for a known, static velocity.
+     * 
+     * <p>The motor may follow a motion profile to reach the velocity. Use {@code setDynamicVelocity}
+     * for velocities that change continuously.
      *
-     * <p>The requested velocity is passed to the motor IO interface as the velocity setpoint.
+     * <p>The requested velocity is passed to the motor IO interface as the velocity setpoint using
+     * the configured rotor-to-mechanism ratio.
      *
      * @param velocity desired mechanism angular velocity
      */
     public void setVelocitySetpoint(AngularVelocity velocity) {
         io.setVelocitySetpoint(velocity.times(rotorToMechanismRatio));
+    }
+
+    /**
+     * Sets the desired angular velocity of the mechanism for a continuously changing velocity.
+     * 
+     * <p>This variant is intended for velocity setpoints that change over time; the motor adjusts
+     * without the delay of a motion profile. Use {@code setVelocitySetpoint} for known static
+     * velocities.
+     *
+     * <p>The requested velocity is passed to the motor IO interface as the velocity setpoint using
+     * the configured rotor-to-mechanism ratio.
+     *
+     * @param velocity desired mechanism angular velocity
+     */
+    public void setDynamicVelocity(AngularVelocity velocity) {
+        io.setDynamicVelocity(velocity.times(rotorToMechanismRatio));
     }
 
     /**

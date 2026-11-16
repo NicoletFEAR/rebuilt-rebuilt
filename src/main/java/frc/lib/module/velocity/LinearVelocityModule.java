@@ -31,7 +31,10 @@ public final class LinearVelocityModule extends Module {
     }
 
     /**
-     * Sets the desired linear velocity of the mechanism.
+     * Sets the desired linear velocity of the mechanism for a known, static velocity.
+     * 
+     * <p>The motor may follow a motion profile to reach the velocity. Use {@code setDynamicVelocity}
+     * for velocities that change continuously.
      *
      * <p>The requested mechanism velocity is converted from meters per second to rotor angular
      * velocity using the configured rotor-to-mechanism ratio before being sent to the motor.
@@ -39,8 +42,23 @@ public final class LinearVelocityModule extends Module {
      * @param velocity desired mechanism linear velocity
      */
     public void setVelocitySetpoint(Velocity velocity) {
-        io.setVelocitySetpoint(
-                RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
+        io.setVelocitySetpoint(RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
+    }
+
+    /**
+     * Sets the desired linear velocity of the mechanism for a continuously changing velocity.
+     * 
+     * <p>This variant is intended for velocity setpoints that change over time; the motor adjusts
+     * without the delay of a motion profile. Use {@code setVelocitySetpoint} for known static
+     * velocities.
+     *
+     * <p>The requested mechanism velocity is converted from meters per second to rotor angular
+     * velocity using the configured rotor-to-mechanism ratio before being sent to the motor.
+     *
+     * @param velocity desired mechanism linear velocity
+     */
+    public void setDynamicVelocity(Velocity velocity) {
+        io.setDynamicVelocity(RadiansPerSecond.of(velocity.in(MetersPerSecond) * rotorToMechanismRatio));
     }
 
     /**

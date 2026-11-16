@@ -48,7 +48,7 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
 
         switch (state) {
             case DriveMotorState.Off() -> module.setVoltage(Volts.of(0.0));
-            case DriveMotorState.Drive(Velocity velocity) -> module.setVelocitySetpoint(velocity);
+            case DriveMotorState.Drive(Velocity velocity) -> module.setDynamicVelocity(velocity);
         }
 
         logState();

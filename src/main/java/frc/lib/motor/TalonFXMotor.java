@@ -13,6 +13,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -26,6 +27,7 @@ import frc.lib.units.CurrentUnit;
 import frc.lib.units.TemperatureUnit;
 import frc.lib.units.Voltage;
 import frc.lib.units.VoltageUnit;
+
 import org.wpilib.units.measure.AngularAcceleration;
 import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Temperature;
@@ -76,7 +78,7 @@ public class TalonFxMotor extends MotorIO {
             new MotionMagicVoltage(Radians.raw(0.0)).withSlot(0);
 
     /** CTRE Motion Magic velocity control request. */
-    private final MotionMagicVelocityVoltage velocityControl =
+    private final MotionMagicVelocityVoltage motionMagicVelocityControl =
             new MotionMagicVelocityVoltage(RadiansPerSecond.raw(0.0)).withSlot(0);
 
     /** CTRE voltage control request. */
@@ -84,6 +86,9 @@ public class TalonFxMotor extends MotorIO {
 
     /** CTRE position control request. */
     private final PositionVoltage positionControl = new PositionVoltage(Radians.raw(0.0));
+
+    /** CTRE velocity control request. */
+    private final VelocityVoltage velocityControl = new VelocityVoltage(RadiansPerSecond.raw(0.0));
 
     /**
      * Creates a real TalonFX motor using the provided configuration.
@@ -176,12 +181,24 @@ public class TalonFxMotor extends MotorIO {
     }
 
     /**
-     * Sets the desired rotor angular velocity using CTRE Motion Magic velocity control.
+     * Sets the desired rotor angular velocity using CTRE Motion Magic velocity control. This is best for
+     * optimizing the path to a known, static velocity.
      *
      * @param velocity desired rotor angular velocity
      */
     @Override
     public void setVelocitySetpoint(AngularVelocity velocity) {
+        motor.setControl(motionMagicVelocityControl.withVelocity(velocity.in(RotationsPerSecond)));
+    }
+
+    /**
+     * Sets the desired rotor angular velocity using a simple VelocityVoltage control. This is better for
+     * moving setpoints because the position will adjust without the delay of a Motion Magic profile.
+     * 
+     * @param velocity desired rotor angular velocity
+     */
+    @Override
+    public void setDynamicVelocity(AngularVelocity velocity) {
         motor.setControl(velocityControl.withVelocity(velocity.in(RotationsPerSecond)));
     }
 

@@ -59,7 +59,7 @@ public final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
         switch (state) {
             case FlywheelState.Off() -> module.setVoltage(Volts.of(0.0));
             case FlywheelState.Idle() -> module.setVelocitySetpoint(FlywheelConstants.IDLE_VELOCITY);
-            case FlywheelState.Launch(AngularVelocity velocity) -> module.setVelocitySetpoint(velocity);
+            case FlywheelState.Launch(AngularVelocity velocity) -> module.setDynamicVelocity(velocity);
         }
 
         logState();

@@ -1,6 +1,3 @@
-* Make sure all logged keys have spaces if needed
-* Look over access modifiers and final classes
-* Look over initializing in constructor vs not in constructor
 * Replace CanRangeConfig with BeamBreakConfig and TofConfig
 * Module mech-relative logging and create subclass of LoggableInputs with a log method to log to outputs, then implement for everything that currently we just log as inputs
 * Separate logging inputs from outputs conceptually

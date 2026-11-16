@@ -54,7 +54,6 @@ public final class RobotContainer {
      * held, the robot drives with the launcher off.
      */
     public void periodic() {
-        robotState.log();
         DriveParameters driveParameters =
                 new DriveParameters(
                         -driverController.getLeftY(),

@@ -141,7 +141,9 @@ public abstract class MotorIO {
      *
      * @param position desired rotor position
      */
-    public abstract void setPositionSetpoint(Angle position);
+    public void setPositionSetpoint(Angle position) {
+        setDynamicPosition(position);
+    }
 
     /**
      * Sets the desired angular position of the motor rotor. This should be used when the desired
@@ -150,16 +152,25 @@ public abstract class MotorIO {
      *
      * @param position desired rotor position
      */
-    public void setDynamicPosition(Angle position) {
-        setPositionSetpoint(position);
-    }
+    public abstract void setDynamicPosition(Angle position);
 
     /**
-     * Sets the desired angular velocity of the motor rotor.
+     * Sets the desired angular velocity of the motor rotor. This should be used when the desired
+     * velocity is a known setpoint so that the motor can run a motion profile effectively.
      *
      * @param velocity desired rotor angular velocity
      */
-    public abstract void setVelocitySetpoint(AngularVelocity velocity);
+    public void setVelocitySetpoint(AngularVelocity velocity) {
+        setDynamicVelocity(velocity);
+    }
+
+    /**
+     * Sets the desired angular velocity of the motor rotor. This should be used when the desired
+     * velocity changes over time (like with a swerve module drive motor) to avoid the delay of a
+     * motion profile.
+     * @param velocity
+     */
+    public abstract void setDynamicVelocity(AngularVelocity velocity);
 
     /**
      * Sets the voltage output of the motor.

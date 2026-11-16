@@ -56,7 +56,7 @@ public final class Hood extends StateMachine<Hood.HoodState> {
 
         switch (state) {
             case HoodState.Off() -> module.setVoltage(Volts.of(0.0));
-            case HoodState.HoldPosition(Angle position) -> module.setPositionSetpoint(position);
+            case HoodState.HoldPosition(Angle position) -> module.setDynamicPosition(position);
         }
 
         logState();

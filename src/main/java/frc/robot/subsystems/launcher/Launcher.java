@@ -9,7 +9,6 @@ import frc.lib.units.AngularVelocity;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
 import frc.robot.subsystems.launcher.Hood.HoodState;
 import frc.robot.subsystems.launcher.Indexer.IndexerState;
-import org.littletonrobotics.junction.Logger;
 
 /**
  * Launcher subsystem: two flywheel motors, an indexer, and a hood.
@@ -85,8 +84,6 @@ public final class Launcher extends StateMachine<Launcher.LauncherState> {
      * runs their periodic logic.
      */
     public void periodic() {
-        Logger.recordOutput("Launcher/State", (Record) state);
-
         switch (state) {
             case LauncherState.Off() -> {
                 flywheels.setState(FlywheelState.OFF);
@@ -122,6 +119,7 @@ public final class Launcher extends StateMachine<Launcher.LauncherState> {
         flywheels.periodic();
         indexer.periodic();
         hood.periodic();
+        logState();
     }
 
     /**

@@ -119,8 +119,8 @@ public final class Drive extends StateMachine<Drive.DriveState> {
      * swerve kinematics, and desaturated so no wheel exceeds the maximum velocity.
      */
     public void periodic() {
-        Logger.recordOutput("Drive/ModulePositions", getModulePositions());
-        Logger.recordOutput("Drive/ModuleStates", getModuleStates());
+        Logger.recordOutput("Drive/Module Positions", getModulePositions());
+        Logger.recordOutput("Drive/Module States", getModuleStates());
         poseEstimator.updateWithTime(Timer.getTimestamp(), Rotation2d.ZERO, getModulePositions());
         robotState.addOdometryMeasurement(getOdometryMeasurement());
 
@@ -144,7 +144,7 @@ public final class Drive extends StateMachine<Drive.DriveState> {
                 setpointStates =
                         SwerveDriveKinematics.desaturateWheelVelocities(
                                 setpointStates, DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
-                Logger.recordOutput("Drive/DesiredModuleStates", setpointStates);
+                Logger.recordOutput("Drive/Desired Module States", setpointStates);
 
                 for (int i = 0; i < 4; i++) {
                     modules[i].setState(new SwerveModuleState.Drive(setpointStates[i]));
