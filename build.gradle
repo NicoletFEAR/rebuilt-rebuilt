@@ -81,9 +81,35 @@ def createVersionFile = tasks.register('createVersionFile') {
 }
 
 sourceSets {
+    unitsGenerator {
+        java {
+            srcDir 'tools/units-generator/src/main/java'
+        }
+    }
+}
+
+// The generator is a standalone JVM tool with no access to robot APIs, so build it against
+// Java 21 instead of the robot's source/target compatibility. This keeps it runnable on
+// whatever JVM runs Gradle.
+tasks.named('compileUnitsGeneratorJava') {
+    options.release = 21
+}
+
+def generateUnits = tasks.register('generateUnits', JavaExec) {
+    inputs.file('src/main/resources/units.json')
+    inputs.files(sourceSets.unitsGenerator.allSource)
+    outputs.dir(layout.buildDirectory.dir('generated/sources/units/java'))
+
+    classpath = sourceSets.unitsGenerator.runtimeClasspath
+    mainClass = 'frc.lib.unitsgen.GenerateUnits'
+    args 'src/main/resources/units.json', layout.buildDirectory.dir('generated/sources/units/java').get().asFile.absolutePath
+}
+
+sourceSets {
     main {
         java {
             srcDir(tasks.named('createVersionFile'))
+            srcDir(tasks.named('generateUnits'))
         }
     }
 }
@@ -139,6 +165,8 @@ def includeDesktopSupport = true
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
 dependencies {
+    unitsGeneratorImplementation 'com.google.code.gson:gson:2.13.2'
+
     annotationProcessor wpi.java.deps.wpilibAnnotations()
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()

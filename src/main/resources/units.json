@@ -15,7 +15,12 @@
             ],
             "baseUnitSymbol": "m",
             "units": {
-                "Meters": 1
+                "Meters": 1,
+                "Inches": 0.0254
+            },
+            "wpiUnits": {
+                "measureType": "Distance",
+                "unitName": "Meters"
             }
         },
         {
@@ -50,7 +55,14 @@
             "baseUnitSymbol": "s",
             "units": {
                 "Seconds": 1
-            }
+            },
+            "wpiUnits": {
+                "measureType": "Time",
+                "unitName": "Seconds"
+            },
+            "unitCode": [
+                "public Timestamp timestamp(double time) { return new Timestamp(time * inBaseUnits); }"
+            ]
         },
         {
             "name": "Current",
@@ -67,6 +79,10 @@
             "baseUnitSymbol": "A",
             "units": {
                 "Amps": 1
+            },
+            "wpiUnits": {
+                "measureType": "Current",
+                "unitName": "Amps"
             }
         },
         {
@@ -84,6 +100,10 @@
             "baseUnitSymbol": "K",
             "units": {
                 "Kelvin": 1
+            },
+            "wpiUnits": {
+                "measureType": "Temperature",
+                "unitName": "Kelvin"
             }
         },
         {
@@ -135,8 +155,22 @@
             "baseUnitSymbol": "rad",
             "units": {
                 "Radians": 1,
-                "Rotations": 6.283185307179586
-            }
+                "Rotations": 6.283185307179586,
+                "Degrees": 0.017453292519943295
+            },
+            "wpiUnits": {
+                "measureType": "Angle",
+                "unitName": "Radians"
+            },
+            "imports": [
+                "org.wpilib.math.geometry.Rotation2d"
+            ],
+            "quantityCode": [
+                "public Rotation2d toRotation() { return Rotation2d.fromRadians(value); }"
+            ],
+            "unitCode": [
+                "public static Angle ofRotation(Rotation2d rotation) { return Radians.of(rotation.getRadians()); }"
+            ]
         },
         {
             "name": "Frequency",
@@ -153,6 +187,10 @@
             "baseUnitSymbol": "Hz",
             "units": {
                 "Hertz": 1
+            },
+            "wpiUnits": {
+                "measureType": "Frequency",
+                "unitName": "Hertz"
             }
         },
         {
@@ -187,6 +225,10 @@
             "baseUnitSymbol": "m/s",
             "units": {
                 "MetersPerSecond": 1
+            },
+            "wpiUnits": {
+                "measureType": "LinearVelocity",
+                "unitName": "MetersPerSecond"
             }
         },
         {
@@ -206,6 +248,33 @@
                 "RadiansPerSecond": 1,
                 "RotationsPerSecond": 6.283185307179586,
                 "RotationsPerMinute": 376.99111843077515
+            },
+            "wpiUnits": {
+                "measureType": "AngularVelocity",
+                "unitName": "RadiansPerSecond"
+            }
+        },
+        {
+            "name": "AngularAcceleration",
+            "dimension": [
+                0,
+                0,
+                -2,
+                0,
+                0,
+                0,
+                0,
+                1
+            ],
+            "baseUnitSymbol": "rad/s²",
+            "units": {
+                "RadiansPerSecondSquared": 1,
+                "RotationsPerSecondSquared": 6.283185307179586
+            },
+            "wpiUnits": {
+                "measureType": "AngularAcceleration",
+                "unitName": "RadiansPerSecondPerSecond",
+                "constant": "RadiansPerSecondSquared"
             }
         },
         {
@@ -220,7 +289,14 @@
                 0,
                 0
             ],
-            "baseUnitSymbol": "kg⋅m²"
+            "baseUnitSymbol": "kg⋅m²",
+            "units": {
+                "KilogramSquareMeters": 1
+            },
+            "wpiUnits": {
+                "measureType": "MomentOfInertia",
+                "unitName": "KilogramSquareMeters"
+            }
         },
         {
             "name": "Torque",
@@ -237,6 +313,10 @@
             "baseUnitSymbol": "N⋅m",
             "units": {
                 "NewtonMeters": 1
+            },
+            "wpiUnits": {
+                "measureType": "Torque",
+                "unitName": "NewtonMeters"
             }
         },
         {
@@ -288,6 +368,10 @@
             "baseUnitSymbol": "V",
             "units": {
                 "Volts": 1
+            },
+            "wpiUnits": {
+                "measureType": "Voltage",
+                "unitName": "Volts"
             }
         },
         {
@@ -322,6 +406,10 @@
             "baseUnitSymbol": "Ω",
             "units": {
                 "Ohms": 1
+            },
+            "wpiUnits": {
+                "measureType": "Resistance",
+                "unitName": "Ohms"
             }
         }
     ]
