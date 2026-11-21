@@ -20,7 +20,7 @@ import org.wpilib.units.measure.AngularVelocity;
  * utilization is optimized.
  */
 public class CanCoder implements AbsEncoderIO {
-    private final CANcoder canCoder;
+    private final CANcoder absEncoder;
 
     /** Position and velocity signals from the CANcoder. */
     private final StatusSignalCollection signals = new StatusSignalCollection(2);
@@ -37,15 +37,15 @@ public class CanCoder implements AbsEncoderIO {
      * @param config configuration for the CANcoder
      */
     public CanCoder(AbsEncoderConfig config) {
-        canCoder = new CANcoder(config.id().id(), config.id().bus());
-        Configurator.applyCanCoderConfiguration(canCoder, config.getCanCoderConfiguration());
+        absEncoder = new CANcoder(config.id().id(), config.id().bus());
+        Configurator.applyCanCoderConfiguration(absEncoder, config.getCanCoderConfiguration());
 
-        positionSignal = canCoder.getAbsolutePosition();
-        velocitySignal = canCoder.getVelocity();
+        positionSignal = absEncoder.getAbsolutePosition();
+        velocitySignal = absEncoder.getVelocity();
 
         signals.addSignals(positionSignal, velocitySignal);
         signals.setUpdateFrequencyForAll(Hertz.raw(100.0));
-        canCoder.optimizeBusUtilization();
+        absEncoder.optimizeBusUtilization();
     }
 
     /**
@@ -64,6 +64,6 @@ public class CanCoder implements AbsEncoderIO {
     /** Sets the CANcoder's reported position to zero. */
     @Override
     public void setZeroPoint() {
-        canCoder.setPosition(Radians.raw(0.0));
+        absEncoder.setPosition(Radians.raw(0.0));
     }
 }

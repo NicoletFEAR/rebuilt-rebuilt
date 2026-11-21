@@ -5,6 +5,7 @@ import static frc.lib.units.VoltageUnit.Volts;
 
 import frc.lib.module.velocity.AngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
+import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -22,11 +23,12 @@ public final class Indexer extends StateMachine<Indexer.IndexerState> {
     /**
      * Creates the indexer.
      *
-     * @param motor interface used to communicate with the motor
+     * @param config configuration for the motor
      */
-    Indexer(MotorIO motor) {
+    Indexer(MotorConfig config) {
         super("Launcher/Indexer", IndexerState.OFF);
-        module = new AngularVelocityModule(name, motor, IndexerConstants.ROTOR_TO_MECHANISM_RATIO);
+        config = config.withSensorToMechanismRatio(IndexerConstants.SENSOR_TO_MECHANISM_RATIO);
+        module = new AngularVelocityModule(name, MotorIO.buildMotor(config));
     }
 
     /** States of the indexer. */
@@ -57,7 +59,7 @@ public final class Indexer extends StateMachine<Indexer.IndexerState> {
                 new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         /** Rotor-to-mechanism ratio for the indexer. */
-        private static final double ROTOR_TO_MECHANISM_RATIO = 1.0;
+        private static final double SENSOR_TO_MECHANISM_RATIO = 1.0;
 
         /** Velocity commanded in the {@link IndexerState#INDEX} state. */
         private static final AngularVelocity INDEX_VELOCITY = RadiansPerSecond.of(Math.PI * 100.0);

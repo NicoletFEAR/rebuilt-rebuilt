@@ -20,7 +20,7 @@ public final class MultiLinearPositionModule extends LinearPositionModule {
     private final int numberOfFollowers;
 
     /** Motor IO interfaces for the follower motors. */
-    private final MotorIO[] followerIOs;
+    private final MotorIO[] followers;
 
     /** Logged inputs for each follower motor. */
     private final MotorIOInputsAutoLogged[] followerInputs;
@@ -34,21 +34,19 @@ public final class MultiLinearPositionModule extends LinearPositionModule {
      * @param name name used to identify and log this module
      * @param leader motor IO interface for the leader motor
      * @param followers motor IO interfaces for the follower motors
-     * @param rotorToMechanismRatio ratio between the motor rotor and the mechanism
      * @throws IllegalArgumentException if a follower does not have an {@code alignment} value
      *     configured
      */
-    public MultiLinearPositionModule(
-            String name, MotorIO leader, MotorIO[] followers, double rotorToMechanismRatio) {
-        super(name, leader, rotorToMechanismRatio);
+    public MultiLinearPositionModule(String name, MotorIO leader, MotorIO[] followers) {
+        super(name, leader);
         numberOfFollowers = followers.length;
-        followerIOs = followers;
+        this.followers = followers;
         followerInputs = new MotorIOInputsAutoLogged[numberOfFollowers];
 
         for (int i = 0; i < numberOfFollowers; i++) {
-            followerIOs[i].follow(
+            this.followers[i].follow(
                     leader,
-                    followerIOs[i]
+                    this.followers[i]
                             .getConfig()
                             .alignment()
                             .orElseThrow(
@@ -70,7 +68,7 @@ public final class MultiLinearPositionModule extends LinearPositionModule {
         super.updateInputs();
 
         for (int i = 0; i < numberOfFollowers; i++) {
-            followerIOs[i].updateInputs(followerInputs[i]);
+            followers[i].updateInputs(followerInputs[i]);
             Logger.processInputs(
                     name + "/Follower" + (numberOfFollowers == 1 ? "" : " " + (i + 1)), followerInputs[i]);
         }

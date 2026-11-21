@@ -17,23 +17,21 @@ import org.littletonrobotics.junction.Logger;
 public final class AbsEncoderAngularPositionModule extends AngularPositionModule {
 
     /** Interface used to communicate with and retrieve data from the absolute encoder. */
-    private final AbsEncoderIO absEncoderIO;
+    private final AbsEncoderIO absEncoder;
 
     /** Logged inputs containing the current state and position of the absolute encoder. */
-    private final AbsEncoderIOInputsAutoLogged absEncoderInputs = new AbsEncoderIOInputsAutoLogged();
+    private final AbsEncoderIOInputsAutoLogged encoderInputs = new AbsEncoderIOInputsAutoLogged();
 
     /**
      * Creates an angular position module using an absolute encoder for position feedback.
      *
      * @param name name used to identify and log this module
-     * @param motorIO interface used to communicate with the motor
-     * @param canCoderIO interface used to communicate with the absolute encoder
-     * @param rotorToMechanismRatio ratio between the motor rotor and the mechanism
+     * @param motor interface used to communicate with the motor
+     * @param absEncoder interface used to communicate with the absolute encoder
      */
-    public AbsEncoderAngularPositionModule(
-            String name, MotorIO motorIO, AbsEncoderIO canCoderIO, double rotorToMechanismRatio) {
-        super(name, motorIO, rotorToMechanismRatio);
-        this.absEncoderIO = canCoderIO;
+    public AbsEncoderAngularPositionModule(String name, MotorIO motor, AbsEncoderIO absEncoder) {
+        super(name, motor);
+        this.absEncoder = absEncoder;
     }
 
     /**
@@ -45,9 +43,8 @@ public final class AbsEncoderAngularPositionModule extends AngularPositionModule
     @Override
     public void updateInputs() {
         super.updateInputs();
-        absEncoderIO.updateInputs(absEncoderInputs);
-        Logger.processInputs(
-                name + " Abs Encoder", absEncoderInputs.applyRotorToMechanismRatio(rotorToMechanismRatio));
+        absEncoder.updateInputs(encoderInputs);
+        Logger.processInputs(name + " Abs Encoder", encoderInputs);
     }
 
     /**
@@ -60,8 +57,8 @@ public final class AbsEncoderAngularPositionModule extends AngularPositionModule
      */
     @Override
     public Angle getPosition() {
-        if (absEncoderInputs.connected) {
-            return absEncoderInputs.position.div(rotorToMechanismRatio);
+        if (encoderInputs.connected) {
+            return encoderInputs.position;
         } else {
             return super.getPosition();
         }

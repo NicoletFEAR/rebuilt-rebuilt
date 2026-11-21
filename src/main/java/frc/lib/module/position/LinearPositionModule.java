@@ -11,8 +11,7 @@ import frc.lib.units.Distance;
  * A module that controls and measures the linear position of a mechanism.
  *
  * <p>This module extends {@link Module} and provides functionality for setting and retrieving the
- * mechanism's linear position. Motor rotor position is converted to mechanism position using the
- * configured rotor-to-mechanism ratio.
+ * mechanism's linear position.
  */
 public class LinearPositionModule extends Module {
 
@@ -20,11 +19,10 @@ public class LinearPositionModule extends Module {
      * Creates a linear position module.
      *
      * @param name name used to identify and log this module
-     * @param io interface used to communicate with the motor
-     * @param rotorToMechanismRatio ratio between the motor rotor and the mechanism
+     * @param motor interface used to communicate with the motor
      */
-    public LinearPositionModule(String name, MotorIO io, double rotorToMechanismRatio) {
-        super(name, io, rotorToMechanismRatio);
+    public LinearPositionModule(String name, MotorIO motor) {
+        super(name, motor);
     }
 
     /**
@@ -33,13 +31,13 @@ public class LinearPositionModule extends Module {
      * <p>The motor may follow a motion profile to reach the setpoint. Use {@code setDynamicPosition}
      * for setpoints that change continuously.
      *
-     * <p>The requested mechanism position is converted from meters to rotor position using the
-     * configured rotor-to-mechanism ratio before being sent to the motor.
+     * <p>The requested mechanism position is converted from meters to sensor position before being
+     * sent to the motor.
      *
      * @param position desired mechanism position
      */
     public void setPositionSetpoint(Distance position) {
-        io.setPositionSetpoint(Radians.of(position.in(Meters) * rotorToMechanismRatio));
+        motor.setPositionSetpoint(Radians.of(position.in(Meters)));
     }
 
     /**
@@ -48,24 +46,23 @@ public class LinearPositionModule extends Module {
      * <p>This variant is intended for setpoints that change over time; the motor adjusts without the
      * delay of a motion profile. Use {@code setPositionSetpoint} for known static setpoints.
      *
-     * <p>The requested mechanism position is converted from meters to rotor position using the
-     * configured rotor-to-mechanism ratio before being sent to the motor.
+     * <p>The requested mechanism position is converted from meters to sensor position before being
+     * sent to the motor.
      *
      * @param position desired mechanism position
      */
     public void setDynamicPosition(Distance position) {
-        io.setDynamicPosition(Radians.of(position.in(Meters) * rotorToMechanismRatio));
+        motor.setDynamicPosition(Radians.of(position.in(Meters)));
     }
 
     /**
      * Gets the current linear position of the mechanism.
      *
-     * <p>The motor's rotor position is converted to meters using the configured rotor-to-mechanism
-     * ratio.
+     * <p>The motor's sensor position is converted to meters.
      *
      * @return current mechanism position as a {@link Distance}
      */
     public Distance getPosition() {
-        return Meters.of(inputs.position.in(Radians) / rotorToMechanismRatio);
+        return Meters.of(inputs.position.in(Radians));
     }
 }

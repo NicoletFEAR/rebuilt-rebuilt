@@ -11,7 +11,7 @@ import org.littletonrobotics.junction.AutoLog;
 /**
  * Provides an interface for communicating with an absolute encoder.
  *
- * <p>Can be used to create a real and/or a simulated Absolute Encoder
+ * <p>Can be used to create a real or simulated absolute encoder.
  */
 public interface AbsEncoderIO {
 
@@ -19,55 +19,40 @@ public interface AbsEncoderIO {
      * Creates a real CANcoder or a simulated CANcoder depending on whether the robot is being
      * simulated or not.
      *
-     * @param config configuration for the CANcoder
-     * @return the correct CANcoder implementation
+     * @param config configuration for the absolute encoder
+     * @return the correct absolute encoder implementation
      */
-    static CanCoder buildCanCoder(AbsEncoderConfig config) {
+    static AbsEncoderIO buildAbsEncoder(AbsEncoderConfig config) {
         return Robot.isReal() ? new CanCoder(config) : new SimCanCoder(config);
     }
 
     /**
-     * Stores the inputs and sensor readings of the Absolute Encoder
+     * Stores the inputs and sensor readings of the absolute encoder.
      *
      * <p>Automatically logs the values to AdvantageKit through the {@link AutoLog} annotation.
      */
     @AutoLog
     public static class AbsEncoderIOInputs {
 
-        /** Whether the Absolute Encoder is currently connected */
+        /** Whether the absolute encoder is currently connected. */
         public boolean connected = false;
 
-        /** The angular position of the Absolute Encoder */
+        /** The angular position of the absolute encoder. */
         public Angle position = Radians.of(0.0);
 
-        /** The Angular Velocity of the Absolute Encoder */
+        /** The angular velocity of the absolute encoder. */
         public AngularVelocity velocity = RadiansPerSecond.of(0.0);
-
-        /**
-         * Converts the raw position value of the Absolute Encoder into the mechanism unit using the
-         * rotorToMechanismRatio
-         *
-         * @param rotorToMechanismRatio Is the gear ratio of the mechanism
-         * @return Returns the converted values of the mechanism in easily understandable units
-         */
-        public AbsEncoderIOInputsAutoLogged applyRotorToMechanismRatio(double rotorToMechanismRatio) {
-            AbsEncoderIOInputsAutoLogged result = new AbsEncoderIOInputsAutoLogged();
-            result.connected = connected;
-            result.position = position.div(rotorToMechanismRatio);
-            result.velocity = velocity.div(rotorToMechanismRatio);
-            return result;
-        }
     }
 
     /**
-     * Updates the provided inputs with the latest Absolute Encoder data. This is done instead of
+     * Updates the provided inputs with the latest absolute encoder data. This is done instead of
      * simply returning a new inputs object so that we can reuse inputs objects, and don't have to
      * waste time each loop period allocating a bunch of new inputs objects.
      *
-     * @param inputs The input object whose data will be updated
+     * @param inputs the input object whose data will be updated
      */
     void updateInputs(AbsEncoderIOInputs inputs);
 
-    /** Sets the current position as its zero/home position */
+    /** Sets the current position as its zero/home position. */
     void setZeroPoint();
 }

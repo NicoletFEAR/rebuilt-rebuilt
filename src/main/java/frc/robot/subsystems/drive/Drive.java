@@ -18,6 +18,7 @@ import frc.lib.units.Velocity;
 import frc.robot.ExecutionConstants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
+import java.util.HashMap;
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.Alliance;
 import org.wpilib.driverstation.MatchState;
@@ -196,23 +197,21 @@ public final class Drive extends StateMachine<Drive.DriveState> {
         private static final Distance WHEEL_RADIUS = Inches.of(2.0);
 
         /** Rotor-to-mechanism ratio for the drive, in rotor radians per meter of wheel travel. */
-        public static final double DRIVE_ROTOR_TO_MECHANISM_RATIO =
+        public static final double DRIVE_SENSOR_TO_MECHANISM_RATIO =
                 425.0 / 63.0 / WHEEL_RADIUS.in(Meters);
 
         /** Rotor-to-mechanism ratio for the turn, in motor rotations per mechanism rotation. */
-        public static final double TURN_ROTOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
+        public static final double TURN_SENSOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
 
-        /** Absolute encoder offset for the front-left turn mechanism, in rotations. */
-        public static final Angle FRONT_LEFT_OFFSET = Rotations.of(-0.8896484375);
+        /** Absolute encoder offset for each turn mechanism. */
+        public static final HashMap<SwerveModuleName, Angle> OFFSET = new HashMap<>();
 
-        /** Absolute encoder offset for the front-right turn mechanism, in rotations. */
-        public static final Angle FRONT_RIGHT_OFFSET = Rotations.of(-0.09716796875);
-
-        /** Absolute encoder offset for the back-left turn mechanism, in rotations. */
-        public static final Angle BACK_LEFT_OFFSET = Rotations.of(-0.721923828125);
-
-        /** Absolute encoder offset for the back-right turn mechanism, in rotations. */
-        public static final Angle BACK_RIGHT_OFFSET = Rotations.of(-0.37841796875);
+        static {
+            OFFSET.put(SwerveModuleName.FRONT_LEFT, Rotations.of(-0.8896484375));
+            OFFSET.put(SwerveModuleName.FRONT_RIGHT, Rotations.of(-0.09716796875));
+            OFFSET.put(SwerveModuleName.BACK_LEFT, Rotations.of(-0.721923828125));
+            OFFSET.put(SwerveModuleName.BACK_RIGHT, Rotations.of(-0.37841796875));
+        }
 
         /** Feedforward and feedback gains for the drive motors. */
         public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES =

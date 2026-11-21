@@ -3,11 +3,13 @@ package frc.robot.subsystems.drive;
 import static frc.lib.units.VoltageUnit.Volts;
 
 import frc.lib.module.velocity.LinearVelocityModule;
+import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Distance;
 import frc.lib.units.Velocity;
+import frc.robot.subsystems.drive.Drive.DriveConstants;
 
 /**
  * Drive motor component of a swerve module.
@@ -21,12 +23,13 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
     /**
      * Creates the drive motor component.
      *
-     * @param motor interface used to communicate with the motor
-     * @param config drive motor configuration
+     * @param config configuration for the motor
+     * @param name name of the associated swerve module (for differentiation from others in logs)
      */
-    DriveMotor(MotorIO motor, DriveMotorConfig config) {
-        super("Drive/" + config.name() + "/Drive", DriveMotorState.OFF);
-        module = new LinearVelocityModule(name, motor, config.rotorToMechanismRatio());
+    DriveMotor(MotorConfig config, SwerveModuleName name) {
+        super("Drive/" + name + "/Drive", DriveMotorState.OFF);
+        config = config.withSensorToMechanismRatio(DriveConstants.DRIVE_SENSOR_TO_MECHANISM_RATIO);
+        module = new LinearVelocityModule(this.name, MotorIO.buildMotor(config));
     }
 
     /** States of the drive motor. */

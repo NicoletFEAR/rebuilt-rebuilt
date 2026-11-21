@@ -9,17 +9,19 @@ import frc.lib.CanId;
 import frc.lib.units.Angle;
 
 /**
- * Used to represent a vendor-agnostic absolute encoder configuration
+ * Used to represent a vendor-agnostic absolute encoder configuration.
  *
- * @param id The CAN ID of the absolute encoder
- * @param offset The zero offset of the absolute encoder
+ * @param id the CAN ID of the absolute encoder
+ * @param offset the zero offset of the absolute encoder
  */
 public record AbsEncoderConfig(CanId id, Angle offset) {
 
     /**
-     * Gets the CTRE CANcoderConfiguration according to this object's fields
+     * Gets the CTRE CANcoderConfiguration according to this object's fields. Sets a default
+     * discontinuity point at 1 rotation, meaning the interval of potential outputs is [0, 1).
+     * Additionally, sets the sensor direction to be counter-clockwise positive.
      *
-     * @return The configuration of the CANcoder
+     * @return the configuration of the CANcoder
      */
     public CANcoderConfiguration getCanCoderConfiguration() {
         return new CANcoderConfiguration()

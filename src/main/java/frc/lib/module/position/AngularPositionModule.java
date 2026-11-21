@@ -9,8 +9,7 @@ import org.wpilib.math.geometry.Rotation2d;
  * A module that controls and measures the angular position of a mechanism.
  *
  * <p>This module extends {@link Module} and provides functionality for setting and retrieving the
- * mechanism's angular position. Motor rotor position is converted to mechanism position using the
- * configured rotor-to-mechanism ratio.
+ * mechanism's angular position.
  */
 public class AngularPositionModule extends Module {
 
@@ -18,11 +17,10 @@ public class AngularPositionModule extends Module {
      * Creates an angular position module.
      *
      * @param name name used to identify and log this module
-     * @param io interface used to communicate with the motor
-     * @param rotorToMechanismRatio ratio between the motor rotor and the mechanism
+     * @param motor interface used to communicate with the motor
      */
-    public AngularPositionModule(String name, MotorIO io, double rotorToMechanismRatio) {
-        super(name, io, rotorToMechanismRatio);
+    public AngularPositionModule(String name, MotorIO motor) {
+        super(name, motor);
     }
 
     /**
@@ -37,7 +35,7 @@ public class AngularPositionModule extends Module {
      * @param position desired mechanism position
      */
     public void setPositionSetpoint(Angle position) {
-        io.setPositionSetpoint(position.times(rotorToMechanismRatio));
+        motor.setPositionSetpoint(position);
     }
 
     /**
@@ -52,7 +50,7 @@ public class AngularPositionModule extends Module {
      * @param position desired mechanism position
      */
     public void setDynamicPosition(Angle position) {
-        io.setDynamicPosition(position.times(rotorToMechanismRatio));
+        motor.setDynamicPosition(position);
     }
 
     /**
@@ -64,7 +62,7 @@ public class AngularPositionModule extends Module {
      * @return current mechanism position as an {@link Angle}
      */
     public Angle getPosition() {
-        return inputs.position.div(rotorToMechanismRatio);
+        return inputs.position;
     }
 
     /**

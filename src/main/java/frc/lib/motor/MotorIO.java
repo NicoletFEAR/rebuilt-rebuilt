@@ -55,10 +55,20 @@ public abstract class MotorIO {
      * or not.
      *
      * @param config configuration for the motor
-     * @return the correct TalonFX motor implementation
+     * @return the correct motor implementation
      */
-    public static TalonFxMotor buildTalonFxMotor(MotorConfig config) {
+    public static MotorIO buildMotor(MotorConfig config) {
         return Robot.isReal() ? new TalonFxMotor(config) : new SimTalonFxMotor(config);
+    }
+
+    public static MotorIO[] buildMotors(MotorConfig[] configs) {
+        MotorIO[] result = new MotorIO[configs.length];
+
+        for (int i = 0; i < configs.length; i++) {
+            result[i] = buildMotor(configs[i]);
+        }
+
+        return result;
     }
 
     /**
@@ -93,29 +103,6 @@ public abstract class MotorIO {
 
         /** Current motor temperature. */
         public Temperature temperature = Kelvin.of(294.0);
-
-        /**
-         * Converts rotor position and velocity into mechanism position and velocity using the provided
-         * rotor-to-mechanism ratio.
-         *
-         * <p>Other motor inputs, such as voltage, current, and temperature, are not affected by the
-         * ratio and are copied directly to the returned inputs.
-         *
-         * @param rotorToMechanismRatio ratio between the motor rotor and the mechanism
-         * @return a new set of inputs containing mechanism-relative position and velocity values
-         */
-        public MotorIOInputsAutoLogged applyRotorToMechanismRatio(double rotorToMechanismRatio) {
-            MotorIOInputsAutoLogged result = new MotorIOInputsAutoLogged();
-            result.connected = connected;
-            result.position = position.div(rotorToMechanismRatio);
-            result.velocity = velocity.div(rotorToMechanismRatio);
-            result.acceleration = acceleration.div(rotorToMechanismRatio);
-            result.voltage = voltage;
-            result.statorCurrent = statorCurrent;
-            result.supplyCurrent = supplyCurrent;
-            result.temperature = temperature;
-            return result;
-        }
     }
 
     /**

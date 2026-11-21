@@ -1,6 +1,6 @@
 package frc.robot.subsystems.intake;
 
-import frc.lib.motor.MotorIO;
+import frc.lib.motor.MotorConfig;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.robot.subsystems.intake.Arm.ArmState;
@@ -19,13 +19,13 @@ public final class Intake extends StateMachine<Intake.IntakeState> {
     /**
      * Creates the intake.
      *
-     * @param armMotor interface used to communicate with the arm motor
-     * @param wheelMotor interface used to communicate with the wheel motor
+     * @param armConfig configuration for the arm motor
+     * @param wheelConfig configuration for the wheel motor
      */
-    public Intake(MotorIO armMotor, MotorIO wheelMotor) {
+    public Intake(MotorConfig armConfig, MotorConfig wheelConfig) {
         super("Intake", IntakeState.START);
-        arm = new Arm(armMotor);
-        wheels = new Wheels(wheelMotor);
+        arm = new Arm(armConfig);
+        wheels = new Wheels(wheelConfig);
     }
 
     /** States of the intake. */

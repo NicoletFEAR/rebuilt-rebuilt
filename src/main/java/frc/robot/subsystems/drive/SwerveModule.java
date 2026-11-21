@@ -3,7 +3,7 @@ package frc.robot.subsystems.drive;
 import static frc.lib.units.DistanceUnit.Meters;
 import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
-import frc.lib.motor.MotorIO;
+import frc.lib.motor.MotorConfig;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -28,16 +28,19 @@ public final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleSt
     /**
      * Creates the swerve module.
      *
-     * @param driveMotor interface used to communicate with the drive motor
-     * @param turnMotor interface used to communicate with the turn motor
-     * @param turnCanCoder interface used to communicate with the turn absolute encoder
-     * @param config configuration for the module
+     * @param driveConfig configuration for the drive motor
+     * @param turnConfig configuration for the turn motor
+     * @param absEncoder interface used to communicate with the turn absolute encoder
+     * @param name name of the swerve module (for differentiation from others in logs)
      */
     public SwerveModule(
-            MotorIO driveMotor, MotorIO turnMotor, AbsEncoderIO turnCanCoder, SwerveModuleConfig config) {
-        super("Drive/" + config.name(), SwerveModuleState.OFF);
-        drive = new DriveMotor(driveMotor, config.getDriveMotorConfig());
-        turn = new TurnMotor(turnMotor, turnCanCoder, config.getTurnMotorConfig());
+            MotorConfig driveConfig,
+            MotorConfig turnConfig,
+            AbsEncoderIO absEncoder,
+            SwerveModuleName name) {
+        super("Drive/" + name, SwerveModuleState.OFF);
+        drive = new DriveMotor(driveConfig, name);
+        turn = new TurnMotor(turnConfig, absEncoder, name);
     }
 
     /** States of the swerve module. */

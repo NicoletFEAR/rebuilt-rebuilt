@@ -1,6 +1,6 @@
 package frc.robot.subsystems.launcher;
 
-import frc.lib.motor.MotorIO;
+import frc.lib.motor.MotorConfig;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -25,23 +25,23 @@ public final class Launcher extends StateMachine<Launcher.LauncherState> {
     /**
      * Creates the launcher.
      *
-     * @param leftFlywheelMotor interface used to communicate with the left flywheel motor
-     * @param rightFlywheelMotor interface used to communicate with the right flywheel motor;
-     *     configured to follow the left flywheel motor
-     * @param indexMotor interface used to communicate with the indexer motor
-     * @param hoodMotor interface used to communicate with the hood motor
+     * @param leftFlywheelConfig configuration for the left flywheel motor
+     * @param rightFlywheelConfig configuration for the right flywheel motor; needs an alignment value
+     *     so it can follow the left flywheel motor
+     * @param indexConfig configuration for the indexer motor
+     * @param hoodConfig configuration for the hood motor
      * @param hoodCanCoder interface used to communicate with the hood absolute encoder
      */
     public Launcher(
-            MotorIO leftFlywheelMotor,
-            MotorIO rightFlywheelMotor,
-            MotorIO indexMotor,
-            MotorIO hoodMotor,
+            MotorConfig leftFlywheelConfig,
+            MotorConfig rightFlywheelConfig,
+            MotorConfig indexConfig,
+            MotorConfig hoodConfig,
             AbsEncoderIO hoodCanCoder) {
         super("Launcher", LauncherState.OFF);
-        flywheels = new Flywheels(leftFlywheelMotor, new MotorIO[] {rightFlywheelMotor});
-        indexer = new Indexer(indexMotor);
-        hood = new Hood(hoodMotor, hoodCanCoder);
+        flywheels = new Flywheels(leftFlywheelConfig, new MotorConfig[] {rightFlywheelConfig});
+        indexer = new Indexer(indexConfig);
+        hood = new Hood(hoodConfig, hoodCanCoder);
     }
 
     /** States of the launcher. */

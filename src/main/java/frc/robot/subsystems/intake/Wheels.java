@@ -5,6 +5,7 @@ import static frc.lib.units.VoltageUnit.Volts;
 
 import frc.lib.module.velocity.AngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
+import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -22,11 +23,12 @@ public final class Wheels extends StateMachine<Wheels.WheelState> {
     /**
      * Creates the wheels.
      *
-     * @param motor interface used to communicate with the motor
+     * @param config configuration for the motor
      */
-    Wheels(MotorIO motor) {
+    Wheels(MotorConfig config) {
         super("Intake/Wheels", WheelState.OFF);
-        module = new AngularVelocityModule(name, motor, WheelConstants.ROTOR_TO_MECHANISM_RATIO);
+        config = config.withSensorToMechanismRatio(WheelConstants.ROTOR_TO_MECHANISM_RATIO);
+        module = new AngularVelocityModule(name, MotorIO.buildMotor(config));
     }
 
     /** States of the wheels. */

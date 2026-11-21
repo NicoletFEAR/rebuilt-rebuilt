@@ -4,6 +4,7 @@ import static frc.lib.units.DistanceUnit.Meters;
 
 import frc.lib.module.position.LinearPositionModule;
 import frc.lib.motor.FeedforwardValues;
+import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -21,11 +22,12 @@ public final class Arm extends StateMachine<Arm.ArmState> {
     /**
      * Creates the arm.
      *
-     * @param motor interface used to communicate with the motor
+     * @param config configuration for the motor
      */
-    Arm(MotorIO motor) {
+    Arm(MotorConfig config) {
         super("Intake/Arm", ArmState.RETRACT);
-        module = new LinearPositionModule(name, motor, ArmConstants.ROTOR_TO_MECHANISM_RATIO);
+        config = config.withSensorToMechanismRatio(ArmConstants.ROTOR_TO_MECHANISM_RATIO);
+        module = new LinearPositionModule(name, MotorIO.buildMotor(config));
     }
 
     /** States of the arm. */

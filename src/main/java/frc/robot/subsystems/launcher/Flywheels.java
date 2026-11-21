@@ -6,6 +6,7 @@ import static frc.lib.units.VoltageUnit.Volts;
 import frc.lib.ToleranceConstants;
 import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
+import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -23,14 +24,22 @@ public final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     /**
      * Creates the flywheels.
      *
-     * @param motor interface used to communicate with the leader motor
-     * @param followers interfaces used to communicate with the follower motors
+     * @param config configuration for the leader motor
+     * @param followerConfigs configurations for the follower motors
      */
-    Flywheels(MotorIO motor, MotorIO[] followers) {
+    Flywheels(MotorConfig config, MotorConfig[] followerConfigs) {
         super("Launcher/Flywheels", FlywheelState.OFF);
+        config = config.withSensorToMechanismRatio(FlywheelConstants.SENSOR_TO_MECHANISM_RATIO);
+
+        for (int i = 0; i < followerConfigs.length; i++) {
+            followerConfigs[i] =
+                    followerConfigs[i].withSensorToMechanismRatio(
+                            FlywheelConstants.SENSOR_TO_MECHANISM_RATIO);
+        }
+
         module =
                 new MultiAngularVelocityModule(
-                        name, motor, followers, FlywheelConstants.ROTOR_TO_MECHANISM_RATIO);
+                        name, MotorIO.buildMotor(config), MotorIO.buildMotors(followerConfigs));
     }
 
     /** States of the flywheels. */
@@ -91,7 +100,7 @@ public final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
                 new FeedforwardValues(0.1, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         /** Rotor-to-mechanism ratio for the flywheels. */
-        private static final double ROTOR_TO_MECHANISM_RATIO = 0.8;
+        private static final double SENSOR_TO_MECHANISM_RATIO = 0.8;
 
         /** Velocity commanded in the {@link FlywheelState#IDLE} state. */
         private static final AngularVelocity IDLE_VELOCITY = RadiansPerSecond.of(84);
