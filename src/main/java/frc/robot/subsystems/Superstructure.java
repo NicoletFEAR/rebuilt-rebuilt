@@ -98,7 +98,7 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
 
             case SuperState.Operate(DriveParameters driveParameters) -> {
                 drivebase.setState(new DrivebaseState.Drive(driveParameters));
-                launcher.setState(LauncherState.OFF);
+                launcher.setState(LauncherState.IDLE);
                 intake.setState(IntakeState.DEPLOY);
             }
 

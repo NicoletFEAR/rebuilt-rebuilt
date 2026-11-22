@@ -59,7 +59,7 @@ final class Indexer extends StateMachine<Indexer.IndexerState> {
 
         /** Feedforward and feedback gains for the indexer motor. */
         private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.0, 0.0, 0.0, 0.1, 0.1, 0.1);
+                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the indexer. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 1.0;

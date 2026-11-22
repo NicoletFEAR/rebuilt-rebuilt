@@ -6,6 +6,23 @@ import java.util.stream.Collectors;
 /** Utility methods for formatting strings. */
 public final class StringHelpers {
     /**
+     * Converts a camelCase string to capitalized words separated by spaces. It is used to turn fields
+     * into human-readable words for logging.
+     *
+     * @param name the camelCase string to split
+     * @return the string as capitalized words separated by spaces, or the input unchanged if it is
+     *     empty
+     */
+    public static String camelCaseToWords(String name) {
+        if (name.isEmpty()) {
+            return name;
+        }
+
+        // Converts camel case to Pascal case, then calls pascalCaseToWords
+        return pascalCaseToWords(name.substring(0, 1).toUpperCase() + name.substring(1));
+    }
+
+    /**
      * Inserts spaces into a PascalCase-like string at letter/non-letter boundaries and before a
      * capitalized word that follows an uppercase letter. It is used to turn record class names into
      * human-readable words for logging.

@@ -83,7 +83,7 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
 
         /** Feedforward and feedback gains for the turn motors. */
         private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.0, 0.0, 0.0, 0.1, 0.1, 0.1);
+                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /**
          * Absolute encoder offset for each turn mechanism. Use {@link SwerveModuleName#offset()}

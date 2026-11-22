@@ -32,7 +32,7 @@ public interface State extends LoggableOutputs {
             // Loops over all components associated with the record
             for (RecordComponent component : c.getRecordComponents()) {
                 // Gets the name of the component
-                String fieldName = component.getName();
+                String fieldName = StringHelpers.camelCaseToWords(component.getName());
 
                 try {
                     // Gets the value of the component

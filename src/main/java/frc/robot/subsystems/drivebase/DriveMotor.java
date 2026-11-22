@@ -82,7 +82,7 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
 
         /** Feedforward and feedback gains for the drive motors. */
         private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.0, 0.0, 0.0, 0.1, 0.1, 0.1);
+                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         private DriveMotorConstants() {
             /* Keep this constructor empty. */

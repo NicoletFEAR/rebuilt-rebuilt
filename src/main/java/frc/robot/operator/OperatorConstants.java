@@ -9,9 +9,7 @@ public final class OperatorConstants {
      */
     public static final double DEADBAND = 0.1;
 
-    /**
-     * Value above which a trigger is considered pressed. High to prevent accidental triggering.
-     */
+    /** Value above which a trigger is considered pressed. High to prevent accidental triggering. */
     public static final double TRIGGER_THRESHOLD = 0.95;
 
     private OperatorConstants() {

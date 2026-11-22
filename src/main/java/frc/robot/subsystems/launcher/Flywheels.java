@@ -99,7 +99,7 @@ final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
 
         /** Feedforward and feedback gains for the flywheel motors. */
         private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.0, 0.0, 0.0, 0.1, 0.1, 0.1);
+                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the flywheels. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 0.8;
