@@ -1,11 +1,9 @@
 package frc.robot.subsystems.launcher;
 
 import frc.lib.motor.MotorConfig;
-import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
-import frc.lib.units.Angle;
-import frc.lib.units.AngularVelocity;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
 import frc.robot.subsystems.launcher.Hood.HoodState;
 import frc.robot.subsystems.launcher.Indexer.IndexerState;
@@ -30,18 +28,18 @@ public final class Launcher extends StateMachine<Launcher.LauncherState> {
      *     so it can follow the left flywheel motor
      * @param indexConfig configuration for the indexer motor
      * @param hoodConfig configuration for the hood motor
-     * @param hoodCanCoder interface used to communicate with the hood absolute encoder
+     * @param hoodAbsEncoderConfig configuration for the hood absolute encoder
      */
     public Launcher(
             MotorConfig leftFlywheelConfig,
             MotorConfig rightFlywheelConfig,
             MotorConfig indexConfig,
             MotorConfig hoodConfig,
-            AbsEncoderIO hoodCanCoder) {
+            AbsEncoderConfig hoodAbsEncoderConfig) {
         super("Launcher", LauncherState.OFF);
         flywheels = new Flywheels(leftFlywheelConfig, new MotorConfig[] {rightFlywheelConfig});
         indexer = new Indexer(indexConfig);
-        hood = new Hood(hoodConfig, hoodCanCoder);
+        hood = new Hood(hoodConfig, hoodAbsEncoderConfig);
     }
 
     /** States of the launcher. */
@@ -59,11 +57,11 @@ public final class Launcher extends StateMachine<Launcher.LauncherState> {
         static record Idle() implements LauncherState {}
 
         /** Flywheels and hood are set up to launch, but the indexer is off. */
-        static record SpinUp(AngularVelocity flywheelVelocity, Angle hoodAngle)
+        static record SpinUp(LaunchParameters parameters)
                 implements LauncherState {}
 
         /** Flywheels and hood are set up to launch, and the indexer feeds game pieces. */
-        static record Launch(AngularVelocity flywheelVelocity, Angle hoodAngle)
+        static record Launch(LaunchParameters parameters)
                 implements LauncherState {}
 
         /** Flywheels idle, indexer runs in reverse, and the hood is off. */
@@ -97,16 +95,16 @@ public final class Launcher extends StateMachine<Launcher.LauncherState> {
                 hood.setState(HoodState.OFF);
             }
 
-            case LauncherState.SpinUp(AngularVelocity flywheelVelocity, Angle hoodAngle) -> {
-                flywheels.setState(new FlywheelState.Launch(flywheelVelocity));
+            case LauncherState.SpinUp(LaunchParameters parameters) -> {
+                flywheels.setState(new FlywheelState.Launch(parameters.flywheelVelocity()));
                 indexer.setState(IndexerState.OFF);
-                hood.setState(new HoodState.HoldPosition(hoodAngle));
+                hood.setState(new HoodState.HoldPosition(parameters.hoodAngle()));
             }
 
-            case LauncherState.Launch(AngularVelocity flywheelVelocity, Angle hoodAngle) -> {
-                flywheels.setState(new FlywheelState.Launch(flywheelVelocity));
+            case LauncherState.Launch(LaunchParameters parameters) -> {
+                flywheels.setState(new FlywheelState.Launch(parameters.flywheelVelocity()));
                 indexer.setState(IndexerState.INDEX);
-                hood.setState(new HoodState.HoldPosition(hoodAngle));
+                hood.setState(new HoodState.HoldPosition(parameters.hoodAngle()));
             }
 
             case LauncherState.Extake() -> {

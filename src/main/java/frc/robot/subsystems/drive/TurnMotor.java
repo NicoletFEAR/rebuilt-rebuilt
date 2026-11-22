@@ -5,6 +5,7 @@ import static frc.lib.units.VoltageUnit.Volts;
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
+import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -25,14 +26,19 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
     /**
      * Creates the turn motor component.
      *
-     * @param config configuration for the motor
-     * @param encoder interface used to communicate with the absolute encoder
+     * @param motorConfig configuration for the motor
+     * @param absEncoderConfig configuration for the absolute encoder
      * @param name name of the associated swerve module (for differentiation from others in logs)
      */
-    TurnMotor(MotorConfig config, AbsEncoderIO encoder, SwerveModuleName name) {
+    TurnMotor(MotorConfig motorConfig, AbsEncoderConfig absEncoderConfig, SwerveModuleName name) {
         super("Drive/" + name + "/Turn", TurnMotorState.OFF);
-        config = config.withSensorToMechanismRatio(DriveConstants.TURN_SENSOR_TO_MECHANISM_RATIO);
-        module = new AbsEncoderAngularPositionModule(this.name, MotorIO.buildMotor(config), encoder);
+        motorConfig =
+                motorConfig.withSensorToMechanismRatio(DriveConstants.TURN_SENSOR_TO_MECHANISM_RATIO);
+        module =
+                new AbsEncoderAngularPositionModule(
+                        this.name,
+                        MotorIO.buildMotor(motorConfig),
+                        AbsEncoderIO.buildAbsEncoder(absEncoderConfig));
     }
 
     /** States of the turn motor. */

@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.CANBus;
 import frc.lib.CanId;
+import frc.robot.subsystems.drive.SwerveModuleName;
+import java.util.HashMap;
 
 /**
  * CAN IDs of every device on the robot.
@@ -24,21 +26,40 @@ public final class DeviceIds {
      */
     public static final CANBus CANIVORE_BUS = new CANBus("*");
 
-    public static final CanId FRONT_LEFT_DRIVE = new CanId(CANIVORE_BUS, 2);
-    public static final CanId FRONT_LEFT_TURN = new CanId(CANIVORE_BUS, 1);
-    public static final CanId FRONT_LEFT_CAN_CODER = new CanId(CANIVORE_BUS, 3);
+    /**
+     * The drive motor IDs for each swerve module. Use {@link SwerveModuleName#drive()} instead of
+     * referencing this directly.
+     */
+    public static final HashMap<SwerveModuleName, CanId> DRIVE = new HashMap<>();
 
-    public static final CanId FRONT_RIGHT_DRIVE = new CanId(CANIVORE_BUS, 5);
-    public static final CanId FRONT_RIGHT_TURN = new CanId(CANIVORE_BUS, 4);
-    public static final CanId FRONT_RIGHT_CAN_CODER = new CanId(CANIVORE_BUS, 6);
+    /**
+     * The turn motor IDs for each swerve module. Use {@link SwerveModuleName#turn()} instead of
+     * referencing this directly.
+     */
+    public static final HashMap<SwerveModuleName, CanId> TURN = new HashMap<>();
 
-    public static final CanId BACK_LEFT_DRIVE = new CanId(CANIVORE_BUS, 11);
-    public static final CanId BACK_LEFT_TURN = new CanId(CANIVORE_BUS, 10);
-    public static final CanId BACK_LEFT_CAN_CODER = new CanId(CANIVORE_BUS, 12);
+    /**
+     * The absolute encoder IDs for each swerve module. Use {@link SwerveModuleName#absEncoder()}
+     * instead of referencing this directly.
+     */
+    public static final HashMap<SwerveModuleName, CanId> SWERVE_ABS_ENCODER = new HashMap<>();
 
-    public static final CanId BACK_RIGHT_DRIVE = new CanId(CANIVORE_BUS, 8);
-    public static final CanId BACK_RIGHT_TURN = new CanId(CANIVORE_BUS, 7);
-    public static final CanId BACK_RIGHT_CAN_CODER = new CanId(CANIVORE_BUS, 9);
+    static {
+        TURN.put(SwerveModuleName.FRONT_LEFT, new CanId(CANIVORE_BUS, 1));
+        TURN.put(SwerveModuleName.FRONT_RIGHT, new CanId(CANIVORE_BUS, 4));
+        TURN.put(SwerveModuleName.BACK_LEFT, new CanId(CANIVORE_BUS, 10));
+        TURN.put(SwerveModuleName.BACK_RIGHT, new CanId(CANIVORE_BUS, 7));
+
+        DRIVE.put(SwerveModuleName.FRONT_LEFT, new CanId(CANIVORE_BUS, 2));
+        DRIVE.put(SwerveModuleName.FRONT_RIGHT, new CanId(CANIVORE_BUS, 5));
+        DRIVE.put(SwerveModuleName.BACK_LEFT, new CanId(CANIVORE_BUS, 11));
+        DRIVE.put(SwerveModuleName.BACK_RIGHT, new CanId(CANIVORE_BUS, 8));
+
+        SWERVE_ABS_ENCODER.put(SwerveModuleName.FRONT_LEFT, new CanId(CANIVORE_BUS, 3));
+        SWERVE_ABS_ENCODER.put(SwerveModuleName.FRONT_RIGHT, new CanId(CANIVORE_BUS, 6));
+        SWERVE_ABS_ENCODER.put(SwerveModuleName.BACK_LEFT, new CanId(CANIVORE_BUS, 12));
+        SWERVE_ABS_ENCODER.put(SwerveModuleName.BACK_RIGHT, new CanId(CANIVORE_BUS, 9));
+    }
 
     public static final CanId LEFT_LAUNCHER = new CanId(CANIVORE_BUS, 14);
     public static final CanId RIGHT_LAUNCHER = new CanId(CANIVORE_BUS, 15);

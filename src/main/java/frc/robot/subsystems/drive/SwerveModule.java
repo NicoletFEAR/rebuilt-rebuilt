@@ -4,7 +4,7 @@ import static frc.lib.units.DistanceUnit.Meters;
 import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
 import frc.lib.motor.MotorConfig;
-import frc.lib.sensor.absencoder.AbsEncoderIO;
+import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngleUnit;
@@ -30,17 +30,17 @@ public final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleSt
      *
      * @param driveConfig configuration for the drive motor
      * @param turnConfig configuration for the turn motor
-     * @param absEncoder interface used to communicate with the turn absolute encoder
+     * @param absEncoderConfig configuration for the turn absolute encoder
      * @param name name of the swerve module (for differentiation from others in logs)
      */
     public SwerveModule(
             MotorConfig driveConfig,
             MotorConfig turnConfig,
-            AbsEncoderIO absEncoder,
+            AbsEncoderConfig absEncoderConfig,
             SwerveModuleName name) {
         super("Drive/" + name, SwerveModuleState.OFF);
         drive = new DriveMotor(driveConfig, name);
-        turn = new TurnMotor(turnConfig, absEncoder, name);
+        turn = new TurnMotor(turnConfig, absEncoderConfig, name);
     }
 
     /** States of the swerve module. */

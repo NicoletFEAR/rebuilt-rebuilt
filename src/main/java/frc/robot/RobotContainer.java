@@ -3,7 +3,6 @@ package frc.robot;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import frc.lib.motor.MotorConfig;
 import frc.lib.sensor.absencoder.AbsEncoderConfig;
-import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.robot.operator.OperatorConstants;
 import frc.robot.subsystems.DeviceIds;
 import frc.robot.subsystems.Superstructure;
@@ -11,7 +10,6 @@ import frc.robot.subsystems.Superstructure.SuperState;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveConstants;
 import frc.robot.subsystems.drive.DriveParameters;
-import frc.robot.subsystems.drive.SwerveModule;
 import frc.robot.subsystems.drive.SwerveModuleName;
 import frc.robot.subsystems.intake.Arm.ArmConstants;
 import frc.robot.subsystems.intake.Intake;
@@ -83,34 +81,27 @@ public final class RobotContainer {
     private Drive buildDrive(RobotState robotState) {
         return new Drive(
                 robotState,
-                new SwerveModule(
-                        new MotorConfig(DeviceIds.FRONT_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                        new MotorConfig(DeviceIds.FRONT_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES),
-                        AbsEncoderIO.buildAbsEncoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.FRONT_LEFT_CAN_CODER, SwerveModuleName.FRONT_LEFT.offset())),
-                        SwerveModuleName.FRONT_LEFT),
-                new SwerveModule(
-                        new MotorConfig(DeviceIds.FRONT_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                        new MotorConfig(DeviceIds.FRONT_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES),
-                        AbsEncoderIO.buildAbsEncoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.FRONT_RIGHT_CAN_CODER, SwerveModuleName.FRONT_RIGHT.offset())),
-                        SwerveModuleName.FRONT_RIGHT),
-                new SwerveModule(
-                        new MotorConfig(DeviceIds.BACK_LEFT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                        new MotorConfig(DeviceIds.BACK_LEFT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES),
-                        AbsEncoderIO.buildAbsEncoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.BACK_LEFT_CAN_CODER, SwerveModuleName.BACK_LEFT.offset())),
-                        SwerveModuleName.BACK_LEFT),
-                new SwerveModule(
-                        new MotorConfig(DeviceIds.BACK_RIGHT_DRIVE, DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                        new MotorConfig(DeviceIds.BACK_RIGHT_TURN, DriveConstants.TURN_FEEDFORWARD_VALUES),
-                        AbsEncoderIO.buildAbsEncoder(
-                                new AbsEncoderConfig(
-                                        DeviceIds.BACK_RIGHT_CAN_CODER, SwerveModuleName.BACK_RIGHT.offset())),
-                        SwerveModuleName.BACK_RIGHT));
+                new MotorConfig(
+                        SwerveModuleName.FRONT_LEFT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
+                new MotorConfig(SwerveModuleName.FRONT_LEFT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
+                new AbsEncoderConfig(
+                        SwerveModuleName.FRONT_LEFT.absEncoder(), SwerveModuleName.FRONT_LEFT.offset()),
+                new MotorConfig(
+                        SwerveModuleName.FRONT_RIGHT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
+                new MotorConfig(
+                        SwerveModuleName.FRONT_RIGHT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
+                new AbsEncoderConfig(
+                        SwerveModuleName.FRONT_RIGHT.absEncoder(), SwerveModuleName.FRONT_RIGHT.offset()),
+                new MotorConfig(
+                        SwerveModuleName.BACK_LEFT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
+                new MotorConfig(SwerveModuleName.BACK_LEFT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
+                new AbsEncoderConfig(
+                        SwerveModuleName.BACK_LEFT.absEncoder(), SwerveModuleName.BACK_LEFT.offset()),
+                new MotorConfig(
+                        SwerveModuleName.BACK_RIGHT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
+                new MotorConfig(SwerveModuleName.BACK_RIGHT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
+                new AbsEncoderConfig(
+                        SwerveModuleName.BACK_RIGHT.absEncoder(), SwerveModuleName.BACK_RIGHT.offset()));
     }
 
     /**
@@ -125,8 +116,7 @@ public final class RobotContainer {
                         MotorAlignmentValue.Opposed),
                 new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES),
                 new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES),
-                AbsEncoderIO.buildAbsEncoder(
-                        new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
+                new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET));
     }
 
     /** Builds the intake subsystem (arm and wheels). */

@@ -8,6 +8,7 @@ import frc.lib.module.position.AbsEncoderAngularPositionModule;
 import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
+import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
@@ -27,12 +28,14 @@ public final class Hood extends StateMachine<Hood.HoodState> {
      * Creates the hood.
      *
      * @param config configuration for the motor
-     * @param canCoder interface used to communicate with the absolute encoder
+     * @param absEncoderConfig configuration for the absolute encoder
      */
-    Hood(MotorConfig config, AbsEncoderIO canCoder) {
+    Hood(MotorConfig config, AbsEncoderConfig absEncoderConfig) {
         super("Launcher/Hood", HoodState.OFF);
         config = config.withSensorToMechanismRatio(HoodConstants.SENSOR_TO_MECHANISM_RATIO);
-        module = new AbsEncoderAngularPositionModule(name, MotorIO.buildMotor(config), canCoder);
+        module =
+                new AbsEncoderAngularPositionModule(
+                        name, MotorIO.buildMotor(config), AbsEncoderIO.buildAbsEncoder(absEncoderConfig));
     }
 
     /** States of the hood. */
