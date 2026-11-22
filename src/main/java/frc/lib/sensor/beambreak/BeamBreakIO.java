@@ -16,14 +16,19 @@ import org.littletonrobotics.junction.AutoLog;
 public interface BeamBreakIO {
 
     /**
-     * Creates a real CANrange beam break or a simulated CANrange beam break depending on whether the
-     * robot is being simulated or not.
+     * Creates the correct beam break based on the device type in the provided configuration and
+     * whether the robot is being simulated or not.
      *
      * @param config configuration for the beam break
      * @return the correct beam break implementation
      */
     static BeamBreakIO buildBeamBreak(BeamBreakConfig config) {
-        return Robot.isReal() ? new CanRangeBeamBreak(config) : new SimCanRangeBeamBreak(config);
+        return switch (config.device()) {
+            case BeamBreakDevice.CanRange _ ->
+                    Robot.isReal() ? new CanRangeBeamBreak(config) : new SimCanRangeBeamBreak(config);
+            case BeamBreakDevice.DigitalInput _ ->
+                    Robot.isReal() ? new DigitalInputBeamBreak(config) : new SimDigitalInputBeamBreak(config);
+        };
     }
 
     /**

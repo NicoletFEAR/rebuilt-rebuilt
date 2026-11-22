@@ -12,18 +12,25 @@ import org.wpilib.hardware.discrete.DigitalInput;
  * <p>Unlike CAN-based sensors, a {@link DigitalInput} does not provide a connection status, so this
  * implementation always reports the sensor as connected.
  */
-public class BeamBreak implements BeamBreakIO {
+public class DigitalInputBeamBreak implements BeamBreakIO {
 
     /** Digital input connected to the beam break sensor. */
     private final DigitalInput beamBreak;
 
     /**
-     * Creates a beam break sensor using the specified digital input port.
+     * Creates a beam break sensor using the specified configuration
      *
-     * @param id digital input port used by the beam break sensor
+     * @param config configuration for the beam break sensor
+     * @throws IllegalArgumentException if the configuration specifies any device type other than
+     *     {@link BeamBreakDevice#DigitalInput}.
      */
-    public BeamBreak(int id) {
-        beamBreak = new DigitalInput(id);
+    public DigitalInputBeamBreak(BeamBreakConfig config) {
+        switch (config.device()) {
+            case BeamBreakDevice.CanRange _ ->
+                    throw new IllegalArgumentException(
+                            "Configuration for a digital input beam break cannot specify a CANrange");
+            case BeamBreakDevice.DigitalInput(int id) -> beamBreak = new DigitalInput(id);
+        }
     }
 
     /**

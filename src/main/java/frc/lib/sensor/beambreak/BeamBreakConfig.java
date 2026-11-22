@@ -2,7 +2,6 @@ package frc.lib.sensor.beambreak;
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.ProximityParamsConfigs;
-import frc.lib.CanId;
 import org.wpilib.units.measure.Distance;
 
 /**
@@ -12,10 +11,10 @@ import org.wpilib.units.measure.Distance;
  * proximity threshold. The configuration can be converted into a CTRE {@link CANrangeConfiguration}
  * using {@link #getCanRangeConfiguration()}.
  *
- * @param id CAN ID and CAN bus of the beam break sensor
- * @param proximityThreshold proximity threshold of the sensor
+ * @param device specification for the implementation of the beam break
+ * @param proximityThreshold proximity threshold of the beam break
  */
-public record BeamBreakConfig(CanId id, Distance proximityThreshold) {
+public record BeamBreakConfig(BeamBreakDevice device, Distance proximityThreshold) {
 
     /**
      * Creates a CTRE CANrange configuration using this record's fields.
@@ -26,6 +25,7 @@ public record BeamBreakConfig(CanId id, Distance proximityThreshold) {
      */
     public CANrangeConfiguration getCanRangeConfiguration() {
         return new CANrangeConfiguration()
-                .withProximityParams(new ProximityParamsConfigs().withProximityThreshold(proximityThreshold));
+                .withProximityParams(
+                        new ProximityParamsConfigs().withProximityThreshold(proximityThreshold));
     }
 }

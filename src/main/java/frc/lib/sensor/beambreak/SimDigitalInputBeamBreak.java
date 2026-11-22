@@ -1,20 +1,20 @@
 package frc.lib.sensor.beambreak;
 
 /**
- * Simulation implementation of {@link BeamBreak} for a beam break sensor.
+ * Simulation implementation of {@link DigitalInputBeamBreak} for a beam break sensor.
  *
- * <p>This class extends {@link BeamBreak} so that it can be used anywhere a normal beam break
- * sensor is expected. During simulation, the sensor is reported as disconnected.
+ * <p>This class extends {@link DigitalInputBeamBreak} so that it can be used anywhere a normal beam
+ * break sensor is expected. During simulation, the sensor is reported as disconnected.
  */
-public final class SimBeamBreak extends BeamBreak {
+public final class SimDigitalInputBeamBreak extends DigitalInputBeamBreak {
 
     /**
      * Creates a simulated beam break sensor.
      *
-     * @param id digital input port associated with the simulated beam break sensor
+     * @param config configuration for the beam break
      */
-    public SimBeamBreak(int id) {
-        super(id);
+    public SimDigitalInputBeamBreak(BeamBreakConfig config) {
+        super(config);
     }
 
     /**

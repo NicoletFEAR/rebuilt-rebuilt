@@ -4,12 +4,8 @@ import static frc.lib.units.FrequencyUnit.Hertz;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.hardware.CANrange;
-
 import frc.lib.CanId;
-import frc.lib.Configurator;
-import frc.lib.sensor.beambreak.BeamBreakConfig;
 import frc.lib.units.DistanceUnit;
 import org.wpilib.units.measure.Distance;
 
@@ -32,16 +28,12 @@ public class CanRangeTof implements TofIO {
     private final StatusSignal<Distance> distanceSignal;
 
     /**
-     * Creates a CANrange time-of-flight sensor using the provided configuration.
+     * Creates a CANrange time-of-flight sensor using the provided ID.
      *
-     * <p>The CANrange is configured using the values provided by the {@link BeamBreakConfig}. The
-     * distance signal is configured to update at 100 Hz.
-     *
-     * @param config configuration for the CANrange sensor
+     * @param config ID for the CANrange sensor
      */
     public CanRangeTof(CanId id) {
         canRange = new CANrange(id.id(), id.bus());
-        Configurator.applyCanRangeConfiguration(canRange, new CANrangeConfiguration());
 
         distanceSignal = canRange.getDistance();
         distanceSignal.setUpdateFrequency(Hertz.raw(100));
