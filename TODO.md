@@ -2,7 +2,6 @@
 * Add current limits, inversion, soft limits to MotorConfig
 * Add motor type to MotorConfig
 * Add MotionMagic parameters to MotorConfig
-* Update CAN buses to SystemCore
 * Fix absolute encoders
 * Test deadbands to make sure they're fine
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
