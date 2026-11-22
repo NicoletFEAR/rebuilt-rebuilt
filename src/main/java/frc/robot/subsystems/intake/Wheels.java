@@ -61,7 +61,7 @@ final class Wheels extends StateMachine<Wheels.WheelState> {
 
         /** Feedforward and feedback gains for the wheel motor. */
         private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+                new FeedforwardValues(0.0, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the wheels. */
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.6;

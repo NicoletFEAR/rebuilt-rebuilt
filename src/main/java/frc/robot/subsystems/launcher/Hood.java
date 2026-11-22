@@ -89,7 +89,7 @@ final class Hood extends StateMachine<Hood.HoodState> {
 
         /** Feedforward and feedback gains for the hood motor. */
         private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(5.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+                new FeedforwardValues(0.0, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the hood. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 30.0;

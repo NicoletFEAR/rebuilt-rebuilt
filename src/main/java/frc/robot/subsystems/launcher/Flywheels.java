@@ -3,6 +3,7 @@ package frc.robot.subsystems.launcher;
 import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 import static frc.lib.units.VoltageUnit.Volts;
 
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import frc.lib.ToleranceConstants;
 import frc.lib.module.velocity.MultiAngularVelocityModule;
 import frc.lib.motor.FeedforwardValues;
@@ -38,7 +39,8 @@ final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
                                     new MotorConfig(
                                             DeviceIds.RIGHT_LAUNCHER,
                                             FlywheelConstants.SENSOR_TO_MECHANISM_RATIO,
-                                            FlywheelConstants.FEEDFORWARD_VALUES)
+                                            FlywheelConstants.FEEDFORWARD_VALUES,
+                                            MotorAlignmentValue.Opposed)
                                 }));
     }
 
@@ -97,7 +99,7 @@ final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
 
         /** Feedforward and feedback gains for the flywheel motors. */
         private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.1, 0.0, 0.0, 0.0, 0.0, 0.0);
+                new FeedforwardValues(0.0, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the flywheels. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 0.8;

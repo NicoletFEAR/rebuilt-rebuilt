@@ -1,6 +1,8 @@
 package frc.lib.units;
 
+import frc.lib.logging.LoggableOutputs;
 import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 /**
@@ -11,7 +13,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
  * @param <U> the quantity's associated unit type
  */
 public abstract class Quantity<S extends Quantity<S, U>, U extends Unit<U>>
-        implements LoggableInputs {
+        implements LoggableInputs, LoggableOutputs {
     protected double value;
     protected String baseUnitSymbol;
 
@@ -84,5 +86,11 @@ public abstract class Quantity<S extends Quantity<S, U>, U extends Unit<U>>
     public void fromLog(LogTable table) {
         value = table.get("Value", value);
         baseUnitSymbol = table.get("Unit", baseUnitSymbol);
+    }
+
+    @Override
+    public void log(String key) {
+        Logger.recordOutput(key + "/Value", value);
+        Logger.recordOutput(key + "/Unit", baseUnitSymbol);
     }
 }

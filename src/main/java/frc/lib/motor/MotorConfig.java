@@ -34,20 +34,6 @@ public record MotorConfig(
         Optional<MotorAlignmentValue> alignment) {
 
     /**
-     * Creates a motor configuration using the default neutral mode, the default sensor to mechanism
-     * ratio, and no follower alignment.
-     *
-     * <p>The default neutral mode is {@link NeutralModeValue#Coast}, the default sensor to mechanism
-     * ratio is 1, and the motor is configured without a follower alignment.
-     *
-     * @param id CAN ID and CAN bus of the motor
-     * @param feedforwardValues PID and feedforward gains for the motor
-     */
-    public MotorConfig(CanId id, FeedforwardValues feedforwardValues) {
-        this(id, 1.0, feedforwardValues);
-    }
-
-    /**
      * Creates a motor configuration using the default neutral mode and no follower alignment.
      *
      * <p>The default neutral mode is {@link NeutralModeValue#Coast} and the motor is configured
@@ -63,18 +49,27 @@ public record MotorConfig(
     }
 
     /**
-     * Creates a motor configuration using the default neutral mode, the default sensor to mechanism
-     * ratio, and the given follower alignment.
+     * Creates a motor configuration using the default neutral mode and the given follower alignment.
      *
-     * <p>The default neutral mode is {@link NeutralModeValue#Coast} and the default sensor to
-     * mechanism ratio is 1.
+     * <p>The default neutral mode is {@link NeutralModeValue#Coast}.
      *
      * @param id CAN ID and CAN bus of the motor
+     * @param sensorToMechanismRatio number of radians of sensor rotation associated with 1 radian of
+     *     mechanism rotation or 1 meter of mechanism movement
      * @param feedforwardValues PID and feedforward gains for the motor
      * @param alignment alignment to use when configuring the motor as a follower
      */
-    public MotorConfig(CanId id, FeedforwardValues feedforwardValues, MotorAlignmentValue alignment) {
-        this(id, 1.0, NeutralModeValue.Coast, feedforwardValues, Optional.of(alignment));
+    public MotorConfig(
+            CanId id,
+            double sensorToMechanismRatio,
+            FeedforwardValues feedforwardValues,
+            MotorAlignmentValue alignment) {
+        this(
+                id,
+                sensorToMechanismRatio,
+                NeutralModeValue.Coast,
+                feedforwardValues,
+                Optional.of(alignment));
     }
 
     /**

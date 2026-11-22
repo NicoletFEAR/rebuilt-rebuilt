@@ -3,7 +3,7 @@
 * Add motor type to MotorConfig
 * Add MotionMagic parameters to MotorConfig
 * Fix absolute encoders
-* Test deadbands to make sure they're fine
+* Fix driving in simulation
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Refactor Rotation2d safe creation out of Utils once we have a folder for field geometry
 * Introduce constant for status signal update period
@@ -20,6 +20,7 @@
 
 # Features
 * Auto-aim
+* SysID
 * Add replay IO
 * Get actual setpoints in here
 * Add a class to manage voltage and track which battery is being used through Elastic dropdown

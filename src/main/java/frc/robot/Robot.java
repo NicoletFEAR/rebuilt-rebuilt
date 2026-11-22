@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.SignalLogger;
 import frc.robot.constants.BuildConstants;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -50,6 +51,8 @@ public final class Robot extends LoggedRobot {
             Logger.addDataReceiver(new WPILOGWriter());
         }
 
+        // Disable Hoot logger
+        SignalLogger.enableAutoLogging(false);
         Logger.addDataReceiver(new NT4Publisher());
         Logger.start();
     }

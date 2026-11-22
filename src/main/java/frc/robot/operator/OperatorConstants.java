@@ -10,10 +10,9 @@ public final class OperatorConstants {
     public static final double DEADBAND = 0.1;
 
     /**
-     * Value above which a trigger is considered pressed. High to prevent accidental triggering, but
-     * still needs to be tested to make sure it's high enough to prevent intentional triggering.
+     * Value above which a trigger is considered pressed. High to prevent accidental triggering.
      */
-    public static final double TRIGGER_THRESHOLD = 0.9;
+    public static final double TRIGGER_THRESHOLD = 0.95;
 
     private OperatorConstants() {
         // Keep this constructor empty.
