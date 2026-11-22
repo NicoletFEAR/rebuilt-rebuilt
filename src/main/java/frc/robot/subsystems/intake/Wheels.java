@@ -19,18 +19,19 @@ import frc.robot.subsystems.DeviceIds;
  * voltage or a velocity setpoint defined in {@link WheelConstants}.
  */
 final class Wheels extends StateMachine<Wheels.WheelState> {
-    private final AngularVelocityModule module =
-            new AngularVelocityModule(
-                    name,
-                    MotorIO.buildMotor(
-                            new MotorConfig(
-                                    DeviceIds.INTAKE_WHEELS,
-                                    WheelConstants.ROTOR_TO_MECHANISM_RATIO,
-                                    WheelConstants.FEEDFORWARD_VALUES)));
+    private final AngularVelocityModule module;
 
     /** Creates the wheels. */
     Wheels() {
         super("Intake/Wheels", WheelState.OFF);
+        module =
+                new AngularVelocityModule(
+                        name,
+                        MotorIO.buildMotor(
+                                new MotorConfig(
+                                        DeviceIds.INTAKE_WHEELS,
+                                        WheelConstants.ROTOR_TO_MECHANISM_RATIO,
+                                        WheelConstants.FEEDFORWARD_VALUES)));
     }
 
     /** States of the wheels. */

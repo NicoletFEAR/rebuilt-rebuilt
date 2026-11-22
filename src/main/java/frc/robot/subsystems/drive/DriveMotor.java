@@ -23,13 +23,18 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
     /**
      * Creates the drive motor component.
      *
-     * @param config configuration for the motor
      * @param name name of the associated swerve module (for differentiation from others in logs)
      */
-    DriveMotor(MotorConfig config, SwerveModuleName name) {
+    DriveMotor(SwerveModuleName name) {
         super("Drive/" + name + "/Drive", DriveMotorState.OFF);
-        config = config.withSensorToMechanismRatio(DriveConstants.DRIVE_SENSOR_TO_MECHANISM_RATIO);
-        module = new LinearVelocityModule(this.name, MotorIO.buildMotor(config));
+        module =
+                new LinearVelocityModule(
+                        this.name,
+                        MotorIO.buildMotor(
+                                new MotorConfig(
+                                        name.drive(),
+                                        DriveConstants.DRIVE_SENSOR_TO_MECHANISM_RATIO,
+                                        DriveConstants.DRIVE_FEEDFORWARD_VALUES)));
     }
 
     /** States of the drive motor. */

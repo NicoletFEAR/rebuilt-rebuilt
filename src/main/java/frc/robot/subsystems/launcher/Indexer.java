@@ -10,6 +10,7 @@ import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngularVelocity;
+import frc.robot.subsystems.DeviceIds;
 
 /**
  * Launcher indexer that feeds game pieces into the flywheels.
@@ -20,15 +21,17 @@ import frc.lib.units.AngularVelocity;
 public final class Indexer extends StateMachine<Indexer.IndexerState> {
     private final AngularVelocityModule module;
 
-    /**
-     * Creates the indexer.
-     *
-     * @param config configuration for the motor
-     */
-    Indexer(MotorConfig config) {
+    /** Creates the indexer. */
+    Indexer() {
         super("Launcher/Indexer", IndexerState.OFF);
-        config = config.withSensorToMechanismRatio(IndexerConstants.SENSOR_TO_MECHANISM_RATIO);
-        module = new AngularVelocityModule(name, MotorIO.buildMotor(config));
+        module =
+                new AngularVelocityModule(
+                        name,
+                        MotorIO.buildMotor(
+                                new MotorConfig(
+                                        DeviceIds.INDEXER,
+                                        IndexerConstants.SENSOR_TO_MECHANISM_RATIO,
+                                        IndexerConstants.FEEDFORWARD_VALUES)));
     }
 
     /** States of the indexer. */

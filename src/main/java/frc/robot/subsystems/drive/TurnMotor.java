@@ -26,19 +26,19 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
     /**
      * Creates the turn motor component.
      *
-     * @param motorConfig configuration for the motor
-     * @param absEncoderConfig configuration for the absolute encoder
      * @param name name of the associated swerve module (for differentiation from others in logs)
      */
-    TurnMotor(MotorConfig motorConfig, AbsEncoderConfig absEncoderConfig, SwerveModuleName name) {
+    TurnMotor(SwerveModuleName name) {
         super("Drive/" + name + "/Turn", TurnMotorState.OFF);
-        motorConfig =
-                motorConfig.withSensorToMechanismRatio(DriveConstants.TURN_SENSOR_TO_MECHANISM_RATIO);
         module =
                 new AbsEncoderAngularPositionModule(
                         this.name,
-                        MotorIO.buildMotor(motorConfig),
-                        AbsEncoderIO.buildAbsEncoder(absEncoderConfig));
+                        MotorIO.buildMotor(
+                                new MotorConfig(
+                                        name.turn(),
+                                        DriveConstants.TURN_SENSOR_TO_MECHANISM_RATIO,
+                                        DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                        AbsEncoderIO.buildAbsEncoder(new AbsEncoderConfig(name.absEncoder(), name.offset())));
     }
 
     /** States of the turn motor. */

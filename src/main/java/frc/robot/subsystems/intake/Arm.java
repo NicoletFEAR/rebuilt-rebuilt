@@ -18,18 +18,19 @@ import frc.robot.subsystems.DeviceIds;
  * #periodic()} for the positions commanded by each state.
  */
 final class Arm extends StateMachine<Arm.ArmState> {
-    private final LinearPositionModule module =
-            new LinearPositionModule(
-                    name,
-                    MotorIO.buildMotor(
-                            new MotorConfig(
-                                    DeviceIds.INTAKE_ARM,
-                                    ArmConstants.SENSOR_TO_MECHANISM_RATIO,
-                                    ArmConstants.FEEDFORWARD_VALUES)));
+    private final LinearPositionModule module;
 
     /** Creates the arm. */
     Arm() {
         super("Intake/Arm", ArmState.RETRACT);
+        module =
+                new LinearPositionModule(
+                        name,
+                        MotorIO.buildMotor(
+                                new MotorConfig(
+                                        DeviceIds.INTAKE_ARM,
+                                        ArmConstants.SENSOR_TO_MECHANISM_RATIO,
+                                        ArmConstants.FEEDFORWARD_VALUES)));
     }
 
     /** States of the arm. */

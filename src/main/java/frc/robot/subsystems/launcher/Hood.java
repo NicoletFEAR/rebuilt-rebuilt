@@ -13,6 +13,7 @@ import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Angle;
+import frc.robot.subsystems.DeviceIds;
 
 /**
  * Launcher hood that adjusts the launch angle.
@@ -24,18 +25,19 @@ import frc.lib.units.Angle;
 public final class Hood extends StateMachine<Hood.HoodState> {
     private final AbsEncoderAngularPositionModule module;
 
-    /**
-     * Creates the hood.
-     *
-     * @param config configuration for the motor
-     * @param absEncoderConfig configuration for the absolute encoder
-     */
-    Hood(MotorConfig config, AbsEncoderConfig absEncoderConfig) {
+    /** Creates the hood. */
+    Hood() {
         super("Launcher/Hood", HoodState.OFF);
-        config = config.withSensorToMechanismRatio(HoodConstants.SENSOR_TO_MECHANISM_RATIO);
         module =
                 new AbsEncoderAngularPositionModule(
-                        name, MotorIO.buildMotor(config), AbsEncoderIO.buildAbsEncoder(absEncoderConfig));
+                        name,
+                        MotorIO.buildMotor(
+                                new MotorConfig(
+                                        DeviceIds.HOOD,
+                                        HoodConstants.SENSOR_TO_MECHANISM_RATIO,
+                                        HoodConstants.FEEDFORWARD_VALUES)),
+                        AbsEncoderIO.buildAbsEncoder(
+                                new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
     /** States of the hood. */

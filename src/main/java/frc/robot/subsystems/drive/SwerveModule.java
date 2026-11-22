@@ -3,8 +3,6 @@ package frc.robot.subsystems.drive;
 import static frc.lib.units.DistanceUnit.Meters;
 import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
-import frc.lib.motor.MotorConfig;
-import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngleUnit;
@@ -33,14 +31,10 @@ public final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleSt
      * @param absEncoderConfig configuration for the turn absolute encoder
      * @param name name of the swerve module (for differentiation from others in logs)
      */
-    public SwerveModule(
-            MotorConfig driveConfig,
-            MotorConfig turnConfig,
-            AbsEncoderConfig absEncoderConfig,
-            SwerveModuleName name) {
+    public SwerveModule(SwerveModuleName name) {
         super("Drive/" + name, SwerveModuleState.OFF);
-        drive = new DriveMotor(driveConfig, name);
-        turn = new TurnMotor(turnConfig, absEncoderConfig, name);
+        drive = new DriveMotor(name);
+        turn = new TurnMotor(name);
     }
 
     /** States of the swerve module. */

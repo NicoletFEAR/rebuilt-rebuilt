@@ -1,7 +1,5 @@
 package frc.robot.subsystems.launcher;
 
-import frc.lib.motor.MotorConfig;
-import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelState;
@@ -16,30 +14,13 @@ import frc.robot.subsystems.launcher.Indexer.IndexerState;
  * left flywheel motor (with the alignment taken from the follower's configuration).
  */
 public final class Launcher extends StateMachine<Launcher.LauncherState> {
-    private final Flywheels flywheels;
-    private final Indexer indexer;
-    private final Hood hood;
+    private final Flywheels flywheels = new Flywheels();
+    private final Indexer indexer = new Indexer();
+    private final Hood hood = new Hood();
 
-    /**
-     * Creates the launcher.
-     *
-     * @param leftFlywheelConfig configuration for the left flywheel motor
-     * @param rightFlywheelConfig configuration for the right flywheel motor; needs an alignment value
-     *     so it can follow the left flywheel motor
-     * @param indexConfig configuration for the indexer motor
-     * @param hoodConfig configuration for the hood motor
-     * @param hoodAbsEncoderConfig configuration for the hood absolute encoder
-     */
-    public Launcher(
-            MotorConfig leftFlywheelConfig,
-            MotorConfig rightFlywheelConfig,
-            MotorConfig indexConfig,
-            MotorConfig hoodConfig,
-            AbsEncoderConfig hoodAbsEncoderConfig) {
+    /** Creates the launcher. */
+    public Launcher() {
         super("Launcher", LauncherState.OFF);
-        flywheels = new Flywheels(leftFlywheelConfig, new MotorConfig[] {rightFlywheelConfig});
-        indexer = new Indexer(indexConfig);
-        hood = new Hood(hoodConfig, hoodAbsEncoderConfig);
     }
 
     /** States of the launcher. */

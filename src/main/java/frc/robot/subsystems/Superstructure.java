@@ -5,6 +5,7 @@ import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
+import frc.robot.RobotState;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveState;
 import frc.robot.subsystems.drive.DriveParameters;
@@ -22,20 +23,17 @@ import frc.robot.subsystems.launcher.Launcher.LauncherState;
  */
 public final class Superstructure extends StateMachine<Superstructure.SuperState> {
     private final Drive drive;
-    private final Launcher launcher;
+    private final Launcher launcher = new Launcher();
     private final Intake intake = new Intake();
 
     /**
      * Creates the superstructure.
      *
-     * @param drive the drive subsystem
-     * @param launcher the launcher subsystem
-     * @param intake the intake subsystem
+     * @param robotState the shared robot state object
      */
-    public Superstructure(Drive drive, Launcher launcher) {
+    public Superstructure(RobotState robotState) {
         super("Superstructure", SuperState.START);
-        this.drive = drive;
-        this.launcher = launcher;
+        this.drive = new Drive(robotState);
     }
 
     /** States of the superstructure. */

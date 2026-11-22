@@ -11,6 +11,7 @@ import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngularVelocity;
+import frc.robot.subsystems.DeviceIds;
 
 /**
  * Launcher flywheels.
@@ -21,25 +22,24 @@ import frc.lib.units.AngularVelocity;
 public final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     private final MultiAngularVelocityModule module;
 
-    /**
-     * Creates the flywheels.
-     *
-     * @param config configuration for the leader motor
-     * @param followerConfigs configurations for the follower motors
-     */
-    Flywheels(MotorConfig config, MotorConfig[] followerConfigs) {
+    /** Creates the flywheels. */
+    Flywheels() {
         super("Launcher/Flywheels", FlywheelState.OFF);
-        config = config.withSensorToMechanismRatio(FlywheelConstants.SENSOR_TO_MECHANISM_RATIO);
-
-        for (int i = 0; i < followerConfigs.length; i++) {
-            followerConfigs[i] =
-                    followerConfigs[i].withSensorToMechanismRatio(
-                            FlywheelConstants.SENSOR_TO_MECHANISM_RATIO);
-        }
-
         module =
                 new MultiAngularVelocityModule(
-                        name, MotorIO.buildMotor(config), MotorIO.buildMotors(followerConfigs));
+                        name,
+                        MotorIO.buildMotor(
+                                new MotorConfig(
+                                        DeviceIds.LEFT_LAUNCHER,
+                                        FlywheelConstants.SENSOR_TO_MECHANISM_RATIO,
+                                        FlywheelConstants.FEEDFORWARD_VALUES)),
+                        MotorIO.buildMotors(
+                                new MotorConfig[] {
+                                    new MotorConfig(
+                                            DeviceIds.RIGHT_LAUNCHER,
+                                            FlywheelConstants.SENSOR_TO_MECHANISM_RATIO,
+                                            FlywheelConstants.FEEDFORWARD_VALUES)
+                                }));
     }
 
     /** States of the flywheels. */

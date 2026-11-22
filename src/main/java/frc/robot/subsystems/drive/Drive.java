@@ -9,8 +9,6 @@ import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
 import frc.lib.estimate.OdometryMeasurement;
 import frc.lib.motor.FeedforwardValues;
-import frc.lib.motor.MotorConfig;
-import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Angle;
@@ -55,60 +53,15 @@ public final class Drive extends StateMachine<Drive.DriveState> {
      * Creates the drive subsystem.
      *
      * @param robotState shared robot state that receives odometry measurements
-     * @param frontLeftDriveConfig configuration for front-left drive motor
-     * @param frontLeftTurnConfig configuration for front-left turn motor
-     * @param frontLeftAbsEncoderConfig configuration for front-left absolute encoder
-     * @param frontRightDriveConfig configuration for front-left drive motor
-     * @param frontRightTurnConfig configuration for front-right turn motor
-     * @param frontRightAbsEncoderConfig configuration for front-right absolute encoder
-     * @param backLeftDriveConfig configuration for back-left drive motor
-     * @param backLeftTurnConfig configuration for back-left turn motor
-     * @param backLeftAbsEncoderConfig configuration for back-left absolute encoder
-     * @param backRightDriveConfig configuration for back-left drive motor
-     * @param backRightTurnConfig configuration for back-right turn motor
-     * @param backRightAbsEncoderConfig configuration for back-right absolute encoder
      */
-    public Drive(
-            RobotState robotState,
-            MotorConfig frontLeftDriveConfig,
-            MotorConfig frontLeftTurnConfig,
-            AbsEncoderConfig frontLeftAbsEncoderConfig,
-            MotorConfig frontRightDriveConfig,
-            MotorConfig frontRightTurnConfig,
-            AbsEncoderConfig frontRightAbsEncoderConfig,
-            MotorConfig backLeftDriveConfig,
-            MotorConfig backLeftTurnConfig,
-            AbsEncoderConfig backLeftAbsEncoderConfig,
-            MotorConfig backRightDriveConfig,
-            MotorConfig backRightTurnConfig,
-            AbsEncoderConfig backRightAbsEncoderConfig) {
+    public Drive(RobotState robotState) {
         super("Drive", DriveState.OFF);
         this.robotState = robotState;
         modules = new SwerveModule[4];
-        modules[0] =
-                new SwerveModule(
-                        frontLeftDriveConfig,
-                        frontLeftTurnConfig,
-                        frontLeftAbsEncoderConfig,
-                        SwerveModuleName.FRONT_LEFT);
-        modules[1] =
-                new SwerveModule(
-                        frontRightDriveConfig,
-                        frontRightTurnConfig,
-                        frontRightAbsEncoderConfig,
-                        SwerveModuleName.FRONT_RIGHT);
-        modules[2] =
-                new SwerveModule(
-                        backLeftDriveConfig,
-                        backLeftTurnConfig,
-                        backLeftAbsEncoderConfig,
-                        SwerveModuleName.BACK_LEFT);
-        modules[3] =
-                new SwerveModule(
-                        backRightDriveConfig,
-                        backRightTurnConfig,
-                        backRightAbsEncoderConfig,
-                        SwerveModuleName.BACK_RIGHT);
+        modules[0] = new SwerveModule(SwerveModuleName.FRONT_LEFT);
+        modules[1] = new SwerveModule(SwerveModuleName.FRONT_RIGHT);
+        modules[2] = new SwerveModule(SwerveModuleName.BACK_LEFT);
+        modules[3] = new SwerveModule(SwerveModuleName.BACK_RIGHT);
 
         Distance halfTrackWidthX = DriveConstants.TRACK_WIDTH_X.div(2.0);
         Distance halfTrackWidthY = DriveConstants.TRACK_WIDTH_Y.div(2.0);

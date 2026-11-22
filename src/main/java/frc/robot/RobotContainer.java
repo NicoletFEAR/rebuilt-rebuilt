@@ -1,20 +1,9 @@
 package frc.robot;
 
-import com.ctre.phoenix6.signals.MotorAlignmentValue;
-import frc.lib.motor.MotorConfig;
-import frc.lib.sensor.absencoder.AbsEncoderConfig;
 import frc.robot.operator.OperatorConstants;
-import frc.robot.subsystems.DeviceIds;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.Superstructure.SuperState;
-import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.drive.Drive.DriveConstants;
 import frc.robot.subsystems.drive.DriveParameters;
-import frc.robot.subsystems.drive.SwerveModuleName;
-import frc.robot.subsystems.launcher.Flywheels.FlywheelConstants;
-import frc.robot.subsystems.launcher.Hood.HoodConstants;
-import frc.robot.subsystems.launcher.Indexer.IndexerConstants;
-import frc.robot.subsystems.launcher.Launcher;
 import org.wpilib.driverstation.Gamepad;
 
 /**
@@ -23,12 +12,12 @@ import org.wpilib.driverstation.Gamepad;
  */
 public final class RobotContainer {
     private final RobotState robotState = new RobotState();
-    private final Superstructure superstructure =
-            new Superstructure(buildDrive(robotState), buildLauncher());
+    private final Superstructure superstructure;
     private final Gamepad driverController = new Gamepad(0);
 
     /** Applies deadbands to the driver controller. */
     public RobotContainer() {
+        superstructure = new Superstructure(robotState);
         driverController.setLeftXDeadband(OperatorConstants.DEADBAND);
         driverController.setLeftYDeadband(OperatorConstants.DEADBAND);
         driverController.setLeftTriggerDeadband(OperatorConstants.DEADBAND);
@@ -69,50 +58,5 @@ public final class RobotContainer {
 
         superstructure.periodic();
         robotState.log();
-    }
-
-    /**
-     * Builds the drive subsystem. Four swerve modules are created in front-left, front-right,
-     * back-left, back-right order.
-     */
-    private Drive buildDrive(RobotState robotState) {
-        return new Drive(
-                robotState,
-                new MotorConfig(
-                        SwerveModuleName.FRONT_LEFT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                new MotorConfig(SwerveModuleName.FRONT_LEFT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
-                new AbsEncoderConfig(
-                        SwerveModuleName.FRONT_LEFT.absEncoder(), SwerveModuleName.FRONT_LEFT.offset()),
-                new MotorConfig(
-                        SwerveModuleName.FRONT_RIGHT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                new MotorConfig(
-                        SwerveModuleName.FRONT_RIGHT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
-                new AbsEncoderConfig(
-                        SwerveModuleName.FRONT_RIGHT.absEncoder(), SwerveModuleName.FRONT_RIGHT.offset()),
-                new MotorConfig(
-                        SwerveModuleName.BACK_LEFT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                new MotorConfig(SwerveModuleName.BACK_LEFT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
-                new AbsEncoderConfig(
-                        SwerveModuleName.BACK_LEFT.absEncoder(), SwerveModuleName.BACK_LEFT.offset()),
-                new MotorConfig(
-                        SwerveModuleName.BACK_RIGHT.drive(), DriveConstants.DRIVE_FEEDFORWARD_VALUES),
-                new MotorConfig(SwerveModuleName.BACK_RIGHT.turn(), DriveConstants.TURN_FEEDFORWARD_VALUES),
-                new AbsEncoderConfig(
-                        SwerveModuleName.BACK_RIGHT.absEncoder(), SwerveModuleName.BACK_RIGHT.offset()));
-    }
-
-    /**
-     * Builds the launcher subsystem (two flywheel motors, an indexer, a hood, and a hood encoder).
-     */
-    private Launcher buildLauncher() {
-        return new Launcher(
-                new MotorConfig(DeviceIds.LEFT_LAUNCHER, FlywheelConstants.FEEDFORWARD_VALUES),
-                new MotorConfig(
-                        DeviceIds.RIGHT_LAUNCHER,
-                        FlywheelConstants.FEEDFORWARD_VALUES,
-                        MotorAlignmentValue.Opposed),
-                new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES),
-                new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES),
-                new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET));
     }
 }
