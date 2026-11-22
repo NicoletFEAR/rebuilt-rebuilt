@@ -1,7 +1,7 @@
 # Fixes
 * Replace CanRangeConfig with BeamBreakConfig and TofConfig
-* Implement sim for motors
 * Add current limits, inversion, soft limits to MotorConfig
+* Add motor type to MotorConfig
 * Add MotionMagic parameters to MotorConfig
 * Update CAN buses to SystemCore
 * Fix absolute encoders

@@ -57,12 +57,10 @@ public final class Launcher extends StateMachine<Launcher.LauncherState> {
         static record Idle() implements LauncherState {}
 
         /** Flywheels and hood are set up to launch, but the indexer is off. */
-        static record SpinUp(LaunchParameters parameters)
-                implements LauncherState {}
+        static record SpinUp(LaunchParameters parameters) implements LauncherState {}
 
         /** Flywheels and hood are set up to launch, and the indexer feeds game pieces. */
-        static record Launch(LaunchParameters parameters)
-                implements LauncherState {}
+        static record Launch(LaunchParameters parameters) implements LauncherState {}
 
         /** Flywheels idle, indexer runs in reverse, and the hood is off. */
         static record Extake() implements LauncherState {}

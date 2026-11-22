@@ -43,31 +43,31 @@ import org.wpilib.units.measure.Temperature;
 public class TalonFxMotor extends MotorIO {
 
     /** Physical TalonFX motor controller. */
-    private final TalonFX motor;
+    protected final TalonFX motor;
 
     /** Collection of status signals used to retrieve motor inputs. */
-    private final StatusSignalCollection signals = new StatusSignalCollection(6);
+    protected final StatusSignalCollection signals = new StatusSignalCollection(6);
 
     /** Rotor position status signal. */
-    private final StatusSignal<org.wpilib.units.measure.Angle> positionSignal;
+    protected final StatusSignal<org.wpilib.units.measure.Angle> positionSignal;
 
     /** Rotor angular velocity status signal. */
-    private final StatusSignal<org.wpilib.units.measure.AngularVelocity> velocitySignal;
+    protected final StatusSignal<org.wpilib.units.measure.AngularVelocity> velocitySignal;
 
     /** Rotor angular acceleration status signal. */
-    private final StatusSignal<AngularAcceleration> accelerationSignal;
+    protected final StatusSignal<AngularAcceleration> accelerationSignal;
 
     /** Motor voltage status signal. */
-    private final StatusSignal<org.wpilib.units.measure.Voltage> voltageSignal;
+    protected final StatusSignal<org.wpilib.units.measure.Voltage> voltageSignal;
 
     /** Stator current status signal. */
-    private final StatusSignal<Current> statorCurrentSignal;
+    protected final StatusSignal<Current> statorCurrentSignal;
 
     /** Supply current status signal. */
-    private final StatusSignal<Current> supplyCurrentSignal;
+    protected final StatusSignal<Current> supplyCurrentSignal;
 
     /** Motor temperature status signal. */
-    private final StatusSignal<Temperature> temperatureSignal;
+    protected final StatusSignal<Temperature> temperatureSignal;
 
     /** CTRE control request used to configure this motor as a follower. */
     private final Follower followerControl = new Follower(0, MotorAlignmentValue.Aligned);
