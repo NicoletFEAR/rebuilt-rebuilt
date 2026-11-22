@@ -1,6 +1,5 @@
 package frc.robot.subsystems.intake;
 
-import frc.lib.motor.MotorConfig;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.robot.subsystems.intake.Arm.ArmState;
@@ -13,19 +12,12 @@ import frc.robot.subsystems.intake.Wheels.WheelState;
  * current mapping.
  */
 public final class Intake extends StateMachine<Intake.IntakeState> {
-    private final Arm arm;
-    private final Wheels wheels;
+    private final Arm arm = new Arm();
+    private final Wheels wheels = new Wheels();
 
-    /**
-     * Creates the intake.
-     *
-     * @param armConfig configuration for the arm motor
-     * @param wheelConfig configuration for the wheel motor
-     */
-    public Intake(MotorConfig armConfig, MotorConfig wheelConfig) {
+    /** Creates the intake. */
+    public Intake() {
         super("Intake", IntakeState.START);
-        arm = new Arm(armConfig);
-        wheels = new Wheels(wheelConfig);
     }
 
     /** States of the intake. */

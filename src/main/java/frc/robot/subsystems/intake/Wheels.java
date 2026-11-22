@@ -10,6 +10,7 @@ import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngularVelocity;
+import frc.robot.subsystems.DeviceIds;
 
 /**
  * Intake wheels.
@@ -17,18 +18,19 @@ import frc.lib.units.AngularVelocity;
  * <p>The wheels are driven by an {@link AngularVelocityModule}; each state maps to either zero
  * voltage or a velocity setpoint defined in {@link WheelConstants}.
  */
-public final class Wheels extends StateMachine<Wheels.WheelState> {
-    private final AngularVelocityModule module;
+final class Wheels extends StateMachine<Wheels.WheelState> {
+    private final AngularVelocityModule module =
+            new AngularVelocityModule(
+                    name,
+                    MotorIO.buildMotor(
+                            new MotorConfig(
+                                    DeviceIds.INTAKE_WHEELS,
+                                    WheelConstants.ROTOR_TO_MECHANISM_RATIO,
+                                    WheelConstants.FEEDFORWARD_VALUES)));
 
-    /**
-     * Creates the wheels.
-     *
-     * @param config configuration for the motor
-     */
-    Wheels(MotorConfig config) {
+    /** Creates the wheels. */
+    Wheels() {
         super("Intake/Wheels", WheelState.OFF);
-        config = config.withSensorToMechanismRatio(WheelConstants.ROTOR_TO_MECHANISM_RATIO);
-        module = new AngularVelocityModule(name, MotorIO.buildMotor(config));
     }
 
     /** States of the wheels. */
@@ -54,10 +56,10 @@ public final class Wheels extends StateMachine<Wheels.WheelState> {
     }
 
     /** Constants for the intake wheels. */
-    public static final class WheelConstants {
+    private static final class WheelConstants {
 
         /** Feedforward and feedback gains for the wheel motor. */
-        public static final FeedforwardValues FEEDFORWARD_VALUES =
+        private static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         /** Rotor-to-mechanism ratio for the wheels. */

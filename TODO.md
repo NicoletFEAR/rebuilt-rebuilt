@@ -1,12 +1,11 @@
 # Fixes
 * Replace CanRangeConfig with BeamBreakConfig and TofConfig
 * Add current limits, inversion, soft limits to MotorConfig
-* Add motor type to MotorConfig
+* Add motor type to MotorConfig and beam break type to BeamBreakConfig
 * Add MotionMagic parameters to MotorConfig
 * Update CAN buses to SystemCore
 * Fix absolute encoders
 * Test deadbands to make sure they're fine
-* Make all the IOs vendor-agnostic
 * In general, get sub-subsystems internal
 * See if we can get their constants private
 * Move drive/turn specific constants to drive/turn files
@@ -39,7 +38,7 @@
 * Alerts when attempting to set a voltage higher than 12.0
 * Alerts when a configuration doesn't apply
 * Error injection for simulation (with sim for sensors)
-* LedIO
+* CANdle animations and simulation
 * Camera stuff
 * Add CTRE swerve IO
 * Procedurally generated autos (ideally with custom pathfinder that keeps the Limelight(s) looking at AprilTags at all times for optimal accuracy)

@@ -44,7 +44,22 @@ public record MotorConfig(
      * @param feedforwardValues PID and feedforward gains for the motor
      */
     public MotorConfig(CanId id, FeedforwardValues feedforwardValues) {
-        this(id, 1.0, NeutralModeValue.Coast, feedforwardValues, Optional.empty());
+        this(id, 1.0, feedforwardValues);
+    }
+
+    /**
+     * Creates a motor configuration using the default neutral mode and no follower alignment.
+     *
+     * <p>The default neutral mode is {@link NeutralModeValue#Coast} and the motor is configured
+     * without a follower alignment.
+     *
+     * @param id CAN ID and CAN bus of the motor
+     * @param sensorToMechanismRatio number of radians of sensor rotation associated with 1 radian of
+     *     mechanism rotation or 1 meter of mechanism movement
+     * @param feedforwardValues PID and feedforward gains for the motor
+     */
+    public MotorConfig(CanId id, double sensorToMechanismRatio, FeedforwardValues feedforwardValues) {
+        this(id, sensorToMechanismRatio, NeutralModeValue.Coast, feedforwardValues, Optional.empty());
     }
 
     /**

@@ -11,9 +11,6 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.Drive.DriveConstants;
 import frc.robot.subsystems.drive.DriveParameters;
 import frc.robot.subsystems.drive.SwerveModuleName;
-import frc.robot.subsystems.intake.Arm.ArmConstants;
-import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.Wheels.WheelConstants;
 import frc.robot.subsystems.launcher.Flywheels.FlywheelConstants;
 import frc.robot.subsystems.launcher.Hood.HoodConstants;
 import frc.robot.subsystems.launcher.Indexer.IndexerConstants;
@@ -27,7 +24,7 @@ import org.wpilib.driverstation.Gamepad;
 public final class RobotContainer {
     private final RobotState robotState = new RobotState();
     private final Superstructure superstructure =
-            new Superstructure(buildDrive(robotState), buildLauncher(), buildIntake());
+            new Superstructure(buildDrive(robotState), buildLauncher());
     private final Gamepad driverController = new Gamepad(0);
 
     /** Applies deadbands to the driver controller. */
@@ -117,12 +114,5 @@ public final class RobotContainer {
                 new MotorConfig(DeviceIds.INDEXER, IndexerConstants.FEEDFORWARD_VALUES),
                 new MotorConfig(DeviceIds.HOOD, HoodConstants.FEEDFORWARD_VALUES),
                 new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET));
-    }
-
-    /** Builds the intake subsystem (arm and wheels). */
-    private Intake buildIntake() {
-        return new Intake(
-                new MotorConfig(DeviceIds.INTAKE_ARM, ArmConstants.FEEDFORWARD_VALUES),
-                new MotorConfig(DeviceIds.INTAKE_WHEELS, WheelConstants.FEEDFORWARD_VALUES));
     }
 }

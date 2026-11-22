@@ -23,7 +23,7 @@ import frc.robot.subsystems.launcher.Launcher.LauncherState;
 public final class Superstructure extends StateMachine<Superstructure.SuperState> {
     private final Drive drive;
     private final Launcher launcher;
-    private final Intake intake;
+    private final Intake intake = new Intake();
 
     /**
      * Creates the superstructure.
@@ -32,11 +32,10 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
      * @param launcher the launcher subsystem
      * @param intake the intake subsystem
      */
-    public Superstructure(Drive drive, Launcher launcher, Intake intake) {
+    public Superstructure(Drive drive, Launcher launcher) {
         super("Superstructure", SuperState.START);
         this.drive = drive;
         this.launcher = launcher;
-        this.intake = intake;
     }
 
     /** States of the superstructure. */

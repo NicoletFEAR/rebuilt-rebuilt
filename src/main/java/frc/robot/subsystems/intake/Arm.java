@@ -9,6 +9,7 @@ import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Distance;
+import frc.robot.subsystems.DeviceIds;
 
 /**
  * Intake arm that extends and retracts the intake.
@@ -16,18 +17,19 @@ import frc.lib.units.Distance;
  * <p>The arm is a linear mechanism whose position is commanded with a position setpoint; see {@link
  * #periodic()} for the positions commanded by each state.
  */
-public final class Arm extends StateMachine<Arm.ArmState> {
-    private final LinearPositionModule module;
+final class Arm extends StateMachine<Arm.ArmState> {
+    private final LinearPositionModule module =
+            new LinearPositionModule(
+                    name,
+                    MotorIO.buildMotor(
+                            new MotorConfig(
+                                    DeviceIds.INTAKE_ARM,
+                                    ArmConstants.SENSOR_TO_MECHANISM_RATIO,
+                                    ArmConstants.FEEDFORWARD_VALUES)));
 
-    /**
-     * Creates the arm.
-     *
-     * @param config configuration for the motor
-     */
-    Arm(MotorConfig config) {
+    /** Creates the arm. */
+    Arm() {
         super("Intake/Arm", ArmState.RETRACT);
-        config = config.withSensorToMechanismRatio(ArmConstants.ROTOR_TO_MECHANISM_RATIO);
-        module = new LinearPositionModule(name, MotorIO.buildMotor(config));
     }
 
     /** States of the arm. */
@@ -49,14 +51,14 @@ public final class Arm extends StateMachine<Arm.ArmState> {
     }
 
     /** Constants for the intake arm. */
-    public static final class ArmConstants {
+    private static final class ArmConstants {
 
         /** Feedforward and feedback gains for the arm motor. */
-        public static final FeedforwardValues FEEDFORWARD_VALUES =
+        private static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(25.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
         /** Rotor-to-mechanism ratio for the arm, in rotor radians per meter of extension. */
-        private static final double ROTOR_TO_MECHANISM_RATIO = 40.0 / 3.0;
+        private static final double SENSOR_TO_MECHANISM_RATIO = 40.0 / 3.0;
 
         /** Extension of the deployed arm position. */
         private static final Distance DEPLOY_DISTANCE = Meters.of(0.2);
