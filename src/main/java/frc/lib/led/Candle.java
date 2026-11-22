@@ -33,7 +33,7 @@ public class Candle implements LedIO {
      */
     public Candle(LedConfig config) {
         led = new CANdle(config.id().id(), config.id().bus());
-        colorControl = new SolidColor(8, config.ledCount());
+        colorControl = new SolidColor(8, 7 + config.ledCount());
         statusColorControl = new SolidColor(0, 0);
 
         voltageSignal = led.getSupplyVoltage();

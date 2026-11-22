@@ -1,5 +1,4 @@
 # Fixes
-* Replace CanRangeConfig with BeamBreakConfig and TofConfig
 * Add current limits, inversion, soft limits to MotorConfig
 * Add motor type to MotorConfig and beam break type to BeamBreakConfig
 * Add MotionMagic parameters to MotorConfig
@@ -8,8 +7,8 @@
 * Test deadbands to make sure they're fine
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Refactor Rotation2d safe creation out of Utils once we have a folder for field geometry
-* Add temperature to any IO that we can
 * Introduce constant for status signal update period
+* Implement support for CANdle with no connected LEDs
 
 # Structure
 * New Outputs record for each subsystem to guarantee every subsystem state does something with every part of the subsystem

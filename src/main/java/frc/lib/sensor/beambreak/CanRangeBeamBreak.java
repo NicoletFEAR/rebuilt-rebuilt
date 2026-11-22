@@ -6,7 +6,6 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.CANrange;
 import frc.lib.Configurator;
-import frc.lib.sensor.CanRangeConfig;
 
 /**
  * Real hardware implementation of {@link BeamBreakIO} using a CTRE CANrange sensor.
@@ -34,7 +33,7 @@ public class CanRangeBeamBreak implements BeamBreakIO {
      *
      * @param config Configuration for the CANrange sensor
      */
-    public CanRangeBeamBreak(CanRangeConfig config) {
+    public CanRangeBeamBreak(BeamBreakConfig config) {
         canRange = new CANrange(config.id().id(), config.id().bus());
         Configurator.applyCanRangeConfiguration(canRange, config.getCanRangeConfiguration());
 

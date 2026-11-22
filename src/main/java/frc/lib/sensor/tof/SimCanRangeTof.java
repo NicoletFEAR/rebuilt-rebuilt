@@ -1,6 +1,6 @@
 package frc.lib.sensor.tof;
 
-import frc.lib.sensor.CanRangeConfig;
+import frc.lib.CanId;
 
 /**
  * Simulation implementation of {@link CanRangeTof} for a CANrange time-of-flight sensor.
@@ -13,10 +13,10 @@ public final class SimCanRangeTof extends CanRangeTof {
     /**
      * Creates a simulated CANrange time-of-flight sensor.
      *
-     * @param config configuration for the simulated CANrange sensor
+     * @param id ID of the simulated CANrange sensor
      */
-    public SimCanRangeTof(CanRangeConfig config) {
-        super(config);
+    public SimCanRangeTof(CanId id) {
+        super(id);
     }
 
     /**

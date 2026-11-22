@@ -1,7 +1,5 @@
 package frc.lib.sensor.beambreak;
 
-import frc.lib.sensor.CanRangeConfig;
-
 /**
  * Simulation implementation of {@link CanRangeBeamBreak} for a CANrange beam break sensor.
  *
@@ -16,7 +14,7 @@ public final class SimCanRangeBeamBreak extends CanRangeBeamBreak {
      *
      * @param config Configuration for the CANrange sensor
      */
-    public SimCanRangeBeamBreak(CanRangeConfig config) {
+    public SimCanRangeBeamBreak(BeamBreakConfig config) {
         super(config);
     }
 

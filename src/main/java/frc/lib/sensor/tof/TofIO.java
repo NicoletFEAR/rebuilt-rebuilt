@@ -2,7 +2,7 @@ package frc.lib.sensor.tof;
 
 import static frc.lib.units.DistanceUnit.Meters;
 
-import frc.lib.sensor.CanRangeConfig;
+import frc.lib.CanId;
 import frc.lib.units.Distance;
 import frc.robot.Robot;
 import org.littletonrobotics.junction.AutoLog;
@@ -23,11 +23,11 @@ public interface TofIO {
      * Creates a real CANrange time-of-flight sensor or a simulated CANrange time-of-flight sensor
      * depending on whether the robot is being simulated or not.
      *
-     * @param config configuration for the CANrange time-of-flight sensor
-     * @return the correct CANrange time-of-flight sensor implementation
+     * @param id ID of the time-of-flight sensor
+     * @return the correct time-of-flight sensor implementation
      */
-    static CanRangeTof buildCanRangeTof(CanRangeConfig config) {
-        return Robot.isReal() ? new CanRangeTof(config) : new SimCanRangeTof(config);
+    static TofIO buildTof(CanId id) {
+        return Robot.isReal() ? new CanRangeTof(id) : new SimCanRangeTof(id);
     }
 
     /**
