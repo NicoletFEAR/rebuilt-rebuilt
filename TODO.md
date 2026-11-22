@@ -12,6 +12,8 @@
 * Move drive/turn specific constants to drive/turn files
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Refactor Rotation2d safe creation out of Utils once we have a folder for field geometry
+* Add temperature to any IO that we can
+* Introduce constant for status signal update period
 
 # Structure
 * New Outputs record for each subsystem to guarantee every subsystem state does something with every part of the subsystem
@@ -23,6 +25,7 @@
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
 
 # Features
+* Auto-aim
 * Add replay IO
 * Get actual setpoints in here
 * Add a class to manage voltage and track which battery is being used through Elastic dropdown

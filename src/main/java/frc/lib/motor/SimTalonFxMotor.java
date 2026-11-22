@@ -1,15 +1,13 @@
 package frc.lib.motor;
 
-import com.ctre.phoenix6.sim.TalonFXSimState;
+import static org.wpilib.units.Units.Volts;
 
+import com.ctre.phoenix6.sim.TalonFXSimState;
 import frc.lib.units.AngleUnit;
 import frc.lib.units.AngularVelocityUnit;
 import frc.lib.units.CurrentUnit;
 import frc.lib.units.TemperatureUnit;
 import frc.lib.units.VoltageUnit;
-
-import static org.wpilib.units.Units.Volts;
-
 import org.wpilib.math.system.DCMotor;
 import org.wpilib.math.system.Models;
 import org.wpilib.simulation.DCMotorSim;

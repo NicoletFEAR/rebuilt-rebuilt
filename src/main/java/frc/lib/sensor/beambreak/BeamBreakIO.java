@@ -55,9 +55,11 @@ public interface BeamBreakIO {
     }
 
     /**
-     * Updates the provided inputs with the beam break sensor's current status. This is done instead
-     * of simply returning a new inputs object so that we can reuse inputs objects, and don't have to
-     * waste time each loop period allocating a bunch of new inputs objects.
+     * Updates the provided inputs with the beam break sensor's current status.
+     *
+     * <p>This is done instead of simply returning a new inputs object so that we can reuse inputs
+     * objects, and don't have to waste time each loop period allocating a bunch of new inputs
+     * objects.
      *
      * @param inputs object that should be populated with the sensor's current inputs
      */

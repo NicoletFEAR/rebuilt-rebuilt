@@ -106,9 +106,11 @@ public abstract class MotorIO {
     }
 
     /**
-     * Updates the provided inputs with the motor's current status. This is done instead of simply
-     * returning a new inputs object so that we can reuse inputs objects, and don't have to waste time
-     * each loop period allocating a bunch of new inputs objects.
+     * Updates the provided inputs with the motor's current status.
+     *
+     * <p>This is done instead of simply returning a new inputs object so that we can reuse inputs
+     * objects, and don't have to waste time each loop period allocating a bunch of new inputs
+     * objects.
      *
      * @param inputs object that should be populated with the motor's current inputs
      */

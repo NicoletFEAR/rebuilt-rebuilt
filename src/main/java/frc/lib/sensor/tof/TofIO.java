@@ -48,8 +48,10 @@ public interface TofIO {
 
     /**
      * Updates the provided inputs with the time-of-flight sensor's current status and measured
-     * distance. This is done instead of simply returning a new inputs object so that we can reuse
-     * inputs objects, and don't have to waste time each loop period allocating a bunch of new inputs
+     * distance.
+     *
+     * <p>This is done instead of simply returning a new inputs object so that we can reuse inputs
+     * objects, and don't have to waste time each loop period allocating a bunch of new inputs
      * objects.
      *
      * @param input object that should be populated with the sensor's current inputs

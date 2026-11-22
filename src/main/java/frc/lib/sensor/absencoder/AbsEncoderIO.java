@@ -45,9 +45,11 @@ public interface AbsEncoderIO {
     }
 
     /**
-     * Updates the provided inputs with the latest absolute encoder data. This is done instead of
-     * simply returning a new inputs object so that we can reuse inputs objects, and don't have to
-     * waste time each loop period allocating a bunch of new inputs objects.
+     * Updates the provided inputs with the latest absolute encoder data.
+     *
+     * <p>This is done instead of simply returning a new inputs object so that we can reuse inputs
+     * objects, and don't have to waste time each loop period allocating a bunch of new inputs
+     * objects.
      *
      * @param inputs the input object whose data will be updated
      */
