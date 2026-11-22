@@ -63,7 +63,7 @@ final class Wheels extends StateMachine<Wheels.WheelState> {
         private static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-        /** Rotor-to-mechanism ratio for the wheels. */
+        /** Sensor-to-mechanism ratio for the wheels. */
         private static final double ROTOR_TO_MECHANISM_RATIO = 0.6;
 
         /** Velocity commanded in the {@link WheelState#JOSTLE} state. */

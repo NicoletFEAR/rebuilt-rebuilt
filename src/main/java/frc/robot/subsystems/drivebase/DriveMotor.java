@@ -1,15 +1,17 @@
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems.drivebase;
 
+import static frc.lib.units.DistanceUnit.Meters;
 import static frc.lib.units.VoltageUnit.Volts;
 
 import frc.lib.module.velocity.LinearVelocityModule;
+import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Distance;
 import frc.lib.units.Velocity;
-import frc.robot.subsystems.drive.Drive.DriveConstants;
+import frc.robot.subsystems.drivebase.Drivebase.DrivebaseConstants;
 
 /**
  * Drive motor component of a swerve module.
@@ -33,8 +35,8 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
                         MotorIO.buildMotor(
                                 new MotorConfig(
                                         name.drive(),
-                                        DriveConstants.DRIVE_SENSOR_TO_MECHANISM_RATIO,
-                                        DriveConstants.DRIVE_FEEDFORWARD_VALUES)));
+                                        DriveMotorConstants.SENSOR_TO_MECHANISM_RATIO,
+                                        DriveMotorConstants.FEEDFORWARD_VALUES)));
     }
 
     /** States of the drive motor. */
@@ -70,5 +72,20 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
     /** Returns the current linear velocity of the drive mechanism. */
     Velocity getVelocity() {
         return module.getVelocity();
+    }
+
+    /** Constants for the swerve module drive motors. */
+    private static final class DriveMotorConstants {
+        /** Sensor-to-mechanism ratio for the drive motors. */
+        private static final double SENSOR_TO_MECHANISM_RATIO =
+                425.0 / 63.0 / DrivebaseConstants.WHEEL_RADIUS.in(Meters);
+
+        /** Feedforward and feedback gains for the drive motors. */
+        private static final FeedforwardValues FEEDFORWARD_VALUES =
+                new FeedforwardValues(2.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+        private DriveMotorConstants() {
+            /* Keep this constructor empty. */
+        }
     }
 }

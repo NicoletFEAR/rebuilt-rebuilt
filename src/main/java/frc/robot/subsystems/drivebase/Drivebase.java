@@ -1,6 +1,5 @@
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems.drivebase;
 
-import static frc.lib.units.AngleUnit.Rotations;
 import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 import static frc.lib.units.DistanceUnit.Inches;
 import static frc.lib.units.DistanceUnit.Meters;
@@ -8,17 +7,14 @@ import static frc.lib.units.TimeUnit.Seconds;
 import static frc.lib.units.VelocityUnit.MetersPerSecond;
 
 import frc.lib.estimate.OdometryMeasurement;
-import frc.lib.motor.FeedforwardValues;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
-import frc.lib.units.Angle;
 import frc.lib.units.AngularVelocity;
 import frc.lib.units.Distance;
 import frc.lib.units.Velocity;
 import frc.robot.ExecutionConstants;
 import frc.robot.RobotState;
-import frc.robot.subsystems.drive.SwerveModule.SwerveModuleState;
-import java.util.HashMap;
+import frc.robot.subsystems.drivebase.SwerveModule.SwerveModuleState;
 import org.littletonrobotics.junction.Logger;
 import org.wpilib.driverstation.Alliance;
 import org.wpilib.driverstation.MatchState;
@@ -42,7 +38,7 @@ import org.wpilib.system.Timer;
  *
  * <p>Module order in the {@link #modules} array is front-left, front-right, back-left, back-right.
  */
-public final class Drive extends StateMachine<Drive.DriveState> {
+public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
     private final RobotState robotState;
     private final SwerveModule[] modules;
 
@@ -54,8 +50,8 @@ public final class Drive extends StateMachine<Drive.DriveState> {
      *
      * @param robotState shared robot state that receives odometry measurements
      */
-    public Drive(RobotState robotState) {
-        super("Drive", DriveState.OFF);
+    public Drivebase(RobotState robotState) {
+        super("Drive", DrivebaseState.OFF);
         this.robotState = robotState;
         modules = new SwerveModule[4];
         modules[0] = new SwerveModule(SwerveModuleName.FRONT_LEFT);
@@ -63,8 +59,8 @@ public final class Drive extends StateMachine<Drive.DriveState> {
         modules[2] = new SwerveModule(SwerveModuleName.BACK_LEFT);
         modules[3] = new SwerveModule(SwerveModuleName.BACK_RIGHT);
 
-        Distance halfTrackWidthX = DriveConstants.TRACK_WIDTH_X.div(2.0);
-        Distance halfTrackWidthY = DriveConstants.TRACK_WIDTH_Y.div(2.0);
+        Distance halfTrackWidthX = DrivebaseConstants.TRACK_WIDTH_X.div(2.0);
+        Distance halfTrackWidthY = DrivebaseConstants.TRACK_WIDTH_Y.div(2.0);
         kinematics =
                 new SwerveDriveKinematics(
                         new Translation2d[] {
@@ -90,13 +86,13 @@ public final class Drive extends StateMachine<Drive.DriveState> {
     }
 
     /** States of the drive subsystem. */
-    public static sealed interface DriveState extends State
-            permits DriveState.Off, DriveState.Teleop {
+    public static sealed interface DrivebaseState extends State
+            permits DrivebaseState.Off, DrivebaseState.Drive {
         /** Drive motors are off. */
-        static record Off() implements DriveState {}
+        static record Off() implements DrivebaseState {}
 
         /** Drive teleop using the given driver input parameters. */
-        static record Teleop(DriveParameters parameters) implements DriveState {}
+        static record Drive(DriveParameters parameters) implements DrivebaseState {}
 
         /** Shared constant for the {@link Off} record to avoid unnecessary allocations. */
         static final Off OFF = new Off();
@@ -106,9 +102,9 @@ public final class Drive extends StateMachine<Drive.DriveState> {
      * Logs module positions and velocities, updates the pose estimator, applies the current drive
      * state, runs each module's periodic logic, and logs the drive state.
      *
-     * <p>In {@link DriveState.Teleop}, the driver input is scaled by the maximum drive velocity and
-     * maximum angular velocity, discretized to this loop period, converted to module setpoints using
-     * swerve kinematics, and desaturated so no wheel exceeds the maximum velocity.
+     * <p>In {@link DrivebaseState.Drive}, the driver input is scaled by the maximum drive velocity
+     * and maximum angular velocity, discretized to this loop period, converted to module setpoints
+     * using swerve kinematics, and desaturated so no wheel exceeds the maximum velocity.
      */
     public void periodic() {
         Logger.recordOutput("Drive/Module Positions", getModulePositions());
@@ -117,25 +113,25 @@ public final class Drive extends StateMachine<Drive.DriveState> {
         robotState.addOdometryMeasurement(getOdometryMeasurement());
 
         switch (state) {
-            case DriveState.Off() -> {
+            case DrivebaseState.Off() -> {
                 for (int i = 0; i < 4; i++) {
                     modules[i].setState(SwerveModuleState.OFF);
                 }
             }
 
-            case DriveState.Teleop(DriveParameters parameters) -> {
+            case DrivebaseState.Drive(DriveParameters parameters) -> {
                 Translation2d linearVelocity =
                         new Translation2d(parameters.x(), parameters.y())
-                                .times(DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
+                                .times(DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
                 double omega =
-                        parameters.omega() * DriveConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
+                        parameters.omega() * DrivebaseConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
                 ChassisVelocities velocities =
                         new ChassisVelocities(linearVelocity.getX(), linearVelocity.getY(), omega);
                 velocities = velocities.discretize(ExecutionConstants.LOOP_PERIOD.reciprocal().in(Seconds));
                 SwerveModuleVelocity[] setpointStates = kinematics.toSwerveModuleVelocities(velocities);
                 setpointStates =
                         SwerveDriveKinematics.desaturateWheelVelocities(
-                                setpointStates, DriveConstants.MAX_VELOCITY.in(MetersPerSecond));
+                                setpointStates, DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
                 Logger.recordOutput("Drive/Desired Module States", setpointStates);
 
                 for (int i = 0; i < 4; i++) {
@@ -182,38 +178,10 @@ public final class Drive extends StateMachine<Drive.DriveState> {
         return result;
     }
 
-    /** Constants for the drive base (gear ratios, encoder offsets, gains, and limits). */
-    public static final class DriveConstants {
+    /** Constants for the drive base (dimensions and limits). */
+    static final class DrivebaseConstants {
         /** Radius of the drive wheels. */
-        private static final Distance WHEEL_RADIUS = Inches.of(2.0);
-
-        /** Rotor-to-mechanism ratio for the drive, in rotor radians per meter of wheel travel. */
-        public static final double DRIVE_SENSOR_TO_MECHANISM_RATIO =
-                425.0 / 63.0 / WHEEL_RADIUS.in(Meters);
-
-        /** Rotor-to-mechanism ratio for the turn, in motor rotations per mechanism rotation. */
-        public static final double TURN_SENSOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
-
-        /**
-         * Absolute encoder offset for each turn mechanism. Use {@link SwerveModuleName#offset()}
-         * instead of referencing this directly.
-         */
-        public static final HashMap<SwerveModuleName, Angle> OFFSET = new HashMap<>();
-
-        static {
-            OFFSET.put(SwerveModuleName.FRONT_LEFT, Rotations.of(-0.8896484375));
-            OFFSET.put(SwerveModuleName.FRONT_RIGHT, Rotations.of(-0.09716796875));
-            OFFSET.put(SwerveModuleName.BACK_LEFT, Rotations.of(-0.721923828125));
-            OFFSET.put(SwerveModuleName.BACK_RIGHT, Rotations.of(-0.37841796875));
-        }
-
-        /** Feedforward and feedback gains for the drive motors. */
-        public static final FeedforwardValues DRIVE_FEEDFORWARD_VALUES =
-                new FeedforwardValues(2.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-
-        /** Feedforward and feedback gains for the turn motors. */
-        public static final FeedforwardValues TURN_FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.03, 0.0, 0.0, 0.0, 0.0, 0.0);
+        static final Distance WHEEL_RADIUS = Inches.of(2.0);
 
         /** Longitudinal (front-to-back) distance between the front and back module centers. */
         private static final Distance TRACK_WIDTH_X = Inches.of(20.753888);
@@ -227,8 +195,8 @@ public final class Drive extends StateMachine<Drive.DriveState> {
         /** Maximum angular velocity of the drive base. */
         private static final AngularVelocity MAX_ANGULAR_VELOCITY = RadiansPerSecond.of(Math.PI * 3.0);
 
-        private DriveConstants() {
-            /* Keep this constructor empty */
+        private DrivebaseConstants() {
+            /* Keep this constructor empty. */
         }
     }
 }

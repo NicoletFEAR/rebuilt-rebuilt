@@ -6,9 +6,6 @@
 * Update CAN buses to SystemCore
 * Fix absolute encoders
 * Test deadbands to make sure they're fine
-* In general, get sub-subsystems internal
-* See if we can get their constants private
-* Move drive/turn specific constants to drive/turn files
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Refactor Rotation2d safe creation out of Utils once we have a folder for field geometry
 * Add temperature to any IO that we can

@@ -19,7 +19,7 @@ import frc.robot.subsystems.DeviceIds;
  * <p>A leader motor drives the flywheels; one or more follower motors are configured to follow it.
  * Each state maps to either zero voltage, the idle velocity, or a commanded launch velocity.
  */
-public final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
+final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     private final MultiAngularVelocityModule module;
 
     /** Creates the flywheels. */
@@ -93,13 +93,13 @@ public final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     }
 
     /** Constants for the launcher flywheels. */
-    public static final class FlywheelConstants {
+    private static final class FlywheelConstants {
 
         /** Feedforward and feedback gains for the flywheel motors. */
-        public static final FeedforwardValues FEEDFORWARD_VALUES =
+        private static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(0.1, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-        /** Rotor-to-mechanism ratio for the flywheels. */
+        /** Sensor-to-mechanism ratio for the flywheels. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 0.8;
 
         /** Velocity commanded in the {@link FlywheelState#IDLE} state. */

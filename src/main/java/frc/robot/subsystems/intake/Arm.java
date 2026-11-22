@@ -58,7 +58,7 @@ final class Arm extends StateMachine<Arm.ArmState> {
         private static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(25.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-        /** Rotor-to-mechanism ratio for the arm, in rotor radians per meter of extension. */
+        /** Sensor-to-mechanism ratio for the arm, in rotor radians per meter of extension. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 40.0 / 3.0;
 
         /** Extension of the deployed arm position. */

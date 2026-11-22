@@ -22,7 +22,7 @@ import frc.robot.subsystems.DeviceIds;
  * absolute encoder (falling back to the motor's relative position when the encoder is
  * disconnected).
  */
-public final class Hood extends StateMachine<Hood.HoodState> {
+final class Hood extends StateMachine<Hood.HoodState> {
     private final AbsEncoderAngularPositionModule module;
 
     /** Creates the hood. */
@@ -82,16 +82,16 @@ public final class Hood extends StateMachine<Hood.HoodState> {
     }
 
     /** Constants for the hood. */
-    public static final class HoodConstants {
+    private static final class HoodConstants {
 
         /** Absolute encoder offset for the hood, in rotations. */
-        public static final Angle HOOD_OFFSET = Rotations.of(-0.25439453125);
+        private static final Angle HOOD_OFFSET = Rotations.of(-0.25439453125);
 
         /** Feedforward and feedback gains for the hood motor. */
-        public static final FeedforwardValues FEEDFORWARD_VALUES =
+        private static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(5.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-        /** Rotor-to-mechanism ratio for the hood. */
+        /** Sensor-to-mechanism ratio for the hood. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 30.0;
 
         private HoodConstants() {

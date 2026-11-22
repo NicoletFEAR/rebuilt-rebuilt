@@ -1,10 +1,11 @@
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems.drivebase;
 
 import frc.lib.CanId;
 import frc.lib.StringHelpers;
 import frc.lib.units.Angle;
 import frc.robot.subsystems.DeviceIds;
-import frc.robot.subsystems.drive.Drive.DriveConstants;
+import frc.robot.subsystems.drivebase.Drivebase.DrivebaseConstants;
+import frc.robot.subsystems.drivebase.TurnMotor.TurnMotorConstants;
 
 /** All the different swerve modules on the robot. */
 public enum SwerveModuleName {
@@ -27,9 +28,9 @@ public enum SwerveModuleName {
         return name;
     }
 
-    /** Returns this module's absolute encoder offset from {@link DriveConstants#OFFSET}. */
+    /** Returns this module's absolute encoder offset from {@link DrivebaseConstants#OFFSET}. */
     public Angle offset() {
-        return DriveConstants.OFFSET.get(this);
+        return TurnMotorConstants.OFFSET.get(this);
     }
 
     /** Returns this module's drive motor ID from {@link DeviceIds#DRIVE}. */

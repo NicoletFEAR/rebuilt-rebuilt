@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.CANBus;
 import frc.lib.CanId;
-import frc.robot.subsystems.drive.SwerveModuleName;
+import frc.robot.subsystems.drivebase.SwerveModuleName;
 import java.util.HashMap;
 
 /**

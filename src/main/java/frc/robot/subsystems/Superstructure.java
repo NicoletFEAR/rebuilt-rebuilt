@@ -6,9 +6,9 @@ import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.robot.RobotState;
-import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.drive.Drive.DriveState;
-import frc.robot.subsystems.drive.DriveParameters;
+import frc.robot.subsystems.drivebase.DriveParameters;
+import frc.robot.subsystems.drivebase.Drivebase;
+import frc.robot.subsystems.drivebase.Drivebase.DrivebaseState;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.Intake.IntakeState;
 import frc.robot.subsystems.launcher.LaunchParameters;
@@ -22,7 +22,7 @@ import frc.robot.subsystems.launcher.Launcher.LauncherState;
  * current mapping. Subsystems are updated in the order drive, intake, launcher.
  */
 public final class Superstructure extends StateMachine<Superstructure.SuperState> {
-    private final Drive drive;
+    private final Drivebase drivebase;
     private final Launcher launcher = new Launcher();
     private final Intake intake = new Intake();
 
@@ -33,7 +33,7 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
      */
     public Superstructure(RobotState robotState) {
         super("Superstructure", SuperState.START);
-        this.drive = new Drive(robotState);
+        this.drivebase = new Drivebase(robotState);
     }
 
     /** States of the superstructure. */
@@ -85,31 +85,31 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
     public void periodic() {
         switch (state) {
             case SuperState.Start() -> {
-                drive.setState(DriveState.OFF);
+                drivebase.setState(DrivebaseState.OFF);
                 launcher.setState(LauncherState.OFF);
                 intake.setState(IntakeState.DEPLOY);
             }
 
             case SuperState.Stopped() -> {
-                drive.setState(DriveState.OFF);
+                drivebase.setState(DrivebaseState.OFF);
                 launcher.setState(LauncherState.OFF);
                 intake.setState(IntakeState.DEPLOY);
             }
 
             case SuperState.Operate(DriveParameters driveParameters) -> {
-                drive.setState(new DriveState.Teleop(driveParameters));
+                drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 launcher.setState(LauncherState.OFF);
                 intake.setState(IntakeState.DEPLOY);
             }
 
             case SuperState.Intake(DriveParameters driveParameters) -> {
-                drive.setState(new DriveState.Teleop(driveParameters));
+                drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 launcher.setState(LauncherState.IDLE);
                 intake.setState(IntakeState.INTAKE);
             }
 
             case SuperState.Launch(DriveParameters driveParameters) -> {
-                drive.setState(new DriveState.Teleop(driveParameters));
+                drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 intake.setState(IntakeState.DEPLOY);
 
                 // We use a hardcoded value of 600 rad/s launcher velocity and 2.5 rad hood angle
@@ -126,7 +126,7 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
             }
 
             case SuperState.LaunchAndIntake(DriveParameters driveParameters) -> {
-                drive.setState(new DriveState.Teleop(driveParameters));
+                drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 intake.setState(IntakeState.INTAKE);
 
                 if (launcher.isReadyToLaunch()) {
@@ -141,13 +141,13 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
             }
 
             case SuperState.Extake(DriveParameters driveParameters) -> {
-                drive.setState(new DriveState.Teleop(driveParameters));
+                drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 intake.setState(IntakeState.EXTAKE);
                 launcher.setState(LauncherState.EXTAKE);
             }
         }
 
-        drive.periodic();
+        drivebase.periodic();
         intake.periodic();
         launcher.periodic();
         logState();

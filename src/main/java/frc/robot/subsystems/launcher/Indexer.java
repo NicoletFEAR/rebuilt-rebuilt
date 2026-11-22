@@ -18,7 +18,7 @@ import frc.robot.subsystems.DeviceIds;
  * <p>The indexer is driven by an {@link AngularVelocityModule}; each state maps to either zero
  * voltage or a velocity setpoint defined in {@link IndexerConstants}.
  */
-public final class Indexer extends StateMachine<Indexer.IndexerState> {
+final class Indexer extends StateMachine<Indexer.IndexerState> {
     private final AngularVelocityModule module;
 
     /** Creates the indexer. */
@@ -55,13 +55,13 @@ public final class Indexer extends StateMachine<Indexer.IndexerState> {
     }
 
     /** Constants for the indexer. */
-    public static final class IndexerConstants {
+    private static final class IndexerConstants {
 
         /** Feedforward and feedback gains for the indexer motor. */
-        public static final FeedforwardValues FEEDFORWARD_VALUES =
+        private static final FeedforwardValues FEEDFORWARD_VALUES =
                 new FeedforwardValues(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-        /** Rotor-to-mechanism ratio for the indexer. */
+        /** Sensor-to-mechanism ratio for the indexer. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 1.0;
 
         /** Velocity commanded in the {@link IndexerState#INDEX} state. */

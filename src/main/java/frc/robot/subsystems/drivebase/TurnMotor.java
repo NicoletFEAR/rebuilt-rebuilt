@@ -1,8 +1,10 @@
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems.drivebase;
 
+import static frc.lib.units.AngleUnit.Rotations;
 import static frc.lib.units.VoltageUnit.Volts;
 
 import frc.lib.module.position.AbsEncoderAngularPositionModule;
+import frc.lib.motor.FeedforwardValues;
 import frc.lib.motor.MotorConfig;
 import frc.lib.motor.MotorIO;
 import frc.lib.sensor.absencoder.AbsEncoderConfig;
@@ -10,7 +12,7 @@ import frc.lib.sensor.absencoder.AbsEncoderIO;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.Angle;
-import frc.robot.subsystems.drive.Drive.DriveConstants;
+import java.util.HashMap;
 import org.wpilib.math.geometry.Rotation2d;
 
 /**
@@ -36,8 +38,8 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
                         MotorIO.buildMotor(
                                 new MotorConfig(
                                         name.turn(),
-                                        DriveConstants.TURN_SENSOR_TO_MECHANISM_RATIO,
-                                        DriveConstants.TURN_FEEDFORWARD_VALUES)),
+                                        TurnMotorConstants.SENSOR_TO_MECHANISM_RATIO,
+                                        TurnMotorConstants.FEEDFORWARD_VALUES)),
                         AbsEncoderIO.buildAbsEncoder(new AbsEncoderConfig(name.absEncoder(), name.offset())));
     }
 
@@ -72,5 +74,32 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
     /** Returns the current rotation of the turn mechanism. */
     Rotation2d getRotation() {
         return module.getRotation();
+    }
+
+    /** Constants for the swerve module turn motors. */
+    static final class TurnMotorConstants {
+        /** Sensor-to-mechanism ratio for the turn motors. */
+        private static final double SENSOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
+
+        /** Feedforward and feedback gains for the turn motors. */
+        private static final FeedforwardValues FEEDFORWARD_VALUES =
+                new FeedforwardValues(0.03, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+        /**
+         * Absolute encoder offset for each turn mechanism. Use {@link SwerveModuleName#offset()}
+         * instead of referencing this directly.
+         */
+        static final HashMap<SwerveModuleName, Angle> OFFSET = new HashMap<>();
+
+        static {
+            OFFSET.put(SwerveModuleName.FRONT_LEFT, Rotations.of(-0.8896484375));
+            OFFSET.put(SwerveModuleName.FRONT_RIGHT, Rotations.of(-0.09716796875));
+            OFFSET.put(SwerveModuleName.BACK_LEFT, Rotations.of(-0.721923828125));
+            OFFSET.put(SwerveModuleName.BACK_RIGHT, Rotations.of(-0.37841796875));
+        }
+
+        private TurnMotorConstants() {
+            /* Keep this constructor empty. */
+        }
     }
 }

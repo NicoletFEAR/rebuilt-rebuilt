@@ -1,4 +1,4 @@
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems.drivebase;
 
 import static frc.lib.units.DistanceUnit.Meters;
 import static frc.lib.units.VelocityUnit.MetersPerSecond;
@@ -6,8 +6,8 @@ import static frc.lib.units.VelocityUnit.MetersPerSecond;
 import frc.lib.statemachine.State;
 import frc.lib.statemachine.StateMachine;
 import frc.lib.units.AngleUnit;
-import frc.robot.subsystems.drive.DriveMotor.DriveMotorState;
-import frc.robot.subsystems.drive.TurnMotor.TurnMotorState;
+import frc.robot.subsystems.drivebase.DriveMotor.DriveMotorState;
+import frc.robot.subsystems.drivebase.TurnMotor.TurnMotorState;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.math.kinematics.SwerveModulePosition;
 import org.wpilib.math.kinematics.SwerveModuleVelocity;
@@ -19,7 +19,7 @@ import org.wpilib.math.kinematics.SwerveModuleVelocity;
  * against the current turn angle (including cosine scaling) before being applied to the drive and
  * turn motors.
  */
-public final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
+final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
     private final DriveMotor drive;
     private final TurnMotor turn;
 
@@ -31,7 +31,7 @@ public final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleSt
      * @param absEncoderConfig configuration for the turn absolute encoder
      * @param name name of the swerve module (for differentiation from others in logs)
      */
-    public SwerveModule(SwerveModuleName name) {
+    SwerveModule(SwerveModuleName name) {
         super("Drive/" + name, SwerveModuleState.OFF);
         drive = new DriveMotor(name);
         turn = new TurnMotor(name);
