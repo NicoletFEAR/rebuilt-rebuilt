@@ -18,7 +18,7 @@ import frc.robot.subsystems.launcher.Launcher.LauncherState;
 /**
  * Top-level state machine that coordinates the drive, launcher, and intake subsystems.
  *
- * <p>Each superstructure state maps to a set of subsystem states; see {@link #periodic()} for the
+ * <p>Each superstructure state maps to a set of subsystem states; see {@link #applyState()} for the
  * current mapping. Subsystems are updated in the order drive, intake, launcher.
  */
 public final class Superstructure extends StateMachine<Superstructure.SuperState> {
@@ -49,10 +49,10 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
         /** Initial state; behaves the same as {@link Stopped}. */
         public record Start() implements SuperState {}
 
-        /** Robot is disabled/idle; drive and launcher are off, intake arm is deployed. */
+        /** Robot is disabled; drive and launcher are off, intake arm is deployed. */
         public record Stopped() implements SuperState {}
 
-        /** Drive teleop with the launcher off and the intake deployed. */
+        /** Drive teleop with the launcher idle and the intake deployed. */
         public record Operate(DriveParameters driveParameters) implements SuperState {}
 
         /** Drive teleop with the launcher idling (flywheels at idle speed) and the intake running. */
@@ -74,15 +74,15 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
         public static final Stopped STOPPED = new Stopped();
     }
 
-    /**
-     * Applies the current superstructure state to the subsystems, runs each subsystem's periodic
-     * logic, and logs the superstructure's state.
-     *
-     * <p>The {@code Launch} and {@code LaunchAndIntake} states command the launcher to spin up until
-     * it reports ready (see {@link Launcher#isReadyToLaunch()}), after which they command it to
-     * launch.
-     */
-    public void periodic() {
+    /** Updates the inputs for all devices on the robot. */
+    public void updateInputs() {
+        drivebase.updateInputs();
+        intake.updateInputs();
+        launcher.updateInputs();
+    }
+
+    /** Chooses the state for the subsystems based on the superstructure state. */
+    public void applyState() {
         switch (state) {
             case SuperState.Start() -> {
                 drivebase.setState(DrivebaseState.OFF);
@@ -111,33 +111,19 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
             case SuperState.Launch(DriveParameters driveParameters) -> {
                 drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 intake.setState(IntakeState.DEPLOY);
-
                 // We use a hardcoded value of 600 rad/s launcher velocity and 2.5 rad hood angle
                 // Soon I'll implement auto-aim so that these become dynamic
-                if (launcher.isReadyToLaunch()) {
-                    launcher.setState(
-                            new LauncherState.Launch(
-                                    new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
-                } else {
-                    launcher.setState(
-                            new LauncherState.SpinUp(
-                                    new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
-                }
+                launcher.setState(
+                        new LauncherState.Launch(
+                                new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
             }
 
             case SuperState.LaunchAndIntake(DriveParameters driveParameters) -> {
                 drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 intake.setState(IntakeState.INTAKE);
-
-                if (launcher.isReadyToLaunch()) {
-                    launcher.setState(
-                            new LauncherState.Launch(
-                                    new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
-                } else {
-                    launcher.setState(
-                            new LauncherState.SpinUp(
-                                    new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
-                }
+                launcher.setState(
+                        new LauncherState.Launch(
+                                new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
             }
 
             case SuperState.Extake(DriveParameters driveParameters) -> {
@@ -147,9 +133,23 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
             }
         }
 
-        drivebase.periodic();
-        intake.periodic();
-        launcher.periodic();
+        drivebase.applyState();
+        intake.applyState();
+        launcher.applyState();
+    }
+
+    /** Runs the subsystems. */
+    public void execute() {
+        drivebase.execute();
+        intake.execute();
+        launcher.execute();
+    }
+
+    /** Logs any desired outputs from the subsystems. */
+    public void logOutputs() {
         logState();
+        drivebase.logOutputs();
+        intake.logOutputs();
+        launcher.logOutputs();
     }
 }

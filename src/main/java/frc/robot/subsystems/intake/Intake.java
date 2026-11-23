@@ -8,7 +8,7 @@ import frc.robot.subsystems.intake.Wheels.WheelState;
 /**
  * Intake subsystem: an extendable arm carrying intake wheels.
  *
- * <p>Each intake state maps to a set of arm and wheel states; see {@link #periodic()} for the
+ * <p>Each intake state maps to a set of arm and wheel states; see {@link #applyState()} for the
  * current mapping.
  */
 public final class Intake extends StateMachine<Intake.IntakeState> {
@@ -30,10 +30,14 @@ public final class Intake extends StateMachine<Intake.IntakeState> {
         EXTAKE
     }
 
-    /**
-     * Applies the current state to the arm and wheels, runs their periodic logic, and logs the state.
-     */
-    public void periodic() {
+    /** Updates the inputs from the motors. */
+    public void updateInputs() {
+        arm.updateInputs();
+        wheels.updateInputs();
+    }
+
+    /** Sets the arm and wheels to the correct state based on the entire intake state. */
+    public void applyState() {
         switch (state) {
             case START -> {
                 arm.setState(ArmState.RETRACT);
@@ -65,9 +69,18 @@ public final class Intake extends StateMachine<Intake.IntakeState> {
                 wheels.setState(WheelState.EXTAKE);
             }
         }
+    }
 
-        arm.periodic();
-        wheels.periodic();
+    /** Applies the arm and wheel behavior for the current state. */
+    public void execute() {
+        arm.execute();
+        wheels.execute();
+    }
+
+    /** Logs any desired outputs from the intake. */
+    public void logOutputs() {
         logState();
+        arm.logOutputs();
+        wheels.logOutputs();
     }
 }

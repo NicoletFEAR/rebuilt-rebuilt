@@ -40,10 +40,12 @@ import org.wpilib.system.Timer;
  */
 public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
     private final RobotState robotState;
-    private final SwerveModule[] modules;
+    private final SwerveModule[] modules = new SwerveModule[4];
 
     private final SwerveDriveKinematics kinematics;
     private final SwerveDrivePoseEstimator poseEstimator;
+
+    private SwerveModuleVelocity[] desiredVelocities = new SwerveModuleVelocity[4];
 
     /**
      * Creates the drive subsystem.
@@ -53,7 +55,6 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
     public Drivebase(RobotState robotState) {
         super("Drive", DrivebaseState.OFF);
         this.robotState = robotState;
-        modules = new SwerveModule[4];
         modules[0] = new SwerveModule(SwerveModuleName.FRONT_LEFT);
         modules[1] = new SwerveModule(SwerveModuleName.FRONT_RIGHT);
         modules[2] = new SwerveModule(SwerveModuleName.BACK_LEFT);
@@ -98,20 +99,24 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
         static final Off OFF = new Off();
     }
 
+    /** Updates the inputs from all swerve modules, updates the pose estimator, and updates the robot state. */
+    public void updateInputs() {
+        for (int i = 0; i < 4; i++) {
+            modules[i].updateInputs();
+        }
+
+        poseEstimator.updateWithTime(Timer.getTimestamp(), Rotation2d.ZERO, getModulePositions());
+        robotState.addOdometryMeasurement(getOdometryMeasurement());
+    }
+
     /**
-     * Logs module positions and velocities, updates the pose estimator, applies the current drive
-     * state, runs each module's periodic logic, and logs the drive state.
+     * Chooses the states for the swerve modules.
      *
      * <p>In {@link DrivebaseState.Drive}, the driver input is scaled by the maximum drive velocity
      * and maximum angular velocity, discretized to this loop period, converted to module setpoints
      * using swerve kinematics, and desaturated so no wheel exceeds the maximum velocity.
      */
-    public void periodic() {
-        Logger.recordOutput("Drive/Module Positions", getModulePositions());
-        Logger.recordOutput("Drive/Module States", getModuleStates());
-        poseEstimator.updateWithTime(Timer.getTimestamp(), Rotation2d.ZERO, getModulePositions());
-        robotState.addOdometryMeasurement(getOdometryMeasurement());
-
+    public void applyState() {
         switch (state) {
             case DrivebaseState.Off() -> {
                 for (int i = 0; i < 4; i++) {
@@ -128,23 +133,39 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
                 ChassisVelocities velocities =
                         new ChassisVelocities(linearVelocity.getX(), linearVelocity.getY(), omega);
                 velocities = velocities.discretize(ExecutionConstants.LOOP_PERIOD.reciprocal().in(Seconds));
-                SwerveModuleVelocity[] setpointStates = kinematics.toSwerveModuleVelocities(velocities);
-                setpointStates =
+                desiredVelocities = kinematics.toSwerveModuleVelocities(velocities);
+                desiredVelocities =
                         SwerveDriveKinematics.desaturateWheelVelocities(
-                                setpointStates, DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
-                Logger.recordOutput("Drive/Desired Module States", setpointStates);
+                                desiredVelocities, DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
 
                 for (int i = 0; i < 4; i++) {
-                    modules[i].setState(new SwerveModuleState.Drive(setpointStates[i]));
+                    modules[i].setState(new SwerveModuleState.Drive(desiredVelocities[i]));
                 }
             }
         }
 
         for (int i = 0; i < 4; i++) {
-            modules[i].periodic();
+            modules[i].applyState();
         }
+    }
 
+    /** Runs the swerve modules. */
+    public void execute() {
+        for (int i = 0; i < 4; i++) {
+            modules[i].execute();
+        }
+    }
+
+    /** Logs any desired outputs from the drivebase. */
+    public void logOutputs() {
         logState();
+        Logger.recordOutput(name + "/Module Positions", getModulePositions());
+        Logger.recordOutput(name + "/Module Velocities", getModuleVelocities());
+        Logger.recordOutput(name + "/Desired Module Velocities", desiredVelocities);
+
+        for (int i = 0; i < 4; i++) {
+            modules[i].logOutputs();
+        }
     }
 
     /**
@@ -168,7 +189,7 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
     }
 
     /** Returns the current state of each module, in the same order as {@link #modules}. */
-    private SwerveModuleVelocity[] getModuleStates() {
+    private SwerveModuleVelocity[] getModuleVelocities() {
         SwerveModuleVelocity[] result = new SwerveModuleVelocity[4];
 
         for (int i = 0; i < 4; i++) {

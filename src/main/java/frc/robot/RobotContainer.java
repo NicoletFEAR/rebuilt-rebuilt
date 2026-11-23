@@ -26,6 +26,11 @@ public final class RobotContainer {
         driverController.setRightTriggerDeadband(OperatorConstants.DEADBAND);
     }
 
+    /** Updates the inputs for all devices on the robot. */
+    public void updateInputs() {
+        superstructure.updateInputs();
+    }
+
     /**
      * Decides the superstructure's desired state from the driver controller, runs the
      * superstructure's periodic logic, and logs the robot state.
@@ -33,16 +38,14 @@ public final class RobotContainer {
      * <p>Left and right triggers above {@link OperatorConstants#TRIGGER_THRESHOLD} command the intake
      * and launcher respectively: left trigger intakes (and also spins up the launcher when the right
      * trigger is also held), right trigger launches, and the right bumper extakes. With no trigger
-     * held, the robot drives with the launcher off.
+     * held, the robot drives with the launcher idle.
      */
-    public void periodic() {
+    public void applyState() {
         DriveParameters driveParameters =
                 new DriveParameters(
                         -driverController.getLeftY(),
                         -driverController.getLeftX(),
                         driverController.getRightX());
-
-        superstructure.setState(new SuperState.Operate(driveParameters));
 
         if (driverController.getLeftTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
             if (driverController.getRightTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
@@ -54,9 +57,21 @@ public final class RobotContainer {
             superstructure.setState(new SuperState.Launch(driveParameters));
         } else if (driverController.getRightBumperButton()) {
             superstructure.setState(new SuperState.Extake(driveParameters));
+        } else {
+            superstructure.setState(new SuperState.Operate(driveParameters));
         }
 
-        superstructure.periodic();
+        superstructure.applyState();
+    }
+
+    /** Runs the subsystems. */
+    public void execute() {
+        superstructure.execute();
+    }
+
+    /** Logs any desired outputs from the whole robot. */
+    public void logOutputs() {
         robotState.log();
+        superstructure.logOutputs();
     }
 }

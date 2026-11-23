@@ -56,18 +56,23 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
         static final Off OFF = new Off();
     }
 
-    /**
-     * Updates the motor and encoder inputs, applies the behavior for the current state, and logs the
-     * state.
-     */
-    void periodic() {
+    /** Updates the motor and encoder inputs. */
+    void updateInputs() {
         module.updateInputs();
+    }
 
+    /**
+     * Applies the behavior for the current state.
+     */
+    void execute() {
         switch (state) {
             case TurnMotorState.Off() -> module.setVoltage(Volts.of(0.0));
             case TurnMotorState.Turn(Angle position) -> module.setDynamicPosition(position);
         }
+    }
 
+    /** Logs any desired outputs from the turn motor. */
+    void logOutputs() {
         logState();
     }
 

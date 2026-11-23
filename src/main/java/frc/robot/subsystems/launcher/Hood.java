@@ -52,18 +52,21 @@ final class Hood extends StateMachine<Hood.HoodState> {
         static final Off OFF = new Off();
     }
 
-    /**
-     * Updates the motor and encoder inputs, applies the behavior for the current state, and logs the
-     * state.
-     */
-    void periodic() {
+    /** Updates the motor and encoder inputs. */
+    void updateInputs() {
         module.updateInputs();
+    }
 
+    /** Applies the behavior for the current state. */
+    void execute() {
         switch (state) {
             case HoodState.Off() -> module.setVoltage(Volts.of(0.0));
             case HoodState.HoldPosition(Angle position) -> module.setDynamicPosition(position);
         }
+    }
 
+    /** Logs any desired outputs from the hood. */
+    void logOutputs() {
         logState();
     }
 

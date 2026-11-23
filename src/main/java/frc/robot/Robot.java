@@ -64,10 +64,13 @@ public final class Robot extends LoggedRobot {
         DriverStationSim.notifyNewData();
     }
 
-    /** Runs the robot container's periodic logic. */
+    /** Updates the inputs for all devices, then sets the subsystems' states, then runs the subsystems, then logs any desired information. */
     @Override
     public void robotPeriodic() {
-        robotContainer.periodic();
+        robotContainer.updateInputs();
+        robotContainer.applyState();
+        robotContainer.execute();
+        robotContainer.logOutputs();
     }
 
     /** Runs while the robot is disabled; intentionally empty. */

@@ -41,16 +41,22 @@ final class Indexer extends StateMachine<Indexer.IndexerState> {
         EXTAKE,
     }
 
-    /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    void periodic() {
+    /** Updates the motor inputs. */
+    void updateInputs() {
         module.updateInputs();
+    }
 
+    /** Applies the behavior for the current state. */
+    void execute() {
         switch (state) {
             case OFF -> module.setVoltage(Volts.of(0.0));
             case INDEX -> module.setVelocitySetpoint(IndexerConstants.INDEX_VELOCITY);
             case EXTAKE -> module.setVelocitySetpoint(IndexerConstants.EXTAKE_VELOCITY);
         }
+    }
 
+    /** Logs any desired outputs from the indexer. */
+    void logOutputs() {
         logState();
     }
 

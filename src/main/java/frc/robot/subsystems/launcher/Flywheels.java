@@ -63,16 +63,22 @@ final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
         static final Idle IDLE = new Idle();
     }
 
-    /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    void periodic() {
+    /** Updates the motor inputs. */
+    void updateInputs() {
         module.updateInputs();
+    }
 
+    /** Applies the behavior for the current state. */
+    void execute() {
         switch (state) {
             case FlywheelState.Off() -> module.setVoltage(Volts.of(0.0));
             case FlywheelState.Idle() -> module.setVelocitySetpoint(FlywheelConstants.IDLE_VELOCITY);
             case FlywheelState.Launch(AngularVelocity velocity) -> module.setDynamicVelocity(velocity);
         }
+    }
 
+    /** Logs any desired outputs from the flywheels. */
+    void logOutputs() {
         logState();
     }
 

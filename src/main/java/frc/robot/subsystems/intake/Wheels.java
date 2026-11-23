@@ -42,17 +42,23 @@ final class Wheels extends StateMachine<Wheels.WheelState> {
         EXTAKE,
     }
 
-    /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    void periodic() {
+    /** Updates the motor inputs. */
+    void updateInputs() {
         module.updateInputs();
+    }
 
+    /** Applies the behavior for the current state. */
+    void execute() {
         switch (state) {
             case OFF -> module.setVoltage(Volts.of(0.0));
             case JOSTLE -> module.setVelocitySetpoint(WheelConstants.JOSTLE_VELOCITY);
             case INTAKE -> module.setVelocitySetpoint(WheelConstants.INTAKE_VELOCITY);
             case EXTAKE -> module.setVelocitySetpoint(WheelConstants.EXTAKE_VELOCITY);
         }
+    }
 
+    /** Logs any desired outputs from the wheels. */
+    void logOutputs() {
         logState();
     }
 

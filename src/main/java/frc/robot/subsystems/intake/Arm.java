@@ -15,7 +15,7 @@ import frc.robot.subsystems.DeviceIds;
  * Intake arm that extends and retracts the intake.
  *
  * <p>The arm is a linear mechanism whose position is commanded with a position setpoint; see {@link
- * #periodic()} for the positions commanded by each state.
+ * #execute()} for the positions commanded by each state.
  */
 final class Arm extends StateMachine<Arm.ArmState> {
     private final LinearPositionModule module;
@@ -39,15 +39,21 @@ final class Arm extends StateMachine<Arm.ArmState> {
         DEPLOY,
     }
 
-    /** Updates the motor inputs, applies the behavior for the current state, and logs the state. */
-    void periodic() {
+    /** Updates the motor inputs. */
+    void updateInputs() {
         module.updateInputs();
+    }
 
+    /** Applies the behavior for the current state. */
+    void execute() {
         switch (state) {
             case RETRACT -> module.setPositionSetpoint(Meters.of(0.0));
             case DEPLOY -> module.setPositionSetpoint(ArmConstants.DEPLOY_DISTANCE);
         }
+    }
 
+    /** Logs any desired outputs from the arm. */
+    void logOutputs() {
         logState();
     }
 

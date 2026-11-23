@@ -50,14 +50,19 @@ final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
         static final Off OFF = new Off();
     }
 
+    /** Updates the inputs for the devices associated with the swerve module. */
+    void updateInputs() {
+        drive.updateInputs();
+        turn.updateInputs();
+    }
+
     /**
-     * Applies the current state to the drive and turn motors, runs their periodic logic, and logs the
-     * module's state.
+     * Chooses the state for the drive and turn motors.
      *
      * <p>In the {@link SwerveModuleState.Drive} state, the commanded velocity is optimized and
      * cosine-scaled against the current turn angle before being sent to the motors.
      */
-    void periodic() {
+    void applyState() {
         switch (state) {
             case SwerveModuleState.Off() -> {
                 drive.setState(DriveMotorState.OFF);
@@ -71,10 +76,19 @@ final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
                 turn.setState(new TurnMotorState.Turn(AngleUnit.ofRotation(state.angle)));
             }
         }
+    }
 
-        drive.periodic();
-        turn.periodic();
+    /** Runs the drive and turn motors. */
+    void execute() {
+        drive.execute();
+        turn.execute();
+    }
+
+    /** Logs any desired outputs from the swerve module. */
+    void logOutputs() {
         logState();
+        drive.logOutputs();
+        turn.logOutputs();
     }
 
     /** Returns the module's position (drive distance and turn angle). */
