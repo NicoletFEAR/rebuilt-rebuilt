@@ -392,6 +392,23 @@
             }
         },
         {
+            "name": "VoltageVelocity",
+            "dimension": [
+                2,
+                1,
+                -4,
+                -1,
+                0,
+                0,
+                0,
+                0
+            ],
+            "baseUnitSymbol": "V/s",
+            "units": {
+                "VoltsPerSecond": 1
+            }
+        },
+        {
             "name": "Resistance",
             "dimension": [
                 2,

@@ -3,14 +3,13 @@
 * Add motor type to MotorConfig
 * Add MotionMagic parameters to MotorConfig
 * Fix absolute encoders
-* Fix driving in simulation
+* Implement SysID
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Refactor Rotation2d safe creation out of Utils once we have a folder for field geometry
 * Introduce constant for status signal update period
 * Implement support for CANdle with no connected LEDs
 
 # Structure
-* New Outputs record for each subsystem to guarantee every subsystem state does something with every part of the subsystem
 * Separate periodic into 4 phases: input refresh, then state decisions, then execution, then final logging
 * Add wanted state / actual state dichotomy
 * See if there's some way to lower the number of module classes we have
