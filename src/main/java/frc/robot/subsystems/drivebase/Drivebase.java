@@ -99,7 +99,10 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
         static final Off OFF = new Off();
     }
 
-    /** Updates the inputs from all swerve modules, updates the pose estimator, and updates the robot state. */
+    /**
+     * Updates the inputs from all swerve modules, updates the pose estimator, and updates the robot
+     * state.
+     */
     public void updateInputs() {
         for (int i = 0; i < 4; i++) {
             modules[i].updateInputs();

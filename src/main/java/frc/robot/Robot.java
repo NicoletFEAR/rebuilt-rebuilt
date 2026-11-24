@@ -64,7 +64,10 @@ public final class Robot extends LoggedRobot {
         DriverStationSim.notifyNewData();
     }
 
-    /** Updates the inputs for all devices, then sets the subsystems' states, then runs the subsystems, then logs any desired information. */
+    /**
+     * Updates the inputs for all devices, then sets the subsystems' states, then runs the subsystems,
+     * then logs any desired information.
+     */
     @Override
     public void robotPeriodic() {
         robotContainer.updateInputs();

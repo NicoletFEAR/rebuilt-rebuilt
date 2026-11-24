@@ -61,9 +61,7 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
         module.updateInputs();
     }
 
-    /**
-     * Applies the behavior for the current state.
-     */
+    /** Applies the behavior for the current state. */
     void execute() {
         switch (state) {
             case TurnMotorState.Off() -> module.setVoltage(Volts.of(0.0));
