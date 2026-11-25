@@ -1,6 +1,7 @@
 package frc.lib;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /** Utility methods for formatting strings. */
@@ -19,7 +20,8 @@ public final class StringHelpers {
         }
 
         // Converts camel case to Pascal case, then calls pascalCaseToWords
-        return pascalCaseToWords(name.substring(0, 1).toUpperCase() + name.substring(1));
+        return pascalCaseToWords(
+                name.substring(0, 1).toUpperCase(Locale.getDefault()) + name.substring(1));
     }
 
     /**
@@ -58,10 +60,13 @@ public final class StringHelpers {
      *     case
      */
     public static String screamingSnakeCaseToWords(String name) {
+        Locale locale = Locale.getDefault();
         // Splits name by underscores.
         return Arrays.stream(name.split("_"))
                 // Capitalizes first letter of each word and uncapitalizes the rest.
-                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase())
+                .map(
+                        word ->
+                                word.substring(0, 1).toUpperCase(locale) + word.substring(1).toLowerCase(locale))
                 // Puts word back together with spaces between.
                 .collect(Collectors.joining(" "));
     }

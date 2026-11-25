@@ -25,7 +25,7 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
     /**
      * Creates the drive motor component.
      *
-     * @param name name of the associated swerve module (for differentiation from others in logs)
+     * @param name which swerve module this drive motor is associated with
      */
     DriveMotor(SwerveModuleName name) {
         super("Drive/" + name + "/Drive", DriveMotorState.OFF);

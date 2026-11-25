@@ -4,8 +4,8 @@ import frc.lib.CanId;
 import frc.lib.StringHelpers;
 import frc.lib.units.Angle;
 import frc.robot.subsystems.DeviceIds;
-import frc.robot.subsystems.drivebase.Drivebase.DrivebaseConstants;
 import frc.robot.subsystems.drivebase.TurnMotor.TurnMotorConstants;
+import java.util.Optional;
 
 /** All the different swerve modules on the robot. */
 public enum SwerveModuleName {
@@ -15,7 +15,7 @@ public enum SwerveModuleName {
     BACK_RIGHT,
     ;
 
-    private String name;
+    private final String name;
 
     private SwerveModuleName() {
         // Converts the name of the enum variant to a more readable version for logging
@@ -28,23 +28,26 @@ public enum SwerveModuleName {
         return name;
     }
 
-    /** Returns this module's absolute encoder offset from {@link DrivebaseConstants#OFFSET}. */
+    /** Returns this module's absolute encoder offset from {@link TurnMotorConstants#OFFSET}. */
     public Angle offset() {
-        return TurnMotorConstants.OFFSET.get(this);
+        // This `Optional.ofNullable` part followed by `orElseThrow()` will throw an exception
+        // if the value we get from the map is null, since if the map doesn't have a value
+        // for a specific swerve module, it should be an error.
+        return Optional.ofNullable(TurnMotorConstants.OFFSET.get(this)).orElseThrow();
     }
 
     /** Returns this module's drive motor ID from {@link DeviceIds#DRIVE}. */
     public CanId drive() {
-        return DeviceIds.DRIVE.get(this);
+        return Optional.ofNullable(DeviceIds.DRIVE.get(this)).orElseThrow();
     }
 
     /** Returns this module's turn motor ID from {@link DeviceIds#TURN}. */
     public CanId turn() {
-        return DeviceIds.TURN.get(this);
+        return Optional.ofNullable(DeviceIds.TURN.get(this)).orElseThrow();
     }
 
     /** Returns this module's absolute encoder ID from {@link DeviceIds#SWERVE_ABS_ENCODER}. */
     public CanId absEncoder() {
-        return DeviceIds.SWERVE_ABS_ENCODER.get(this);
+        return Optional.ofNullable(DeviceIds.SWERVE_ABS_ENCODER.get(this)).orElseThrow();
     }
 }

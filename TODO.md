@@ -10,12 +10,11 @@
 
 # Structure
 * Add unit tests
-* Add null safety
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
 
 # Features
 * Auto-aim
-* SysID
+* Implement RemoteCANcoder for absolute encoder modules
 * Add replay IO
 * Get actual setpoints in here
 * Add a class to manage voltage and track which battery is being used through Elastic dropdown

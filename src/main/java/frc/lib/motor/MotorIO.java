@@ -158,7 +158,7 @@ public abstract class MotorIO {
      * velocity changes over time (like with a swerve module drive motor) to avoid the delay of a
      * motion profile.
      *
-     * @param velocity
+     * @param velocity desired rotor angular velocity
      */
     public abstract void setDynamicVelocity(AngularVelocity velocity);
 

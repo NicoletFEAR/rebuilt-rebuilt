@@ -28,7 +28,7 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
     /**
      * Creates the turn motor component.
      *
-     * @param name name of the associated swerve module (for differentiation from others in logs)
+     * @param name which swerve module this turn motor is associated with
      */
     TurnMotor(SwerveModuleName name) {
         super("Drive/" + name + "/Turn", TurnMotorState.OFF);

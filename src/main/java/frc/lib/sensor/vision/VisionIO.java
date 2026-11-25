@@ -1,7 +1,6 @@
 package frc.lib.sensor.vision;
 
 import org.littletonrobotics.junction.AutoLog;
-
 import org.wpilib.math.geometry.Pose2d;
 
 public interface VisionIO {

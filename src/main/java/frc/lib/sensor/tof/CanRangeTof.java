@@ -30,7 +30,7 @@ public class CanRangeTof implements TofIO {
     /**
      * Creates a CANrange time-of-flight sensor using the provided ID.
      *
-     * @param config ID for the CANrange sensor
+     * @param id ID for the CANrange sensor
      */
     public CanRangeTof(CanId id) {
         canRange = new CANrange(id.id(), id.bus());

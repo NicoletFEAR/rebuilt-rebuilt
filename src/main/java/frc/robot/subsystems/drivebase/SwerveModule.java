@@ -26,10 +26,7 @@ final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
     /**
      * Creates the swerve module.
      *
-     * @param driveConfig configuration for the drive motor
-     * @param turnConfig configuration for the turn motor
-     * @param absEncoderConfig configuration for the turn absolute encoder
-     * @param name name of the swerve module (for differentiation from others in logs)
+     * @param name which swerve module this is
      */
     SwerveModule(SwerveModuleName name) {
         super("Drive/" + name, SwerveModuleState.OFF);
