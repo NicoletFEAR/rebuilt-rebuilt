@@ -194,6 +194,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    testImplementation sourceSets.unitsGenerator.output
+    testImplementation 'com.google.code.gson:gson:2.13.2'
+
     implementation 'org.jspecify:jspecify:1.0.1'
     errorprone 'com.google.errorprone:error_prone_core:2.53.0'
     errorprone 'com.uber.nullaway:nullaway:0.14.4'
