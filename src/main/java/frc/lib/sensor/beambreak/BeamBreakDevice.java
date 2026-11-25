@@ -3,8 +3,7 @@ package frc.lib.sensor.beambreak;
 import frc.lib.CanId;
 
 /** The information necessary to specify a beam break's implementation. */
-public sealed interface BeamBreakDevice
-        permits BeamBreakDevice.CanRange, BeamBreakDevice.DigitalInput {
+public sealed interface BeamBreakDevice permits BeamBreakDevice.CanRange, BeamBreakDevice.DigitalInput {
     /** A CANrange beam break, with its CAN ID. */
     public record CanRange(CanId id) implements BeamBreakDevice {}
 

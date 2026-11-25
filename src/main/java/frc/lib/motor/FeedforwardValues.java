@@ -18,8 +18,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
  * @param a acceleration feedforward gain
  * @param g gravity feedforward gain
  */
-public record FeedforwardValues(
-        double p, double i, double d, double s, double v, double a, double g) {
+public record FeedforwardValues(double p, double i, double d, double s, double v, double a, double g) {
 
     /**
      * Creates feedforward values with the gravity feedforward gain set to zero.
@@ -42,6 +41,13 @@ public record FeedforwardValues(
      * @return a {@link Slot0Configs} containing the configured PID and feedforward gains
      */
     public Slot0Configs getSlot0Configs() {
-        return new Slot0Configs().withKP(p).withKI(i).withKD(d).withKS(s).withKV(v).withKA(a).withKG(g);
+        return new Slot0Configs()
+                .withKP(p)
+                .withKI(i)
+                .withKD(d)
+                .withKS(s)
+                .withKV(v)
+                .withKA(a)
+                .withKG(g);
     }
 }

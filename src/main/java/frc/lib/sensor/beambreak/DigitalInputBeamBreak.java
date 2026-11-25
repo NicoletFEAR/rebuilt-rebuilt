@@ -25,13 +25,12 @@ public class DigitalInputBeamBreak implements BeamBreakIO {
      *     {@link BeamBreakDevice.DigitalInput}.
      */
     public DigitalInputBeamBreak(BeamBreakConfig config) {
-        beamBreak =
-                switch (config.device()) {
-                    case BeamBreakDevice.CanRange _ ->
-                            throw new IllegalArgumentException(
-                                    "Configuration for a digital input beam break cannot specify a CANrange");
-                    case BeamBreakDevice.DigitalInput(int id) -> new DigitalInput(id);
-                };
+        beamBreak = switch (config.device()) {
+            case BeamBreakDevice.CanRange _ ->
+                throw new IllegalArgumentException(
+                        "Configuration for a digital input beam break cannot specify a CANrange");
+            case BeamBreakDevice.DigitalInput(int id) -> new DigitalInput(id);
+        };
     }
 
     /**

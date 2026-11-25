@@ -35,8 +35,7 @@ final class SwerveModule extends StateMachine<SwerveModule.SwerveModuleState> {
     }
 
     /** States of the swerve module. */
-    static sealed interface SwerveModuleState extends State
-            permits SwerveModuleState.Off, SwerveModuleState.Drive {
+    static sealed interface SwerveModuleState extends State permits SwerveModuleState.Off, SwerveModuleState.Drive {
         /** Module is off; both motors receive zero voltage. */
         static record Off() implements SwerveModuleState {}
 

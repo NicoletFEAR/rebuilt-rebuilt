@@ -62,33 +62,31 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
 
         Distance halfTrackWidthX = DrivebaseConstants.TRACK_WIDTH_X.div(2.0);
         Distance halfTrackWidthY = DrivebaseConstants.TRACK_WIDTH_Y.div(2.0);
-        kinematics =
-                new SwerveDriveKinematics(
-                        new Translation2d[] {
-                            new Translation2d(halfTrackWidthX.in(Meters), halfTrackWidthY.in(Meters)),
-                            new Translation2d(halfTrackWidthX.in(Meters), halfTrackWidthY.negative().in(Meters)),
-                            new Translation2d(halfTrackWidthX.negative().in(Meters), halfTrackWidthY.in(Meters)),
-                            new Translation2d(
-                                    halfTrackWidthX.negative().in(Meters), halfTrackWidthY.negative().in(Meters)),
-                        });
-        poseEstimator =
-                new SwerveDrivePoseEstimator(
-                        kinematics,
-                        MatchState.getAlliance().orElse(Alliance.BLUE) == Alliance.BLUE
-                                ? Rotation2d.fromRadians(0.0)
-                                : Rotation2d.fromRadians(Math.PI),
-                        getModulePositions(),
-                        new Pose2d(),
-                        // These values mean we trust the gyroscope and wheel odometry much more
-                        // than the camera, since the standard deviations for the camera measurements
-                        // are much higher.
-                        VecBuilder.fill(0.1, 0.1, 0.0),
-                        VecBuilder.fill(0.9, 0.9, 9999999));
+        kinematics = new SwerveDriveKinematics(new Translation2d[] {
+            new Translation2d(halfTrackWidthX.in(Meters), halfTrackWidthY.in(Meters)),
+            new Translation2d(
+                    halfTrackWidthX.in(Meters), halfTrackWidthY.negative().in(Meters)),
+            new Translation2d(halfTrackWidthX.negative().in(Meters), halfTrackWidthY.in(Meters)),
+            new Translation2d(
+                    halfTrackWidthX.negative().in(Meters),
+                    halfTrackWidthY.negative().in(Meters)),
+        });
+        poseEstimator = new SwerveDrivePoseEstimator(
+                kinematics,
+                MatchState.getAlliance().orElse(Alliance.BLUE) == Alliance.BLUE
+                        ? Rotation2d.fromRadians(0.0)
+                        : Rotation2d.fromRadians(Math.PI),
+                getModulePositions(),
+                new Pose2d(),
+                // These values mean we trust the gyroscope and wheel odometry much more
+                // than the camera, since the standard deviations for the camera measurements
+                // are much higher.
+                VecBuilder.fill(0.1, 0.1, 0.0),
+                VecBuilder.fill(0.9, 0.9, 9999999));
     }
 
     /** States of the drive subsystem. */
-    public static sealed interface DrivebaseState extends State
-            permits DrivebaseState.Off, DrivebaseState.Drive {
+    public static sealed interface DrivebaseState extends State permits DrivebaseState.Off, DrivebaseState.Drive {
         /** Drive motors are off. */
         static record Off() implements DrivebaseState {}
 
@@ -128,18 +126,16 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
             }
 
             case DrivebaseState.Drive(DriveParameters parameters) -> {
-                Translation2d linearVelocity =
-                        new Translation2d(parameters.x(), parameters.y())
-                                .times(DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
-                double omega =
-                        parameters.omega() * DrivebaseConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
+                Translation2d linearVelocity = new Translation2d(parameters.x(), parameters.y())
+                        .times(DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
+                double omega = parameters.omega() * DrivebaseConstants.MAX_ANGULAR_VELOCITY.in(RadiansPerSecond);
                 ChassisVelocities velocities =
                         new ChassisVelocities(linearVelocity.getX(), linearVelocity.getY(), omega);
-                velocities = velocities.discretize(ExecutionConstants.LOOP_PERIOD.reciprocal().in(Seconds));
+                velocities = velocities.discretize(
+                        ExecutionConstants.LOOP_PERIOD.reciprocal().in(Seconds));
                 desiredVelocities = kinematics.toSwerveModuleVelocities(velocities);
-                desiredVelocities =
-                        SwerveDriveKinematics.desaturateWheelVelocities(
-                                desiredVelocities, DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
+                desiredVelocities = SwerveDriveKinematics.desaturateWheelVelocities(
+                        desiredVelocities, DrivebaseConstants.MAX_VELOCITY.in(MetersPerSecond));
 
                 for (int i = 0; i < 4; i++) {
                     modules[i].setState(new SwerveModuleState.Drive(desiredVelocities[i]));
@@ -176,8 +172,7 @@ public final class Drivebase extends StateMachine<Drivebase.DrivebaseState> {
      * OdometryMeasurement}.
      */
     private OdometryMeasurement getOdometryMeasurement() {
-        return new OdometryMeasurement(
-                Seconds.timestamp(Timer.getTimestamp()), poseEstimator.getEstimatedPosition());
+        return new OdometryMeasurement(Seconds.timestamp(Timer.getTimestamp()), poseEstimator.getEstimatedPosition());
     }
 
     /** Returns the current position of each module, in the same order as {@link #modules}. */

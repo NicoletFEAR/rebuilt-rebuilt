@@ -40,10 +40,9 @@ public final class SimTalonFxMotor extends TalonFxMotor {
     public SimTalonFxMotor(MotorConfig config) {
         super(config);
         FeedforwardValues feedforwardValues = config.feedforwardValues();
-        motorModel =
-                new DCMotorSim(
-                        Models.singleJointedArmFromSysId(feedforwardValues.v(), feedforwardValues.a()),
-                        DCMotor.getKrakenX60(1));
+        motorModel = new DCMotorSim(
+                Models.singleJointedArmFromSysId(feedforwardValues.v(), feedforwardValues.a()),
+                DCMotor.getKrakenX60(1));
         motorSim = motor.getSimState();
     }
 

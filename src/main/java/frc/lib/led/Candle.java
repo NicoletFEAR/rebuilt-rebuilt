@@ -76,14 +76,12 @@ public class Candle implements LedIO {
     @Override
     public void setStatusColor(int index, Color color) {
         if (index < 0 || index > 7) {
-            throw new IllegalArgumentException(
-                    "Index for built-in CANdle LED must be in the interval [0, 7]");
+            throw new IllegalArgumentException("Index for built-in CANdle LED must be in the interval [0, 7]");
         }
 
-        led.setControl(
-                statusColorControl
-                        .withLEDStartIndex(index)
-                        .withLEDEndIndex(index)
-                        .withColor(new RGBWColor(color)));
+        led.setControl(statusColorControl
+                .withLEDStartIndex(index)
+                .withLEDEndIndex(index)
+                .withColor(new RGBWColor(color)));
     }
 }

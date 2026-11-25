@@ -26,22 +26,19 @@ final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     /** Creates the flywheels. */
     Flywheels() {
         super("Launcher/Flywheels", FlywheelState.OFF);
-        module =
-                new MultiAngularVelocityModule(
-                        name,
-                        MotorIO.buildMotor(
-                                new MotorConfig(
-                                        DeviceIds.LEFT_LAUNCHER,
-                                        FlywheelConstants.SENSOR_TO_MECHANISM_RATIO,
-                                        FlywheelConstants.FEEDFORWARD_VALUES)),
-                        MotorIO.buildMotors(
-                                new MotorConfig[] {
-                                    new MotorConfig(
-                                            DeviceIds.RIGHT_LAUNCHER,
-                                            FlywheelConstants.SENSOR_TO_MECHANISM_RATIO,
-                                            FlywheelConstants.FEEDFORWARD_VALUES,
-                                            MotorAlignmentValue.Opposed)
-                                }));
+        module = new MultiAngularVelocityModule(
+                name,
+                MotorIO.buildMotor(new MotorConfig(
+                        DeviceIds.LEFT_LAUNCHER,
+                        FlywheelConstants.SENSOR_TO_MECHANISM_RATIO,
+                        FlywheelConstants.FEEDFORWARD_VALUES)),
+                MotorIO.buildMotors(new MotorConfig[] {
+                    new MotorConfig(
+                            DeviceIds.RIGHT_LAUNCHER,
+                            FlywheelConstants.SENSOR_TO_MECHANISM_RATIO,
+                            FlywheelConstants.FEEDFORWARD_VALUES,
+                            MotorAlignmentValue.Opposed)
+                }));
     }
 
     /** States of the flywheels. */
@@ -94,9 +91,9 @@ final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
             case FlywheelState.Off() -> false;
             case FlywheelState.Idle() -> false;
             case FlywheelState.Launch(AngularVelocity velocity) ->
-                    velocity.equal(
-                            module.getVelocity(),
-                            velocity.times(ToleranceConstants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
+                velocity.equal(
+                        module.getVelocity(),
+                        velocity.times(ToleranceConstants.VELOCITY_SETPOINT_TOLERANCE_MULTIPLIER));
         };
     }
 
@@ -104,8 +101,7 @@ final class Flywheels extends StateMachine<Flywheels.FlywheelState> {
     private static final class FlywheelConstants {
 
         /** Feedforward and feedback gains for the flywheel motors. */
-        private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
+        private static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the flywheels. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 0.8;

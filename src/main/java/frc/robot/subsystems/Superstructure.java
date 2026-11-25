@@ -114,16 +114,14 @@ public final class Superstructure extends StateMachine<Superstructure.SuperState
                 // We use a hardcoded value of 600 rad/s launcher velocity and 2.5 rad hood angle
                 // Soon I'll implement auto-aim so that these become dynamic
                 launcher.setState(
-                        new LauncherState.Launch(
-                                new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
+                        new LauncherState.Launch(new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
             }
 
             case SuperState.LaunchAndIntake(DriveParameters driveParameters) -> {
                 drivebase.setState(new DrivebaseState.Drive(driveParameters));
                 intake.setState(IntakeState.INTAKE);
                 launcher.setState(
-                        new LauncherState.Launch(
-                                new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
+                        new LauncherState.Launch(new LaunchParameters(RadiansPerSecond.of(600.0), Radians.of(2.5))));
             }
 
             case SuperState.Extake(DriveParameters driveParameters) -> {

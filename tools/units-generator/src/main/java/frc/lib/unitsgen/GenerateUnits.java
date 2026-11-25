@@ -85,9 +85,8 @@ public final class GenerateUnits {
     }
 
     private static Spec parse(Path specPath) throws IOException {
-        JsonObject root =
-                JsonParser.parseString(Files.readString(specPath, StandardCharsets.UTF_8))
-                        .getAsJsonObject();
+        JsonObject root = JsonParser.parseString(Files.readString(specPath, StandardCharsets.UTF_8))
+                .getAsJsonObject();
 
         String packageName = requiredString(root, "package", "<root>");
 
@@ -128,23 +127,19 @@ public final class GenerateUnits {
                 String unitName = requiredString(wpiUnitsObject, "unitName", where + " wpiUnits");
                 JsonElement constantElement = wpiUnitsObject.get("constant");
                 String constant = constantElement == null ? unitName : constantElement.getAsString();
-                wpiUnits =
-                        new WpiUnits(
-                                requiredString(wpiUnitsObject, "measureType", where + " wpiUnits"),
-                                unitName,
-                                constant);
+                wpiUnits = new WpiUnits(
+                        requiredString(wpiUnitsObject, "measureType", where + " wpiUnits"), unitName, constant);
             }
 
-            quantities.add(
-                    new QuantitySpec(
-                            name,
-                            dimension,
-                            baseUnitSymbol,
-                            units,
-                            wpiUnits,
-                            stringList(object, "imports", where),
-                            stringList(object, "quantityCode", where),
-                            stringList(object, "unitCode", where)));
+            quantities.add(new QuantitySpec(
+                    name,
+                    dimension,
+                    baseUnitSymbol,
+                    units,
+                    wpiUnits,
+                    stringList(object, "imports", where),
+                    stringList(object, "quantityCode", where),
+                    stringList(object, "unitCode", where)));
         }
 
         return new Spec(packageName, quantities);
@@ -174,13 +169,12 @@ public final class GenerateUnits {
             String dimensionKey = dimensionKey(quantity.dimension());
             QuantitySpec clash = byDimension.putIfAbsent(dimensionKey, quantity);
             if (clash != null) {
-                throw new IllegalArgumentException(
-                        "quantities "
-                                + clash.name()
-                                + " and "
-                                + quantity.name()
-                                + " share the same dimension "
-                                + dimensionKey);
+                throw new IllegalArgumentException("quantities "
+                        + clash.name()
+                        + " and "
+                        + quantity.name()
+                        + " share the same dimension "
+                        + dimensionKey);
             }
 
             if (quantity.units().isEmpty()) {
@@ -190,17 +184,15 @@ public final class GenerateUnits {
             }
             for (Map.Entry<String, Double> unit : quantity.units().entrySet()) {
                 if (!TYPE_NAME.matcher(unit.getKey()).matches()) {
-                    throw new IllegalArgumentException(
-                            quantity.name() + ": invalid unit name: " + unit.getKey());
+                    throw new IllegalArgumentException(quantity.name() + ": invalid unit name: " + unit.getKey());
                 }
                 double factor = unit.getValue();
                 if (!Double.isFinite(factor) || factor <= 0.0) {
-                    throw new IllegalArgumentException(
-                            quantity.name()
-                                    + ": unit "
-                                    + unit.getKey()
-                                    + " must have a finite, positive factor, got "
-                                    + factor);
+                    throw new IllegalArgumentException(quantity.name()
+                            + ": unit "
+                            + unit.getKey()
+                            + " must have a finite, positive factor, got "
+                            + factor);
                 }
             }
 
@@ -209,15 +201,13 @@ public final class GenerateUnits {
                 if (!TYPE_NAME.matcher(wpi.measureType()).matches()
                         || !TYPE_NAME.matcher(wpi.unitName()).matches()
                         || !TYPE_NAME.matcher(wpi.constant()).matches()) {
-                    throw new IllegalArgumentException(
-                            quantity.name() + ": invalid wpiUnits field in " + wpi);
+                    throw new IllegalArgumentException(quantity.name() + ": invalid wpiUnits field in " + wpi);
                 }
                 if (!quantity.units().containsKey(wpi.constant())) {
-                    throw new IllegalArgumentException(
-                            quantity.name()
-                                    + ": wpiUnits.constant \""
-                                    + wpi.constant()
-                                    + "\" is not a unit defined in \"units\"");
+                    throw new IllegalArgumentException(quantity.name()
+                            + ": wpiUnits.constant \""
+                            + wpi.constant()
+                            + "\" is not a unit defined in \"units\"");
                 }
             }
         }
@@ -351,8 +341,7 @@ public final class GenerateUnits {
 
         StringBuilder out = new StringBuilder();
         for (QuantitySpec other : spec.quantities()) {
-            QuantitySpec product =
-                    byDimension.get(dimensionKey(add(quantity.dimension(), other.dimension())));
+            QuantitySpec product = byDimension.get(dimensionKey(add(quantity.dimension(), other.dimension())));
             if (product != null) {
                 out.append("\n    public ")
                         .append(product.name())
@@ -362,8 +351,7 @@ public final class GenerateUnits {
                         .append(product.name())
                         .append("(value * other.value);\n    }\n");
             }
-            QuantitySpec quotient =
-                    byDimension.get(dimensionKey(subtract(quantity.dimension(), other.dimension())));
+            QuantitySpec quotient = byDimension.get(dimensionKey(subtract(quantity.dimension(), other.dimension())));
             if (quotient != null) {
                 out.append("\n    public ")
                         .append(quotient.name())
@@ -444,8 +432,7 @@ public final class GenerateUnits {
     }
 
     private static String unitConstant(String unitClassName, String name, double factor) {
-        String prefix =
-                "    public static final " + unitClassName + " " + name + " = new " + unitClassName + "(";
+        String prefix = "    public static final " + unitClassName + " " + name + " = new " + unitClassName + "(";
         String literal = Double.toString(factor);
         String singleLine = prefix + literal + ");\n";
         if (singleLine.stripTrailing().length() <= 100) {

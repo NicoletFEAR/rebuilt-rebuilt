@@ -46,8 +46,7 @@ public final class Configurator {
      * @param config the configuration to apply
      * @return {@code true} if the configuration was applied successfully, {@code false} otherwise
      */
-    public static boolean applyCanCoderConfiguration(
-            CANcoder canCoder, CANcoderConfiguration config) {
+    public static boolean applyCanCoderConfiguration(CANcoder canCoder, CANcoderConfiguration config) {
         CANcoderConfigurator configurator = canCoder.getConfigurator();
         StatusCode result = configurator.apply(config);
 
@@ -67,8 +66,7 @@ public final class Configurator {
      * @param config the configuration to apply
      * @return {@code true} if the configuration was applied successfully, {@code false} otherwise
      */
-    public static boolean applyCanRangeConfiguration(
-            CANrange canRange, CANrangeConfiguration config) {
+    public static boolean applyCanRangeConfiguration(CANrange canRange, CANrangeConfiguration config) {
         CANrangeConfigurator configurator = canRange.getConfigurator();
         StatusCode result = configurator.apply(config);
 

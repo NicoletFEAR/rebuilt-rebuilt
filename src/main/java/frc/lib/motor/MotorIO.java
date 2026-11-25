@@ -14,8 +14,8 @@ import frc.lib.units.AngularVelocity;
 import frc.lib.units.Current;
 import frc.lib.units.Temperature;
 import frc.lib.units.Voltage;
-import frc.robot.Robot;
 import org.littletonrobotics.junction.AutoLog;
+import org.wpilib.framework.RobotBase;
 
 /**
  * Provides an interface for communicating with a motor controller.
@@ -58,9 +58,19 @@ public abstract class MotorIO {
      * @return the correct motor implementation
      */
     public static MotorIO buildMotor(MotorConfig config) {
-        return Robot.isReal() ? new TalonFxMotor(config) : new SimTalonFxMotor(config);
+        return RobotBase.isReal() ? new TalonFxMotor(config) : new SimTalonFxMotor(config);
     }
 
+    /**
+     * Creates an array of TalonFX motors based on the provided configurations.
+     *
+     * <p>Useful for creating a bunch of follower motors, which are stored in arrays
+     * in the multi-modules. The i-th motor in the returned array will be configured
+     * with the i-th configuration from the configs array.
+     *
+     * @param configs the configurations for the motors
+     * @return an array of motors corresponding to the configurations
+     */
     public static MotorIO[] buildMotors(MotorConfig[] configs) {
         MotorIO[] result = new MotorIO[configs.length];
 

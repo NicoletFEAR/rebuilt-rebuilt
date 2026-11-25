@@ -73,8 +73,7 @@ public class TalonFxMotor extends MotorIO {
     private final Follower followerControl = new Follower(0, MotorAlignmentValue.Aligned);
 
     /** CTRE Motion Magic position control request. */
-    private final MotionMagicVoltage motionMagicPositionControl =
-            new MotionMagicVoltage(Radians.raw(0.0)).withSlot(0);
+    private final MotionMagicVoltage motionMagicPositionControl = new MotionMagicVoltage(Radians.raw(0.0)).withSlot(0);
 
     /** CTRE Motion Magic velocity control request. */
     private final MotionMagicVelocityVoltage motionMagicVelocityControl =
@@ -209,10 +208,8 @@ public class TalonFxMotor extends MotorIO {
      */
     @Override
     public void setVoltage(Voltage voltage) {
-        motor.setControl(
-                voltageControl.withOutput(
-                        voltage
-                                .clamp(MotorConstants.MAX_VOLTAGE.negative(), MotorConstants.MAX_VOLTAGE)
-                                .in(Volts)));
+        motor.setControl(voltageControl.withOutput(
+                voltage.clamp(MotorConstants.MAX_VOLTAGE.negative(), MotorConstants.MAX_VOLTAGE)
+                        .in(Volts)));
     }
 }

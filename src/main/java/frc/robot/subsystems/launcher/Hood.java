@@ -28,16 +28,11 @@ final class Hood extends StateMachine<Hood.HoodState> {
     /** Creates the hood. */
     Hood() {
         super("Launcher/Hood", HoodState.OFF);
-        module =
-                new AbsEncoderAngularPositionModule(
-                        name,
-                        MotorIO.buildMotor(
-                                new MotorConfig(
-                                        DeviceIds.HOOD,
-                                        HoodConstants.SENSOR_TO_MECHANISM_RATIO,
-                                        HoodConstants.FEEDFORWARD_VALUES)),
-                        AbsEncoderIO.buildAbsEncoder(
-                                new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
+        module = new AbsEncoderAngularPositionModule(
+                name,
+                MotorIO.buildMotor(new MotorConfig(
+                        DeviceIds.HOOD, HoodConstants.SENSOR_TO_MECHANISM_RATIO, HoodConstants.FEEDFORWARD_VALUES)),
+                AbsEncoderIO.buildAbsEncoder(new AbsEncoderConfig(DeviceIds.HOOD_ENCODER, HoodConstants.HOOD_OFFSET)));
     }
 
     /** States of the hood. */
@@ -79,8 +74,7 @@ final class Hood extends StateMachine<Hood.HoodState> {
         return switch (state) {
             case HoodState.Off() -> false;
             case HoodState.HoldPosition(Angle position) ->
-                    position.equal(
-                            module.getPosition(), ToleranceConstants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
+                position.equal(module.getPosition(), ToleranceConstants.ANGULAR_POSITION_SETPOINT_TOLERANCE);
         };
     }
 
@@ -91,8 +85,7 @@ final class Hood extends StateMachine<Hood.HoodState> {
         private static final Angle HOOD_OFFSET = Rotations.of(-0.25439453125);
 
         /** Feedforward and feedback gains for the hood motor. */
-        private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
+        private static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the hood. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 30.0;

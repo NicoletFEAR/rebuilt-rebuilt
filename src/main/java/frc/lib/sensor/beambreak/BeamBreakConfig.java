@@ -25,7 +25,6 @@ public record BeamBreakConfig(BeamBreakDevice device, Distance proximityThreshol
      */
     public CANrangeConfiguration getCanRangeConfiguration() {
         return new CANrangeConfiguration()
-                .withProximityParams(
-                        new ProximityParamsConfigs().withProximityThreshold(proximityThreshold));
+                .withProximityParams(new ProximityParamsConfigs().withProximityThreshold(proximityThreshold));
     }
 }

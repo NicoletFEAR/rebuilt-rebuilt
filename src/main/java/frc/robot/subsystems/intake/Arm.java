@@ -23,14 +23,12 @@ final class Arm extends StateMachine<Arm.ArmState> {
     /** Creates the arm. */
     Arm() {
         super("Intake/Arm", ArmState.RETRACT);
-        module =
-                new LinearPositionModule(
-                        name,
-                        MotorIO.buildMotor(
-                                new MotorConfig(
-                                        DeviceIds.INTAKE_ARM,
-                                        ArmConstants.SENSOR_TO_MECHANISM_RATIO,
-                                        ArmConstants.FEEDFORWARD_VALUES)));
+        module = new LinearPositionModule(
+                name,
+                MotorIO.buildMotor(new MotorConfig(
+                        DeviceIds.INTAKE_ARM,
+                        ArmConstants.SENSOR_TO_MECHANISM_RATIO,
+                        ArmConstants.FEEDFORWARD_VALUES)));
     }
 
     /** States of the arm. */
@@ -61,8 +59,7 @@ final class Arm extends StateMachine<Arm.ArmState> {
     private static final class ArmConstants {
 
         /** Feedforward and feedback gains for the arm motor. */
-        private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
+        private static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the arm, in rotor radians per meter of extension. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 40.0 / 3.0;

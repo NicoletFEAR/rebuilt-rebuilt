@@ -25,10 +25,9 @@ public record AbsEncoderConfig(CanId id, Angle offset) {
      */
     public CANcoderConfiguration getCanCoderConfiguration() {
         return new CANcoderConfiguration()
-                .withMagnetSensor(
-                        new MagnetSensorConfigs()
-                                .withAbsoluteSensorDiscontinuityPoint(Rotations.raw(1.0))
-                                .withMagnetOffset(offset.in(Rotations))
-                                .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive));
+                .withMagnetSensor(new MagnetSensorConfigs()
+                        .withAbsoluteSensorDiscontinuityPoint(Rotations.raw(1.0))
+                        .withMagnetOffset(offset.in(Rotations))
+                        .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive));
     }
 }

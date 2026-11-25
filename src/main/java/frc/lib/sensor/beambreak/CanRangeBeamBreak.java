@@ -37,13 +37,12 @@ public class CanRangeBeamBreak implements BeamBreakIO {
      *     {@link BeamBreakDevice.CanRange}.
      */
     public CanRangeBeamBreak(BeamBreakConfig config) {
-        canRange =
-                switch (config.device()) {
-                    case BeamBreakDevice.CanRange(CanId id) -> new CANrange(id.id(), id.bus());
-                    case BeamBreakDevice.DigitalInput _ ->
-                            throw new IllegalArgumentException(
-                                    "Configuration for a CANrange beam break cannot specify a digital input");
-                };
+        canRange = switch (config.device()) {
+            case BeamBreakDevice.CanRange(CanId id) -> new CANrange(id.id(), id.bus());
+            case BeamBreakDevice.DigitalInput _ ->
+                throw new IllegalArgumentException(
+                        "Configuration for a CANrange beam break cannot specify a digital input");
+        };
 
         Configurator.applyCanRangeConfiguration(canRange, config.getCanRangeConfiguration());
 

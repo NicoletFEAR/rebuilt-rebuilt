@@ -32,20 +32,17 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
      */
     TurnMotor(SwerveModuleName name) {
         super("Drive/" + name + "/Turn", TurnMotorState.OFF);
-        module =
-                new AbsEncoderAngularPositionModule(
-                        this.name,
-                        MotorIO.buildMotor(
-                                new MotorConfig(
-                                        name.turn(),
-                                        TurnMotorConstants.SENSOR_TO_MECHANISM_RATIO,
-                                        TurnMotorConstants.FEEDFORWARD_VALUES)),
-                        AbsEncoderIO.buildAbsEncoder(new AbsEncoderConfig(name.absEncoder(), name.offset())));
+        module = new AbsEncoderAngularPositionModule(
+                this.name,
+                MotorIO.buildMotor(new MotorConfig(
+                        name.turn(),
+                        TurnMotorConstants.SENSOR_TO_MECHANISM_RATIO,
+                        TurnMotorConstants.FEEDFORWARD_VALUES)),
+                AbsEncoderIO.buildAbsEncoder(new AbsEncoderConfig(name.absEncoder(), name.offset())));
     }
 
     /** States of the turn motor. */
-    static sealed interface TurnMotorState extends State
-            permits TurnMotorState.Off, TurnMotorState.Turn {
+    static sealed interface TurnMotorState extends State permits TurnMotorState.Off, TurnMotorState.Turn {
         /** Turn motor is off (zero voltage). */
         static record Off() implements TurnMotorState {}
 
@@ -85,8 +82,7 @@ final class TurnMotor extends StateMachine<TurnMotor.TurnMotorState> {
         private static final double SENSOR_TO_MECHANISM_RATIO = 150.0 / 7.0;
 
         /** Feedforward and feedback gains for the turn motors. */
-        private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
+        private static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /**
          * Absolute encoder offset for each turn mechanism. Use {@link SwerveModuleName#offset()}

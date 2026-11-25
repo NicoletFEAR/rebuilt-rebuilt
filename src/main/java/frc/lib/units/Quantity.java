@@ -12,8 +12,7 @@ import org.littletonrobotics.junction.inputs.LoggableInputs;
  * @param <S> the quantity's own type
  * @param <U> the quantity's associated unit type
  */
-public abstract class Quantity<S extends Quantity<S, U>, U extends Unit<U>>
-        implements LoggableInputs, LoggableOutputs {
+public abstract class Quantity<S extends Quantity<S, U>, U extends Unit<U>> implements LoggableInputs, LoggableOutputs {
     protected double value;
     protected String baseUnitSymbol;
 

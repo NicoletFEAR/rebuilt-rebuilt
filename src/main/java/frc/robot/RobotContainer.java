@@ -41,11 +41,8 @@ public final class RobotContainer {
      * held, the robot drives with the launcher idle.
      */
     public void applyState() {
-        DriveParameters driveParameters =
-                new DriveParameters(
-                        -driverController.getLeftY(),
-                        -driverController.getLeftX(),
-                        driverController.getRightX());
+        DriveParameters driveParameters = new DriveParameters(
+                -driverController.getLeftY(), -driverController.getLeftX(), driverController.getRightX());
 
         if (driverController.getLeftTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {
             if (driverController.getRightTrigger() > OperatorConstants.TRIGGER_THRESHOLD) {

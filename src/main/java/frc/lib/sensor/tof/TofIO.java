@@ -4,8 +4,8 @@ import static frc.lib.units.DistanceUnit.Meters;
 
 import frc.lib.CanId;
 import frc.lib.units.Distance;
-import frc.robot.Robot;
 import org.littletonrobotics.junction.AutoLog;
+import org.wpilib.framework.RobotBase;
 
 /**
  * Provides an interface for communicating with a time-of-flight sensor.
@@ -27,7 +27,7 @@ public interface TofIO {
      * @return the correct time-of-flight sensor implementation
      */
     static TofIO buildTof(CanId id) {
-        return Robot.isReal() ? new CanRangeTof(id) : new SimCanRangeTof(id);
+        return RobotBase.isReal() ? new CanRangeTof(id) : new SimCanRangeTof(id);
     }
 
     /**

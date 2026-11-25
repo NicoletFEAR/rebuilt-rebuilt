@@ -49,10 +49,8 @@ public final class MultiAngularPositionModule extends AngularPositionModule {
                     this.followers[i]
                             .getConfig()
                             .alignment()
-                            .orElseThrow(
-                                    () ->
-                                            new IllegalArgumentException(
-                                                    "Every follower config must have the `alignment` field set")));
+                            .orElseThrow(() -> new IllegalArgumentException(
+                                    "Every follower config must have the `alignment` field set")));
             followerInputs[i] = new MotorIOInputsAutoLogged();
         }
     }
@@ -70,8 +68,7 @@ public final class MultiAngularPositionModule extends AngularPositionModule {
 
         for (int i = 0; i < numberOfFollowers; i++) {
             followers[i].updateInputs(followerInputs[i]);
-            Logger.processInputs(
-                    name + "/Follower" + (numberOfFollowers == 1 ? "" : " " + (i + 1)), followerInputs[i]);
+            Logger.processInputs(name + "/Follower" + (numberOfFollowers == 1 ? "" : " " + (i + 1)), followerInputs[i]);
         }
     }
 }

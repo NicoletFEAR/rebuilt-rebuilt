@@ -24,14 +24,12 @@ final class Indexer extends StateMachine<Indexer.IndexerState> {
     /** Creates the indexer. */
     Indexer() {
         super("Launcher/Indexer", IndexerState.OFF);
-        module =
-                new AngularVelocityModule(
-                        name,
-                        MotorIO.buildMotor(
-                                new MotorConfig(
-                                        DeviceIds.INDEXER,
-                                        IndexerConstants.SENSOR_TO_MECHANISM_RATIO,
-                                        IndexerConstants.FEEDFORWARD_VALUES)));
+        module = new AngularVelocityModule(
+                name,
+                MotorIO.buildMotor(new MotorConfig(
+                        DeviceIds.INDEXER,
+                        IndexerConstants.SENSOR_TO_MECHANISM_RATIO,
+                        IndexerConstants.FEEDFORWARD_VALUES)));
     }
 
     /** States of the indexer. */
@@ -64,8 +62,7 @@ final class Indexer extends StateMachine<Indexer.IndexerState> {
     private static final class IndexerConstants {
 
         /** Feedforward and feedback gains for the indexer motor. */
-        private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
+        private static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         /** Sensor-to-mechanism ratio for the indexer. */
         private static final double SENSOR_TO_MECHANISM_RATIO = 1.0;

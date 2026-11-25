@@ -20,8 +20,7 @@ public final class StringHelpers {
         }
 
         // Converts camel case to Pascal case, then calls pascalCaseToWords
-        return pascalCaseToWords(
-                name.substring(0, 1).toUpperCase(Locale.getDefault()) + name.substring(1));
+        return pascalCaseToWords(name.substring(0, 1).toUpperCase(Locale.getDefault()) + name.substring(1));
     }
 
     /**
@@ -64,9 +63,8 @@ public final class StringHelpers {
         // Splits name by underscores.
         return Arrays.stream(name.split("_"))
                 // Capitalizes first letter of each word and uncapitalizes the rest.
-                .map(
-                        word ->
-                                word.substring(0, 1).toUpperCase(locale) + word.substring(1).toLowerCase(locale))
+                .map(word -> word.substring(0, 1).toUpperCase(locale)
+                        + word.substring(1).toLowerCase(locale))
                 // Puts word back together with spaces between.
                 .collect(Collectors.joining(" "));
     }

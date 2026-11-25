@@ -5,8 +5,8 @@ import static frc.lib.units.AngularVelocityUnit.RadiansPerSecond;
 
 import frc.lib.units.Angle;
 import frc.lib.units.AngularVelocity;
-import frc.robot.Robot;
 import org.littletonrobotics.junction.AutoLog;
+import org.wpilib.framework.RobotBase;
 
 /**
  * Provides an interface for communicating with an absolute encoder.
@@ -23,7 +23,7 @@ public interface AbsEncoderIO {
      * @return the correct absolute encoder implementation
      */
     static AbsEncoderIO buildAbsEncoder(AbsEncoderConfig config) {
-        return Robot.isReal() ? new CanCoder(config) : new SimCanCoder(config);
+        return RobotBase.isReal() ? new CanCoder(config) : new SimCanCoder(config);
     }
 
     /**

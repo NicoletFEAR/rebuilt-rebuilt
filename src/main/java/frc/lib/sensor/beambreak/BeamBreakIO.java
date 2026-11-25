@@ -1,7 +1,7 @@
 package frc.lib.sensor.beambreak;
 
-import frc.robot.Robot;
 import org.littletonrobotics.junction.AutoLog;
+import org.wpilib.framework.RobotBase;
 
 /**
  * Provides an interface for communicating with a beam break sensor.
@@ -25,9 +25,9 @@ public interface BeamBreakIO {
     static BeamBreakIO buildBeamBreak(BeamBreakConfig config) {
         return switch (config.device()) {
             case BeamBreakDevice.CanRange _ ->
-                    Robot.isReal() ? new CanRangeBeamBreak(config) : new SimCanRangeBeamBreak(config);
+                RobotBase.isReal() ? new CanRangeBeamBreak(config) : new SimCanRangeBeamBreak(config);
             case BeamBreakDevice.DigitalInput _ ->
-                    Robot.isReal() ? new DigitalInputBeamBreak(config) : new SimDigitalInputBeamBreak(config);
+                RobotBase.isReal() ? new DigitalInputBeamBreak(config) : new SimDigitalInputBeamBreak(config);
         };
     }
 

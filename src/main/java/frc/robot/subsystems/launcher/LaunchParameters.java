@@ -10,8 +10,7 @@ import frc.lib.units.AngularVelocity;
  * @param flywheelVelocity velocity at which to spin the flywheels
  * @param hoodAngle angle to which to move the hood
  */
-public record LaunchParameters(AngularVelocity flywheelVelocity, Angle hoodAngle)
-        implements LoggableOutputs {
+public record LaunchParameters(AngularVelocity flywheelVelocity, Angle hoodAngle) implements LoggableOutputs {
     /**
      * Logs the launch parameters at the given key.
      *

@@ -64,12 +64,7 @@ public record MotorConfig(
             double sensorToMechanismRatio,
             FeedforwardValues feedforwardValues,
             MotorAlignmentValue alignment) {
-        this(
-                id,
-                sensorToMechanismRatio,
-                NeutralModeValue.Coast,
-                feedforwardValues,
-                Optional.of(alignment));
+        this(id, sensorToMechanismRatio, NeutralModeValue.Coast, feedforwardValues, Optional.of(alignment));
     }
 
     /**
@@ -86,10 +81,9 @@ public record MotorConfig(
                 .withFeedback(new FeedbackConfigs().withSensorToMechanismRatio(sensorToMechanismRatio))
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(neutralMode))
                 .withSlot0(feedforwardValues.getSlot0Configs())
-                .withMotionMagic(
-                        new MotionMagicConfigs()
-                                .withMotionMagicAcceleration(RotationsPerSecondSquared.raw(100.0))
-                                .withMotionMagicCruiseVelocity(RotationsPerSecond.raw(100.0)));
+                .withMotionMagic(new MotionMagicConfigs()
+                        .withMotionMagicAcceleration(RotationsPerSecondSquared.raw(100.0))
+                        .withMotionMagicCruiseVelocity(RotationsPerSecond.raw(100.0)));
     }
 
     /**
@@ -139,8 +133,7 @@ public record MotorConfig(
      * @param alignment new alignment to use
      */
     public MotorConfig withAlignment(MotorAlignmentValue alignment) {
-        return new MotorConfig(
-                id, sensorToMechanismRatio, neutralMode, feedforwardValues, Optional.of(alignment));
+        return new MotorConfig(id, sensorToMechanismRatio, neutralMode, feedforwardValues, Optional.of(alignment));
     }
 
     /**
@@ -148,7 +141,6 @@ public record MotorConfig(
      * alignment.
      */
     public MotorConfig withoutAlignment() {
-        return new MotorConfig(
-                id, sensorToMechanismRatio, neutralMode, feedforwardValues, Optional.empty());
+        return new MotorConfig(id, sensorToMechanismRatio, neutralMode, feedforwardValues, Optional.empty());
     }
 }

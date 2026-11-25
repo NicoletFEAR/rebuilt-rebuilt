@@ -29,19 +29,16 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
      */
     DriveMotor(SwerveModuleName name) {
         super("Drive/" + name + "/Drive", DriveMotorState.OFF);
-        module =
-                new LinearVelocityModule(
-                        this.name,
-                        MotorIO.buildMotor(
-                                new MotorConfig(
-                                        name.drive(),
-                                        DriveMotorConstants.SENSOR_TO_MECHANISM_RATIO,
-                                        DriveMotorConstants.FEEDFORWARD_VALUES)));
+        module = new LinearVelocityModule(
+                this.name,
+                MotorIO.buildMotor(new MotorConfig(
+                        name.drive(),
+                        DriveMotorConstants.SENSOR_TO_MECHANISM_RATIO,
+                        DriveMotorConstants.FEEDFORWARD_VALUES)));
     }
 
     /** States of the drive motor. */
-    static sealed interface DriveMotorState extends State
-            permits DriveMotorState.Off, DriveMotorState.Drive {
+    static sealed interface DriveMotorState extends State permits DriveMotorState.Off, DriveMotorState.Drive {
         /** Drive motor is off (zero voltage). */
         static record Off() implements DriveMotorState {}
 
@@ -87,8 +84,7 @@ final class DriveMotor extends StateMachine<DriveMotor.DriveMotorState> {
                 425.0 / 63.0 / DrivebaseConstants.WHEEL_RADIUS.in(Meters);
 
         /** Feedforward and feedback gains for the drive motors. */
-        private static final FeedforwardValues FEEDFORWARD_VALUES =
-                new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
+        private static final FeedforwardValues FEEDFORWARD_VALUES = new FeedforwardValues(0.1, 0.0, 0.0, 0.1, 0.1, 0.1);
 
         private DriveMotorConstants() {
             /* Keep this constructor empty. */
