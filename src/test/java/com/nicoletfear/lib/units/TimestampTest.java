@@ -6,23 +6,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import org.junit.jupiter.api.Test;
 
 class TimestampTest {
-    private static final double EPSILON = 1e-9;
-
     @Test
     void storesValueInSeconds() {
         Timestamp timestamp = Seconds.timestamp(12.5);
 
-        assertEquals(12.5, timestamp.value, EPSILON);
+        assertEquals(12.5, timestamp.value, ToleranceConstants.EPSILON);
     }
 
     @Test
     void unitTimestampConvertsToBaseSeconds() {
         TimeUnit doubleSeconds = new TimeUnit(2.0);
 
-        assertEquals(6.0, doubleSeconds.timestamp(3.0).value, EPSILON);
+        assertEquals(6.0, doubleSeconds.timestamp(3.0).value, ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -43,9 +42,9 @@ class TimestampTest {
         Timestamp start = Seconds.timestamp(4.0);
         Timestamp end = Seconds.timestamp(10.0);
 
-        assertEquals(6.0, end.since(start).in(Seconds), EPSILON);
-        assertEquals(-6.0, start.since(end).in(Seconds), EPSILON);
-        assertEquals(0.0, start.since(start).in(Seconds), EPSILON);
+        assertEquals(6.0, end.since(start).in(Seconds), ToleranceConstants.EPSILON);
+        assertEquals(-6.0, start.since(end).in(Seconds), ToleranceConstants.EPSILON);
+        assertEquals(0.0, start.since(start).in(Seconds), ToleranceConstants.EPSILON);
     }
 
     @Test

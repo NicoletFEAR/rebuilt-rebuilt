@@ -10,17 +10,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import org.junit.jupiter.api.Test;
 import org.littletonrobotics.junction.LogTable;
 
 class QuantityTest {
-    private static final double EPSILON = 1e-9;
-
     @Test
     void storesValueInBaseUnits() {
         Distance distance = Meters.of(2.5);
 
-        assertEquals(2.5, distance.value, EPSILON);
+        assertEquals(2.5, distance.value, ToleranceConstants.EPSILON);
         assertEquals("m", distance.baseUnitSymbol);
     }
 
@@ -37,13 +36,13 @@ class QuantityTest {
     void convertsUsingCustomUnit() {
         DistanceUnit doubleMeters = new DistanceUnit(2.0);
 
-        assertEquals(2.0, Meters.of(4.0).in(doubleMeters), EPSILON);
-        assertEquals(4.0, doubleMeters.of(2.0).in(Meters), EPSILON);
+        assertEquals(2.0, Meters.of(4.0).in(doubleMeters), ToleranceConstants.EPSILON);
+        assertEquals(4.0, doubleMeters.of(2.0).in(Meters), ToleranceConstants.EPSILON);
     }
 
     @Test
     void handlesNegativeValues() {
-        assertEquals(-2.5, Meters.of(-2.5).value, EPSILON);
+        assertEquals(-2.5, Meters.of(-2.5).value, ToleranceConstants.EPSILON);
         assertEquals(-98.4251968503937, Meters.of(-2.5).in(Inches), 1e-9);
     }
 
@@ -95,9 +94,9 @@ class QuantityTest {
         Distance restored = new Distance(0.0);
         restored.fromLog(table);
 
-        assertEquals(3.75, restored.value, EPSILON);
+        assertEquals(3.75, restored.value, ToleranceConstants.EPSILON);
         assertEquals("m", restored.baseUnitSymbol);
-        assertEquals(3.75, restored.in(Meters), EPSILON);
+        assertEquals(3.75, restored.in(Meters), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -107,7 +106,7 @@ class QuantityTest {
 
         distance.fromLog(emptyTable);
 
-        assertEquals(1.25, distance.value, EPSILON);
+        assertEquals(1.25, distance.value, ToleranceConstants.EPSILON);
         assertEquals("m", distance.baseUnitSymbol);
     }
 

@@ -57,4 +57,9 @@ class StringHelpersTest {
         assertEquals("Hello World", StringHelpers.screamingSnakeCaseToWords("hello_world"));
         assertEquals("Front", StringHelpers.screamingSnakeCaseToWords("FRONT"));
     }
+
+    @Test
+    void screamingSnakeCaseToWordsReturnsEmptyStringForEmptyInput() {
+        assertEquals("", StringHelpers.screamingSnakeCaseToWords(""));
+    }
 }

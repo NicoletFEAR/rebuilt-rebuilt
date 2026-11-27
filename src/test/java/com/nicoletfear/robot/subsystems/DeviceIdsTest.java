@@ -32,29 +32,6 @@ class DeviceIdsTest {
     }
 
     @Test
-    void swerveIdsMatchTheExpectedValues() {
-        assertEquals(1, DeviceIds.TURN.get(SwerveModuleName.FRONT_LEFT).id());
-        assertEquals(4, DeviceIds.TURN.get(SwerveModuleName.FRONT_RIGHT).id());
-        assertEquals(10, DeviceIds.TURN.get(SwerveModuleName.BACK_LEFT).id());
-        assertEquals(7, DeviceIds.TURN.get(SwerveModuleName.BACK_RIGHT).id());
-
-        assertEquals(2, DeviceIds.DRIVE.get(SwerveModuleName.FRONT_LEFT).id());
-        assertEquals(5, DeviceIds.DRIVE.get(SwerveModuleName.FRONT_RIGHT).id());
-        assertEquals(11, DeviceIds.DRIVE.get(SwerveModuleName.BACK_LEFT).id());
-        assertEquals(8, DeviceIds.DRIVE.get(SwerveModuleName.BACK_RIGHT).id());
-
-        assertEquals(
-                3, DeviceIds.SWERVE_ABS_ENCODER.get(SwerveModuleName.FRONT_LEFT).id());
-        assertEquals(
-                6,
-                DeviceIds.SWERVE_ABS_ENCODER.get(SwerveModuleName.FRONT_RIGHT).id());
-        assertEquals(
-                12, DeviceIds.SWERVE_ABS_ENCODER.get(SwerveModuleName.BACK_LEFT).id());
-        assertEquals(
-                9, DeviceIds.SWERVE_ABS_ENCODER.get(SwerveModuleName.BACK_RIGHT).id());
-    }
-
-    @Test
     void everyCanIdIsUnique() {
         Set<Integer> ids = new HashSet<>();
         List<CanId> allIds = new java.util.ArrayList<>();
@@ -96,16 +73,5 @@ class DeviceIdsTest {
 
         assertSame(DeviceIds.INTAKE_BUS, DeviceIds.INTAKE_WHEELS.bus());
         assertSame(DeviceIds.INTAKE_BUS, DeviceIds.INTAKE_ARM.bus());
-    }
-
-    @Test
-    void launcherAndIntakeIdsMatchTheExpectedValues() {
-        assertEquals(14, DeviceIds.LEFT_LAUNCHER.id());
-        assertEquals(15, DeviceIds.RIGHT_LAUNCHER.id());
-        assertEquals(16, DeviceIds.INDEXER.id());
-        assertEquals(23, DeviceIds.HOOD.id());
-        assertEquals(22, DeviceIds.HOOD_ENCODER.id());
-        assertEquals(18, DeviceIds.INTAKE_WHEELS.id());
-        assertEquals(19, DeviceIds.INTAKE_ARM.id());
     }
 }

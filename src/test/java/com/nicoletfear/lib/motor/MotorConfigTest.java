@@ -9,13 +9,12 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.nicoletfear.lib.CanId;
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.testutil.TestConfigs;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class MotorConfigTest {
-    private static final double EPSILON = 1e-9;
-
     private static final CanId ID = TestConfigs.canId(3);
     private static final FeedforwardValues FEEDFORWARD = TestConfigs.feedforward();
 
@@ -24,7 +23,7 @@ class MotorConfigTest {
         MotorConfig config = new MotorConfig(ID, 2.0, FEEDFORWARD);
 
         assertEquals(ID, config.id());
-        assertEquals(2.0, config.sensorToMechanismRatio(), EPSILON);
+        assertEquals(2.0, config.sensorToMechanismRatio(), ToleranceConstants.EPSILON);
         assertEquals(NeutralModeValue.Coast, config.neutralMode());
         assertEquals(FEEDFORWARD, config.feedforwardValues());
         assertEquals(Optional.empty(), config.alignment());
@@ -46,7 +45,7 @@ class MotorConfigTest {
         MotorConfig changed = original.withId(newId);
 
         assertEquals(newId, changed.id());
-        assertEquals(original.sensorToMechanismRatio(), changed.sensorToMechanismRatio(), EPSILON);
+        assertEquals(original.sensorToMechanismRatio(), changed.sensorToMechanismRatio(), ToleranceConstants.EPSILON);
         assertEquals(original.neutralMode(), changed.neutralMode());
         assertEquals(original.feedforwardValues(), changed.feedforwardValues());
         assertEquals(original.alignment(), changed.alignment());
@@ -58,7 +57,7 @@ class MotorConfigTest {
 
         MotorConfig changed = original.withSensorToMechanismRatio(3.5);
 
-        assertEquals(3.5, changed.sensorToMechanismRatio(), EPSILON);
+        assertEquals(3.5, changed.sensorToMechanismRatio(), ToleranceConstants.EPSILON);
         assertEquals(original.id(), changed.id());
         assertEquals(original.neutralMode(), changed.neutralMode());
         assertEquals(original.feedforwardValues(), changed.feedforwardValues());
@@ -73,7 +72,7 @@ class MotorConfigTest {
 
         assertEquals(NeutralModeValue.Brake, changed.neutralMode());
         assertEquals(original.id(), changed.id());
-        assertEquals(original.sensorToMechanismRatio(), changed.sensorToMechanismRatio(), EPSILON);
+        assertEquals(original.sensorToMechanismRatio(), changed.sensorToMechanismRatio(), ToleranceConstants.EPSILON);
         assertEquals(original.feedforwardValues(), changed.feedforwardValues());
     }
 
@@ -86,7 +85,7 @@ class MotorConfigTest {
 
         assertEquals(newFeedforward, changed.feedforwardValues());
         assertEquals(original.id(), changed.id());
-        assertEquals(original.sensorToMechanismRatio(), changed.sensorToMechanismRatio(), EPSILON);
+        assertEquals(original.sensorToMechanismRatio(), changed.sensorToMechanismRatio(), ToleranceConstants.EPSILON);
         assertEquals(original.neutralMode(), changed.neutralMode());
     }
 
@@ -117,17 +116,17 @@ class MotorConfigTest {
 
         TalonFXConfiguration ctreConfig = config.getTalonFXConfiguration();
 
-        assertEquals(2.5, ctreConfig.Feedback.SensorToMechanismRatio, EPSILON);
+        assertEquals(2.5, ctreConfig.Feedback.SensorToMechanismRatio, ToleranceConstants.EPSILON);
         assertEquals(NeutralModeValue.Brake, ctreConfig.MotorOutput.NeutralMode);
-        assertEquals(FEEDFORWARD.p(), ctreConfig.Slot0.kP, EPSILON);
-        assertEquals(FEEDFORWARD.i(), ctreConfig.Slot0.kI, EPSILON);
-        assertEquals(FEEDFORWARD.d(), ctreConfig.Slot0.kD, EPSILON);
-        assertEquals(FEEDFORWARD.s(), ctreConfig.Slot0.kS, EPSILON);
-        assertEquals(FEEDFORWARD.v(), ctreConfig.Slot0.kV, EPSILON);
-        assertEquals(FEEDFORWARD.a(), ctreConfig.Slot0.kA, EPSILON);
-        assertEquals(FEEDFORWARD.g(), ctreConfig.Slot0.kG, EPSILON);
-        assertEquals(100.0, ctreConfig.MotionMagic.MotionMagicCruiseVelocity, EPSILON);
-        assertEquals(100.0, ctreConfig.MotionMagic.MotionMagicAcceleration, EPSILON);
+        assertEquals(FEEDFORWARD.p(), ctreConfig.Slot0.kP, ToleranceConstants.EPSILON);
+        assertEquals(FEEDFORWARD.i(), ctreConfig.Slot0.kI, ToleranceConstants.EPSILON);
+        assertEquals(FEEDFORWARD.d(), ctreConfig.Slot0.kD, ToleranceConstants.EPSILON);
+        assertEquals(FEEDFORWARD.s(), ctreConfig.Slot0.kS, ToleranceConstants.EPSILON);
+        assertEquals(FEEDFORWARD.v(), ctreConfig.Slot0.kV, ToleranceConstants.EPSILON);
+        assertEquals(FEEDFORWARD.a(), ctreConfig.Slot0.kA, ToleranceConstants.EPSILON);
+        assertEquals(FEEDFORWARD.g(), ctreConfig.Slot0.kG, ToleranceConstants.EPSILON);
+        assertEquals(100.0, ctreConfig.MotionMagic.MotionMagicCruiseVelocity, ToleranceConstants.EPSILON);
+        assertEquals(100.0, ctreConfig.MotionMagic.MotionMagicAcceleration, ToleranceConstants.EPSILON);
     }
 
     @Test

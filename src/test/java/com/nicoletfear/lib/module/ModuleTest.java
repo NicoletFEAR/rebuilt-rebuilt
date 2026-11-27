@@ -6,6 +6,7 @@ import static com.nicoletfear.lib.units.VoltageUnit.Volts;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.motor.MotorIO;
 import com.nicoletfear.lib.motor.MotorIOInputsAutoLogged;
 import com.nicoletfear.lib.testutil.FakeMotorIO;
@@ -13,8 +14,6 @@ import com.nicoletfear.lib.testutil.TestConfigs;
 import org.junit.jupiter.api.Test;
 
 class ModuleTest {
-    private static final double EPSILON = 1e-9;
-
     private static final class TestModule extends Module {
         TestModule(String name, MotorIO motor) {
             super(name, motor);
@@ -55,8 +54,8 @@ class ModuleTest {
         assertEquals(2, motor.updateInputsCalls);
         assertSame(firstInputs, motor.lastInputs);
         assertSame(firstInputs, module.inputs());
-        assertEquals(1.5, module.inputs().position.in(Radians), EPSILON);
-        assertEquals(2.5, module.inputs().velocity.in(RadiansPerSecond), EPSILON);
+        assertEquals(1.5, module.inputs().position.in(Radians), ToleranceConstants.EPSILON);
+        assertEquals(2.5, module.inputs().velocity.in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -67,6 +66,6 @@ class ModuleTest {
         module.setVoltage(Volts.of(7.5));
 
         assertEquals(1, motor.voltageCalls);
-        assertEquals(7.5, motor.voltage.in(Volts), EPSILON);
+        assertEquals(7.5, motor.voltage.in(Volts), ToleranceConstants.EPSILON);
     }
 }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.logging.LoggableOutputs;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +15,8 @@ class LaunchParametersTest {
     void storesFlywheelVelocityAndHoodAngle() {
         LaunchParameters parameters = new LaunchParameters(RadiansPerSecond.of(25.0), Radians.of(0.75));
 
-        assertEquals(25.0, parameters.flywheelVelocity().in(RadiansPerSecond), 1e-12);
-        assertEquals(0.75, parameters.hoodAngle().in(Radians), 1e-12);
+        assertEquals(25.0, parameters.flywheelVelocity().in(RadiansPerSecond), ToleranceConstants.EPSILON);
+        assertEquals(0.75, parameters.hoodAngle().in(Radians), ToleranceConstants.EPSILON);
     }
 
     @Test

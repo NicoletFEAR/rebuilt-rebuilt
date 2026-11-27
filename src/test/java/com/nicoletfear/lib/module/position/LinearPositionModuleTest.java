@@ -4,13 +4,12 @@ import static com.nicoletfear.lib.units.AngleUnit.Radians;
 import static com.nicoletfear.lib.units.DistanceUnit.Meters;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.testutil.FakeMotorIO;
 import com.nicoletfear.lib.testutil.TestConfigs;
 import org.junit.jupiter.api.Test;
 
 class LinearPositionModuleTest {
-    private static final double EPSILON = 1e-9;
-
     @Test
     void setPositionSetpointConvertsMetersToSensorRadians() {
         FakeMotorIO motor = new FakeMotorIO(TestConfigs.motorConfig(1));
@@ -19,7 +18,7 @@ class LinearPositionModuleTest {
         module.setPositionSetpoint(Meters.of(2.5));
 
         assertEquals(1, motor.positionSetpointCalls);
-        assertEquals(2.5, motor.positionSetpoint.in(Radians), EPSILON);
+        assertEquals(2.5, motor.positionSetpoint.in(Radians), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -30,7 +29,7 @@ class LinearPositionModuleTest {
         module.setDynamicPosition(Meters.of(-1.25));
 
         assertEquals(1, motor.dynamicPositionCalls);
-        assertEquals(-1.25, motor.dynamicPosition.in(Radians), EPSILON);
+        assertEquals(-1.25, motor.dynamicPosition.in(Radians), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -41,6 +40,6 @@ class LinearPositionModuleTest {
 
         module.updateInputs();
 
-        assertEquals(3.5, module.getPosition().in(Meters), EPSILON);
+        assertEquals(3.5, module.getPosition().in(Meters), ToleranceConstants.EPSILON);
     }
 }

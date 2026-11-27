@@ -3,13 +3,12 @@ package com.nicoletfear.lib.sensor.beambreak;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.testutil.TestConfigs;
 import org.junit.jupiter.api.Test;
 import org.wpilib.units.Units;
 
 class BeamBreakConfigTest {
-    private static final double EPSILON = 1e-9;
-
     @Test
     void convertsToCanRangeConfiguration() {
         BeamBreakConfig config =
@@ -17,7 +16,7 @@ class BeamBreakConfigTest {
 
         CANrangeConfiguration ctreConfig = config.getCanRangeConfiguration();
 
-        assertEquals(0.42, ctreConfig.ProximityParams.ProximityThreshold, EPSILON);
+        assertEquals(0.42, ctreConfig.ProximityParams.ProximityThreshold, ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -26,7 +25,7 @@ class BeamBreakConfigTest {
         BeamBreakConfig config = new BeamBreakConfig(device, Units.Meters.of(0.1));
 
         assertEquals(device, config.device());
-        assertEquals(0.1, config.proximityThreshold().in(Units.Meters), EPSILON);
+        assertEquals(0.1, config.proximityThreshold().in(Units.Meters), ToleranceConstants.EPSILON);
     }
 
     @Test

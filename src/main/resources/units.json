@@ -247,7 +247,7 @@
             "units": {
                 "RadiansPerSecond": 1,
                 "RotationsPerSecond": 6.283185307179586,
-                "RotationsPerMinute": 376.99111843077515
+                "RotationsPerMinute": 0.10471975511965977
             },
             "wpiUnits": {
                 "measureType": "AngularVelocity",

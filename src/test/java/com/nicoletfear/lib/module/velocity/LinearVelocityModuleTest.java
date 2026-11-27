@@ -6,13 +6,12 @@ import static com.nicoletfear.lib.units.DistanceUnit.Meters;
 import static com.nicoletfear.lib.units.VelocityUnit.MetersPerSecond;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.testutil.FakeMotorIO;
 import com.nicoletfear.lib.testutil.TestConfigs;
 import org.junit.jupiter.api.Test;
 
 class LinearVelocityModuleTest {
-    private static final double EPSILON = 1e-9;
-
     @Test
     void setVelocitySetpointConvertsMetersPerSecondToSensorRadiansPerSecond() {
         FakeMotorIO motor = new FakeMotorIO(TestConfigs.motorConfig(1));
@@ -21,7 +20,7 @@ class LinearVelocityModuleTest {
         module.setVelocitySetpoint(MetersPerSecond.of(3.25));
 
         assertEquals(1, motor.velocitySetpointCalls);
-        assertEquals(3.25, motor.velocitySetpoint.in(RadiansPerSecond), EPSILON);
+        assertEquals(3.25, motor.velocitySetpoint.in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -32,7 +31,7 @@ class LinearVelocityModuleTest {
         module.setDynamicVelocity(MetersPerSecond.of(-1.5));
 
         assertEquals(1, motor.dynamicVelocityCalls);
-        assertEquals(-1.5, motor.dynamicVelocity.in(RadiansPerSecond), EPSILON);
+        assertEquals(-1.5, motor.dynamicVelocity.in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -43,7 +42,7 @@ class LinearVelocityModuleTest {
 
         module.updateInputs();
 
-        assertEquals(2.75, module.getPosition().in(Meters), EPSILON);
+        assertEquals(2.75, module.getPosition().in(Meters), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -54,6 +53,6 @@ class LinearVelocityModuleTest {
 
         module.updateInputs();
 
-        assertEquals(5.5, module.getVelocity().in(MetersPerSecond), EPSILON);
+        assertEquals(5.5, module.getVelocity().in(MetersPerSecond), ToleranceConstants.EPSILON);
     }
 }

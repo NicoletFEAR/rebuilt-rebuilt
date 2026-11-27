@@ -3,13 +3,12 @@ package com.nicoletfear.lib.module.velocity;
 import static com.nicoletfear.lib.units.AngularVelocityUnit.RadiansPerSecond;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.testutil.FakeMotorIO;
 import com.nicoletfear.lib.testutil.TestConfigs;
 import org.junit.jupiter.api.Test;
 
 class AngularVelocityModuleTest {
-    private static final double EPSILON = 1e-9;
-
     @Test
     void setVelocitySetpointForwardsToTheMotor() {
         FakeMotorIO motor = new FakeMotorIO(TestConfigs.motorConfig(1));
@@ -18,7 +17,7 @@ class AngularVelocityModuleTest {
         module.setVelocitySetpoint(RadiansPerSecond.of(4.5));
 
         assertEquals(1, motor.velocitySetpointCalls);
-        assertEquals(4.5, motor.velocitySetpoint.in(RadiansPerSecond), EPSILON);
+        assertEquals(4.5, motor.velocitySetpoint.in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -29,7 +28,7 @@ class AngularVelocityModuleTest {
         module.setDynamicVelocity(RadiansPerSecond.of(-2.0));
 
         assertEquals(1, motor.dynamicVelocityCalls);
-        assertEquals(-2.0, motor.dynamicVelocity.in(RadiansPerSecond), EPSILON);
+        assertEquals(-2.0, motor.dynamicVelocity.in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -40,6 +39,6 @@ class AngularVelocityModuleTest {
 
         module.updateInputs();
 
-        assertEquals(6.25, module.getVelocity().in(RadiansPerSecond), EPSILON);
+        assertEquals(6.25, module.getVelocity().in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 }

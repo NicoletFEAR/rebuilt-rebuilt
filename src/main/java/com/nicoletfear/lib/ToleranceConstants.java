@@ -26,6 +26,13 @@ public final class ToleranceConstants {
      */
     public static final Distance LINEAR_POSITION_SETPOINT_TOLERANCE = Meters.of(0.005);
 
+    /**
+     * Minimum distance between two doubles such that they should not be considered equal. For real life,
+     * tolerances are usually greater than this, so this is just for doubles that don't represent anything
+     * physical.
+     */
+    public static final double EPSILON = 1e-12;
+
     private ToleranceConstants() {
         // Keep this constructor empty.
     }

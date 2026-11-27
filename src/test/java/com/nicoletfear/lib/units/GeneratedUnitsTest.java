@@ -19,16 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import java.util.List;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.littletonrobotics.junction.LogTable;
 import org.wpilib.math.geometry.Rotation2d;
 
 /** Tests the classes produced by {@code GenerateUnits} from {@code units.json}. */
 class GeneratedUnitsTest {
-    private static final double EPSILON = 1e-9;
-
     private static final List<String> QUANTITIES = List.of(
             "Distance",
             "Mass",
@@ -57,7 +55,7 @@ class GeneratedUnitsTest {
         try {
             Quantity quantity =
                     (Quantity) unit.getClass().getMethod("of", double.class).invoke(unit, value);
-            assertEquals(value, quantity.in(unit), EPSILON);
+            assertEquals(value, quantity.in(unit), ToleranceConstants.EPSILON);
         } catch (ReflectiveOperationException e) {
             throw new AssertionError("Could not round-trip " + unit.getClass().getName(), e);
         }
@@ -111,7 +109,7 @@ class GeneratedUnitsTest {
 
     @Test
     void conversionsMatchUnitFactors() {
-        assertEquals(0.0254, Inches.of(1.0).in(Meters), EPSILON);
+        assertEquals(0.0254, Inches.of(1.0).in(Meters), ToleranceConstants.EPSILON);
         assertEquals(2 * Math.PI, Rotations.of(1.0).in(Radians), 1e-9);
         assertEquals(Math.PI / 180.0, Degrees.of(1.0).in(Radians), 1e-9);
         assertEquals(2 * Math.PI, RotationsPerSecond.of(1.0).in(RadiansPerSecond), 1e-9);
@@ -119,23 +117,17 @@ class GeneratedUnitsTest {
     }
 
     @Test
-    @Disabled("units.json currently defines 1 RPM as 2*pi*60 rad/s; the physical value is 2*pi/60")
-    void rotationsPerMinuteUsesPhysicalConversion() {
-        assertEquals(2 * Math.PI, RotationsPerMinute.of(60.0).in(RadiansPerSecond), 1e-9);
-    }
-
-    @Test
     void arithmeticOperationsProduceExpectedValues() {
         Distance three = Meters.of(3.0);
         Distance two = Meters.of(2.0);
 
-        assertEquals(5.0, three.plus(two).in(Meters), EPSILON);
-        assertEquals(1.0, three.minus(two).in(Meters), EPSILON);
-        assertEquals(6.0, three.times(2.0).in(Meters), EPSILON);
-        assertEquals(1.5, three.div(2.0).in(Meters), EPSILON);
-        assertEquals(-3.0, three.negative().in(Meters), EPSILON);
-        assertEquals(3.0, Meters.of(2.1).ceil().in(Meters), EPSILON);
-        assertEquals(2.0, Meters.of(2.9).floor().in(Meters), EPSILON);
+        assertEquals(5.0, three.plus(two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(1.0, three.minus(two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(6.0, three.times(2.0).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(1.5, three.div(2.0).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(-3.0, three.negative().in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(3.0, Meters.of(2.1).ceil().in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(2.0, Meters.of(2.9).floor().in(Meters), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -144,33 +136,40 @@ class GeneratedUnitsTest {
         Distance two = Meters.of(2.0);
         Distance three = Meters.of(3.0);
 
-        assertEquals(3.0, three.max(two).in(Meters), EPSILON);
-        assertEquals(2.0, one.max(two).in(Meters), EPSILON);
-        assertEquals(2.0, three.min(two).in(Meters), EPSILON);
-        assertEquals(1.0, one.min(two).in(Meters), EPSILON);
-        assertEquals(2.0, three.clamp(one, two).in(Meters), EPSILON);
-        assertEquals(1.0, Meters.of(0.0).clamp(one, two).in(Meters), EPSILON);
-        assertEquals(2.0, two.clamp(one, three).in(Meters), EPSILON);
+        assertEquals(3.0, three.max(two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(2.0, one.max(two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(2.0, three.min(two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(1.0, one.min(two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(2.0, three.clamp(one, two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(1.0, Meters.of(0.0).clamp(one, two).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(2.0, two.clamp(one, three).in(Meters), ToleranceConstants.EPSILON);
     }
 
     @Test
     void crossQuantityOperationsProduceExpectedQuantities() {
-        assertEquals(5.0, Meters.of(10.0).div(Seconds.of(2.0)).in(MetersPerSecond), EPSILON);
-        assertEquals(6.0, Seconds.of(2.0).times(MetersPerSecond.of(3.0)).in(Meters), EPSILON);
-        assertEquals(3.0, Meters.of(6.0).div(MetersPerSecond.of(2.0)).in(Seconds), EPSILON);
-        assertEquals(6.0, Volts.of(12.0).div(Amps.of(2.0)).in(ResistanceUnit.Ohms), EPSILON);
-        assertEquals(6.0, Volts.of(12.0).div(Seconds.of(2.0)).in(VoltageVelocityUnit.VoltsPerSecond), EPSILON);
-        assertEquals(0.5, Seconds.of(2.0).reciprocal().in(Hertz), EPSILON);
-        assertEquals(6.0, Radians.of(2.0).times(Seconds.of(3.0)).in(AnglementUnit.RadianSeconds), EPSILON);
-        assertEquals(8.0, RadiansPerSecond.of(4.0).times(Seconds.of(2.0)).in(Radians), EPSILON);
-        assertEquals(1.0, Radians.of(2.0).div(Seconds.of(2.0)).in(RadiansPerSecond), EPSILON);
-        assertEquals(24.0, Volts.of(12.0).times(Seconds.of(2.0)).in(MagneticFluxUnit.Webers), EPSILON);
+        assertEquals(5.0, Meters.of(10.0).div(Seconds.of(2.0)).in(MetersPerSecond), ToleranceConstants.EPSILON);
+        assertEquals(6.0, Seconds.of(2.0).times(MetersPerSecond.of(3.0)).in(Meters), ToleranceConstants.EPSILON);
+        assertEquals(3.0, Meters.of(6.0).div(MetersPerSecond.of(2.0)).in(Seconds), ToleranceConstants.EPSILON);
+        assertEquals(6.0, Volts.of(12.0).div(Amps.of(2.0)).in(ResistanceUnit.Ohms), ToleranceConstants.EPSILON);
+        assertEquals(
+                6.0,
+                Volts.of(12.0).div(Seconds.of(2.0)).in(VoltageVelocityUnit.VoltsPerSecond),
+                ToleranceConstants.EPSILON);
+        assertEquals(0.5, Seconds.of(2.0).reciprocal().in(Hertz), ToleranceConstants.EPSILON);
+        assertEquals(
+                6.0,
+                Radians.of(2.0).times(Seconds.of(3.0)).in(AnglementUnit.RadianSeconds),
+                ToleranceConstants.EPSILON);
+        assertEquals(8.0, RadiansPerSecond.of(4.0).times(Seconds.of(2.0)).in(Radians), ToleranceConstants.EPSILON);
+        assertEquals(1.0, Radians.of(2.0).div(Seconds.of(2.0)).in(RadiansPerSecond), ToleranceConstants.EPSILON);
+        assertEquals(
+                24.0, Volts.of(12.0).times(Seconds.of(2.0)).in(MagneticFluxUnit.Webers), ToleranceConstants.EPSILON);
         assertEquals(
                 4.0,
                 Volts.of(12.0)
                         .div(MagneticFluxPerAngleUnit.WebersPerRadian.of(3.0))
                         .in(RadiansPerSecond),
-                EPSILON);
+                ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -179,23 +178,24 @@ class GeneratedUnitsTest {
 
         Angle angle = AngleUnit.ofRotation(rotation);
 
-        assertEquals(1.25, angle.in(Radians), EPSILON);
-        assertEquals(1.25, angle.toRotation().getRadians(), EPSILON);
-        assertEquals(rotation.getRadians(), angle.toRotation().getRadians(), EPSILON);
+        assertEquals(1.25, angle.in(Radians), ToleranceConstants.EPSILON);
+        assertEquals(1.25, angle.toRotation().getRadians(), ToleranceConstants.EPSILON);
+        assertEquals(rotation.getRadians(), angle.toRotation().getRadians(), ToleranceConstants.EPSILON);
     }
 
     @Test
     void wpiFactoriesConvertFromWpiMeasures() {
         assertEquals(
-                2.5, DistanceUnit.ofWpi(org.wpilib.units.Units.Meters.of(2.5)).in(Meters), EPSILON);
+                2.5, DistanceUnit.ofWpi(org.wpilib.units.Units.Meters.of(2.5)).in(Meters), ToleranceConstants.EPSILON);
         assertEquals(
                 Math.PI,
                 AngleUnit.ofWpi(org.wpilib.units.Units.Radians.of(Math.PI)).in(Radians),
-                EPSILON);
-        assertEquals(3.0, TimeUnit.ofWpi(org.wpilib.units.Units.Seconds.of(3.0)).in(Seconds), EPSILON);
+                ToleranceConstants.EPSILON);
         assertEquals(
-                12.0, VoltageUnit.ofWpi(org.wpilib.units.Units.Volts.of(12.0)).in(Volts), EPSILON);
-        assertEquals(2.0, CurrentUnit.ofWpi(org.wpilib.units.Units.Amps.of(2.0)).in(Amps), EPSILON);
+                3.0, TimeUnit.ofWpi(org.wpilib.units.Units.Seconds.of(3.0)).in(Seconds), ToleranceConstants.EPSILON);
+        assertEquals(
+                12.0, VoltageUnit.ofWpi(org.wpilib.units.Units.Volts.of(12.0)).in(Volts), ToleranceConstants.EPSILON);
+        assertEquals(2.0, CurrentUnit.ofWpi(org.wpilib.units.Units.Amps.of(2.0)).in(Amps), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -207,7 +207,7 @@ class GeneratedUnitsTest {
         VoltageVelocity restored = new VoltageVelocity(0.0);
         restored.fromLog(table);
 
-        assertEquals(2.5, restored.in(VoltageVelocityUnit.VoltsPerSecond), EPSILON);
+        assertEquals(2.5, restored.in(VoltageVelocityUnit.VoltsPerSecond), ToleranceConstants.EPSILON);
         assertEquals("V/s", restored.baseUnitSymbol);
     }
 

@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.testutil.TestConfigs;
 import com.nicoletfear.lib.units.Angle;
 import com.nicoletfear.lib.units.AngularVelocity;
@@ -14,8 +15,6 @@ import com.nicoletfear.lib.units.Voltage;
 import org.junit.jupiter.api.Test;
 
 class MotorIOTest {
-    private static final double EPSILON = 1e-9;
-
     /** A motor that only records the dynamic methods, so the default setters can be tested. */
     private static final class DynamicOnlyMotorIO extends MotorIO {
         Angle dynamicPosition;
@@ -59,7 +58,7 @@ class MotorIOTest {
 
         motor.setPositionSetpoint(Radians.of(1.25));
 
-        assertEquals(1.25, motor.dynamicPosition.in(Radians), EPSILON);
+        assertEquals(1.25, motor.dynamicPosition.in(Radians), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -68,7 +67,7 @@ class MotorIOTest {
 
         motor.setVelocitySetpoint(RadiansPerSecond.of(3.5));
 
-        assertEquals(3.5, motor.dynamicVelocity.in(RadiansPerSecond), EPSILON);
+        assertEquals(3.5, motor.dynamicVelocity.in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -76,16 +75,21 @@ class MotorIOTest {
         MotorIO.MotorIOInputs inputs = new MotorIO.MotorIOInputs();
 
         assertFalse(inputs.connected);
-        assertEquals(0.0, inputs.position.in(Radians), EPSILON);
-        assertEquals(0.0, inputs.velocity.in(RadiansPerSecond), EPSILON);
+        assertEquals(0.0, inputs.position.in(Radians), ToleranceConstants.EPSILON);
+        assertEquals(0.0, inputs.velocity.in(RadiansPerSecond), ToleranceConstants.EPSILON);
         assertEquals(
                 0.0,
                 inputs.acceleration.in(com.nicoletfear.lib.units.AngularAccelerationUnit.RadiansPerSecondSquared),
-                EPSILON);
-        assertEquals(0.0, inputs.voltage.in(com.nicoletfear.lib.units.VoltageUnit.Volts), EPSILON);
-        assertEquals(0.0, inputs.statorCurrent.in(com.nicoletfear.lib.units.CurrentUnit.Amps), EPSILON);
-        assertEquals(0.0, inputs.supplyCurrent.in(com.nicoletfear.lib.units.CurrentUnit.Amps), EPSILON);
-        assertEquals(294.0, inputs.temperature.in(com.nicoletfear.lib.units.TemperatureUnit.Kelvin), EPSILON);
+                ToleranceConstants.EPSILON);
+        assertEquals(0.0, inputs.voltage.in(com.nicoletfear.lib.units.VoltageUnit.Volts), ToleranceConstants.EPSILON);
+        assertEquals(
+                0.0, inputs.statorCurrent.in(com.nicoletfear.lib.units.CurrentUnit.Amps), ToleranceConstants.EPSILON);
+        assertEquals(
+                0.0, inputs.supplyCurrent.in(com.nicoletfear.lib.units.CurrentUnit.Amps), ToleranceConstants.EPSILON);
+        assertEquals(
+                294.0,
+                inputs.temperature.in(com.nicoletfear.lib.units.TemperatureUnit.Kelvin),
+                ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -97,6 +101,6 @@ class MotorIOTest {
         first.position = Radians.of(2.0);
 
         assertFalse(second.connected);
-        assertEquals(0.0, second.position.in(Radians), EPSILON);
+        assertEquals(0.0, second.position.in(Radians), ToleranceConstants.EPSILON);
     }
 }

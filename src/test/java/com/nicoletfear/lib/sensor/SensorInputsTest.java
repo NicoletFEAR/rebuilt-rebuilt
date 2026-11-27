@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.led.LedIO;
 import com.nicoletfear.lib.sensor.absencoder.AbsEncoderIO;
 import com.nicoletfear.lib.sensor.beambreak.BeamBreakIO;
@@ -18,8 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.wpilib.math.geometry.Pose2d;
 
 class SensorInputsTest {
-    private static final double EPSILON = 1e-9;
-
     @Test
     void beamBreakInputsHaveExpectedDefaults() {
         BeamBreakIO.BeamBreakIOInputs inputs = new BeamBreakIO.BeamBreakIOInputs();
@@ -33,7 +32,7 @@ class SensorInputsTest {
         TofIO.TofIOInputs inputs = new TofIO.TofIOInputs();
 
         assertFalse(inputs.connected);
-        assertEquals(0.0, inputs.distance.in(Meters), EPSILON);
+        assertEquals(0.0, inputs.distance.in(Meters), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -51,8 +50,8 @@ class SensorInputsTest {
         LedIO.LedIOInputs inputs = new LedIO.LedIOInputs();
 
         assertFalse(inputs.connected);
-        assertEquals(0.0, inputs.voltage.in(Volts), EPSILON);
-        assertEquals(294.0, inputs.temperature.in(Kelvin), EPSILON);
+        assertEquals(0.0, inputs.voltage.in(Volts), ToleranceConstants.EPSILON);
+        assertEquals(294.0, inputs.temperature.in(Kelvin), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -60,7 +59,7 @@ class SensorInputsTest {
         AbsEncoderIO.AbsEncoderIOInputs inputs = new AbsEncoderIO.AbsEncoderIOInputs();
 
         assertFalse(inputs.connected);
-        assertEquals(0.0, inputs.position.in(Radians), EPSILON);
-        assertEquals(0.0, inputs.velocity.in(RadiansPerSecond), EPSILON);
+        assertEquals(0.0, inputs.position.in(Radians), ToleranceConstants.EPSILON);
+        assertEquals(0.0, inputs.velocity.in(RadiansPerSecond), ToleranceConstants.EPSILON);
     }
 }

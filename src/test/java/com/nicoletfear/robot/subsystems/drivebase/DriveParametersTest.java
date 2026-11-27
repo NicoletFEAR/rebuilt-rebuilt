@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.logging.LoggableOutputs;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +13,9 @@ class DriveParametersTest {
     void storesInputs() {
         DriveParameters parameters = new DriveParameters(0.25, -0.5, 0.75);
 
-        assertEquals(0.25, parameters.x(), 1e-12);
-        assertEquals(-0.5, parameters.y(), 1e-12);
-        assertEquals(0.75, parameters.omega(), 1e-12);
+        assertEquals(0.25, parameters.x(), ToleranceConstants.EPSILON);
+        assertEquals(-0.5, parameters.y(), ToleranceConstants.EPSILON);
+        assertEquals(0.75, parameters.omega(), ToleranceConstants.EPSILON);
     }
 
     @Test

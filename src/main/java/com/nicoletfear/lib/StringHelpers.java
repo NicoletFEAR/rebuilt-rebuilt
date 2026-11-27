@@ -59,6 +59,10 @@ public final class StringHelpers {
      *     case
      */
     public static String screamingSnakeCaseToWords(String name) {
+        if (name.isEmpty()) {
+            return name;
+        }
+
         Locale locale = Locale.getDefault();
         // Splits name by underscores.
         return Arrays.stream(name.split("_"))

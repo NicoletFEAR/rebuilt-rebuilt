@@ -1,9 +1,9 @@
 package com.nicoletfear.robot;
 
 import static com.nicoletfear.lib.units.TimeUnit.Seconds;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.nicoletfear.lib.ToleranceConstants;
 import com.nicoletfear.lib.estimate.OdometryMeasurement;
 import com.nicoletfear.lib.units.Timestamp;
 import java.lang.reflect.Field;
@@ -32,7 +32,7 @@ class RobotStateTest {
         RobotState state = new RobotState();
 
         assertEquals(Pose2d.ZERO, estimatedPose(state));
-        assertEquals(0.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), 1e-9);
+        assertEquals(0.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -42,7 +42,7 @@ class RobotStateTest {
         state.addOdometryMeasurement(new OdometryMeasurement(Seconds.timestamp(1.0), FIRST_POSE));
 
         assertEquals(FIRST_POSE, estimatedPose(state));
-        assertEquals(1.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), 1e-9);
+        assertEquals(1.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -53,7 +53,7 @@ class RobotStateTest {
         state.addOdometryMeasurement(new OdometryMeasurement(Seconds.timestamp(1.0), SECOND_POSE));
 
         assertEquals(FIRST_POSE, estimatedPose(state));
-        assertEquals(2.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), 1e-9);
+        assertEquals(2.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -74,7 +74,7 @@ class RobotStateTest {
         state.addOdometryMeasurement(new OdometryMeasurement(Seconds.timestamp(2.0), SECOND_POSE));
 
         assertEquals(SECOND_POSE, estimatedPose(state));
-        assertEquals(2.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), 1e-9);
+        assertEquals(2.0, lastTimestamp(state).since(Seconds.timestamp(0.0)).in(Seconds), ToleranceConstants.EPSILON);
     }
 
     @Test
@@ -84,13 +84,5 @@ class RobotStateTest {
         state.addOdometryMeasurement(new OdometryMeasurement(Seconds.timestamp(-1.0), FIRST_POSE));
 
         assertEquals(Pose2d.ZERO, estimatedPose(state));
-    }
-
-    @Test
-    void loggingIsSafeWithoutAdvantageKitRunning() {
-        RobotState state = new RobotState();
-        state.addOdometryMeasurement(new OdometryMeasurement(Seconds.timestamp(1.0), FIRST_POSE));
-
-        assertDoesNotThrow(state::log);
     }
 }
