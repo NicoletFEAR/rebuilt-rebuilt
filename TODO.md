@@ -1,5 +1,6 @@
 # Fixes
 * Confirm javadocs for VisionIO are accurate with Big S
+* Refactor test IO implementations into the actual codebase
 * Convert IO interfaces to abstract classes if they have associated config objects
 * Add current limits, inversion, soft limits to MotorConfig
 * Add motor type to MotorConfig
@@ -8,10 +9,10 @@
 * Make the modules with absolute encoders set the motors' relative positions to the absolute encoder's position at start-up
 * Refactor Rotation2d safe creation out of Utils once we have a folder for field geometry
 * Introduce constant for status signal update period
+* Introduce constant for maximum motor voltage
 * Implement support for CANdle with no connected LEDs
 * Implement RemoteCANcoder for absolute encoder modules
 * Create AllianceRelativeRotation2d and replace our alliance-relative Rotation2ds with it
-* Change package to com.nicoletfear instead of frc?
 
 # Features
 * Add unit tests, coverage checks, and mutation testing

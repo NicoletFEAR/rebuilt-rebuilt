@@ -202,14 +202,14 @@ public class TalonFxMotor extends MotorIO {
     }
 
     /**
-     * Sets the voltage output of the motor.
+     * Sets the voltage output of the motor, and then clamps it to be between -12 and 12 volts.
      *
      * @param voltage voltage to apply to the motor
      */
     @Override
     public void setVoltage(Voltage voltage) {
         motor.setControl(voltageControl.withOutput(
-                voltage.clamp(MotorConstants.MAX_VOLTAGE.negative(), MotorConstants.MAX_VOLTAGE)
+                voltage.clamp(Volts.of(-12.0), Volts.of(12.0))
                         .in(Volts)));
     }
 }
