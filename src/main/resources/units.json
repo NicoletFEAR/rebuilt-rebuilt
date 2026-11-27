@@ -1,5 +1,5 @@
 {
-    "package": "frc.lib.units",
+    "package": "com.nicoletfear.lib.units",
     "quantities": [
         {
             "name": "Distance",

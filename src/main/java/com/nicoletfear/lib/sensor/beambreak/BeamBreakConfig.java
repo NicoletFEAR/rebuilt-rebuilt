@@ -1,0 +1,30 @@
+package com.nicoletfear.lib.sensor.beambreak;
+
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.ProximityParamsConfigs;
+import org.wpilib.units.measure.Distance;
+
+/**
+ * Stores the configuration for a beam break sensor.
+ *
+ * <p>This record contains the CAN ID and CAN bus used by the sensor along with the sensor's
+ * proximity threshold. The configuration can be converted into a CTRE {@link CANrangeConfiguration}
+ * using {@link #getCanRangeConfiguration()}.
+ *
+ * @param device specification for the implementation of the beam break
+ * @param proximityThreshold proximity threshold of the beam break
+ */
+public record BeamBreakConfig(BeamBreakDevice device, Distance proximityThreshold) {
+
+    /**
+     * Creates a CTRE CANrange configuration using this record's fields.
+     *
+     * <p>The proximity threshold is set from {@link #proximityThreshold()}.
+     *
+     * @return a configured {@link CANrangeConfiguration}
+     */
+    public CANrangeConfiguration getCanRangeConfiguration() {
+        return new CANrangeConfiguration()
+                .withProximityParams(new ProximityParamsConfigs().withProximityThreshold(proximityThreshold));
+    }
+}

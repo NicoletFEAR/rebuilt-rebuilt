@@ -59,10 +59,10 @@ def createVersionFile = tasks.register('createVersionFile') {
     outputs.dir(outputDir)
 
     doLast {
-        def versionFile = outputDir.get().file('frc/robot/constants/BuildConstants.java').asFile
+        def versionFile = outputDir.get().file('com/nicoletfear/robot/constants/BuildConstants.java').asFile
         versionFile.parentFile.mkdirs()
         versionFile.text = """\
-            package frc.robot.constants;
+            package com.nicoletfear.robot.constants;
 
             public final class BuildConstants {
                 public static final String PROJECT_GROUP = "${projectGroup.get()}";
@@ -103,7 +103,7 @@ def generateUnits = tasks.register('generateUnits', JavaExec) {
     outputs.dir(layout.buildDirectory.dir('generated/sources/units/java'))
 
     classpath = sourceSets.unitsGenerator.runtimeClasspath
-    mainClass = 'frc.lib.unitsgen.GenerateUnits'
+    mainClass = 'com.nicoletfear.lib.unitsgen.GenerateUnits'
     args 'src/main/resources/units.json', layout.buildDirectory.dir('generated/sources/units/java').get().asFile.absolutePath
 }
 
@@ -116,7 +116,7 @@ sourceSets {
     }
 }
 
-def ROBOT_MAIN_CLASS = 'frc.robot.Main'
+def ROBOT_MAIN_CLASS = 'com.nicoletfear.robot.Main'
 
 // Define my targets (SystemCore) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
@@ -210,7 +210,7 @@ test {
 }
 
 nullaway {
-    annotatedPackages.add 'frc'
+    annotatedPackages.add 'com.nicoletfear'
     jspecifyMode = true
 }
 
@@ -252,7 +252,7 @@ tasks.withType(JavaCompile).configureEach {
         // can't get rid of because we can't modify the library.
         // Also, the units generation code can be excluded because it never runs
         // on the robot, so it doesn't need to be perfect.
-        excludedPaths = '(.*/build/generated/.*|.*/frc/lib/unitsgen/.*)'
+        excludedPaths = '(.*/build/generated/.*|.*/com/nicoletfear/lib/unitsgen/.*)'
         disableWarningsInGeneratedCode = true
     }
 }
