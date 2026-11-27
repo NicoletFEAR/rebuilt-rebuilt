@@ -2,6 +2,7 @@ package com.nicoletfear.lib.estimate;
 
 import static com.nicoletfear.lib.units.TimeUnit.Seconds;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import com.nicoletfear.lib.units.Timestamp;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,6 @@ class OdometryMeasurementTest {
 
         assertEquals(first, same);
         assertEquals(first.hashCode(), same.hashCode());
-        org.junit.jupiter.api.Assertions.assertNotEquals(first, different);
+        assertNotEquals(first, different);
     }
 }

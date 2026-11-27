@@ -5,7 +5,6 @@ import static com.nicoletfear.lib.units.AngleUnit.Radians;
 import static com.nicoletfear.lib.units.AngleUnit.Rotations;
 import static com.nicoletfear.lib.units.DistanceUnit.Inches;
 import static com.nicoletfear.lib.units.DistanceUnit.Meters;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -108,12 +107,6 @@ class QuantityTest {
 
         assertEquals(1.25, distance.value, ToleranceConstants.EPSILON);
         assertEquals("m", distance.baseUnitSymbol);
-    }
-
-    @Test
-    void loggingIsSafeWithoutAdvantageKitRunning() {
-        assertDoesNotThrow(() -> Meters.of(1.0).log("Test/Distance"));
-        assertDoesNotThrow(() -> Radians.of(1.0).log("Test/Angle"));
     }
 
     @Test

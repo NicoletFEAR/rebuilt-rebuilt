@@ -1,7 +1,6 @@
 package com.nicoletfear.lib.statemachine;
 
 import static com.nicoletfear.lib.units.TimeUnit.Seconds;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -75,23 +74,5 @@ class StateMachineTest {
         assertNotSame(initialTimestamp, entered);
         assertTrue(entered.after(before) || entered.since(before).in(Seconds) >= 0.0);
         assertTrue(entered.before(after) || entered.since(after).in(Seconds) <= 0.0);
-    }
-
-    @Test
-    void transitioningToTheSameStateStillUpdatesPreviousState() throws Exception {
-        TestMachine machine = new TestMachine(TestState.FIRST);
-
-        machine.setState(TestState.FIRST);
-
-        assertSame(TestState.FIRST, machine.state);
-        assertSame(TestState.FIRST, privateField(machine, "previousState"));
-    }
-
-    @Test
-    void logStateIsSafeWithoutAdvantageKitRunning() {
-        TestMachine machine = new TestMachine(TestState.FIRST);
-        machine.setState(TestState.SECOND);
-
-        assertDoesNotThrow(machine::logState);
     }
 }

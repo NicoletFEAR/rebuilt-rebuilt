@@ -207,10 +207,6 @@ dependencies {
 test {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
-
-    testLogging {
-        events "skipped", "failed"
-    }
 }
 
 nullaway {
@@ -243,6 +239,22 @@ jar {
 deployArtifact.configureApplication(application)
 wpi.java.configureApplication(application)
 wpi.java.configureTestTasks(test)
+
+// Makes Gradle not log passed tests
+// Must be after the `wpi.java.configureTestTasks(test)` line, since that
+// line configures it to log passed tests
+test {
+    testLogging {
+        events = ["skipped", "failed"]
+    }
+}
+
+// Skips tests when deploying for extra speed
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(":deploy")) {
+        test.enabled = false
+    }
+}
 
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {

@@ -6,7 +6,7 @@ import org.littletonrobotics.junction.Logger;
 
 /** Represents a specific moment in time, as opposed to a duration of time. */
 public class Timestamp {
-    double value;
+    private double value;
 
     /** Initializes a timestamp with a value, in seconds. */
     Timestamp(double value) {

@@ -61,8 +61,10 @@ public abstract class StateMachine<S extends State> {
      * @param state the state to transition to
      */
     public void setState(S state) {
-        enteredTimestamp = Seconds.timestamp(Timer.getTimestamp());
-        previousState = this.state;
-        this.state = state;
+        if (!state.equals(this.state)) {
+            enteredTimestamp = Seconds.timestamp(Timer.getTimestamp());
+            previousState = this.state;
+            this.state = state;
+        }
     }
 }

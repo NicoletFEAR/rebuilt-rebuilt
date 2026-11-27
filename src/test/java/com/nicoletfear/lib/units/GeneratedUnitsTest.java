@@ -62,7 +62,7 @@ class GeneratedUnitsTest {
     }
 
     @Test
-    void everyQuantityHasAQuantityAndUnitClass() throws ClassNotFoundException {
+    void quantitiesHaveAQuantityAndUnitClass() throws ClassNotFoundException {
         for (String quantity : QUANTITIES) {
             Class<?> quantityClass = Class.forName("com.nicoletfear.lib.units." + quantity);
             Class<?> unitClass = Class.forName("com.nicoletfear.lib.units." + quantity + "Unit");
@@ -77,7 +77,7 @@ class GeneratedUnitsTest {
     }
 
     @Test
-    void allGeneratedUnitsRoundTrip() {
+    void generatedUnitsRoundTrip() {
         assertRoundTrip(Meters, 1.0);
         assertRoundTrip(Inches, 1.0);
         assertRoundTrip(MassUnit.Kilograms, 1.0);

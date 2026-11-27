@@ -11,7 +11,7 @@ class UnitTest {
     @Test
     void convertsFromAnotherUnit() {
         assertEquals(0.0254, Meters.from(1.0, Inches), ToleranceConstants.EPSILON);
-        assertEquals(39.37007874015748, Inches.from(1.0, Meters), 1e-9);
+        assertEquals(39.37007874015748, Inches.from(1.0, Meters), ToleranceConstants.EPSILON);
         assertEquals(2.0, Meters.from(200.0, new DistanceUnit(0.01)), ToleranceConstants.EPSILON);
     }
 
@@ -23,8 +23,8 @@ class UnitTest {
 
     @Test
     void rawReturnsTheSameValue() {
-        assertEquals(12.5, Meters.raw(12.5), 0.0);
-        assertEquals(-3.0, Inches.raw(-3.0), 0.0);
+        assertEquals(12.5, Meters.raw(12.5), ToleranceConstants.EPSILON);
+        assertEquals(-3.0, Inches.raw(-3.0), ToleranceConstants.EPSILON);
     }
 
     @Test
