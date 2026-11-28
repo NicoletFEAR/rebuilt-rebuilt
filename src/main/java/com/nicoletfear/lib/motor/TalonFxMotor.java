@@ -209,7 +209,6 @@ public class TalonFxMotor extends MotorIO {
     @Override
     public void setVoltage(Voltage voltage) {
         motor.setControl(voltageControl.withOutput(
-                voltage.clamp(Volts.of(-12.0), Volts.of(12.0))
-                        .in(Volts)));
+                voltage.clamp(Volts.of(-12.0), Volts.of(12.0)).in(Volts)));
     }
 }
